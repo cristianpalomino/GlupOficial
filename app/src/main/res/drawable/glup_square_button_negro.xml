@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Estado Presionado -->
+    <item android:state_pressed="true">
+        <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+            <item>
+                <shape android:shape="rectangle">
+                    <corners android:radius="0dp" />
+
+                    <solid android:color="@color/azul_glup_pressed" />
+                </shape>
+            </item>
+            <item android:bottom="0dp">
+                <shape android:shape="rectangle">
+                    <corners android:radius="0dp" />
+
+                    <solid android:color="@color/azul_glup_pressed" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+
+    <!-- Estado Focuseado -->
+    <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+        <item>
+            <shape android:shape="rectangle">
+                <corners android:radius="0dp" />
+
+                <solid android:color="@color/azul_glup_pressed" />
+            </shape>
+        </item>
+        <item android:bottom="0dp">
+            <shape android:shape="rectangle">
+                <corners android:radius="0dp" />
+
+                <solid android:color="@color/azul_glup_pressed" />
+            </shape>
+        </item>
+    </layer-list>
+
+    <!-- Estado Normal -->
+    <item>
+        <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+            <item>
+                <shape android:shape="rectangle">
+                    <corners android:radius="0dp" />
+
+                    <solid android:color="@color/azul_glup" />
+                </shape>
+            </item>
+            <item android:bottom="0dp">
+                <shape android:shape="rectangle">
+                    <corners android:radius="0dp" />
+
+                    <solid android:color="@color/azul_glup" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+
+</selector>

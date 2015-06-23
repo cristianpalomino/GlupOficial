@@ -1,0 +1,167 @@
+<resources>
+
+    <style name="Widget.GifMoviewView" parent="@android:style/Widget"></style>
+
+    <style name="AppCompatTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowActionBar">false</item>
+        <item name="windowActionBar">false</item>
+        <item name="colorPrimary">@color/celeste_oscuro</item>
+        <item name="android:textColorPrimary">@color/blanco</item>
+        <item name="android:windowBackground">@color/blanco</item>
+    </style>
+
+
+    <style name="Glup_Edittext" parent="Widget.AppCompat.EditText">
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@drawable/glup_editttext</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">30</item>
+    </style>
+
+
+    <style name="Glup_Edittext_Square" parent="Widget.AppCompat.EditText">
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/blanco</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">30</item>
+    </style>
+
+    <style name="Glup_Button_Square_Celeste" parent="Widget.AppCompat.Button">
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@drawable/glup_square_button_celeste</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">30</item>
+        <item name="android:textColor">@color/blanco</item>
+    </style>
+
+    <style name="Glup_Button_Square_Azul" parent="Widget.AppCompat.Button">
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@drawable/glup_square_button_negro</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">30</item>
+        <item name="android:textColor">@color/blanco</item>
+    </style>
+
+    <style name="Glup_Button_Square_Facebook" parent="Widget.AppCompat.Button">
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@drawable/glup_square_button_facebook</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:lines">1</item>
+        <item name="android:drawableLeft">@drawable/ic_action_facebook</item>
+        <item name="android:paddingLeft">9dp</item>
+        <item name="android:maxLength">30</item>
+        <item name="android:textColor">@color/blanco</item>
+    </style>
+
+    <style name="Glup_Button_Square_Twitter" parent="Widget.AppCompat.Button">
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@drawable/glup_square_button_twitter</item>
+        <item name="android:gravity">center</item>
+        <item name="android:drawableLeft">@drawable/ic_action_twitter</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:paddingLeft">9dp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">30</item>
+        <item name="android:textColor">@color/blanco</item>
+    </style>
+
+    <style name="Glup_Button_Square_Instagram" parent="Widget.AppCompat.Button">
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@drawable/glup_square_button_instagram</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:drawableLeft">@drawable/ic_action_instagram</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">30</item>
+        <item name="android:textColor">@color/blanco</item>
+    </style>
+
+    <style name="Glup_Button" parent="Widget.AppCompat.Button">
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@drawable/glup_button</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">30</item>
+        <item name="android:textColor">@color/blanco</item>
+    </style>
+
+    <style name="Glup_Button_Left_On" parent="Widget.AppCompat.Button">
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@drawable/glup_left_on</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">30</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/blanco</item>
+    </style>
+
+    <style name="Glup_Button_Right_Off" parent="Widget.AppCompat.Button">
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@drawable/glup_right_off</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">30</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/celeste_oscuro</item>
+    </style>
+
+    <style name="Glup_Button_Right_On" parent="Widget.AppCompat.Button">
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@drawable/glup_right_on</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">30</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/blanco</item>
+    </style>
+
+    <style name="Glup_Button_Left_Off" parent="Widget.AppCompat.Button">
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@drawable/glup_left_off</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">30</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/celeste_oscuro</item>
+    </style>
+
+</resources>

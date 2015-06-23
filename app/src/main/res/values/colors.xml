@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="celeste_oscuro">#48BFDF</color>
+    <color name="celeste_claro">#99D4EB</color>
+    <color name="rojo_glup">#EA3C3D</color>
+
+    <color name="azul_glup">#3579BD</color>
+    <color name="azul_glup_pressed">#5d93ca</color>
+
+    <color name="rosado_glup">#F195BD</color>
+    <color name="verde_glup">#48C448</color>
+
+    <color name="blanco">#FFFFFF</color>
+    <color name="blanco_circle_off">#cccccc</color>
+
+    <color name="negro">#000000</color>
+
+    <!-- Colores Botones Redes Sociales -->
+
+    <color name="facebook_off">#3b5998</color>
+    <color name="facebook_on">#8b9dc3</color>
+
+    <color name="twitter_off">#00aced</color>
+    <color name="twitter_on">#b2e6f9</color>
+
+    <color name="instagram_off">#125688</color>
+    <color name="instagram_on">#88aac3</color>
+
+</resources>

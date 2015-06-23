@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/frame_inicio"
+    android:orientation="vertical">
+
+    <pe.com.glup.views.GifView
+        android:id="@+id/gift"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pager"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:background="@android:color/transparent"
+                android:layout_weight="1" />
+
+            <com.viewpagerindicator.CirclePageIndicator
+                android:id="@+id/indicator"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|bottom"
+                android:padding="10dip"
+                app:strokeWidth="0dp"
+                android:background="@android:color/transparent"
+                app:fillColor="@color/blanco"
+                app:pageColor="@color/blanco_circle_off"
+                app:radius="5dp"
+                app:strokeColor="@color/blanco_circle_off" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="150dp"
+                android:id="@+id/imageView"
+                android:src="@drawable/logo_glup"
+                android:adjustViewBounds="true"
+                android:layout_gravity="center_horizontal|top"
+                android:layout_marginTop="20dp" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnentrar"
+                style="@style/Glup_Button_Square_Azul"
+                android:layout_weight="1"
+                android:text="ENTRAR" />
+
+
+            <Button
+                android:id="@+id/btnregistro"
+                style="@style/Glup_Button_Square_Celeste"
+                android:layout_weight="1"
+                android:text="REGISTRO" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

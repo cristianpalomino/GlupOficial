@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/celeste_claro"
+    android:id="@+id/frame_registro"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/registro_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="REGISTRO"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/blanco" />
+
+    <include
+        layout="@layout/user_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right" />
+
+    <TextView
+        android:id="@+id/entrar_o"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:padding="5dp"
+        android:text="o"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/blanco" />
+
+    <EditText
+        android:id="@+id/edtnombres"
+        style="@style/Glup_Edittext_Square"
+        android:layout_width="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:ems="10"
+        android:hint="Nombres"
+        android:imeOptions="actionNext"
+        android:inputType="textEmailAddress"
+        android:maxLength="25" />
+
+    <EditText
+        android:id="@+id/edtusuario"
+        style="@style/Glup_Edittext_Square"
+        android:layout_width="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="1dp"
+        android:ems="10"
+        android:hint="Usuario"
+        android:imeOptions="actionNext"
+        android:inputType="textEmailAddress"
+        android:maxLength="25" />
+
+    <EditText
+        android:id="@+id/edtpassword"
+        style="@style/Glup_Edittext_Square"
+        android:layout_width="match_parent"
+        android:layout_marginTop="1dp"
+        android:ems="10"
+        android:hint="Contraseña"
+        android:imeOptions="actionDone"
+        android:inputType="textPassword"
+        android:maxLength="25" />
+
+    <Button
+        android:id="@+id/btnregistro"
+        style="@style/Glup_Button_Square_Celeste"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="REGISTRAR" />
+
+
+</LinearLayout>
