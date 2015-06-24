@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import pe.com.glup.fragments.FragmentTutorial;
+import pe.com.glup.fragments.Fragment_Tutorial;
 
 /**
  * Created by Glup on 19/06/15.
@@ -20,7 +20,7 @@ public class Adapter_Incio extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return FragmentTutorial.newInstance(CONTENT[position]);
+        return Fragment_Tutorial.newInstance(CONTENT[position]);
     }
 
     @Override

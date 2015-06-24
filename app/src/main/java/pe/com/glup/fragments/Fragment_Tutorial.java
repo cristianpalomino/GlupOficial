@@ -14,14 +14,14 @@ import pe.com.glup.utils.Util_Fonts;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class FragmentTutorial extends Fragment {
+public class Fragment_Tutorial extends Fragment {
 
     protected TextView title;
     protected String msg;
 
 
-    public static final FragmentTutorial newInstance(String msg) {
-        FragmentTutorial frag = new FragmentTutorial();
+    public static final Fragment_Tutorial newInstance(String msg) {
+        Fragment_Tutorial frag = new Fragment_Tutorial();
         Bundle bundle = new Bundle();
         bundle.putString("msg", msg);
         frag.setArguments(bundle);

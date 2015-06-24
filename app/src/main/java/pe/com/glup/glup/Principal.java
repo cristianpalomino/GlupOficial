@@ -1,39 +1,55 @@
 package pe.com.glup.glup;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import pe.com.glup.R;
+import pe.com.glup.datasource.DSCatalogo;
+import pe.com.glup.fragments.Fragment_Home;
+import pe.com.glup.views.GlupTab;
+import pe.com.glup.views.Header;
 
-public class Principal extends Glup {
+public class Principal extends Glup implements GlupTab.OnChangeTab {
+
+    private final String[] MESSAGES = {"HOME", "CLOSET", "PROBADOR", "CAMERA"};
+    private GlupTab glupTab;
+    private Header header;
+    private OnChangeTab onChangeTab;
+
+    public void setOnChangeTab(OnChangeTab onChangeTab) {
+        this.onChangeTab = onChangeTab;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.principal);
+        setupUI(findViewById(R.id.container_principal));
+
+        glupTab = (GlupTab) findViewById(R.id.glutab);
+        header = (Header) findViewById(R.id.header);
+        header.initView(Principal.this);
+
+        glupTab.setOnChangeTab(this);
+        glupTab.initView();
+
+        DSCatalogo dsCatalogo = new DSCatalogo(this);
+        dsCatalogo.sendRequest("todos","1","10");
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_principal, menu);
-        return true;
+    public void onChangeTab(int position) {
+        onChangeTab.onChangeTab(position);
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_principal, Fragment_Home.newInstance("", MESSAGES[position])).commit();
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    public void currentTab(int current) {
+        onChangeTab.currentTab(current);
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_principal, Fragment_Home.newInstance("", MESSAGES[current])).commit();
+    }
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    public interface OnChangeTab {
+        void onChangeTab(int position);
+        void currentTab(int current);
     }
 }

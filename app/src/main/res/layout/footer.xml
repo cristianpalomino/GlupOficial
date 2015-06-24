@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="?android:attr/actionBarSize"
     android:orientation="horizontal"
     >
 
     <ImageButton
         android:id="@+id/tabhome"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:src="@drawable/home_off"
-        android:background="@drawable/glup_tab_off"
+        android:src="@drawable/home"
+        android:background="@drawable/glup_tab_on"
          />
 
     <ImageButton
         android:id="@+id/tabcloset"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:src="@drawable/closet"
         android:background="@drawable/glup_tab_on"
@@ -27,18 +27,18 @@
     <ImageButton
         android:id="@+id/tabprobador"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:src="@drawable/probador_off"
+        android:src="@drawable/probador"
         android:background="@drawable/glup_tab_on"
          />
 
     <ImageButton
         android:id="@+id/tabcamera"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:src="@drawable/camara_off"
+        android:src="@drawable/camara"
         android:background="@drawable/glup_tab_on"
          />
 

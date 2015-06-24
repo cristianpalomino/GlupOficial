@@ -1,13 +1,29 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    android:id="@+id/container_principal"
+    android:orientation="vertical">
 
     <view
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        class="pe.com.glup.views.Header"
+        android:id="@+id/header"
+        android:orientation="horizontal" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:id="@+id/frame_principal">
+
+    </FrameLayout>
+
+    <view
+        android:id="@+id/glutab"
         class="pe.com.glup.views.GlupTab"
-        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom" />
-</FrameLayout>
+</LinearLayout>

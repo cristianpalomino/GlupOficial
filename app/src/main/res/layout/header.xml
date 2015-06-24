@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/actionBarSize"
+    android:background="@color/celeste_oscuro">
+
+    <ImageButton
+        android:id="@+id/btnbuscar"
+        android:layout_width="?android:attr/actionBarSize"
+        android:layout_height="?android:attr/actionBarSize"
+        android:layout_gravity="right|center_vertical"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_search_white_24dp"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/frame_buscar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_gravity="left|center_vertical"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btncancel"
+            android:layout_width="?android:attr/actionBarSize"
+            android:layout_height="?android:attr/actionBarSize"
+            android:layout_gravity="right|center_vertical"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_arrow_back_white_24dp"
+            android:visibility="visible" />
+
+        <EditText
+            android:id="@+id/edtbuscar"
+            style="@style/Glup_Edittext_Buscar"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:hint="Buscar" />
+    </LinearLayout>
+
+</FrameLayout>

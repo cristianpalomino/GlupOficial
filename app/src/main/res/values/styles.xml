@@ -164,4 +164,18 @@
         <item name="android:textColor">@color/celeste_oscuro</item>
     </style>
 
+    <style name="Glup_Edittext_Buscar" parent="Widget.AppCompat.EditText">
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/blanco</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">30</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:textColor">#DCDCDC</item>
+    </style>
+
 </resources>
