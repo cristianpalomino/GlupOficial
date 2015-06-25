@@ -15,6 +15,9 @@ public class Prenda {
     private String indProbador;
     private String nombre;
 
+    public Prenda() {
+    }
+
     public Prenda(String indUserReg, String cod_prenda, String marca, String tipo, String modelo, String estilo, String imagen, String indProbador, String nombre) {
         this.indUserReg = indUserReg;
         this.cod_prenda = cod_prenda;

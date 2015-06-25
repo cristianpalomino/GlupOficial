@@ -14,7 +14,9 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+import pe.com.glup.beans.Catalogo;
 import pe.com.glup.beans.Prenda;
+import pe.com.glup.interfaces.OnSuccessCatalogo;
 import pe.com.glup.ws.WSGlup;
 
 /**
@@ -23,6 +25,11 @@ import pe.com.glup.ws.WSGlup;
 public class DSCatalogo {
 
     private Context context;
+    private OnSuccessCatalogo onSuccessCatalogo;
+
+    public void setOnSuccessCatalogo(OnSuccessCatalogo onSuccessCatalogo) {
+        this.onSuccessCatalogo = onSuccessCatalogo;
+    }
 
     public DSCatalogo(Context context) {
         this.context = context;
@@ -43,22 +50,18 @@ public class DSCatalogo {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
-                try {
-                    String data = response.getJSONArray("prendas").get(0).toString();
-                    Gson gson = new Gson();
-                    Prenda prendas = gson.fromJson(data, Prenda.class);
+                Gson gson = new Gson();
+                Catalogo catalogo = gson.fromJson(response.toString(), Catalogo.class);
+                Log.e("CATALOGO",catalogo.toString());
 
-                    Log.e("MSG", prendas.toString());
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
 
+                onSuccessCatalogo.onSuccess(catalogo.getTag(), catalogo.getPrendas());
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
-                Log.e("MSG", responseString);
+                onSuccessCatalogo.onFailed(responseString);
             }
         });
     }
