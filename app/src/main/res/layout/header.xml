@@ -17,9 +17,9 @@
         android:id="@+id/frame_buscar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:layout_gravity="left|center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <ImageButton
             android:id="@+id/btncancel"
@@ -35,7 +35,11 @@
             style="@style/Glup_Edittext_Buscar"
             android:layout_gravity="center"
             android:gravity="center"
-            android:hint="Buscar" />
+            android:hint="Buscar"
+            android:imeOptions="actionDone"
+            android:lines="1"
+            android:maxLength="30"
+            android:maxLines="1" />
     </LinearLayout>
 
 </FrameLayout>

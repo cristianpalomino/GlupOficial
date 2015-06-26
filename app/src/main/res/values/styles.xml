@@ -175,7 +175,7 @@
         <item name="android:maxLength">30</item>
         <item name="android:textSize">14sp</item>
         <item name="android:layout_marginRight">8dp</item>
-        <item name="android:textColor">#DCDCDC</item>
+        <item name="android:textColor">@color/negro</item>
     </style>
 
 </resources>

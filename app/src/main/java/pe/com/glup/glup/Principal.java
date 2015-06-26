@@ -1,9 +1,11 @@
 package pe.com.glup.glup;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 
 import pe.com.glup.R;
 import pe.com.glup.datasource.DSCatalogo;
+import pe.com.glup.fragments.FCatalogo;
 import pe.com.glup.fragments.Fragment_Home;
 import pe.com.glup.views.GlupTab;
 import pe.com.glup.views.Header;
@@ -11,6 +13,14 @@ import pe.com.glup.views.Header;
 public class Principal extends Glup implements GlupTab.OnChangeTab {
 
     private final String[] MESSAGES = {"HOME", "CLOSET", "PROBADOR", "CAMERA"};
+    private final Fragment[] FRAGMENTS = {
+                                          FCatalogo.newInstance(),
+                                          Fragment_Home.newInstance(MESSAGES[1],MESSAGES[1]),
+                                          Fragment_Home.newInstance(MESSAGES[2],MESSAGES[2]),
+                                          Fragment_Home.newInstance(MESSAGES[3],MESSAGES[3])
+                                          };
+
+
     private GlupTab glupTab;
     private Header header;
     private OnChangeTab onChangeTab;
@@ -31,25 +41,29 @@ public class Principal extends Glup implements GlupTab.OnChangeTab {
 
         glupTab.setOnChangeTab(this);
         glupTab.initView();
-
-        DSCatalogo dsCatalogo = new DSCatalogo(this);
-        dsCatalogo.sendRequest("todos","1","10");
     }
 
     @Override
     public void onChangeTab(int position) {
         onChangeTab.onChangeTab(position);
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_principal, Fragment_Home.newInstance("", MESSAGES[position])).commit();
-    }
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frame_principal, FRAGMENTS[position])
+                .commit();    }
 
     @Override
     public void currentTab(int current) {
         onChangeTab.currentTab(current);
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_principal, Fragment_Home.newInstance("", MESSAGES[current])).commit();
+        getSupportFragmentManager().beginTransaction()
+                                   .replace(R.id.frame_principal,FRAGMENTS[current])
+                                   .commit();
     }
 
     public interface OnChangeTab {
         void onChangeTab(int position);
         void currentTab(int current);
+    }
+
+    public Header getHeader() {
+        return header;
     }
 }

@@ -4,6 +4,8 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +18,7 @@ import android.widget.LinearLayout;
 import pe.com.glup.R;
 import pe.com.glup.glup.Glup;
 import pe.com.glup.glup.Principal;
+import pe.com.glup.interfaces.OnSearchListener;
 
 /**
  * Created by Glup on 23/06/15.
@@ -30,6 +33,8 @@ public class Header extends LinearLayout implements Principal.OnChangeTab {
     private EditText edtbuscar;
 
     private Context mcontext;
+
+    private OnSearchListener onSearchListener;
 
     public Header(Context context) {
         super(context);
@@ -62,12 +67,26 @@ public class Header extends LinearLayout implements Principal.OnChangeTab {
         btncancelar = (ImageButton) view.findViewById(R.id.btncancel);
         frame_buscar = (LinearLayout) view.findViewById(R.id.frame_buscar);
 
+        edtbuscar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                onSearchListener.onSearchListener(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
         btnbuscar.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 v.setVisibility(GONE);
                 frame_buscar.setVisibility(VISIBLE);
                 showSoftKeyboard(edtbuscar);
+                edtbuscar.setText("");
             }
         });
 
@@ -141,5 +160,9 @@ public class Header extends LinearLayout implements Principal.OnChangeTab {
 
     private void showOptionsCamera(){
         btnbuscar.setVisibility(GONE);
+    }
+
+    public void setOnSearchListener(OnSearchListener onSearchListener) {
+        this.onSearchListener = onSearchListener;
     }
 }
