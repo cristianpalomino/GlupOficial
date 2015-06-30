@@ -1,9 +1,12 @@
 package pe.com.glup.beans;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Glup on 24/06/15.
  */
-public class Prenda {
+public class Prenda implements Parcelable {
 
     private String indUserReg;
     private String cod_prenda;
@@ -14,11 +17,12 @@ public class Prenda {
     private String imagen;
     private String indProbador;
     private String nombre;
+    private String precio;
 
     public Prenda() {
     }
 
-    public Prenda(String indUserReg, String cod_prenda, String marca, String tipo, String modelo, String estilo, String imagen, String indProbador, String nombre) {
+    public Prenda(String indUserReg, String cod_prenda, String marca, String tipo, String modelo, String estilo, String imagen, String indProbador, String nombre, String precio) {
         this.indUserReg = indUserReg;
         this.cod_prenda = cod_prenda;
         this.marca = marca;
@@ -28,6 +32,7 @@ public class Prenda {
         this.imagen = imagen;
         this.indProbador = indProbador;
         this.nombre = nombre;
+        this.precio = precio;
     }
 
     public String getIndUserReg() {
@@ -66,6 +71,10 @@ public class Prenda {
         return nombre;
     }
 
+    public String getPrecio() {
+        return precio;
+    }
+
     @Override
     public String toString() {
         return "Prenda{" +
@@ -78,6 +87,17 @@ public class Prenda {
                 ", imagen='" + imagen + '\'' +
                 ", indProbador='" + indProbador + '\'' +
                 ", nombre='" + nombre + '\'' +
+                ", precio='" + precio + '\'' +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
     }
 }

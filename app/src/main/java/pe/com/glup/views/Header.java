@@ -28,6 +28,8 @@ public class Header extends LinearLayout implements Principal.OnChangeTab {
     private View view;
 
     private LinearLayout frame_buscar;
+    private LinearLayout frame_detalle;
+
     private ImageButton btnbuscar;
     private ImageButton btncancelar;
     private EditText edtbuscar;
@@ -66,10 +68,12 @@ public class Header extends LinearLayout implements Principal.OnChangeTab {
         edtbuscar = (EditText) view.findViewById(R.id.edtbuscar);
         btncancelar = (ImageButton) view.findViewById(R.id.btncancel);
         frame_buscar = (LinearLayout) view.findViewById(R.id.frame_buscar);
+        frame_detalle = (LinearLayout) view.findViewById(R.id.frame_detalle);
 
         edtbuscar.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -77,7 +81,8 @@ public class Header extends LinearLayout implements Principal.OnChangeTab {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
 
         btnbuscar.setOnClickListener(new OnClickListener() {
@@ -129,8 +134,8 @@ public class Header extends LinearLayout implements Principal.OnChangeTab {
         updateMenu(current);
     }
 
-    private void updateMenu(int poscur){
-        switch (poscur){
+    private void updateMenu(int poscur) {
+        switch (poscur) {
             case 0:
                 showOptionsHome();
                 break;
@@ -146,20 +151,30 @@ public class Header extends LinearLayout implements Principal.OnChangeTab {
         }
     }
 
-    private void showOptionsHome(){
+    public void showOptionsHome() {
         btnbuscar.setVisibility(VISIBLE);
+        frame_detalle.setVisibility(GONE);
     }
 
-    private void showOptionsCloset(){
+    public void showOptionsCloset() {
         btnbuscar.setVisibility(GONE);
     }
 
-    private void showOptionsProbador(){
+    public void showOptionsProbador() {
         btnbuscar.setVisibility(GONE);
     }
 
-    private void showOptionsCamera(){
+    public void showOptionsCamera() {
         btnbuscar.setVisibility(GONE);
+    }
+
+    public View showOptionsDetail() {
+        frame_detalle.setVisibility(VISIBLE);
+
+        btnbuscar.setVisibility(GONE);
+        frame_buscar.setVisibility(GONE);
+
+        return frame_detalle;
     }
 
     public void setOnSearchListener(OnSearchListener onSearchListener) {

@@ -12,12 +12,18 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import pe.com.glup.R;
+import pe.com.glup.beans.Prenda;
 
 /**
  * Created by Glup on 18/06/15.
  */
 public class Glup extends ActionBarActivity {
+
+    private ArrayList<Prenda> prendas = new ArrayList<>();
+    private Prenda prenda = new Prenda();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,5 +58,25 @@ public class Glup extends ActionBarActivity {
 
     public void showMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * @_Getters_and_Setters
+     */
+
+    public Prenda getPrenda() {
+        return prenda;
+    }
+
+    public void setPrenda(Prenda prenda) {
+        this.prenda = prenda;
+    }
+
+    public ArrayList<Prenda> getPrendas() {
+        return prendas;
+    }
+
+    public void setPrendas(ArrayList<Prenda> prendas) {
+        this.prendas = prendas;
     }
 }

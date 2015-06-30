@@ -22,6 +22,7 @@ import pe.com.glup.adapters.PrendaAdapter;
 import pe.com.glup.beans.Prenda;
 import pe.com.glup.datasource.DSCatalogo;
 import pe.com.glup.decorations.MarginDecoration;
+import pe.com.glup.glup.Glup;
 import pe.com.glup.glup.Principal;
 import pe.com.glup.interfaces.OnSearchListener;
 import pe.com.glup.interfaces.OnSuccessCatalogo;
@@ -34,11 +35,12 @@ import pe.com.glup.views.HidingScrollListener;
  * Use the {@link FCatalogo#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FCatalogo extends Fragment implements OnSuccessCatalogo, OnSearchListener, UltimateRecyclerView.OnLoadMoreListener {
+public class FCatalogo extends Fragment implements OnSuccessCatalogo, OnSearchListener, UltimateRecyclerView.OnLoadMoreListener, PrendaAdapter.OnItemClickListener {
 
     private static final int EMPTY = 0;
     private static final int FULL = 1;
 
+    private Glup glup;
     private static int PAGE = 1;
     private static String TAG = "todos";
 
@@ -58,6 +60,7 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo, OnSearchLi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        glup = (Glup) getActivity();
         if (getArguments() != null) {
 
         }
@@ -89,7 +92,6 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo, OnSearchLi
         recyclerView.setOnLoadMoreListener(FCatalogo.this);
         emptyView.setTypeface(Util_Fonts.setRegular(getActivity()));
 
-
         dsCatalogo = new DSCatalogo(getActivity());
         dsCatalogo.sendRequest(TAG, String.valueOf(PAGE), "10");
         dsCatalogo.setOnSuccessCatalogo(FCatalogo.this);
@@ -102,6 +104,8 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo, OnSearchLi
                 displayMessage(FULL);
                 adapter = new PrendaAdapter(prendas, getActivity());
                 recyclerView.setAdapter(adapter);
+                glup.setPrendas(adapter.getPrendas());
+                adapter.setOnItemClickListener(FCatalogo.this);
             } else {
                 displayMessage(EMPTY);
             }
@@ -113,6 +117,7 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo, OnSearchLi
                         adapter.addPrenda(prendas.get(i));
                     }
                 }
+                glup.setPrendas(adapter.getPrendas());
             }
         }
     }
@@ -152,5 +157,13 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo, OnSearchLi
             recyclerView.setVisibility(View.VISIBLE);
             emptyView.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        glup.getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frame_principal,FDetalle.newInstance(glup.getPrendas().get(position)))
+                .commit();
     }
 }
