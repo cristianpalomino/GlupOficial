@@ -1,78 +1,140 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blanco">
+    android:background="@color/blanco"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="center">
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/celeste_oscuro">
 
-        <FrameLayout
+        <LinearLayout
+            android:id="@+id/frame_detalle"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:visibility="visible">
 
-            <ImageView
-                android:id="@+id/imagen_prenda"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:adjustViewBounds="true"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_panorama_white_48dp"
-                />
+            <ImageButton
+                android:id="@+id/btnprev"
+                android:layout_width="?android:attr/actionBarSize"
+                android:layout_height="?android:attr/actionBarSize"
+                android:layout_gravity="right|center_vertical"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_keyboard_arrow_left_white_24dp"
+                android:visibility="visible" />
 
             <TextView
-                android:id="@+id/precio_prenda"
+                android:id="@+id/marca_prenda"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|bottom"
-                android:layout_margin="8dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
                 android:layout_weight="1"
-                android:background="@color/celeste_oscuro"
-                android:gravity="right"
-                android:padding="5dp"
-                android:text="PRECIO"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/blanco"
-                android:textStyle="bold" />
+                android:gravity="center"
+                android:text="DETALLE"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <ImageView
-                android:id="@+id/btn_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|top"
-                android:layout_margin="5dp"
-                android:adjustViewBounds="true"
-                android:padding="5dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_info_white_24dp"
-                android:tint="@android:color/darker_gray" />
+            <ImageButton
+                android:id="@+id/btnnext"
+                android:layout_width="?android:attr/actionBarSize"
+                android:layout_height="?android:attr/actionBarSize"
+                android:layout_gravity="right|center_vertical"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_keyboard_arrow_right_white_24dp"
+                android:visibility="visible" />
+        </LinearLayout>
 
-            <RadioGroup
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left|center_vertical">
 
-                <RadioButton
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/imagen_prenda"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:drawingCacheQuality="auto"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/placeholder"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp" />
+
+                <TextView
+                    android:id="@+id/precio_prenda"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|bottom"
+                    android:layout_margin="8dp"
+                    android:layout_weight="1"
+                    android:background="@color/celeste_oscuro"
+                    android:gravity="right"
+                    android:padding="5dp"
+                    android:text="PRECIO"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/blanco"
+                    android:textStyle="bold" />
 
-                <RadioButton
+                <ImageView
+                    android:id="@+id/btn_info"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|top"
+                    android:layout_margin="5dp"
+                    android:adjustViewBounds="true"
+                    android:padding="5dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_info_white_24dp"
+                    android:tint="@android:color/darker_gray" />
 
-                <RadioButton
-                    android:id="@+id/radioButton"
+                <RadioGroup
+                    android:id="@+id/talla_group"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_vertical">
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </RadioGroup>
-        </FrameLayout>
+                </RadioGroup>
+            </FrameLayout>
 
-    </LinearLayout>
-</FrameLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <Button
+                    android:id="@+id/button"
+                    style="@style/Glup_Button_Square_Celeste"
+                    android:layout_weight="1"
+                    android:text="PROBAR" />
+
+                <TextView
+                    android:layout_width="0.5dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <Button
+                    android:id="@+id/button2"
+                    style="@style/Glup_Button_Square_Celeste"
+                    android:layout_weight="1"
+                    android:text="RESERVAR" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </FrameLayout>
+
+</LinearLayout>

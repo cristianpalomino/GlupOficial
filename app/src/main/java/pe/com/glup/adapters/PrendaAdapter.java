@@ -1,13 +1,13 @@
 package pe.com.glup.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -20,72 +20,71 @@ import pe.com.glup.utils.Util_Fonts;
 /**
  * Created by Glup on 25/06/15.
  */
-public class PrendaAdapter extends RecyclerView.Adapter<PrendaAdapter.Holder> {
+public class PrendaAdapter extends BaseAdapter {
 
-    private ArrayList<Prenda> prendas;
+    private ArrayList<Prenda> mPrendas;
     private Context context;
-    private OnItemClickListener onItemClickListener;
+    private LayoutInflater inflater;
 
-    public PrendaAdapter(ArrayList<Prenda> prendas, Context context) {
-        this.prendas = prendas;
+    public PrendaAdapter(Context context, ArrayList<Prenda> prendas) {
         this.context = context;
+        this.mPrendas = prendas;
+        this.inflater = LayoutInflater.from(context);
     }
 
     @Override
-    public Holder onCreateViewHolder(ViewGroup viewGroup, final int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_catalogo, viewGroup, false);
-        return new Holder(view);
+    public int getCount() {
+        return mPrendas.size();
     }
 
     @Override
-    public void onBindViewHolder(Holder holder, int i) {
-        Prenda prenda = prendas.get(i);
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return mPrendas.get(position);
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        Holder holder = null;
+        Prenda prenda = mPrendas.get(position);
+
+        if (convertView == null) {
+            convertView = inflater.inflate(R.layout.item_catalogo, parent, false);
+            holder = new Holder();
+
+            holder.marca = (TextView) convertView.findViewById(R.id.item_marca_prenda);
+            holder.imagen = (ImageView) convertView.findViewById(R.id.item_imagen_prenda);
+            holder.check = (CheckBox) convertView.findViewById(R.id.check);
+
+            convertView.setTag(holder);
+        } else {
+            holder = (Holder) convertView.getTag();
+        }
 
         holder.marca.setText(prenda.getMarca());
-        Picasso.with(context).load(prenda.getImagen()).fit().centerInside().placeholder(R.drawable.ic_panorama_white_48dp).into(holder.imagen);
+        Picasso.with(context).load(prenda.getImagen()).fit().placeholder(R.drawable.progress_animator).noFade().into(holder.imagen);
 
-        holder.marca.setTypeface(Util_Fonts.setRegular(context));
+        boolean checked = prenda.getIndProbador().equals("1");
+
+        return convertView;
     }
 
-    @Override
-    public int getItemCount() {
-        return prendas.size();
+    class Holder {
+        TextView marca;
+        ImageView imagen;
+        CheckBox check;
     }
 
-    public void addPrenda(Prenda prenda) {
-        prendas.add(prenda);
+    public ArrayList<Prenda> getmPrendas() {
+        return mPrendas;
+    }
+
+    public void add(Prenda prenda) {
+        mPrendas.add(prenda);
         notifyDataSetChanged();
-    }
-
-    class Holder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        public TextView marca;
-        public ImageView imagen;
-
-        public Holder(View v) {
-            super(v);
-            marca = (TextView) v.findViewById(R.id.item_marca_prenda);
-            imagen = (ImageView) v.findViewById(R.id.item_imagen_prenda);
-            v.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            if (onItemClickListener != null) {
-                onItemClickListener.onItemClick(v,getPosition());
-            }
-        }
-    }
-
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
-    }
-
-    public interface OnItemClickListener {
-        public void onItemClick(View view , int position);
-    }
-
-    public ArrayList<Prenda> getPrendas() {
-        return prendas;
     }
 }

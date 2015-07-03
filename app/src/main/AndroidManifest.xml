@@ -30,6 +30,9 @@
             android:name=".glup.Registro"
             android:label="@string/title_activity_home" />
         <activity
+            android:name=".glup.Detalle"
+            android:label="@string/title_activity_home" />
+        <activity
             android:name=".glup.Principal"
             android:label="@string/title_activity_principal" >
         </activity>

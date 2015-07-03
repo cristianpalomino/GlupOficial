@@ -40,7 +40,7 @@ public class FDetalle extends Fragment {
     public static FDetalle newInstance(Prenda data) {
         FDetalle fragment = new FDetalle();
         Bundle args = new Bundle();
-        args.putParcelable(DATA, data);
+        args.putSerializable(DATA, data);
         fragment.setArguments(args);
         return fragment;
     }

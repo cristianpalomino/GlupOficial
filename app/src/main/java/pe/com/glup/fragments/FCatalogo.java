@@ -1,19 +1,17 @@
 package pe.com.glup.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.CheckBox;
+import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 
 import java.util.ArrayList;
 
@@ -21,21 +19,20 @@ import pe.com.glup.R;
 import pe.com.glup.adapters.PrendaAdapter;
 import pe.com.glup.beans.Prenda;
 import pe.com.glup.datasource.DSCatalogo;
-import pe.com.glup.decorations.MarginDecoration;
+import pe.com.glup.glup.Detalle;
 import pe.com.glup.glup.Glup;
 import pe.com.glup.glup.Principal;
 import pe.com.glup.interfaces.OnSearchListener;
+import pe.com.glup.interfaces.OnSuccesUpdate;
 import pe.com.glup.interfaces.OnSuccessCatalogo;
 import pe.com.glup.utils.Util_Fonts;
-import pe.com.glup.views.Header;
-import pe.com.glup.views.HidingScrollListener;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link FCatalogo#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FCatalogo extends Fragment implements OnSuccessCatalogo, OnSearchListener, UltimateRecyclerView.OnLoadMoreListener, PrendaAdapter.OnItemClickListener {
+public class FCatalogo extends Fragment implements OnSuccessCatalogo, OnSearchListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, AbsListView.OnScrollListener {
 
     private static final int EMPTY = 0;
     private static final int FULL = 1;
@@ -44,11 +41,13 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo, OnSearchLi
     private static int PAGE = 1;
     private static String TAG = "todos";
 
-    private UltimateRecyclerView recyclerView;
-    private GridLayoutManager layoutManager;
     private DSCatalogo dsCatalogo;
     private PrendaAdapter adapter;
+
     private TextView emptyView;
+    private GridView grilla;
+
+    private boolean isLoading = false;
 
     public static FCatalogo newInstance() {
         FCatalogo fragment = new FCatalogo();
@@ -80,20 +79,18 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo, OnSearchLi
 
         Principal principal = ((Principal) getActivity());
         principal.getHeader().setOnSearchListener(FCatalogo.this);
-        principal.setupUI(getView().findViewById(R.id.ultimate_recycler_view));
+        principal.setupUI(getView().findViewById(R.id.frame_grilla));
 
-        recyclerView = (UltimateRecyclerView) getView().findViewById(R.id.ultimate_recycler_view);
         emptyView = (TextView) getView().findViewById(R.id.empty_view);
-
-        recyclerView.addItemDecoration(new MarginDecoration(getActivity()));
-        layoutManager = new GridLayoutManager(getActivity(), 2);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.enableLoadmore();
-        recyclerView.setOnLoadMoreListener(FCatalogo.this);
+        grilla = (GridView) getView().findViewById(R.id.grilla_prendas);
         emptyView.setTypeface(Util_Fonts.setRegular(getActivity()));
 
+        grilla.setOnItemClickListener(this);
+        grilla.setOnItemLongClickListener(this);
+        grilla.setOnScrollListener(this);
+
         dsCatalogo = new DSCatalogo(getActivity());
-        dsCatalogo.sendRequest(TAG, String.valueOf(PAGE), "10");
+        dsCatalogo.getGlobalPrendas(TAG, String.valueOf(PAGE), "10");
         dsCatalogo.setOnSuccessCatalogo(FCatalogo.this);
     }
 
@@ -102,10 +99,9 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo, OnSearchLi
         if (PAGE == 1) {
             if (prendas != null) {
                 displayMessage(FULL);
-                adapter = new PrendaAdapter(prendas, getActivity());
-                recyclerView.setAdapter(adapter);
-                glup.setPrendas(adapter.getPrendas());
-                adapter.setOnItemClickListener(FCatalogo.this);
+                adapter = new PrendaAdapter(getActivity(),prendas);
+                grilla.setAdapter(adapter);
+                glup.setPrendas(adapter.getmPrendas());
             } else {
                 displayMessage(EMPTY);
             }
@@ -114,10 +110,11 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo, OnSearchLi
                 displayMessage(FULL);
                 if (!prendas.isEmpty()) {
                     for (int i = 0; i < prendas.size(); i++) {
-                        adapter.addPrenda(prendas.get(i));
+                        adapter.add(prendas.get(i));
                     }
                 }
-                glup.setPrendas(adapter.getPrendas());
+                glup.setPrendas(adapter.getmPrendas());
+                isLoading = false;
             }
         }
     }
@@ -136,34 +133,72 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo, OnSearchLi
             TAG = cadena;
         }
 
-        dsCatalogo.sendRequest(TAG, String.valueOf(PAGE), "10");
-        dsCatalogo.setOnSuccessCatalogo(FCatalogo.this);
-        recyclerView.enableLoadmore();
-        recyclerView.setOnLoadMoreListener(FCatalogo.this);
-    }
-
-    @Override
-    public void loadMore(int i, int i1) {
-        PAGE++;
-        dsCatalogo.sendRequest(TAG, String.valueOf(PAGE), "10");
+        dsCatalogo.getGlobalPrendas(TAG, String.valueOf(PAGE), "10");
         dsCatalogo.setOnSuccessCatalogo(FCatalogo.this);
     }
 
     private void displayMessage(int type) {
         if (type == EMPTY) {
-            recyclerView.setVisibility(View.GONE);
+            grilla.setVisibility(View.GONE);
             emptyView.setVisibility(View.VISIBLE);
         } else if (type == FULL) {
-            recyclerView.setVisibility(View.VISIBLE);
+            grilla.setVisibility(View.VISIBLE);
             emptyView.setVisibility(View.GONE);
         }
     }
 
     @Override
-    public void onItemClick(View view, int position) {
-        glup.getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.frame_principal,FDetalle.newInstance(glup.getPrendas().get(position)))
-                .commit();
+    public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
+        dsCatalogo = new DSCatalogo(getActivity());
+        dsCatalogo.updateProbador(glup.getPrendas().get(position).getCod_prenda());
+        dsCatalogo.setOnSuccesUpdate(new OnSuccesUpdate() {
+            @Override
+            public void onSuccesUpdate(boolean status, int indProb) {
+                if (status) {
+                    if (indProb == 0) {
+                        ((CheckBox) view.findViewById(R.id.check)).setChecked(false);
+                    } else if (indProb == 1) {
+                        ((CheckBox) view.findViewById(R.id.check)).setChecked(true);
+                    }
+                } else {
+
+                }
+            }
+        });
     }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        ArrayList<Prenda> prendas = glup.getPrendas();
+        Intent intent = new Intent(glup, Detalle.class);
+        intent.putExtra("prendas", prendas);
+        intent.putExtra("current", position);
+        startActivity(intent);
+        return false;
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount != 0) {
+            if (!isLoading) {
+                isLoading = true;
+
+                PAGE++;
+                dsCatalogo.getGlobalPrendas(TAG, String.valueOf(PAGE), "10");
+                dsCatalogo.setOnSuccessCatalogo(FCatalogo.this);
+            }
+        }
+    }
+
+    /**
+     *
+     PAGE++;
+     dsCatalogo.getGlobalPrendas(TAG, String.valueOf(PAGE), "10");
+     dsCatalogo.setOnSuccessCatalogo(FCatalogo.this);
+     */
 }
