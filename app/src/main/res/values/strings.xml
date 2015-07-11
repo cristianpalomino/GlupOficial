@@ -6,6 +6,27 @@
     <string name="title_activity_home">Catalogo</string>
     <string name="title_activity_principal">Principal</string>
 
-<!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Detalle Prenda -->
+    <string name="tienda">
+        <b><u>Tienda</u></b>
+    </string><string name="marca">
+        <b>Marca :</b> Nombre
+    </string>
+    <string name="tipo">
+        <b>Tipo :</b> Nombre
+    </string>
+    <string name="modelo">
+        <b>Modelo :</b> Nombre
+       </string>
+    <string name="estilo">
+        <b>Estilo :</b> Nombre
+       </string>
+    <string name="precio">
+        <b>Precio :</b>
+        Nombre
+    </string>
+
 </resources>

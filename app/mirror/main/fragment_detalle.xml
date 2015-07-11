@@ -1,0 +1,20 @@
+<!-- [ Mirror metadata ] generatedAt: 1436634119684 -->
+<!-- Generated screen file. Fill the id tags below with content with
+which to populate your previewed layout. For a complete specification
+of sample data, please see http://jimulabs.com/sample-data-specifications/ 
+
+Valid attributes on <screen> tag: theme="@style/someTheme" inEditMode="false" overlay="@drawable/mockup" -->
+<screen>
+    <_content layout="@layout/fragment_detalle">
+        <!-- TextView Examples:
+        <marca_prenda text="@string/string_resource" />
+        <marca_prenda text="Text literal" textSize="14sp" /> -->
+        <marca_prenda />
+        <!-- ImageView Examples:
+        <imagen_prenda src="@drawable/image_resource" />
+        <imagen_prenda src="relative_path/image.jpg" /> -->
+        <imagen_prenda />
+        <btn_info />
+        <precio_prenda />
+    </_content>
+</screen>

@@ -3,7 +3,9 @@ package pe.com.glup.views;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -17,8 +19,10 @@ import android.widget.LinearLayout;
 
 import pe.com.glup.R;
 import pe.com.glup.glup.Glup;
+import pe.com.glup.glup.Home;
 import pe.com.glup.glup.Principal;
 import pe.com.glup.interfaces.OnSearchListener;
+import pe.com.glup.session.Session_Manager;
 
 /**
  * Created by Glup on 23/06/15.
@@ -157,7 +161,8 @@ public class Header extends LinearLayout implements Principal.OnChangeTab {
     }
 
     public void showOptionsCloset() {
-        btnbuscar.setVisibility(GONE);
+        btnbuscar.setVisibility(VISIBLE);
+        frame_detalle.setVisibility(GONE);
     }
 
     public void showOptionsProbador() {
@@ -166,6 +171,17 @@ public class Header extends LinearLayout implements Principal.OnChangeTab {
 
     public void showOptionsCamera() {
         btnbuscar.setVisibility(GONE);
+
+        /**
+         * Temporal
+         */
+        Session_Manager manager = new Session_Manager(getContext());
+        manager.closeSession();
+
+        Intent intent = new Intent(getContext(), Home.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        getContext().startActivity(intent);
+        ((Glup)getContext()).finish();
     }
 
     public View showOptionsDetail() {

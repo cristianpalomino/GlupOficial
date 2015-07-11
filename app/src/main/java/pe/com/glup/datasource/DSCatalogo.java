@@ -19,6 +19,7 @@ import pe.com.glup.beans.Catalogo;
 import pe.com.glup.beans.Prenda;
 import pe.com.glup.interfaces.OnSuccesUpdate;
 import pe.com.glup.interfaces.OnSuccessCatalogo;
+import pe.com.glup.session.Session_Manager;
 import pe.com.glup.ws.WSGlup;
 
 /**
@@ -51,7 +52,7 @@ public class DSCatalogo {
 
         RequestParams params = new RequestParams();
         params.put("tag", "prendaCatalogo");
-        params.put("codigo_usuario", "000000000010");
+        params.put("codigo_usuario", new Session_Manager(context).getCurrentUserCode());
 
         AsyncHttpClient httpClient = new AsyncHttpClient();
         httpClient.post(context, URL, params, new JsonHttpResponseHandler() {
@@ -59,8 +60,10 @@ public class DSCatalogo {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 Gson gson = new Gson();
+
                 Catalogo catalogo = gson.fromJson(response.toString(), Catalogo.class);
                 prendas = catalogo.getPrendas();
+
                 onSuccessCatalogo.onSuccess(catalogo.getTag(), prendas);
             }
 
@@ -77,7 +80,7 @@ public class DSCatalogo {
 
         RequestParams params = new RequestParams();
         params.put("tag", "enviarProbador");
-        params.put("codigo_usuario", "000000000010");
+        params.put("codigo_usuario", new Session_Manager(context).getCurrentUserCode());
         params.put("codigo_prenda", codigo_prenda);
 
         AsyncHttpClient httpClient = new AsyncHttpClient();

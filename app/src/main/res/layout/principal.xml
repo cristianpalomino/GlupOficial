@@ -23,7 +23,7 @@
 
     <view
         android:id="@+id/glutab"
-        class="pe.com.glup.views.GlupTab"
+        class="pe.com.glup.views.Footer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom" />

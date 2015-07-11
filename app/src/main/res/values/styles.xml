@@ -10,6 +10,10 @@
         <item name="android:windowBackground">@color/blanco</item>
     </style>
 
+    <style name="Dialog_Animation_UP_DOWN">
+        <item name="android:windowEnterAnimation">@anim/abajo_arriba_b</item>
+        <item name="android:windowExitAnimation">@anim/arriba_abajo_b</item>
+    </style>
 
     <style name="Glup_Edittext" parent="Widget.AppCompat.EditText">
         <item name="android:layout_height">48dp</item>

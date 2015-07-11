@@ -39,8 +39,8 @@ public class Inicio extends Glup implements View.OnClickListener {
         indicator = (CirclePageIndicator) findViewById(R.id.indicator);
         indicator.setViewPager(pager);
 
-        gift = (GifView) findViewById(R.id.gift);
-        gift.setMovieResource(R.drawable.video);
+        //gift = (GifView) findViewById(R.id.gift);
+        //gift.setMovieResource(R.drawable.video);
 
         btnentrar = (Button) findViewById(R.id.btnentrar);
         btnregistro = (Button) findViewById(R.id.btnregistro);
@@ -58,7 +58,7 @@ public class Inicio extends Glup implements View.OnClickListener {
         if (v.equals(btnentrar)) {
             intent = new Intent(Inicio.this, Entrar.class);
         } else if (v.equals(btnregistro)) {
-            intent = new Intent(Inicio.this, Principal.class);
+            intent = new Intent(Inicio.this, Registro.class);
         }
         startActivity(intent);
     }

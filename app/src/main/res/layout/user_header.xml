@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingTop="10dp">
 
     <Button
         android:id="@+id/btnfacebook"
@@ -14,13 +15,13 @@
         android:id="@+id/btntwitter"
         style="@style/Glup_Button_Square_Twitter"
         android:layout_width="match_parent"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="2dp"
         android:text="TWITTER" />
 
     <Button
         android:id="@+id/btninstagram"
         style="@style/Glup_Button_Square_Instagram"
         android:layout_width="match_parent"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="2dp"
         android:text="INSTAGRAM" />
 </LinearLayout>

@@ -4,6 +4,8 @@ package pe.com.glup.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.internal.widget.AdapterViewCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +34,9 @@ import pe.com.glup.utils.Util_Fonts;
  * Use the {@link FCatalogo#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FCatalogo extends Fragment implements OnSuccessCatalogo, OnSearchListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, AbsListView.OnScrollListener {
+public class FCatalogo extends Fragment implements OnSuccessCatalogo,
+        OnSearchListener,
+        AbsListView.OnScrollListener, AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener {
 
     private static final int EMPTY = 0;
     private static final int FULL = 1;
@@ -76,17 +80,25 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo, OnSearchLi
         super.onActivityCreated(savedInstanceState);
         PAGE = 1;
         TAG = "todos";
+        isLoading = false;
 
         Principal principal = ((Principal) getActivity());
         principal.getHeader().setOnSearchListener(FCatalogo.this);
         principal.setupUI(getView().findViewById(R.id.frame_grilla));
 
         emptyView = (TextView) getView().findViewById(R.id.empty_view);
-        grilla = (GridView) getView().findViewById(R.id.grilla_prendas);
         emptyView.setTypeface(Util_Fonts.setRegular(getActivity()));
 
-        grilla.setOnItemClickListener(this);
+        grilla = (GridView) getView().findViewById(R.id.grilla_prendas);
+
+        /*
+        grilla.setOnItemLongClickListener(null);
+        grilla.setOnItemSelectedListener(null);
+        grilla.setOnScrollListener(null);
+        */
+
         grilla.setOnItemLongClickListener(this);
+        grilla.setOnItemClickListener(this);
         grilla.setOnScrollListener(this);
 
         dsCatalogo = new DSCatalogo(getActivity());
@@ -96,26 +108,31 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo, OnSearchLi
 
     @Override
     public void onSuccess(String success_msg, ArrayList<Prenda> prendas) {
-        if (PAGE == 1) {
-            if (prendas != null) {
-                displayMessage(FULL);
-                adapter = new PrendaAdapter(getActivity(),prendas);
-                grilla.setAdapter(adapter);
-                glup.setPrendas(adapter.getmPrendas());
-            } else {
-                displayMessage(EMPTY);
-            }
-        } else if (PAGE != 1) {
-            if (prendas != null) {
-                displayMessage(FULL);
-                if (!prendas.isEmpty()) {
-                    for (int i = 0; i < prendas.size(); i++) {
-                        adapter.add(prendas.get(i));
-                    }
+        try {
+            if (PAGE == 1) {
+                if (prendas != null) {
+                    displayMessage(FULL);
+                    adapter = new PrendaAdapter(getActivity(), prendas);
+                    grilla.setAdapter(adapter);
+                    glup.setPrendas(adapter.getmPrendas());
+                    isLoading = false;
+                } else {
+                    displayMessage(EMPTY);
                 }
-                glup.setPrendas(adapter.getmPrendas());
-                isLoading = false;
+            } else if (PAGE != 1) {
+                if (prendas != null) {
+                    displayMessage(FULL);
+                    if (!prendas.isEmpty()) {
+                        for (int i = 0; i < prendas.size(); i++) {
+                            adapter.add(prendas.get(i));
+                        }
+                    }
+                    glup.setPrendas(adapter.getmPrendas());
+                    isLoading = false;
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -148,36 +165,6 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo, OnSearchLi
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
-        dsCatalogo = new DSCatalogo(getActivity());
-        dsCatalogo.updateProbador(glup.getPrendas().get(position).getCod_prenda());
-        dsCatalogo.setOnSuccesUpdate(new OnSuccesUpdate() {
-            @Override
-            public void onSuccesUpdate(boolean status, int indProb) {
-                if (status) {
-                    if (indProb == 0) {
-                        ((CheckBox) view.findViewById(R.id.check)).setChecked(false);
-                    } else if (indProb == 1) {
-                        ((CheckBox) view.findViewById(R.id.check)).setChecked(true);
-                    }
-                } else {
-
-                }
-            }
-        });
-    }
-
-    @Override
-    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        ArrayList<Prenda> prendas = glup.getPrendas();
-        Intent intent = new Intent(glup, Detalle.class);
-        intent.putExtra("prendas", prendas);
-        intent.putExtra("current", position);
-        startActivity(intent);
-        return false;
-    }
-
-    @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
 
     }
@@ -195,10 +182,34 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo, OnSearchLi
         }
     }
 
-    /**
-     *
-     PAGE++;
-     dsCatalogo.getGlobalPrendas(TAG, String.valueOf(PAGE), "10");
-     dsCatalogo.setOnSuccessCatalogo(FCatalogo.this);
-     */
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        ArrayList<Prenda> prendas = glup.getPrendas();
+        Intent intent = new Intent(glup, Detalle.class);
+        intent.putExtra("prendas", prendas);
+        intent.putExtra("current", position);
+        startActivity(intent);
+        return false;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
+        Prenda prenda = (Prenda) parent.getItemAtPosition(position);
+        dsCatalogo = new DSCatalogo(getActivity());
+        dsCatalogo.updateProbador(glup.getPrendas().get(position).getCod_prenda());
+        dsCatalogo.setOnSuccesUpdate(new OnSuccesUpdate() {
+            @Override
+            public void onSuccesUpdate(boolean status, int indProb) {
+                if (status) {
+                    if (indProb == 0) {
+                        ((CheckBox) view.findViewById(R.id.check)).setChecked(false);
+                    } else if (indProb == 1) {
+                        ((CheckBox) view.findViewById(R.id.check)).setChecked(true);
+                    }
+                } else {
+                    Log.e(FCatalogo.class.getName(), "Ocurrio un error");
+                }
+            }
+        });
+    }
 }
