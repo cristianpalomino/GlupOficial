@@ -2,6 +2,7 @@ package pe.com.glup.glup;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 
 import pe.com.glup.R;
@@ -50,19 +51,19 @@ public class Principal extends Glup implements Footer.OnChangeTab {
         onChangeTab.onChangeTab(position);
         CURRENT_FRAGMENT_TAG = FRAGMENTS[position].getClass().getName().toString();
         Fragment current = getSupportFragmentManager().findFragmentByTag(CURRENT_FRAGMENT_TAG);
-        if(current != null){
+        if (current != null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.frame_principal, FRAGMENTS[position],CURRENT_FRAGMENT_TAG)
+                    .replace(R.id.frame_principal, FRAGMENTS[position], CURRENT_FRAGMENT_TAG)
                     .commit();
-        }else {
+        } else {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.frame_principal, FRAGMENTS[position],CURRENT_FRAGMENT_TAG)
+                    .replace(R.id.frame_principal, FRAGMENTS[position], CURRENT_FRAGMENT_TAG)
                     .addToBackStack(CURRENT_FRAGMENT_TAG)
                     .commit();
         }
 
-        //Log.e("FRAGMENTS", getSupportFragmentManager().getBackStackEntryCount() + "");
-        //Log.e("FRAGMENTS", CURRENT_FRAGMENT_TAG + "");
+        Log.e("FRAGMENTS", getSupportFragmentManager().getBackStackEntryCount() + "");
+        Log.e("FRAGMENTS", CURRENT_FRAGMENT_TAG + "");
     }
 
     @Override
@@ -81,5 +82,10 @@ public class Principal extends Glup implements Footer.OnChangeTab {
 
     public Header getHeader() {
         return header;
+    }
+
+    @Override
+    public void onBackPressed() {
+        this.finish();
     }
 }

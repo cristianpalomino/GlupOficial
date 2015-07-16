@@ -60,5 +60,7 @@ public class DetalleDialog extends AlertDialog {
 
         getWindow().setWindowAnimations(R.style.Dialog_Animation_UP_DOWN);
         getWindow().setBackgroundDrawable(new ColorDrawable(android.R.color.transparent));
+
+
     }
 }

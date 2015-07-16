@@ -13,6 +13,7 @@ public class Home extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         Session_Manager manager = new Session_Manager(Home.this);
         if (manager.isLogin()) {
             Intent intent = new Intent(Home.this, Principal.class);

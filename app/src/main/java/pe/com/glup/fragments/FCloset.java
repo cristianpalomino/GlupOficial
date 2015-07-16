@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -65,7 +66,6 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
         super.onCreate(savedInstanceState);
         glup = (Glup) getActivity();
         if (getArguments() != null) {
-
         }
     }
 
