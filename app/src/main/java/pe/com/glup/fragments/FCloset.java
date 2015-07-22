@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import javax.security.auth.login.LoginException;
+
 import pe.com.glup.R;
 import pe.com.glup.adapters.PrendaAdapter;
 import pe.com.glup.beans.Prenda;
@@ -185,6 +187,7 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
         ArrayList<Prenda> prendas = glup.getPrendas();
+        Log.e("prendas",prendas.size()+"");
         Intent intent = new Intent(glup, Detalle.class);
         intent.putExtra("prendas", prendas);
         intent.putExtra("current", position);
