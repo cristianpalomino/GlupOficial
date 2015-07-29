@@ -1,7 +1,11 @@
 package pe.com.glup.glup;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -38,6 +42,8 @@ public class Detalle extends AppCompatActivity implements View.OnClickListener {
 
     private Button btnprobar;
     private Button btnreservar;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,16 +93,23 @@ public class Detalle extends AppCompatActivity implements View.OnClickListener {
             }
         } else if(v.equals(btninfo)){
             DetalleDialog dialog = new DetalleDialog(Detalle.this);
+            View root =getLayoutInflater().inflate(
+                    (R.layout.fragment_detalle),null);
+
             dialog.show();
         }
     }
 
     private void reload(Prenda prenda) {
         Picasso.with(this).load(prenda.getImagen()).fit().placeholder(R.drawable.progress_animator).noFade().into(imgprenda);
+        if(prenda.getPrecio()==null){
+        precio.setVisibility(View.GONE);
+        }
         precio.setText("S/. " + prenda.getPrecio() + ".00");
         marca.setText(prenda.getMarca() + " - " + current_position + " - " + prendas.size());
-
         tallaGroup.removeAllViews();
+
+        /*
         ArrayList<String> tallas = prenda.getTalla();
         for (int i = 0; i < tallas.size(); i++) {
             RadioButton view_talla = new RadioButton(this);
@@ -104,5 +117,6 @@ public class Detalle extends AppCompatActivity implements View.OnClickListener {
             view_talla.setTypeface(Util_Fonts.setRegular(Detalle.this));
             tallaGroup.addView(view_talla);
         }
+        */
     }
 }

@@ -80,14 +80,12 @@ public class FDetalle extends Fragment {
         DrawableCompat.setTint(DrawableCompat.wrap(placeholder), android.R.color.darker_gray);
 
         Picasso.with(glup).load(prenda.getImagen()).fit().placeholder(placeholder).into(imgprenda);
-        precio.setText("S/. " + prenda.getPrecio() + ".00");
-        marca.setText(prenda.getMarca());
 
-        btninfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
+        //---- Las variables ya se setean en Detalle.java (Metodo reload) ----------
+        //precio.setText("S/. " + prenda.getPrecio() + ".00");
+        //marca.setText(prenda.getMarca());
+
+
     }
 }
