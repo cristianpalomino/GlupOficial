@@ -1,8 +1,12 @@
 package pe.com.glup.glup;
 
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +23,7 @@ import java.util.ArrayList;
 import javax.xml.validation.Validator;
 
 import pe.com.glup.R;
+import pe.com.glup.adapters.Adapter_tallas;
 import pe.com.glup.beans.Prenda;
 import pe.com.glup.datasource.DSCatalogo;
 import pe.com.glup.datasource.DSInfo;
@@ -41,6 +46,7 @@ public class Detalle extends AppCompatActivity implements View.OnClickListener,O
     private ImageView imgprenda;
     private TextView precio;
     private TextView marca;
+    private TextView prueba;
 
     private ImageView next;
     private ImageView prev;
@@ -49,6 +55,9 @@ public class Detalle extends AppCompatActivity implements View.OnClickListener,O
 
     private Button btnprobar;
     private Button btnreservar;
+
+    private ViewPager paginador;
+
 
 
 
@@ -71,6 +80,7 @@ public class Detalle extends AppCompatActivity implements View.OnClickListener,O
 
         precio = (TextView) findViewById(R.id.precio_prenda);
         marca = (TextView) findViewById(R.id.marca_prenda);
+        paginador=(ViewPager) findViewById(R.id.ptallas);
 
         precio.setTypeface(Util_Fonts.setRegular(this));
         marca.setTypeface(Util_Fonts.setBold(this));
@@ -177,5 +187,34 @@ public class Detalle extends AppCompatActivity implements View.OnClickListener,O
     @Override
     public void onFailed(String error_msg) {
 
+    }
+
+    public class Detail extends ActionBarActivity{
+
+        String[] ropa = {
+                "s",
+                "m",
+                "l",
+                "xl"
+        };
+
+        ViewPager mViewPager;
+        Adapter_tallas manejotallas;
+
+
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.fragment_detalle);
+
+            mViewPager = (ViewPager) findViewById(R.id.ptallas);
+            manejotallas = new Adapter_tallas(getSupportFragmentManager());
+            manejotallas.agregarFragmentos(FDetalle.instantiate(this,ropa[0]));
+            manejotallas.agregarFragmentos(FDetalle.instantiate(this,ropa[1]));
+            manejotallas.agregarFragmentos(FDetalle.instantiate(this,ropa[2]));
+            manejotallas.agregarFragmentos(FDetalle.instantiate(this,ropa[3]));
+
+            mViewPager.setAdapter(manejotallas);
+
+        }
     }
 }
