@@ -3,12 +3,18 @@ package pe.com.glup.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.viewpagerindicator.CirclePageIndicator;
+import com.viewpagerindicator.LinePageIndicator;
+
 import pe.com.glup.R;
+import pe.com.glup.adapters.Adapter_Incio;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,6 +30,10 @@ public class Fragment_Home extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private ViewPager pager;
+    private LinePageIndicator indicator;
+    private Adapter_Incio adapter;
+
 
 
     /**
@@ -35,6 +45,8 @@ public class Fragment_Home extends Fragment {
      * @return A new instance of fragment Fragment_Home.
      */
     // TODO: Rename and change types and number of parameters
+
+
     public static Fragment_Home newInstance(String param1, String param2) {
         Fragment_Home fragment = new Fragment_Home();
         Bundle args = new Bundle();
@@ -51,22 +63,23 @@ public class Fragment_Home extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
-    @Override
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
-    @Override
+
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        TextView message = (TextView) getView().findViewById(R.id.message);
-        message.setText(mParam2 );
+        //TextView message = (TextView) getView().findViewById(R.id.message);
+        //message.setText(mParam2 );
     }
 }

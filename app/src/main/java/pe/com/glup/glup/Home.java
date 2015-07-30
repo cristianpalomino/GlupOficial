@@ -3,8 +3,6 @@ package pe.com.glup.glup;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-
-import pe.com.glup.R;
 import pe.com.glup.session.Session_Manager;
 
 

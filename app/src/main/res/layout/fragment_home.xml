@@ -1,11 +1,28 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="pe.com.glup.fragments.Fragment_Home">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="pe.com.glup.fragments.Fragment_Home">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+    <!--  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
         android:text="@string/hello_blank_fragment"
         android:layout_gravity="center"
-        android:id="@+id/message" />
+        android:id="@+id/message" />  -->
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+    <com.viewpagerindicator.TitlePageIndicator
+        android:id="@+id/indicator"
+        android:padding="10dip"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        tools:linePosition="top"
+        />
+
+
 
 </FrameLayout>

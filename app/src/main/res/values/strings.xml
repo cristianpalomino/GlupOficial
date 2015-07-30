@@ -13,20 +13,19 @@
     <string name="tienda">
         <b><u>Tienda</u></b>
     </string><string name="marca">
-        <b>Marca :</b> Nombre
+        <b>Marca :</b>
     </string>
     <string name="tipo">
-        <b>Tipo :</b> Nombre
+        <b>Tipo :</b>
     </string>
     <string name="modelo">
-        <b>Modelo :</b> Nombre
+        <b>Modelo :</b>
        </string>
     <string name="estilo">
-        <b>Estilo :</b> Nombre
+        <b>Estilo :</b>
        </string>
     <string name="precio">
         <b>Precio :</b>
-        Nombre
     </string>
 
 </resources>

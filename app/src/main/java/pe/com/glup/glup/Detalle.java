@@ -1,31 +1,38 @@
 package pe.com.glup.glup;
 
-import android.app.AlertDialog;
-import android.content.Intent;
+
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import javax.xml.validation.Validator;
+
 import pe.com.glup.R;
 import pe.com.glup.beans.Prenda;
+import pe.com.glup.datasource.DSCatalogo;
+import pe.com.glup.datasource.DSInfo;
 import pe.com.glup.dialog.DetalleDialog;
+import pe.com.glup.fragments.FDetalle;
+import pe.com.glup.interfaces.OnSuccesUpdate;
+import pe.com.glup.interfaces.OnSuccessPrenda;
 import pe.com.glup.utils.Util_Fonts;
 
 /**
  * Created by Glup on 2/07/15.
  */
-public class Detalle extends AppCompatActivity implements View.OnClickListener {
+//public class Detalle extends AppCompatActivity implements View.OnClickListener,OnsuccesReserva{
+public class Detalle extends AppCompatActivity implements View.OnClickListener,OnSuccesUpdate,OnSuccessPrenda {
 
     private ArrayList<Prenda> prendas;
     private int current_position;
@@ -75,6 +82,8 @@ public class Detalle extends AppCompatActivity implements View.OnClickListener {
         prev.setOnClickListener(this);
         next.setOnClickListener(this);
         btninfo.setOnClickListener(this);
+        btnprobar.setOnClickListener(this);
+        btnreservar.setOnClickListener(this);
 
         reload(prendas.get(current_position));
     }
@@ -91,12 +100,23 @@ public class Detalle extends AppCompatActivity implements View.OnClickListener {
                 current_position++;
                 reload(prendas.get(current_position));
             }
-        } else if(v.equals(btninfo)){
+        }else if(v.equals(btninfo)){
             DetalleDialog dialog = new DetalleDialog(Detalle.this);
-            View root =getLayoutInflater().inflate(
-                    (R.layout.fragment_detalle),null);
-
+            dialog.setCodigo_prenda(prendas.get(current_position).getCod_prenda());
+            dialog.initDialog();
             dialog.show();
+        }else if(v.equals(btnprobar)){
+            //Toast.makeText(Detalle.this,"Boton Probar",Toast.LENGTH_LONG).show();
+            DSCatalogo dsCatalogo = new DSCatalogo(Detalle.this);
+            dsCatalogo.updateProbador(prendas.get(current_position).getCod_prenda());
+            dsCatalogo.setOnSuccesUpdate(Detalle.this);
+        }
+        else if(v.equals(btnreservar)){
+            Toast.makeText(Detalle.this,"Boton Reservar Presionado",Toast.LENGTH_LONG).show();
+            // *** A Modificar ***
+            //DSInfo dsInfo= new DSInfo(Detalle.this);
+            //dsInfo.getReservaPrenda(prendas.get(current_position).getCod_prenda(), prendas.get(current_position).getNombre());
+            //dsInfo.setOnSuccesPrenda(Detalle.this);
         }
     }
 
@@ -104,19 +124,58 @@ public class Detalle extends AppCompatActivity implements View.OnClickListener {
         Picasso.with(this).load(prenda.getImagen()).fit().placeholder(R.drawable.progress_animator).noFade().into(imgprenda);
         if(prenda.getPrecio()==null){
         precio.setVisibility(View.GONE);
+        btnreservar.setVisibility(View.GONE);
         }
         precio.setText("S/. " + prenda.getPrecio() + ".00");
         marca.setText(prenda.getMarca() + " - " + current_position + " - " + prendas.size());
         tallaGroup.removeAllViews();
 
-        /*
-        ArrayList<String> tallas = prenda.getTalla();
-        for (int i = 0; i < tallas.size(); i++) {
-            RadioButton view_talla = new RadioButton(this);
-            view_talla.setText(tallas.get(i).toString());
-            view_talla.setTypeface(Util_Fonts.setRegular(Detalle.this));
-            tallaGroup.addView(view_talla);
+        try{
+            ArrayList<String> tallas = prenda.getTalla();
+            for (int i = 0; i < tallas.size(); i++) {
+                RadioButton view_talla = new RadioButton(this);
+                view_talla.setText(tallas.get(i).toString());
+                view_talla.setTypeface(Util_Fonts.setRegular(Detalle.this));
+                tallaGroup.addView(view_talla);
+            }
         }
-        */
+        catch (Exception e){
+            Log.e(Detalle.class.getName(), "Ocurrio un error");
+        }
+
+
+    }
+
+    public void onSuccesUpdate(boolean status, int indProb) {
+        if (status) {
+            if (indProb == 0) {
+                Toast.makeText(Detalle.this,"Se elimino la prenda del probador",Toast.LENGTH_LONG).show();
+            } else if (indProb == 1) {
+                Toast.makeText(Detalle.this,"Se agrego la prenda al probador ",Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Log.e(Detalle.class.getName(), "Ocurrio un error");
+        }
+
+
+    }
+
+
+    @Override
+    public void onSuccessPrenda(boolean status, int indProb) {
+        if (status) {
+            if (indProb == 0) {
+                Toast.makeText(Detalle.this,"Se reservo la prenda ",Toast.LENGTH_LONG).show();
+            } else if (indProb == 1) {
+                Toast.makeText(Detalle.this,"Se quito la reserva",Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Log.e(Detalle.class.getName(), "Ocurrio un error");
+        }
+    }
+
+    @Override
+    public void onFailed(String error_msg) {
+
     }
 }
