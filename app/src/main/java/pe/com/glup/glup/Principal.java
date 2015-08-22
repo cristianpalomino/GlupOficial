@@ -2,12 +2,17 @@ package pe.com.glup.glup;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+
 import pe.com.glup.R;
+import pe.com.glup.bus.BusHolder;
 import pe.com.glup.fragments.FCatalogo;
 import pe.com.glup.fragments.FCloset;
+import pe.com.glup.fragments.FMenuLeft;
+import pe.com.glup.fragments.FMenuRigth;
+import pe.com.glup.fragments.FProbador;
 import pe.com.glup.fragments.Fragment_Home;
 import pe.com.glup.views.Footer;
 import pe.com.glup.views.Header;
@@ -18,7 +23,7 @@ public class Principal extends Glup implements Footer.OnChangeTab {
     private final Fragment[] FRAGMENTS = {
             FCatalogo.newInstance(),
             FCloset.newInstance(),
-            Fragment_Home.newInstance(MESSAGES[2], MESSAGES[2]),
+            FProbador.newInstance(),
             Fragment_Home.newInstance(MESSAGES[3], MESSAGES[3])
     };
     private String CURRENT_FRAGMENT_TAG;
@@ -35,6 +40,8 @@ public class Principal extends Glup implements Footer.OnChangeTab {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        BusHolder.getInstance().register(this);
+
         setContentView(R.layout.principal);
         setupUI(findViewById(R.id.container_principal));
 
@@ -44,6 +51,25 @@ public class Principal extends Glup implements Footer.OnChangeTab {
 
         footer.setOnChangeTab(this);
         footer.initView();
+
+        SlidingMenu menuright = new SlidingMenu(this);
+        menuright.setMode(SlidingMenu.LEFT_RIGHT);
+        menuright.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+//        menu.setShadowWidthRes(R.dimen.shadow_width);
+//        menu.setShadowDrawable(R.drawable.shadow);
+        menuright.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+        menuright.setFadeDegree(0.35f);
+        menuright.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+
+        menuright.setMenu(R.layout.menu_left);
+        menuright.setSecondaryMenu(R.layout.menu_right);
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.menu_left, FMenuLeft.newInstance(), FMenuLeft.class.getName())
+                .commit();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.menu_rigth, FMenuRigth.newInstance(), FMenuRigth.class.getName())
+                .commit();
     }
 
     @Override

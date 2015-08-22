@@ -69,8 +69,8 @@ public class PrendaAdapter extends BaseAdapter {
         holder.marca.setTypeface(Util_Fonts.setRegular(context));
         Picasso.with(context).load(prenda.getImagen()).fit().placeholder(R.drawable.progress_animator).noFade().into(holder.imagen);
 
-        boolean checked = prenda.getIndProbador().equals("1");
-        holder.check.setChecked(checked);
+//        boolean checked = prenda.getIndProbador().equals("1");
+//        holder.check.setChecked(checked);
 
         return convertView;
     }
