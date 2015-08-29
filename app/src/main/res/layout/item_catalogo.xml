@@ -1,65 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:focusable="false"
-    android:focusableInTouchMode="false"
-    android:orientation="vertical"
-    android:padding="5dp">
+    android:layout_height="300dp">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_view"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        card_view:cardBackgroundColor="@android:color/white"
-        card_view:cardCornerRadius="4dp"
-        card_view:cardElevation="2sp"
+        android:layout_height="match_parent"
         android:focusable="false"
         android:focusableInTouchMode="false"
-        card_view:cardUseCompatPadding="true">
+        android:orientation="vertical"
+        android:weightSum="1">
 
-        <LinearLayout
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            card_view:cardBackgroundColor="@android:color/white"
+            card_view:cardCornerRadius="15dp"
+            card_view:cardElevation="3dp"
+            card_view:cardUseCompatPadding="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/item_marca_prenda"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Marca"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/black" />
+
+                    <CheckBox
+                        android:id="@+id/check"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|top"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.005"
+                    android:background="@color/primary_material_light">
+
+                </View>
 
                 <TextView
-                    android:id="@+id/item_marca_prenda"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingLeft="5dp"
-                    android:text="Marca"
+                    android:id="@+id/modelo_prenda"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center_horizontal|top"
+                    android:layout_weight="0.1"
+                    android:gravity="center"
+                    android:text="Modelo"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
-                <CheckBox
-                    android:id="@+id/check"
-                    android:clickable="false"
+                <ImageView
+                    android:id="@+id/item_imagen_prenda"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.7"
+                    android:adjustViewBounds="true"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right|top" />
+                    android:scaleType="centerInside"
+                    android:src="@drawable/progress_animator" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.1">
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|bottom"
+                        android:orientation="horizontal">
+
+                        <ToggleButton
+                            android:id="@+id/corazon_prenda"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginBottom="3dp"
+                            android:layout_marginLeft="3dp"
+                            android:background="@drawable/corazon_glup"
+                            android:gravity="center"
+                            android:textOff=""
+                            android:textOn="" />
+
+                        <TextView
+                            android:id="@+id/contador_corazon"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="3dp"
+                            android:gravity="center"
+                            android:padding="5dp"
+                            android:text="3"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/precio_prenda"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|bottom"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="5dp"
+                        android:text="S/. 150"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                </FrameLayout>
+
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/item_imagen_prenda"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:adjustViewBounds="true"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_panorama_white_48dp" />
 
-        </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
 
-    </android.support.v7.widget.CardView>
-</LinearLayout>
+</FrameLayout>
+

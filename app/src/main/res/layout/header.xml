@@ -1,81 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="?android:attr/actionBarSize"
-    android:background="@color/celeste_oscuro">
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:alpha="0.5"
+    android:background="#DCDCDC">
 
-    <LinearLayout
-        android:id="@+id/frame_detalle"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:visibility="gone">
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/frame_buscar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <ImageButton
+                android:id="@+id/btncancel"
+                android:layout_width="?android:attr/actionBarSize"
+                android:layout_height="?android:attr/actionBarSize"
+                android:layout_gravity="right|center_vertical"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_arrow_back_white_24dp"
+                android:visibility="visible" />
+
+            <EditText
+                android:id="@+id/edtbuscar"
+                style="@style/Glup_Edittext_Buscar"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:hint="Buscar"
+                android:imeOptions="actionDone"
+                android:lines="1"
+                android:maxLength="30"
+                android:maxLines="1" />
+        </LinearLayout>
 
         <ImageButton
-            android:id="@+id/btnprev"
+            android:id="@+id/btnbuscar"
             android:layout_width="?android:attr/actionBarSize"
             android:layout_height="?android:attr/actionBarSize"
             android:layout_gravity="right|center_vertical"
             android:background="@android:color/transparent"
-            android:src="@drawable/ic_keyboard_arrow_left_white_24dp"
-            android:visibility="visible" />
+            android:src="@drawable/ic_search_white_24dp"
+            android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/marca_prenda"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/frame_detalle"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="DETALLE"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:orientation="horizontal"
+            android:visibility="gone">
 
-        <ImageButton
-            android:id="@+id/btnnext"
-            android:layout_width="?android:attr/actionBarSize"
-            android:layout_height="?android:attr/actionBarSize"
-            android:layout_gravity="right|center_vertical"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_keyboard_arrow_right_white_24dp"
-            android:visibility="visible" />
-    </LinearLayout>
+            <ImageButton
+                android:id="@+id/btnprev"
+                android:layout_width="?android:attr/actionBarSize"
+                android:layout_height="?android:attr/actionBarSize"
+                android:layout_gravity="right|center_vertical"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_keyboard_arrow_left_white_24dp"
+                android:visibility="visible" />
 
-    <ImageButton
-        android:id="@+id/btnbuscar"
-        android:layout_width="?android:attr/actionBarSize"
-        android:layout_height="?android:attr/actionBarSize"
-        android:layout_gravity="right|center_vertical"
-        android:background="@android:color/transparent"
-        android:src="@drawable/ic_search_white_24dp"
-        android:visibility="gone" />
+            <TextView
+                android:id="@+id/marca_prenda"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="DETALLE"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <LinearLayout
-        android:id="@+id/frame_buscar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left|center_vertical"
-        android:orientation="horizontal"
-        android:visibility="gone">
+            <ImageButton
+                android:id="@+id/btnnext"
+                android:layout_width="?android:attr/actionBarSize"
+                android:layout_height="?android:attr/actionBarSize"
+                android:layout_gravity="right|center_vertical"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_keyboard_arrow_right_white_24dp"
+                android:visibility="visible" />
+        </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/btncancel"
-            android:layout_width="?android:attr/actionBarSize"
-            android:layout_height="?android:attr/actionBarSize"
-            android:layout_gravity="right|center_vertical"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_arrow_back_white_24dp"
-            android:visibility="visible" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#6E6E6E"
+            android:orientation="vertical"
+            android:layout_gravity="left|bottom" />
 
-        <EditText
-            android:id="@+id/edtbuscar"
-            style="@style/Glup_Edittext_Buscar"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:hint="Buscar"
-            android:imeOptions="actionDone"
-            android:lines="1"
-            android:maxLength="30"
-            android:maxLines="1" />
-    </LinearLayout>
+    </FrameLayout>
+
 
 </FrameLayout>

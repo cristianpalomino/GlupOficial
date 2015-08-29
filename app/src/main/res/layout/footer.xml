@@ -1,45 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="?android:attr/actionBarSize"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:background="@android:color/transparent"
     android:orientation="horizontal"
-    >
+    android:weightSum="5">
 
-    <ImageButton
-        android:id="@+id/tabhome"
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.7"
+        android:background="#DCDCDC">
+
+    </FrameLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/imageView2" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#6E6E6E"
+        android:orientation="vertical" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:src="@drawable/home"
-        android:background="@drawable/glup_tab_on"
-         />
+        android:alpha="1"
+        android:orientation="horizontal"
+        android:weightSum="5">
 
-    <ImageButton
-        android:id="@+id/tabcloset"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:src="@drawable/closet"
-        android:background="@drawable/glup_tab_on"
-         />
+        <ImageButton
+            android:id="@+id/tabhome"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:src="@drawable/home_off" />
+
+        <ImageButton
+            android:id="@+id/tabcloset"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:src="@drawable/closet_off" />
+
+        <ImageButton
+            android:id="@+id/tabcamera"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:src="@drawable/camara_off" />
+
+        <ImageButton
+            android:id="@+id/tabprobador"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:src="@drawable/probador_off" />
+
+        <ImageButton
+            android:id="@+id/tabreserva"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:src="@drawable/home_off" />
+
+    </LinearLayout>
 
 
-    <ImageButton
-        android:id="@+id/tabprobador"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:src="@drawable/probador"
-        android:background="@drawable/glup_tab_on"
-         />
-
-    <ImageButton
-        android:id="@+id/tabcamera"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:src="@drawable/camara"
-        android:background="@drawable/glup_tab_on"
-         />
-
-</LinearLayout>
+</FrameLayout>

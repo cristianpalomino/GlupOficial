@@ -81,7 +81,7 @@ public class Entrar extends Glup implements OnSuccessLogin {
                 //String pass = edtpassword.getText().toString();
 
                 String user = "User_Desa";
-                String pass = "d3sarrollo";
+                String pass = "d3sarrollo@2015";
 
                 dsLogin = new DSLogin(Entrar.this);
                 dsLogin.loginUsuario(user, pass);

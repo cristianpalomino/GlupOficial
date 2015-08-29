@@ -57,6 +57,9 @@ public class PrendaAdapter extends BaseAdapter {
             holder = new Holder();
 
             holder.marca = (TextView) convertView.findViewById(R.id.item_marca_prenda);
+            holder.precio = (TextView) convertView.findViewById(R.id.precio_prenda);
+            holder.contado = (TextView) convertView.findViewById(R.id.contador_corazon);
+            holder.modelo = (TextView) convertView.findViewById(R.id.modelo_prenda);
             holder.imagen = (ImageView) convertView.findViewById(R.id.item_imagen_prenda);
             holder.check = (CheckBox) convertView.findViewById(R.id.check);
 
@@ -66,8 +69,23 @@ public class PrendaAdapter extends BaseAdapter {
         }
 
         holder.marca.setText(prenda.getMarca());
-        holder.marca.setTypeface(Util_Fonts.setRegular(context));
-        Picasso.with(context).load(prenda.getImagen()).fit().placeholder(R.drawable.progress_animator).noFade().into(holder.imagen);
+        holder.modelo.setText(prenda.getModelo());
+        holder.contado.setText("10");
+
+
+        if(prenda.getPrecio() == null){
+            holder.precio.setText("");
+        }else{
+            holder.precio.setText("S/." + prenda.getPrecio());
+        }
+
+        holder.marca.setTypeface(Util_Fonts.setBold(context));
+        holder.precio.setTypeface(Util_Fonts.setRegular(context));
+        holder.modelo.setTypeface(Util_Fonts.setRegular(context));
+        holder.contado.setTypeface(Util_Fonts.setRegular(context));
+
+
+        Picasso.with(context).load(prenda.getImagen()).fit().placeholder(R.drawable.progress_animator).centerInside().noFade().into(holder.imagen);
 
 //        boolean checked = prenda.getIndProbador().equals("1");
 //        holder.check.setChecked(checked);
@@ -77,6 +95,9 @@ public class PrendaAdapter extends BaseAdapter {
 
     class Holder {
         TextView marca;
+        TextView contado;
+        TextView modelo;
+        TextView precio;
         ImageView imagen;
         CheckBox check;
     }

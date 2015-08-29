@@ -2,14 +2,21 @@ package pe.com.glup.views;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
+import android.media.Image;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import pe.com.glup.R;
+import pe.com.glup.utils.FastBlur;
 
 /**
  * Created by Glup on 23/06/15.
@@ -20,6 +27,8 @@ public class Footer extends LinearLayout implements View.OnClickListener {
     private ImageView closet;
     private ImageView probador;
     private ImageView camara;
+
+    private ImageView fondo;
 
     private View view;
     private OnChangeTab onChangeTab;
@@ -67,40 +76,41 @@ public class Footer extends LinearLayout implements View.OnClickListener {
     public void onClick(View v) {
         if (v.equals(home)) {
             onChangeTab.onChangeTab(0);
-            home.setBackgroundResource(R.drawable.glup_tab_off);
-            closet.setBackgroundResource(R.drawable.glup_tab_on);
-            probador.setBackgroundResource(R.drawable.glup_tab_on);
-            camara.setBackgroundResource(R.drawable.glup_tab_on);
+//            home.setBackgroundResource(R.drawable.glup_tab_off);
+//            closet.setBackgroundResource(R.drawable.glup_tab_on);
+//            probador.setBackgroundResource(R.drawable.glup_tab_on);
+//            camara.setBackgroundResource(R.drawable.glup_tab_on);
         } else if (v.equals(closet)) {
             onChangeTab.onChangeTab(1);
-            home.setBackgroundResource(R.drawable.glup_tab_on);
-            closet.setBackgroundResource(R.drawable.glup_tab_off);
-            probador.setBackgroundResource(R.drawable.glup_tab_on);
-            camara.setBackgroundResource(R.drawable.glup_tab_on);
+//            home.setBackgroundResource(R.drawable.glup_tab_on);
+//            closet.setBackgroundResource(R.drawable.glup_tab_off);
+//            probador.setBackgroundResource(R.drawable.glup_tab_on);
+//            camara.setBackgroundResource(R.drawable.glup_tab_on);
         } else if (v.equals(probador)) {
             onChangeTab.onChangeTab(2);
-            home.setBackgroundResource(R.drawable.glup_tab_on);
-            closet.setBackgroundResource(R.drawable.glup_tab_on);
-            probador.setBackgroundResource(R.drawable.glup_tab_off);
-            camara.setBackgroundResource(R.drawable.glup_tab_on);
+//            home.setBackgroundResource(R.drawable.glup_tab_on);
+//            closet.setBackgroundResource(R.drawable.glup_tab_on);
+//            probador.setBackgroundResource(R.drawable.glup_tab_off);
+//            camara.setBackgroundResource(R.drawable.glup_tab_on);
         } else if (v.equals(camara)) {
             onChangeTab.onChangeTab(3);
-            home.setBackgroundResource(R.drawable.glup_tab_on);
-            closet.setBackgroundResource(R.drawable.glup_tab_on);
-            probador.setBackgroundResource(R.drawable.glup_tab_on);
-            camara.setBackgroundResource(R.drawable.glup_tab_off);
+//            home.setBackgroundResource(R.drawable.glup_tab_on);
+//            closet.setBackgroundResource(R.drawable.glup_tab_on);
+//            probador.setBackgroundResource(R.drawable.glup_tab_on);
+//            camara.setBackgroundResource(R.drawable.glup_tab_off);
         }
     }
 
     private void activeDefaultTab() {
-        home.setBackgroundResource(R.drawable.glup_tab_off);
-        closet.setBackgroundResource(R.drawable.glup_tab_on);
-        probador.setBackgroundResource(R.drawable.glup_tab_on);
-        camara.setBackgroundResource(R.drawable.glup_tab_on);
+//        home.setBackgroundResource(R.drawable.glup_tab_off);
+//        closet.setBackgroundResource(R.drawable.glup_tab_on);
+//        probador.setBackgroundResource(R.drawable.glup_tab_on);
+//        camara.setBackgroundResource(R.drawable.glup_tab_on);
     }
 
     public interface OnChangeTab {
         void onChangeTab(int position);
+
         void currentTab(int current);
     }
 }
