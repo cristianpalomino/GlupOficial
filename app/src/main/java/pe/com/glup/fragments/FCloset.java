@@ -1,6 +1,7 @@
 package pe.com.glup.fragments;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,14 +12,22 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.security.auth.login.LoginException;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import pe.com.glup.R;
 import pe.com.glup.adapters.PrendaAdapter;
 import pe.com.glup.beans.Prenda;
@@ -40,7 +49,17 @@ import pe.com.glup.utils.Util_Fonts;
 public class FCloset extends Fragment implements OnSuccessCatalogo,
         OnSearchListener,
         AbsListView.OnScrollListener,
-        AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener {
+        AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener, View.OnClickListener {
+
+    private CircleImageView fotoPerfil;
+    private FragmentIterationListener mCallback = null;
+
+
+    public interface FragmentIterationListener{
+        public void onFragmentIteration(Bundle parameters);
+    }
+
+
 
     private static final int EMPTY = 0;
     private static final int FULL = 1;
@@ -55,6 +74,8 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
 
     private TextView emptyView;
     private GridView grilla;
+    private LinearLayout perfil;
+    private EditText cumpleanos;
 
     private boolean isLoading = false;
 
@@ -63,6 +84,16 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try{
+            mCallback = (FragmentIterationListener) activity;
+        }catch(Exception ex){
+            Log.e("ExampleFragment", "El Activity debe implementar la interfaz FragmentIterationListener");
+        }
     }
 
     @Override
@@ -76,7 +107,7 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_fcatalogo, container, false);
+        return inflater.inflate(R.layout.fragment_closet, container, false);
     }
 
     @Override
@@ -89,17 +120,30 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
         Principal principal = ((Principal) getActivity());
         principal.getHeader().setOnSearchListener(FCloset.this);
         principal.setupUI(getView().findViewById(R.id.frame_grilla));
+        principal.setupUI(getView().findViewById(R.id.frame_profile));
+
+        fotoPerfil = (CircleImageView) getView().findViewById(R.id.photo);
 
         emptyView = (TextView) getView().findViewById(R.id.empty_view);
         emptyView.setTypeface(Util_Fonts.setRegular(getActivity()));
 
         grilla = (GridView) getView().findViewById(R.id.grilla_prendas);
+        perfil = (LinearLayout) getView().findViewById(R.id.profile);
+        cumpleanos = (EditText) getView().findViewById(R.id.cumpleanos);
+        //SimpleDateFormat sdf = new SimpleDateFormat( "yyyy/MM/dd" );
+        //cumpleanos.setText(DateFormat.getDateInstance().format(new Date()));
+        grilla.setVisibility(View.VISIBLE);
+        perfil.setVisibility(View.GONE);
 
+        /*grilla.setVisibility(View.VISIBLE);
+        perfil.setVisibility(View.GONE);*/
         /*
         grilla.setOnItemLongClickListener(null);
         grilla.setOnItemSelectedListener(null);
         grilla.setOnScrollListener(null);
         */
+
+        fotoPerfil.setOnClickListener(this);
 
         grilla.setOnItemLongClickListener(this);
         grilla.setOnItemClickListener(this);
@@ -118,6 +162,10 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
         gd = new GlupDialog(getActivity());
         gd.setCancelable(false);
         gd.show();
+    }
+    public void onDetach() {
+        mCallback = null;
+        super.onDetach();
     }
 
     @Override
@@ -229,4 +277,17 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
             }
         });
     }
+
+
+    @Override
+    public void onClick(View v) {
+        grilla.setVisibility(View.GONE);
+        perfil.setVisibility(View.VISIBLE);
+        /*Bundle bundle = new Bundle();
+        bundle.putString("datos", "datos que necesito");
+        mCallback.onFragmentIteration(bundle);*/
+
+    }
+
+
 }

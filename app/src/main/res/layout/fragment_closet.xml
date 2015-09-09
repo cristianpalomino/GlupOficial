@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp">
+        <!-- Imagen de perfil -->
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_gravity="center"
+            android:id="@+id/photo"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginBottom="16dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/perfil2"
+            app:border_color="@android:color/white"
+            app:border_width="1dp" />
+
+        <!-- Nombre de Usuario -->
+        <TextView
+            android:textColor="@android:color/holo_blue_dark"
+            android:layout_marginTop="80dp"
+            android:gravity="center"
+            android:id="@+id/username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Melisa Chavarri"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textStyle="bold" />
+        <TextView
+            android:textColor="@android:color/darker_gray"
+            android:layout_marginTop="100dp"
+            android:gravity="center"
+            android:id="@+id/cantPrendas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="50 Prendas"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textStyle="bold" />
+    </FrameLayout>
+
+
+        <include
+            layout="@layout/fragment_fcatalogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+        <include
+            layout="@layout/fragment_profile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
+
+
+
+
+</LinearLayout>

@@ -3,6 +3,7 @@ package pe.com.glup.glup;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
@@ -17,7 +18,7 @@ import pe.com.glup.fragments.Fragment_Home;
 import pe.com.glup.views.Footer;
 import pe.com.glup.views.Header;
 
-public class Principal extends Glup implements Footer.OnChangeTab {
+public class Principal extends Glup implements Footer.OnChangeTab,FCloset.FragmentIterationListener {
 
     private final String[] MESSAGES = {"HOME", "CLOSET", "PROBADOR", "CAMERA"};
     private final Fragment[] FRAGMENTS = {
@@ -26,7 +27,7 @@ public class Principal extends Glup implements Footer.OnChangeTab {
             FProbador.newInstance(),
             Fragment_Home.newInstance(MESSAGES[3], MESSAGES[3])
     };
-    private String CURRENT_FRAGMENT_TAG;
+    private static String CURRENT_FRAGMENT_TAG;
 
 
     private Footer footer;
@@ -102,6 +103,12 @@ public class Principal extends Glup implements Footer.OnChangeTab {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frame_principal, FRAGMENTS[current])
                 .commit();
+    }
+
+    @Override
+    public void onFragmentIteration(Bundle parameters) {
+
+        Log.e("Click profile",parameters.getString("datos"));
     }
 
     public interface OnChangeTab {

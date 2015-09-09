@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/frame_profile"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/profile"
+        android:layout_margin="24dp"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <EditText
+            android:id="@+id/nombresCompletos"
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="1dp"
+            android:hint="Nombres y Apellidos"
+            android:textColorHint="@android:color/darker_gray"
+            android:textColor="@android:color/black"
+            android:imeOptions="actionNext"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"/>
+        <EditText
+            android:id="@+id/cumpleanos"
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="1dp"
+            android:hint="Cumpleaños"
+            android:textColorHint="@android:color/darker_gray"
+            android:textColor="@android:color/black"
+            android:imeOptions="actionNext"
+            android:inputType="date"
+            android:ems="10"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"/>
+        <EditText
+            android:id="@+id/correo"
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="1dp"
+            android:hint="Correo"
+            android:textColorHint="@android:color/darker_gray"
+            android:textColor="@android:color/black"
+            android:imeOptions="actionNext"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"/>
+        <EditText
+            android:id="@+id/telefono"
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="1dp"
+            android:hint="Número Telefonico"
+            android:textColorHint="@android:color/darker_gray"
+            android:textColor="@android:color/black"
+            android:imeOptions="actionNext"
+            android:inputType="phone"
+            android:ems="10"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"/>
+
+        <EditText
+            android:id="@+id/contrasena"
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="1dp"
+            android:hint="Cambiar Contraseña"
+            android:textColorHint="@android:color/darker_gray"
+            android:textColor="@android:color/black"
+            android:imeOptions="actionNext"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"/>
+        <Button
+            android:shadowColor="@color/azul_glup"
+            android:background="@color/blanco"
+            android:textColor="@color/azul_glup"
+            android:text="Guardar"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+</FrameLayout>

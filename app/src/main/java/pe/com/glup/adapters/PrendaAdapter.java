@@ -1,6 +1,7 @@
 package pe.com.glup.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 
 import pe.com.glup.R;
 import pe.com.glup.beans.Prenda;
+import pe.com.glup.glup.Principal;
 import pe.com.glup.utils.Util_Fonts;
 
 /**
@@ -72,7 +74,7 @@ public class PrendaAdapter extends BaseAdapter {
         holder.modelo.setText(prenda.getModelo());
         holder.contado.setText(prenda.getNumGusta());
 
-
+        //Log.e("fragmento",this.context.getApplicationContext().);
         if(prenda.getPrecio() == null){
             holder.precio.setText("");
         }else{
