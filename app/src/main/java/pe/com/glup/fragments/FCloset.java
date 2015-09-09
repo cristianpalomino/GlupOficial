@@ -23,6 +23,7 @@ import pe.com.glup.R;
 import pe.com.glup.adapters.PrendaAdapter;
 import pe.com.glup.beans.Prenda;
 import pe.com.glup.datasource.DSCloset;
+import pe.com.glup.dialog.GlupDialog;
 import pe.com.glup.glup.Detalle;
 import pe.com.glup.glup.Glup;
 import pe.com.glup.glup.Principal;
@@ -50,6 +51,7 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
 
     private DSCloset dsCloset;
     private PrendaAdapter adapter;
+    protected GlupDialog gd;
 
     private TextView emptyView;
     private GridView grilla;
@@ -103,13 +105,24 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
         grilla.setOnItemClickListener(this);
         grilla.setOnScrollListener(this);
 
+        /*
+        CALL API REST
+         */
         dsCloset = new DSCloset(getActivity());
         dsCloset.getUsuarioPrendas(TAG, String.valueOf(PAGE), "10");
         dsCloset.setOnSuccessCatalogo(FCloset.this);
+
+        /*
+        SHOW LOAD DIALOG
+         */
+        gd = new GlupDialog(getActivity());
+        gd.setCancelable(false);
+        gd.show();
     }
 
     @Override
     public void onSuccess(String success_msg, ArrayList<Prenda> prendas) {
+        gd.dismiss();
         try {
             if (PAGE == 1) {
                 if (prendas != null) {
@@ -140,6 +153,7 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
 
     @Override
     public void onFailed(String error_msg) {
+        gd.dismiss();
         displayMessage(EMPTY);
     }
 
@@ -187,7 +201,7 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
         ArrayList<Prenda> prendas = glup.getPrendas();
-        Log.e("prendas",prendas.size()+"");
+        Log.e("prendas", prendas.size() + "");
         Intent intent = new Intent(glup, Detalle.class);
         intent.putExtra("prendas", prendas);
         intent.putExtra("current", position);

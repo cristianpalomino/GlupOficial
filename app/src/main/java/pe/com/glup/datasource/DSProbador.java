@@ -58,7 +58,7 @@ public class DSProbador {
                 responseProbador.message = catalogo.getTag();
                 responseProbador.prendas = prendas;
                 responseProbador.tipo = filtro_posicion;
-                BusHolder.getInstance().post(responseProbador);
+//                BusHolder.getInstance().post(responseProbador);
             }
 
             @Override

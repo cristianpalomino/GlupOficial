@@ -1,8 +1,5 @@
 package pe.com.glup.beans;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -21,12 +18,13 @@ public class Prenda implements Serializable {
     private String indProbador;
     private String nombre;
     private String precio;
+    private String numGusta;
     private ArrayList<String> talla;
 
     public Prenda() {
     }
 
-    public Prenda(String indUserReg, String cod_prenda, String marca, String tipo, String modelo, String estilo, String imagen, String indProbador, String nombre, String precio, ArrayList<String> talla) {
+    public Prenda(String indUserReg, String cod_prenda, String marca, String tipo, String modelo, String estilo, String imagen, String indProbador, String nombre, String precio, String numGusta, ArrayList<String> talla) {
         this.indUserReg = indUserReg;
         this.cod_prenda = cod_prenda;
         this.marca = marca;
@@ -37,6 +35,7 @@ public class Prenda implements Serializable {
         this.indProbador = indProbador;
         this.nombre = nombre;
         this.precio = precio;
+        this.numGusta = numGusta;
         this.talla = talla;
     }
 
@@ -84,6 +83,10 @@ public class Prenda implements Serializable {
         return talla;
     }
 
+    public String getNumGusta() {
+        return numGusta;
+    }
+
     @Override
     public String toString() {
         return "Prenda{" +
@@ -97,6 +100,7 @@ public class Prenda implements Serializable {
                 ", indProbador='" + indProbador + '\'' +
                 ", nombre='" + nombre + '\'' +
                 ", precio='" + precio + '\'' +
+                ", numGusta='" + numGusta + '\'' +
                 ", talla=" + talla +
                 '}';
     }

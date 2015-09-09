@@ -5,16 +5,17 @@
     android:layout_height="match_parent">
 
     <GridView
-        android:id="@+id/grilla_prendas"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:listSelector="@android:color/transparent"
-        android:numColumns="2"
+        android:id="@+id/grilla_prendas"
+        android:verticalSpacing="5dp"
+        android:padding="5dp"
         android:scrollbars="none"
-        android:verticalSpacing="0dp"
-        android:stretchMode="spacingWidth"
+        android:horizontalSpacing="5dp"
+        android:stretchMode="columnWidth"
+        android:numColumns="2"
+        android:listSelector="@android:color/transparent"
         />
-
 
     <include
         layout="@layout/empty_view"

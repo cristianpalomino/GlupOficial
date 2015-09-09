@@ -21,6 +21,7 @@ import pe.com.glup.R;
 import pe.com.glup.adapters.PrendaAdapter;
 import pe.com.glup.beans.Prenda;
 import pe.com.glup.datasource.DSCatalogo;
+import pe.com.glup.dialog.GlupDialog;
 import pe.com.glup.glup.Detalle;
 import pe.com.glup.glup.Glup;
 import pe.com.glup.glup.Principal;
@@ -47,6 +48,7 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
 
     private DSCatalogo dsCatalogo;
     private PrendaAdapter adapter;
+    protected GlupDialog gd;
 
     private TextView emptyView;
     private GridView grilla;
@@ -101,13 +103,24 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
         grilla.setOnItemClickListener(this);
         grilla.setOnScrollListener(this);
 
+        /*
+        CALL REST API
+         */
         dsCatalogo = new DSCatalogo(getActivity());
         dsCatalogo.getGlobalPrendas(TAG, String.valueOf(PAGE), "10");
         dsCatalogo.setOnSuccessCatalogo(FCatalogo.this);
+
+        /*
+        SHOW LOAD DIALOG
+         */
+        gd = new GlupDialog(getActivity());
+        gd.setCancelable(false);
+        gd.show();
     }
 
     @Override
     public void onSuccess(String success_msg, ArrayList<Prenda> prendas) {
+        gd.dismiss();
         try {
             if (PAGE == 1) {
                 if (prendas != null) {
@@ -138,6 +151,7 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
 
     @Override
     public void onFailed(String error_msg) {
+        gd.dismiss();
         displayMessage(EMPTY);
     }
 

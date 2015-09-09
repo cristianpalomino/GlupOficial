@@ -64,12 +64,16 @@ public class Principal extends Glup implements Footer.OnChangeTab {
         menuright.setMenu(R.layout.menu_left);
         menuright.setSecondaryMenu(R.layout.menu_right);
 
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.menu_left, FMenuLeft.newInstance(), FMenuLeft.class.getName())
-                .commit();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.menu_rigth, FMenuRigth.newInstance(), FMenuRigth.class.getName())
-                .commit();
+        /*
+        Temporal
+         */
+
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.menu_left, FMenuLeft.newInstance(), FMenuLeft.class.getName())
+//                .commit();
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.menu_rigth, FMenuRigth.newInstance(), FMenuRigth.class.getName())
+//                .commit();
     }
 
     @Override

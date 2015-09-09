@@ -70,7 +70,7 @@ public class PrendaAdapter extends BaseAdapter {
 
         holder.marca.setText(prenda.getMarca());
         holder.modelo.setText(prenda.getModelo());
-        holder.contado.setText("10");
+        holder.contado.setText(prenda.getNumGusta());
 
 
         if(prenda.getPrecio() == null){
