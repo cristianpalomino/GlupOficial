@@ -3,6 +3,9 @@ package pe.com.glup.glup;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -33,6 +36,7 @@ public class Principal extends Glup implements Footer.OnChangeTab,FCloset.Fragme
     private Footer footer;
     private Header header;
     private OnChangeTab onChangeTab;
+    private SlidingMenu menuright;
 
     public void setOnChangeTab(OnChangeTab onChangeTab) {
         this.onChangeTab = onChangeTab;
@@ -53,7 +57,7 @@ public class Principal extends Glup implements Footer.OnChangeTab,FCloset.Fragme
         footer.setOnChangeTab(this);
         footer.initView();
 
-        SlidingMenu menuright = new SlidingMenu(this);
+        menuright = new SlidingMenu(this);
         menuright.setMode(SlidingMenu.LEFT_RIGHT);
         menuright.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 //        menu.setShadowWidthRes(R.dimen.shadow_width);
@@ -64,7 +68,7 @@ public class Principal extends Glup implements Footer.OnChangeTab,FCloset.Fragme
 
         menuright.setMenu(R.layout.menu_left);
         menuright.setSecondaryMenu(R.layout.menu_right);
-
+        menuright.setSlidingEnabled(false);
         /*
         Temporal
          */
@@ -95,7 +99,16 @@ public class Principal extends Glup implements Footer.OnChangeTab,FCloset.Fragme
 
         Log.e("FRAGMENTS", getSupportFragmentManager().getBackStackEntryCount() + "");
         Log.e("FRAGMENTS", CURRENT_FRAGMENT_TAG + "");
+        //((ViewGroup) namebar.getParent()).removeView(namebar);
+        if (!CURRENT_FRAGMENT_TAG.equals("pe.com.glup.fragments.FProbador")){
+            Log.e("!Probador", "deberia cerrarse");
+            menuright.setSlidingEnabled(false);
+        } else {
+            menuright.setSlidingEnabled(true);
+        }
     }
+
+
 
     @Override
     public void currentTab(int current) {
@@ -107,7 +120,6 @@ public class Principal extends Glup implements Footer.OnChangeTab,FCloset.Fragme
 
     @Override
     public void onFragmentIteration(Bundle parameters) {
-
         Log.e("Click profile",parameters.getString("datos"));
     }
 
@@ -125,4 +137,13 @@ public class Principal extends Glup implements Footer.OnChangeTab,FCloset.Fragme
     public void onBackPressed() {
         this.finish();
     }
-}
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    }

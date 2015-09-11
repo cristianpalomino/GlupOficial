@@ -13,12 +13,13 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import pe.com.glup.beans.Catalogo;
-import pe.com.glup.beans.Prenda;
+import pe.com.glup.beans.DatoUser;
+import pe.com.glup.beans.DetalleUser;
+import pe.com.glup.beans.PerfilUsuario;
 import pe.com.glup.beans.Usuario;
-import pe.com.glup.interfaces.OnSuccesUpdate;
-import pe.com.glup.interfaces.OnSuccessCatalogo;
+import pe.com.glup.interfaces.OnSuccessDetalleUsuario;
 import pe.com.glup.interfaces.OnSuccessRegistro;
+import pe.com.glup.session.Session_Manager;
 import pe.com.glup.ws.WSGlup;
 
 /**
@@ -32,6 +33,8 @@ public class DSRegistro {
     public void setOnSuccessRegistro(OnSuccessRegistro onSuccessRegistro) {
         this.onSuccessRegistro = onSuccessRegistro;
     }
+
+
 
     public DSRegistro(Context context) {
         this.context = context;
@@ -73,5 +76,6 @@ public class DSRegistro {
             }
         });
     }
+
 
 }

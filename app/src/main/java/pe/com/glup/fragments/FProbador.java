@@ -11,6 +11,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -64,7 +65,19 @@ public class FProbador extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        /*
+        SlidingMenu menuright = new SlidingMenu(getActivity());
+        menuright.setMode(SlidingMenu.LEFT_RIGHT);
+        menuright.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+//        menu.setShadowWidthRes(R.dimen.shadow_width);
+//        menu.setShadowDrawable(R.drawable.shadow);
+        menuright.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+        menuright.setFadeDegree(0.35f);
+        menuright.attachToActivity(getActivity(), SlidingMenu.SLIDING_CONTENT);
 
+        menuright.setMenu(R.layout.menu_left);
+        menuright.setSecondaryMenu(R.layout.menu_right);
+*/
         pagerTop = (ViewPager) getView().findViewById(R.id.scroll_top);
         pagerBotton = (ViewPager) getView().findViewById(R.id.scroll_bottom);
 

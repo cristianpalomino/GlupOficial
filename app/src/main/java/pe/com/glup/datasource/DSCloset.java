@@ -42,7 +42,7 @@ public class DSCloset {
     }
 
     public void getUsuarioPrendas(String buscar, String pagina, String registros) {
-        String URL = WSGlup.ORQUESTADOR_CATALOGO.
+        String URL = WSGlup.ORQUESTADOR_CLOSET.
                 replace(WSGlup.NUMERO_PAGINA, pagina).
                 replace(WSGlup.NUMERO_REGISTROS, registros).
                 replace(WSGlup.BUSCAR, buscar);
@@ -73,7 +73,7 @@ public class DSCloset {
     }
 
     public void updateProbador(String codigo_prenda) {
-        String URL = WSGlup.ORQUESTADOR;
+        String URL = WSGlup.ORQUESTADOR_NUEVO;
 
         RequestParams params = new RequestParams();
         params.put("tag", "enviarProbador");

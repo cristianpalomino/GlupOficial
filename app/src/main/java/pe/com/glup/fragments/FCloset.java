@@ -2,9 +2,12 @@ package pe.com.glup.fragments;
 
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridView;
@@ -23,15 +27,22 @@ import android.widget.Toast;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import javax.security.auth.login.LoginException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import pe.com.glup.R;
 import pe.com.glup.adapters.PrendaAdapter;
+import pe.com.glup.beans.DatoUser;
+import pe.com.glup.beans.DetalleUser;
 import pe.com.glup.beans.Prenda;
+import pe.com.glup.beans.Usuario;
 import pe.com.glup.datasource.DSCloset;
+import pe.com.glup.datasource.DSRegistro;
+import pe.com.glup.datasource.DSUsuario;
 import pe.com.glup.dialog.GlupDialog;
 import pe.com.glup.glup.Detalle;
 import pe.com.glup.glup.Glup;
@@ -39,6 +50,8 @@ import pe.com.glup.glup.Principal;
 import pe.com.glup.interfaces.OnSearchListener;
 import pe.com.glup.interfaces.OnSuccesUpdate;
 import pe.com.glup.interfaces.OnSuccessCatalogo;
+import pe.com.glup.interfaces.OnSuccessDetalleUsuario;
+import pe.com.glup.utils.DatePickerFragment;
 import pe.com.glup.utils.Util_Fonts;
 
 /**
@@ -47,6 +60,7 @@ import pe.com.glup.utils.Util_Fonts;
  * create an instance of this fragment.
  */
 public class FCloset extends Fragment implements OnSuccessCatalogo,
+        OnSuccessDetalleUsuario,
         OnSearchListener,
         AbsListView.OnScrollListener,
         AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener, View.OnClickListener {
@@ -69,6 +83,7 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
     private static String TAG = "todos";
 
     private DSCloset dsCloset;
+    private DSUsuario dsUsuario;
     private PrendaAdapter adapter;
     protected GlupDialog gd;
 
@@ -78,6 +93,16 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
     private EditText cumpleanos;
 
     private boolean isLoading = false;
+
+    DatePickerDialog.OnDateSetListener ondate = new DatePickerDialog.OnDateSetListener() {
+
+        public void onDateSet(DatePicker view, int year, int monthOfYear,
+                              int dayOfMonth) {
+
+            cumpleanos.setText(String.valueOf(dayOfMonth) + "-" + String.valueOf(monthOfYear+1)
+                    + "-" + String.valueOf(year));
+        }
+    };
 
     public static FCloset newInstance() {
         FCloset fragment = new FCloset();
@@ -130,11 +155,13 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
         grilla = (GridView) getView().findViewById(R.id.grilla_prendas);
         perfil = (LinearLayout) getView().findViewById(R.id.profile);
         cumpleanos = (EditText) getView().findViewById(R.id.cumpleanos);
+
+        cumpleanos.setOnClickListener(this);
+
         //SimpleDateFormat sdf = new SimpleDateFormat( "yyyy/MM/dd" );
         //cumpleanos.setText(DateFormat.getDateInstance().format(new Date()));
         grilla.setVisibility(View.VISIBLE);
         perfil.setVisibility(View.GONE);
-
         /*grilla.setVisibility(View.VISIBLE);
         perfil.setVisibility(View.GONE);*/
         /*
@@ -163,10 +190,12 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
         gd.setCancelable(false);
         gd.show();
     }
+    @Override
     public void onDetach() {
         mCallback = null;
         super.onDetach();
     }
+
 
     @Override
     public void onSuccess(String success_msg, ArrayList<Prenda> prendas) {
@@ -196,6 +225,17 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+
+
+    @Override
+    public void onSuccess(String success_msg, ArrayList<DetalleUser> detalleuser, ArrayList<DatoUser> datouser) {
+        if (success_msg.equals("1")){
+            Log.e("coneccion","hecha");
+        }else {
+            Log.e("coneccion","no hecha");
         }
     }
 
@@ -281,13 +321,48 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
 
     @Override
     public void onClick(View v) {
-        grilla.setVisibility(View.GONE);
-        perfil.setVisibility(View.VISIBLE);
+        switch (v.getId()){
+            case R.id.photo:
+                grilla.setVisibility(View.GONE);
+                perfil.setVisibility(View.VISIBLE);
+
+                //CALL REST API
+
+                dsUsuario = new DSUsuario(getActivity());
+                dsUsuario.loadUsuario();
+                dsUsuario.setOnSuccessDetalleUsuario(FCloset.this);
+               /*
+                dsCatalogo.setOnSuccessCatalogo(FCatalogo.this);*/
+                break;
+            case R.id.cumpleanos:
+                showDatePicker();
+                break;
+        }
+
         /*Bundle bundle = new Bundle();
         bundle.putString("datos", "datos que necesito");
         mCallback.onFragmentIteration(bundle);*/
 
     }
+    private void showDatePicker() {
+        DatePickerFragment date = new DatePickerFragment();
+        /**
+         * Set Up Current Date Into dialog
+         */
+        Calendar calender = Calendar.getInstance();
+        Bundle args = new Bundle();
+        args.putInt("year", calender.get(Calendar.YEAR));
+        args.putInt("month", calender.get(Calendar.MONTH));
+        args.putInt("day", calender.get(Calendar.DAY_OF_MONTH));
+        date.setArguments(args);
+        /**
+         * Set Call back to capture selected date
+         */
+        date.setCallBack(ondate);
+        date.show(getFragmentManager(), "Date Picker");
+    }
+
+
 
 
 }

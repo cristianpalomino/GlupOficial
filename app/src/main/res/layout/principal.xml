@@ -17,6 +17,7 @@
             android:layout_height="match_parent" />
 
         <view
+            android:visibility="gone"
             android:id="@+id/header"
             class="pe.com.glup.views.Header"
             android:layout_width="match_parent"
