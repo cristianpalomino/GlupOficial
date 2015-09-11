@@ -1,9 +1,12 @@
 package pe.com.glup.beans;
 
+import java.io.Serializable;
+
 /**
  * Created by Glup on 10/09/15.
  */
-public class DetalleUser {
+public class DetalleUser implements Serializable{
+    private String indUserReg;
     private String nomUser;
     private String apeUser;
     private String fecNac;
@@ -13,11 +16,48 @@ public class DetalleUser {
     public DetalleUser() {
     }
 
-    public DetalleUser(String nomUser, String apeUser, String fecNac, String correoUser, String numTelef) {
+    public DetalleUser(String indUserReg, String nomUser, String apeUser, String numTelef, String fecNac, String correoUser) {
+        this.indUserReg = indUserReg;
         this.nomUser = nomUser;
         this.apeUser = apeUser;
+        this.numTelef = numTelef;
         this.fecNac = fecNac;
         this.correoUser = correoUser;
-        this.numTelef = numTelef;
+    }
+
+    public String getIndUserReg() {
+        return indUserReg;
+    }
+
+    public String getNomUser() {
+        return nomUser;
+    }
+
+    public String getFecNac() {
+        return fecNac;
+    }
+
+    public String getApeUser() {
+        return apeUser;
+    }
+
+    public String getCorreoUser() {
+        return correoUser;
+    }
+
+    public String getNumTelef() {
+        return numTelef;
+    }
+
+    @Override
+    public String toString() {
+        return "DetalleUser{" +
+                "indUserReg='" + indUserReg + '\'' +
+                ", nomUser='" + nomUser + '\'' +
+                ", apeUser='" + apeUser + '\'' +
+                ", fecNac='" + fecNac + '\'' +
+                ", correoUser='" + correoUser + '\'' +
+                ", numTelef='" + numTelef + '\'' +
+                '}';
     }
 }

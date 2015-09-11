@@ -12,17 +12,20 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import pe.com.glup.R;
 import pe.com.glup.bus.BusHolder;
+import pe.com.glup.datasource.DSUsuario;
 import pe.com.glup.fragments.FCatalogo;
 import pe.com.glup.fragments.FCloset;
 import pe.com.glup.fragments.FMenuLeft;
 import pe.com.glup.fragments.FMenuRigth;
 import pe.com.glup.fragments.FProbador;
 import pe.com.glup.fragments.Fragment_Home;
+import pe.com.glup.interfaces.OnSuccessDetalleUsuario;
 import pe.com.glup.views.Footer;
 import pe.com.glup.views.Header;
 
 public class Principal extends Glup implements Footer.OnChangeTab,FCloset.FragmentIterationListener {
 
+    private boolean flagChangeTab = false;
     private final String[] MESSAGES = {"HOME", "CLOSET", "PROBADOR", "CAMERA"};
     private final Fragment[] FRAGMENTS = {
             FCatalogo.newInstance(),
@@ -37,6 +40,7 @@ public class Principal extends Glup implements Footer.OnChangeTab,FCloset.Fragme
     private Header header;
     private OnChangeTab onChangeTab;
     private SlidingMenu menuright;
+    private OnSuccessDetalleUsuario onSuccessDetalleUsuario;
 
     public void setOnChangeTab(OnChangeTab onChangeTab) {
         this.onChangeTab = onChangeTab;
@@ -84,6 +88,7 @@ public class Principal extends Glup implements Footer.OnChangeTab,FCloset.Fragme
     @Override
     public void onChangeTab(int position) {
         onChangeTab.onChangeTab(position);
+
         CURRENT_FRAGMENT_TAG = FRAGMENTS[position].getClass().getName().toString();
         Fragment current = getSupportFragmentManager().findFragmentByTag(CURRENT_FRAGMENT_TAG);
         if (current != null) {
@@ -106,6 +111,8 @@ public class Principal extends Glup implements Footer.OnChangeTab,FCloset.Fragme
         } else {
             menuright.setSlidingEnabled(true);
         }
+        flagChangeTab = true;
+
     }
 
 
@@ -135,15 +142,25 @@ public class Principal extends Glup implements Footer.OnChangeTab,FCloset.Fragme
 
     @Override
     public void onBackPressed() {
-        this.finish();
+
+        if(getFragmentManager().getBackStackEntryCount() > 0)
+            getFragmentManager().popBackStack();
+        else
+            super.onBackPressed();
+
+        //super.onBackPressed();
     }
 
     @Override
+
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
 
         }
         return super.onKeyDown(keyCode, event);
+    }
+    public void detectedAfterFragment(){
+
     }
 
     }

@@ -13,7 +13,7 @@
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent">
         <EditText
-            android:id="@+id/nombresCompletos"
+            android:id="@+id/nombreCompleto"
             android:layout_width="match_parent"
             android:layout_gravity="center"
             android:layout_marginTop="1dp"

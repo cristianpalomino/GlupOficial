@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -23,6 +24,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -35,6 +38,7 @@ import javax.security.auth.login.LoginException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import pe.com.glup.R;
+import pe.com.glup.adapters.DetalleUserAdapter;
 import pe.com.glup.adapters.PrendaAdapter;
 import pe.com.glup.beans.DatoUser;
 import pe.com.glup.beans.DetalleUser;
@@ -66,6 +70,7 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
         AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener, View.OnClickListener {
 
     private CircleImageView fotoPerfil;
+    private TextView username,cantPrendas;
     private FragmentIterationListener mCallback = null;
 
 
@@ -79,18 +84,27 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
     private static final int FULL = 1;
 
     private Glup glup;
+
     private static int PAGE = 1;
     private static String TAG = "todos";
 
     private DSCloset dsCloset;
     private DSUsuario dsUsuario;
     private PrendaAdapter adapter;
+    private DetalleUserAdapter adapterUser;
     protected GlupDialog gd;
 
     private TextView emptyView;
     private GridView grilla;
     private LinearLayout perfil;
+
+    private EditText nombreCompleto;
     private EditText cumpleanos;
+    private EditText correo;
+    private EditText telefono;
+    private EditText contrasena;
+    private Button updateProfile;
+
 
     private boolean isLoading = false;
 
@@ -126,6 +140,7 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
         super.onCreate(savedInstanceState);
         glup = (Glup) getActivity();
         if (getArguments() != null) {
+
         }
     }
 
@@ -148,15 +163,26 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
         principal.setupUI(getView().findViewById(R.id.frame_profile));
 
         fotoPerfil = (CircleImageView) getView().findViewById(R.id.photo);
+        username = (TextView)getView().findViewById(R.id.username);
+        cantPrendas = (TextView) getView().findViewById(R.id.cantPrendas);
 
         emptyView = (TextView) getView().findViewById(R.id.empty_view);
         emptyView.setTypeface(Util_Fonts.setRegular(getActivity()));
 
         grilla = (GridView) getView().findViewById(R.id.grilla_prendas);
         perfil = (LinearLayout) getView().findViewById(R.id.profile);
+
+        nombreCompleto = (EditText) getView().findViewById(R.id.nombreCompleto);
         cumpleanos = (EditText) getView().findViewById(R.id.cumpleanos);
+        correo = (EditText) getView().findViewById(R.id.correo);
+        telefono = (EditText) getView().findViewById(R.id.telefono);
+        contrasena = (EditText)getView().findViewById(R.id.contrasena);
+        updateProfile = (Button)getView().findViewById(R.id.updateProfile);
+
+
 
         cumpleanos.setOnClickListener(this);
+        updateProfile.setOnClickListener(this);
 
         //SimpleDateFormat sdf = new SimpleDateFormat( "yyyy/MM/dd" );
         //cumpleanos.setText(DateFormat.getDateInstance().format(new Date()));
@@ -182,6 +208,10 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
         dsCloset = new DSCloset(getActivity());
         dsCloset.getUsuarioPrendas(TAG, String.valueOf(PAGE), "10");
         dsCloset.setOnSuccessCatalogo(FCloset.this);
+
+        dsUsuario = new DSUsuario(getActivity());
+        dsUsuario.setOnSuccessDetalleUsuario(FCloset.this);
+        dsUsuario.loadUsuario();
 
         /*
         SHOW LOAD DIALOG
@@ -234,6 +264,27 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
     public void onSuccess(String success_msg, ArrayList<DetalleUser> detalleuser, ArrayList<DatoUser> datouser) {
         if (success_msg.equals("1")){
             Log.e("coneccion","hecha");
+            try{
+               // adapterUser= new DetalleUserAdapter(datouser,detalleuser,getActivity());
+                DatoUser dato = datouser.get(0);
+                DetalleUser detalle = detalleuser.get(0);
+
+                Picasso.with(getActivity().getApplicationContext()).load(dato.getRutaFoto()).fit()
+                        .placeholder(R.drawable.progress_animator)
+                        .centerInside()
+                        .noFade()
+                        .into( fotoPerfil);
+                 username.setText(dato.getNomUser() + " " + dato.getApeUser());
+                 cantPrendas.setText(dato.getNumPrend());
+
+                 nombreCompleto.setText(detalle.getNomUser() + " " + detalle.getApeUser());
+                 cumpleanos.setText(detalle.getFecNac());
+                 correo.setText(detalle.getCorreoUser());
+                 telefono.setText(detalle.getNumTelef());
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
         }else {
             Log.e("coneccion","no hecha");
         }
@@ -325,17 +376,11 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
             case R.id.photo:
                 grilla.setVisibility(View.GONE);
                 perfil.setVisibility(View.VISIBLE);
-
-                //CALL REST API
-
-                dsUsuario = new DSUsuario(getActivity());
-                dsUsuario.loadUsuario();
-                dsUsuario.setOnSuccessDetalleUsuario(FCloset.this);
-               /*
-                dsCatalogo.setOnSuccessCatalogo(FCatalogo.this);*/
                 break;
             case R.id.cumpleanos:
                 showDatePicker();
+                break;
+            case R.id.updateProfile:
                 break;
         }
 
@@ -361,7 +406,6 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
         date.setCallBack(ondate);
         date.show(getFragmentManager(), "Date Picker");
     }
-
 
 
 

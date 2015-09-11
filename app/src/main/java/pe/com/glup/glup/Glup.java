@@ -27,6 +27,7 @@ public class Glup extends AppCompatActivity {
     private ArrayList<Prenda> prendas = new ArrayList<>();
     private Prenda prenda = new Prenda();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

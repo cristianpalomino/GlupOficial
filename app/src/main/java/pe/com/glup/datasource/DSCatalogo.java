@@ -63,7 +63,6 @@ public class DSCatalogo {
 
                 Catalogo catalogo = gson.fromJson(response.toString(), Catalogo.class);
                 prendas = catalogo.getPrendas();
-
                 onSuccessCatalogo.onSuccess(catalogo.getTag(), prendas);
             }
 

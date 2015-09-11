@@ -1,6 +1,7 @@
 package pe.com.glup.datasource;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
@@ -40,17 +41,31 @@ public class DSUsuario {
         RequestParams params = new RequestParams();
         params.put("tag","detalleUsuario");
         params.put("codigo_usuario",new Session_Manager(context).getCurrentUserCode());
-
+        Log.e("codeUser",new Session_Manager(context).getCurrentUserCode());
         AsyncHttpClient httpClient = new AsyncHttpClient();
         httpClient.post(context, URL, params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 Gson gson = new Gson();
-                PerfilUsuario usuario = gson.fromJson(response.toString(), PerfilUsuario.class);
-                detalleUser=usuario.getDetalleuser();
-                datoUser= usuario.getDatouser();
-                onSuccessDetalleUsuario.onSuccess(usuario.getTag(), detalleUser,datoUser);
+                Log.e(null,response.toString());
+                PerfilUsuario perfilUsuario = gson.fromJson(response.toString(), PerfilUsuario.class);
+                Log.e("Success",String.valueOf(perfilUsuario.getSuccess()));
+                detalleUser=perfilUsuario.getDetalleuser();
+                Log.e("apeUser",perfilUsuario.getDetalleuser().get(0).getCorreoUser().toString());
+                datoUser= perfilUsuario.getDatouser();
+                Log.e("numPren", perfilUsuario.getDatouser().get(0).getNumPrend().toString());
+                onSuccessDetalleUsuario.onSuccess(String.valueOf(perfilUsuario.getSuccess()), detalleUser,datoUser);
+                /*
+                *
+                try{
+                    onSuccessDetalleUsuario = (OnSuccessDetalleUsuario) context;
+                    onSuccessDetalleUsuario.onSuccess(String.valueOf(perfilUsuario.getSuccess()), detalleUser,datoUser);
+                }catch (ClassCastException e){
+                    e.printStackTrace();
+                }
+                */
+
             }
 
             @Override
