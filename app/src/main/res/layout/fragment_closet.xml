@@ -15,12 +15,12 @@
             android:layout_marginBottom="16dp"
             android:scaleType="centerCrop"
             android:src="@drawable/perfil2"
-            app:border_color="@android:color/white"
-            app:border_width="1dp" />
+            app:border_color="@color/celeste_glup"
+            app:border_width="2dp" />
 
         <!-- Nombre de Usuario -->
         <TextView
-            android:textColor="@android:color/holo_blue_dark"
+            android:textColor="@color/celeste_glup"
             android:layout_marginTop="80dp"
             android:gravity="center"
             android:id="@+id/username"

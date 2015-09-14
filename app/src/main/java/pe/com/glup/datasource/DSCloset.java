@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 import pe.com.glup.beans.Catalogo;
 import pe.com.glup.beans.Prenda;
-import pe.com.glup.interfaces.OnSuccesUpdate;
+import pe.com.glup.interfaces.OnSuccessUpdate;
 import pe.com.glup.interfaces.OnSuccessCatalogo;
 import pe.com.glup.session.Session_Manager;
 import pe.com.glup.ws.WSGlup;
@@ -26,15 +26,15 @@ public class DSCloset {
 
     private Context context;
     private OnSuccessCatalogo onSuccessCatalogo;
-    private OnSuccesUpdate onSuccesUpdate;
+    private OnSuccessUpdate onSuccessUpdate;
     private ArrayList<Prenda> prendas = new ArrayList<Prenda>();
 
     public void setOnSuccessCatalogo(OnSuccessCatalogo onSuccessCatalogo) {
         this.onSuccessCatalogo = onSuccessCatalogo;
     }
 
-    public void setOnSuccesUpdate(OnSuccesUpdate onSuccesUpdate) {
-        this.onSuccesUpdate = onSuccesUpdate;
+    public void setOnSuccessUpdate(OnSuccessUpdate onSuccessUpdate) {
+        this.onSuccessUpdate = onSuccessUpdate;
     }
 
     public DSCloset(Context context) {
@@ -86,16 +86,16 @@ public class DSCloset {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 try {
-                    onSuccesUpdate.onSuccesUpdate(true, response.getInt("indProb"));
+                    onSuccessUpdate.onSuccesUpdate(true, response.getInt("indProb"));
                 } catch (Exception e) {
-                    onSuccesUpdate.onSuccesUpdate(false, -1);
+                    onSuccessUpdate.onSuccesUpdate(false, -1);
                 }
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
-                onSuccesUpdate.onSuccesUpdate(false, -1);
+                onSuccessUpdate.onSuccesUpdate(false, -1);
             }
         });
     }

@@ -4,7 +4,6 @@ package pe.com.glup.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.internal.widget.AdapterViewCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +25,7 @@ import pe.com.glup.glup.Detalle;
 import pe.com.glup.glup.Glup;
 import pe.com.glup.glup.Principal;
 import pe.com.glup.interfaces.OnSearchListener;
-import pe.com.glup.interfaces.OnSuccesUpdate;
+import pe.com.glup.interfaces.OnSuccessUpdate;
 import pe.com.glup.interfaces.OnSuccessCatalogo;
 import pe.com.glup.utils.Util_Fonts;
 
@@ -211,7 +210,7 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
         Prenda prenda = (Prenda) parent.getItemAtPosition(position);
         dsCatalogo = new DSCatalogo(getActivity());
         dsCatalogo.updateProbador(glup.getPrendas().get(position).getCod_prenda());
-        dsCatalogo.setOnSuccesUpdate(new OnSuccesUpdate() {
+        dsCatalogo.setOnSuccessUpdate(new OnSuccessUpdate() {
             @Override
             public void onSuccesUpdate(boolean status, int indProb) {
                 if (status) {

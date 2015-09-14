@@ -6,7 +6,6 @@ import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import com.squareup.otto.Bus;
 
 import org.apache.http.Header;
 import org.json.JSONObject;
@@ -16,8 +15,6 @@ import java.util.ArrayList;
 import pe.com.glup.beans.Catalogo;
 import pe.com.glup.beans.Prenda;
 import pe.com.glup.bus.BusHolder;
-import pe.com.glup.interfaces.OnSuccesUpdate;
-import pe.com.glup.interfaces.OnSuccessCatalogo;
 import pe.com.glup.session.Session_Manager;
 import pe.com.glup.ws.WSGlup;
 

@@ -6,6 +6,7 @@
         <item name="android:windowActionBar">false</item>
         <item name="windowActionBar">false</item>
         <item name="colorPrimary">@color/celeste_oscuro</item>
+        <item name="colorAccent">@color/celeste_glup</item>
         <item name="android:textColorPrimary">@color/blanco</item>
         <item name="android:windowBackground">@color/blanco</item>
     </style>

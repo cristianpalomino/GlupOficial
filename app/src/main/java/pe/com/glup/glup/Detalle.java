@@ -1,12 +1,10 @@
 package pe.com.glup.glup;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,16 +18,13 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import javax.xml.validation.Validator;
-
 import pe.com.glup.R;
 import pe.com.glup.adapters.Adapter_tallas;
 import pe.com.glup.beans.Prenda;
 import pe.com.glup.datasource.DSCatalogo;
-import pe.com.glup.datasource.DSInfo;
 import pe.com.glup.dialog.DetalleDialog;
 import pe.com.glup.fragments.FDetalle;
-import pe.com.glup.interfaces.OnSuccesUpdate;
+import pe.com.glup.interfaces.OnSuccessUpdate;
 import pe.com.glup.interfaces.OnSuccessPrenda;
 import pe.com.glup.utils.Util_Fonts;
 
@@ -37,7 +32,7 @@ import pe.com.glup.utils.Util_Fonts;
  * Created by Glup on 2/07/15.
  */
 //public class Detalle extends AppCompatActivity implements View.OnClickListener,OnsuccesReserva{
-public class Detalle extends AppCompatActivity implements View.OnClickListener,OnSuccesUpdate,OnSuccessPrenda {
+public class Detalle extends AppCompatActivity implements View.OnClickListener,OnSuccessUpdate,OnSuccessPrenda {
 
     private ArrayList<Prenda> prendas;
     private int current_position;
@@ -119,7 +114,7 @@ public class Detalle extends AppCompatActivity implements View.OnClickListener,O
             //Toast.makeText(Detalle.this,"Boton Probar",Toast.LENGTH_LONG).show();
             DSCatalogo dsCatalogo = new DSCatalogo(Detalle.this);
             dsCatalogo.updateProbador(prendas.get(current_position).getCod_prenda());
-            dsCatalogo.setOnSuccesUpdate(Detalle.this);
+            dsCatalogo.setOnSuccessUpdate(Detalle.this);
         }
         else if(v.equals(btnreservar)){
             Toast.makeText(Detalle.this,"Boton Reservar Presionado",Toast.LENGTH_LONG).show();

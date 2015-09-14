@@ -63,11 +63,11 @@ public class DetalleUserAdapter extends BaseAdapter {
         holder.username = (TextView) convertView.findViewById(R.id.username);
         holder.cantPrendas = (TextView) convertView.findViewById(R.id.cantPrendas);
 
-        holder.nombreCompleto = (EditText) convertView.findViewById(R.id.nombreCompleto);
+        holder.nombreCompleto = (EditText) convertView.findViewById(R.id.nombres);
         holder.cumpleanos = (EditText) convertView.findViewById(R.id.cumpleanos);
         holder.correo = (EditText) convertView.findViewById(R.id.correo);
         holder.telefono = (EditText) convertView.findViewById(R.id.telefono);
-        holder.contrasena = (EditText) convertView.findViewById(R.id.contrasena);
+
 
         Picasso.with(context).load(dato.getRutaFoto()).fit()
                 .placeholder(R.drawable.progress_animator)

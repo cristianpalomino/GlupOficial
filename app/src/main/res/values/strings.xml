@@ -27,5 +27,6 @@
     <string name="precio">
         <b>Precio :</b>
     </string>
+    <string name="content_confirmation_pass">Ingresa tu contraseña para guardar el cambio</string>
 
 </resources>

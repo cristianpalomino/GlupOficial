@@ -4,7 +4,7 @@
     android:id="@+id/frame_profile"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <android.support.v4.widget.NestedScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     <LinearLayout
@@ -13,11 +13,24 @@
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent">
         <EditText
-            android:id="@+id/nombreCompleto"
+            android:id="@+id/nombres"
             android:layout_width="match_parent"
             android:layout_gravity="center"
             android:layout_marginTop="1dp"
-            android:hint="Nombres y Apellidos"
+            android:hint="Nombres"
+            android:textColorHint="@android:color/darker_gray"
+            android:textColor="@android:color/black"
+            android:imeOptions="actionNext"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"/>
+        <EditText
+            android:id="@+id/apellidos"
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="1dp"
+            android:hint="Apellidos"
             android:textColorHint="@android:color/darker_gray"
             android:textColor="@android:color/black"
             android:imeOptions="actionNext"
@@ -65,30 +78,30 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="6dp"/>
 
-        <EditText
-            android:id="@+id/contrasena"
-            android:layout_width="match_parent"
+        <Button
+            android:visibility="gone"
+            android:background="@null"
+            android:id="@+id/changePass"
+            android:textAllCaps="false"
+            android:shadowColor="@color/azul_glup"
+            android:textColor="@color/celeste_glup"
+            android:text="Cambiar Contraseña"
+            android:layout_width="160dp"
+            android:layout_height="40dp"
             android:layout_gravity="center"
-            android:layout_marginTop="1dp"
-            android:hint="Cambiar Contraseña"
-            android:textColorHint="@android:color/darker_gray"
-            android:textColor="@android:color/black"
-            android:imeOptions="actionNext"
-            android:inputType="textPassword"
-            android:ems="10"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="12dp"/>
+
         <Button
             android:id="@+id/updateProfile"
             android:textAllCaps="false"
             android:shadowColor="@color/azul_glup"
             android:background="@drawable/button_selector"
-            android:textColor="@color/azul_glup"
+            android:textColor="@color/celeste_glup"
             android:text="Guardar"
             android:layout_width="160dp"
             android:layout_height="30dp"
             android:layout_gravity="center"/>
 
     </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </ScrollView>
 </FrameLayout>

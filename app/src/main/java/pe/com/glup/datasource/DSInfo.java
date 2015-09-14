@@ -14,9 +14,6 @@ import java.util.ArrayList;
 
 import pe.com.glup.beans.Catalogo;
 import pe.com.glup.beans.Prenda;
-import pe.com.glup.beans.Usuario;
-import pe.com.glup.interfaces.OnSuccesUpdate;
-import pe.com.glup.interfaces.OnSuccessCatalogo;
 import pe.com.glup.interfaces.OnSuccessInfo;
 import pe.com.glup.interfaces.OnSuccessPrenda;
 import pe.com.glup.session.Session_Manager;
