@@ -39,6 +39,7 @@ import pe.com.glup.datasource.DSCloset;
 import pe.com.glup.datasource.DSUsuario;
 import pe.com.glup.dialog.ConfirmationPassDialog;
 import pe.com.glup.dialog.GlupDialog;
+import pe.com.glup.dialog.NewPassDialog;
 import pe.com.glup.glup.Detalle;
 import pe.com.glup.glup.Glup;
 import pe.com.glup.glup.Principal;
@@ -49,6 +50,7 @@ import pe.com.glup.interfaces.OnSuccessCatalogo;
 import pe.com.glup.interfaces.OnSuccessDetalleUsuario;
 import pe.com.glup.interfaces.OnSuccessUpdatePass;
 import pe.com.glup.interfaces.OnSuccessUpdateUser;
+import pe.com.glup.interfaces.OnSuccessUpdateUser2;
 import pe.com.glup.session.Session_Manager;
 import pe.com.glup.utils.DatePickerFragment;
 import pe.com.glup.utils.Util_Fonts;
@@ -61,6 +63,7 @@ import pe.com.glup.utils.Util_Fonts;
 public class FCloset extends Fragment implements OnSuccessCatalogo,
         OnSuccessDetalleUsuario,
         OnSuccessUpdateUser,
+        OnSuccessUpdateUser2,
         OnSuccessUpdatePass,
         OnSearchListener,
         AbsListView.OnScrollListener,
@@ -71,15 +74,38 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
     private FragmentIterationListener mCallback = null;
 
     @Override
-    public void onSuccesUpdatePass(boolean status,int indOp, String msg) {
+    public void onSuccesUpdatePass(boolean status,int indOp, String msg,String newPass) {
         //Log.e(null,msg);
+        Log.e("mensajeSuccessPass", msg);
+        if (indOp==1){
+            Log.e("mensaje","termino update pass con new pass "+newPass+ " sigue update detalle usuario");
+            changeToNewPass=true;
+            nuevaPassword=newPass;
+            dsUsuario.setOnSuccessUpdateUser2(FCloset.this);
+            Log.e("nueva pass", nuevaPassword);
+            Log.e("indVerPass", indVerPass);
+            Log.e("nombres", nombres.getText().toString());
+            dsUsuario.updateUsuario2("true", newPass, nombres.getText().toString(),
+                    apellidos.getText().toString(), cumpleanos.getText().toString(),
+                    correo.getText().toString(), telefono.getText().toString());
+
+
+            Log.e("Se Guarda","todo el perfil");
+        }
+        //Toast.makeText(getActivity(),msg,Toast.LENGTH_SHORT);
+
     }
 
     @Override
     public void onSuccesUpdateUser(boolean status, int indOp,String msg) {
-        Log.e("mensajeSuccess", msg);
+        Log.e("mensajeSuccess", msg+ " indicador "+ indOp);
+        //Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT);
     }
-
+    @Override
+    public void onSuccesUpdateUser2(boolean status, int indOp,String msg) {
+        Log.e("mensajeSuccess2", msg+ " indicador "+ indOp);
+        //Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT);
+    }
 
     public interface FragmentIterationListener{
         public void onFragmentIteration(Bundle parameters);
@@ -107,7 +133,11 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
 
     private EditText nombres,apellidos,cumpleanos,correo,telefono,contrasena;
     private String changeNombres,changeApellidos,changeCumpleanos,changeCorreo,changeTelefono;
-    private Button updateProfile;
+    private Button updateProfile,changePass;
+    private String indVerPass;
+    private FragmentManager fragmentManager;
+    private String nuevaPassword="";
+    private boolean changeToNewPass=false;
 
 
 
@@ -182,11 +212,13 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
         cumpleanos = (EditText) getView().findViewById(R.id.cumpleanos);
         correo = (EditText) getView().findViewById(R.id.correo);
         telefono = (EditText) getView().findViewById(R.id.telefono);
+        changePass = (Button) getView().findViewById(R.id.changePass);
         updateProfile = (Button)getView().findViewById(R.id.updateProfile);
 
 
 
         cumpleanos.setOnClickListener(this);
+        changePass.setOnClickListener(this);
         updateProfile.setOnClickListener(this);
 
         //SimpleDateFormat sdf = new SimpleDateFormat( "yyyy/MM/dd" );
@@ -206,6 +238,8 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
         grilla.setOnItemLongClickListener(this);
         grilla.setOnItemClickListener(this);
         grilla.setOnScrollListener(this);
+
+
 
         /*
         CALL API REST
@@ -405,13 +439,24 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
             case R.id.cumpleanos:
                 showDatePicker();
                 break;
+            case R.id.changePass:
+                Log.e("clic","cambiar password");
+                indVerPass = "false";
+                fragmentManager = getActivity().getSupportFragmentManager();
+                new NewPassDialog(FCloset.this).show(fragmentManager,"NewPassDialog");
+
+                break;
             case R.id.updateProfile:
                 Log.e("clic","guardar cambios perfil");
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager = getActivity().getSupportFragmentManager();
                 ////dsUsuario = new DSUsuario(getActivity());
                 ////dsUsuario.setOnSuccessUpdateUser(FCloset.this);
-                String indVerPass = detectedIndVerPass();
-                Log.e("indVerPass", indVerPass);
+                //Log.e("antes del indVerPass", indVerPass);
+                //if (!changeToNewPass){
+                    indVerPass = detectedIndVerPass();
+                //}
+
+                Log.e("antes indVerPass", indVerPass);
                 if (indVerPass.equals("true")){
                     new ConfirmationPassDialog(indVerPass,nombres.getText().toString(),
                             apellidos.getText().toString(),
@@ -419,8 +464,11 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
                             correo.getText().toString(),
                             telefono.getText().toString(),FCloset.this).show(fragmentManager, "ConfirmationPassDialog");
                 }else{
-                    dsUsuario.setOnSuccessDetalleUsuario(FCloset.this);
-                    dsUsuario.updateUsuario(indVerPass,cumpleanos);
+
+                    dsUsuario.setOnSuccessUpdateUser(FCloset.this);
+                    dsUsuario.updateUsuario(indVerPass, nuevaPassword, nombres.getText().toString(),
+                            apellidos.getText().toString(), cumpleanos.getText().toString(),
+                            correo.getText().toString(), telefono.getText().toString());
                 }
                 break;
         }
@@ -432,8 +480,10 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
     }
 
     private String detectedIndVerPass() {
+        Log.e("newPassIndVerPass",nuevaPassword);
         if (!(changeNombres.equals(nombres.getText().toString()) && changeApellidos.equals(apellidos.getText().toString())
-              && changeCorreo.equals(correo.getText().toString()) && changeTelefono.equals(telefono.getText().toString())) )
+              && changeCorreo.equals(correo.getText().toString()) && changeTelefono.equals(telefono.getText().toString())
+                ) )
                 return "true";
         else
                 return "false";

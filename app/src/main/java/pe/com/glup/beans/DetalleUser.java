@@ -49,6 +49,10 @@ public class DetalleUser implements Serializable{
         return numTelef;
     }
 
+    public void setFecNac(String fecNac) {
+        this.fecNac = fecNac;
+    }
+
     @Override
     public String toString() {
         return "DetalleUser{" +

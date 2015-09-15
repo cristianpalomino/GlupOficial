@@ -25,6 +25,7 @@ import pe.com.glup.beans.PerfilUsuario;
 import pe.com.glup.interfaces.OnSuccessDetalleUsuario;
 import pe.com.glup.interfaces.OnSuccessUpdatePass;
 import pe.com.glup.interfaces.OnSuccessUpdateUser;
+import pe.com.glup.interfaces.OnSuccessUpdateUser2;
 import pe.com.glup.session.Session_Manager;
 import pe.com.glup.ws.WSGlup;
 
@@ -36,8 +37,14 @@ public class DSUsuario {
     private OnSuccessDetalleUsuario onSuccessDetalleUsuario;
     private OnSuccessUpdateUser onSuccessUpdateUser;
     private OnSuccessUpdatePass onSuccessUpdatePass;
+
+    private OnSuccessUpdateUser2 onSuccessUpdateUser2;
     private ArrayList<DatoUser> datoUser = new ArrayList<DatoUser>();
     private ArrayList<DetalleUser> detalleUser = new ArrayList<DetalleUser>();
+
+    public void setOnSuccessUpdateUser2(OnSuccessUpdateUser2 onSuccessUpdateUser2) {
+        this.onSuccessUpdateUser2 = onSuccessUpdateUser2;
+    }
 
     public void setOnSuccessUpdateUser(OnSuccessUpdateUser onSuccessUpdateUser) {
         this.onSuccessUpdateUser = onSuccessUpdateUser;
@@ -69,7 +76,9 @@ public class DSUsuario {
                 Gson gson = new Gson();
                 Log.e(null,response.toString());
                 PerfilUsuario perfilUsuario = gson.fromJson(response.toString(), PerfilUsuario.class);
-                Log.e("Success",String.valueOf(perfilUsuario.getSuccess()));
+                Log.e("Success", String.valueOf(perfilUsuario.getSuccess()));
+                String cumple= inverseResetFormatFecha(perfilUsuario.getDetalleuser().get(0).getFecNac().toString());
+                perfilUsuario.getDetalleuser().get(0).setFecNac(cumple);
                 detalleUser=perfilUsuario.getDetalleuser();
                 Log.e("apeUser",perfilUsuario.getDetalleuser().get(0).getCorreoUser().toString());
                 datoUser= perfilUsuario.getDatouser();
@@ -98,6 +107,8 @@ public class DSUsuario {
     public void updateUsuario(String indVerPass,String passUser,String nombre, String apellido, String fecNac, String correo, String telef){
         String URL = WSGlup.ORQUESTADOR_NUEVO;
 
+        Log.e("NombreActual",nombre);
+        Log.e("updateUsuarioPass",passUser);
 
         RequestParams params = new RequestParams();
         params.put("tag","modificarDatoUser");
@@ -139,6 +150,52 @@ public class DSUsuario {
 
     }
 
+    public void updateUsuario2(String indVerPass,String passUser,String nombre, String apellido, String fecNac, String correo, String telef){
+        String URL = WSGlup.ORQUESTADOR_NUEVO;
+
+        Log.e("NombreActual",nombre);
+        Log.e("updateUsuarioPass",passUser);
+
+        RequestParams params = new RequestParams();
+        params.put("tag","modificarDatoUser");
+        params.put("codigo_usuario",new Session_Manager(context).getCurrentUserCode());
+        params.put("pass_usuario",passUser);
+        params.put("ind_verpass",indVerPass);
+        params.put("nom_usuario",nombre);
+        params.put("ape_usuario",apellido);
+        params.put("fecnac_usuario",resetFormatFecha(fecNac));
+        params.put("correo_usuario",correo);
+        params.put("numtelef_usuario", telef);
+
+
+
+        AsyncHttpClient httpClient = new AsyncHttpClient();
+        httpClient.post(context, URL, params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+                    if (response.getInt("success") == 1) {
+                        onSuccessUpdateUser2.onSuccesUpdateUser2(true, response.getInt("success"), response.getString("success_msg"));
+                    } else {
+                        onSuccessUpdateUser2.onSuccesUpdateUser2(true, response.getInt("success"), response.getString("error_msg"));
+                    }
+
+                    Log.e("json", response.toString());
+                } catch (JSONException e) {
+                    onSuccessUpdateUser2.onSuccesUpdateUser2(false, -1, "");
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                onSuccessUpdateUser2.onSuccesUpdateUser2(false, -1, "");
+            }
+        });
+
+    }
+
     private String resetFormatFecha(String fecNac) {
         try {
             DateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -153,8 +210,22 @@ public class DSUsuario {
         }
         return "";
     }
+    private String inverseResetFormatFecha(String fecNac) {
+        try {
+            DateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy");
+            DateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy");
+            //String inputDateStr = "2013-06-24";
+            Date date = inputFormat.parse(fecNac);
+            String outputDateStr = outputFormat.format(date);
+            Log.e("testFecha", outputDateStr);
+            return outputDateStr;
+        }catch (ParseException e) {
+            Log.e("parseError",e.toString());
+        }
+        return "";
+    }
 
-    public void updatePassUsuario(String newPass,String oldPass){
+    public void updatePassUsuario(final String newPass, final String oldPass){
         String URL = WSGlup.ORQUESTADOR_NUEVO;
 
         RequestParams params = new RequestParams();
@@ -169,25 +240,28 @@ public class DSUsuario {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 try {
+                    String currentPass;
                     if (response.getInt("success")==1){
-                        onSuccessUpdatePass.onSuccesUpdatePass(true,response.getInt("success"),response.getString("success_msg"));
+                        currentPass=newPass;
+                        onSuccessUpdatePass.onSuccesUpdatePass(true,response.getInt("success"),response.getString("success_msg"),currentPass);
                     }else{
-                        onSuccessUpdatePass.onSuccesUpdatePass(true,response.getInt("success"),response.getString("error_msg"));
+                        currentPass=oldPass;
+                        onSuccessUpdatePass.onSuccesUpdatePass(true,response.getInt("success"),response.getString("error_msg"),currentPass);
                     }
+                    Log.e("passwordActual",currentPass);
 
                 } catch (JSONException e) {
-                    onSuccessUpdatePass.onSuccesUpdatePass(false,-1 ,"");
+                    onSuccessUpdatePass.onSuccesUpdatePass(false,-1 ,"","");
                 }
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
-                onSuccessUpdatePass.onSuccesUpdatePass(false,-1,"");
+                onSuccessUpdatePass.onSuccesUpdatePass(false,-1,"","");
             }
         });
 
     }
 
-    public void updateUsuario(String indVerPass, EditText cumpleanos) {
-    }
+
 }

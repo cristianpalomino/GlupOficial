@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@drawable/dialog_selector"
+    android:padding="16dp"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:inputType="textPassword"
+            android:hint="Contraseña Actual"
+            android:textColor="@color/negro"
+            android:id="@+id/pass_current"
+            android:layout_width="0dp"
+            android:layout_weight="4"
+            android:layout_height="wrap_content" />
+        <Button
+            android:visibility="invisible"
+            android:id="@+id/btn_pass_current"
+            android:background="@drawable/button_selector"
+            android:textColor="@color/celeste_glup"
+            android:text="OK"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:inputType="textPassword"
+            android:hint="Nueva Contraseña"
+            android:textColor="@color/negro"
+            android:id="@+id/new_pass"
+            android:layout_width="0dp"
+            android:layout_weight="4"
+            android:layout_height="wrap_content" />
+        <Button
+            android:visibility="invisible"
+            android:id="@+id/btn_new_pass"
+            android:background="@drawable/button_selector"
+            android:textColor="@color/celeste_glup"
+            android:text="OK"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <TextView
+        android:layout_marginLeft="20dp"
+        android:id="@+id/validator_rep_pass"
+        android:visibility="invisible"
+        android:layout_gravity="left"
+        android:text="Contraseñas no coinciden"
+        android:textColor="@android:color/holo_red_dark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_margin="20dp"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:inputType="textPassword"
+            android:hint="Repita  Nueva Contraseña"
+            android:textColor="@color/negro"
+            android:id="@+id/new_pass_confirmation"
+            android:layout_width="0dp"
+            android:layout_weight="4"
+            android:layout_height="wrap_content" />
+        <Button
+            android:enabled="false"
+            android:id="@+id/btn_change_confirmation"
+            android:background="@drawable/button_selector_disable"
+            android:textColor="@color/rojo_glup"
+            android:text="X"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+
+</LinearLayout>
