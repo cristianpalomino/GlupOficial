@@ -15,6 +15,7 @@ import android.widget.EditText;
 import pe.com.glup.R;
 import pe.com.glup.datasource.DSUsuario;
 import pe.com.glup.fragments.FCloset;
+import pe.com.glup.fragments.FClosetProfile;
 import pe.com.glup.interfaces.OnPassProfileElements;
 import pe.com.glup.interfaces.OnSuccessUpdateUser;
 
@@ -24,13 +25,13 @@ import pe.com.glup.interfaces.OnSuccessUpdateUser;
 public class ConfirmationPassDialog extends DialogFragment implements View.OnClickListener{
     private  static  final String TAG = ConfirmationPassDialog.class.getSimpleName();
     private EditText inputPass;
-    private FCloset context;
+    private FClosetProfile context;
     private Button btnOk;
     private String nombre,apellido,cumpleanos,correo,telefono,indOp;
 
     public ConfirmationPassDialog(){}
 
-    public ConfirmationPassDialog(String indOp,String nombre, String apellido, String cumpleanos, String correo, String telefono, FCloset context) {
+    public ConfirmationPassDialog(String indOp,String nombre, String apellido, String cumpleanos, String correo, String telefono, FClosetProfile context) {
         this.indOp=indOp;
         this.nombre = nombre;
         this.apellido = apellido;

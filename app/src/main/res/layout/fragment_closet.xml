@@ -42,16 +42,12 @@
     </FrameLayout>
 
 
-        <include
-            layout="@layout/fragment_fcatalogo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-        <include
-            layout="@layout/fragment_profile"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center" />
+
+    <FrameLayout
+        android:id="@+id/grilla_o_perfil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"></FrameLayout>
 
 
 

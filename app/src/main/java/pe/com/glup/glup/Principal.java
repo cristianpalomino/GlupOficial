@@ -162,5 +162,6 @@ public class Principal extends Glup implements Footer.OnChangeTab,FCloset.Fragme
     public void detectedAfterFragment(){
 
     }
+    
 
     }

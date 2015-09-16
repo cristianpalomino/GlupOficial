@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,52 +61,14 @@ import pe.com.glup.utils.Util_Fonts;
  * Use the {@link FCloset#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FCloset extends Fragment implements OnSuccessCatalogo,
-        OnSuccessDetalleUsuario,
-        OnSuccessUpdateUser,
-        OnSuccessUpdateUser2,
-        OnSuccessUpdatePass,
-        OnSearchListener,
-        AbsListView.OnScrollListener,
-        AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener, View.OnClickListener {
+public class FCloset extends Fragment implements View.OnClickListener,OnSuccessDetalleUsuario {
 
     private CircleImageView fotoPerfil;
     private TextView username,cantPrendas;
     private FragmentIterationListener mCallback = null;
 
-    @Override
-    public void onSuccesUpdatePass(boolean status,int indOp, String msg,String newPass) {
-        //Log.e(null,msg);
-        Log.e("mensajeSuccessPass", msg);
-        if (indOp==1){
-            Log.e("mensaje","termino update pass con new pass "+newPass+ " sigue update detalle usuario");
-            changeToNewPass=true;
-            nuevaPassword=newPass;
-            dsUsuario.setOnSuccessUpdateUser2(FCloset.this);
-            Log.e("nueva pass", nuevaPassword);
-            Log.e("indVerPass", indVerPass);
-            Log.e("nombres", nombres.getText().toString());
-            dsUsuario.updateUsuario2("true", newPass, nombres.getText().toString(),
-                    apellidos.getText().toString(), cumpleanos.getText().toString(),
-                    correo.getText().toString(), telefono.getText().toString());
 
 
-            Log.e("Se Guarda","todo el perfil");
-        }
-        //Toast.makeText(getActivity(),msg,Toast.LENGTH_SHORT);
-
-    }
-
-    @Override
-    public void onSuccesUpdateUser(boolean status, int indOp,String msg) {
-        Log.e("mensajeSuccess", msg+ " indicador "+ indOp);
-        //Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT);
-    }
-    @Override
-    public void onSuccesUpdateUser2(boolean status, int indOp,String msg) {
-        Log.e("mensajeSuccess2", msg+ " indicador "+ indOp);
-        //Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT);
-    }
 
     public interface FragmentIterationListener{
         public void onFragmentIteration(Bundle parameters);
@@ -132,26 +95,19 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
     private LinearLayout perfil;
 
     private EditText nombres,apellidos,cumpleanos,correo,telefono,contrasena;
-    private String changeNombres,changeApellidos,changeCumpleanos,changeCorreo,changeTelefono;
     private Button updateProfile,changePass;
     private String indVerPass;
     private FragmentManager fragmentManager;
+    private String changeNombres,changeApellidos,changeCumpleanos,changeCorreo,changeTelefono;
     private String nuevaPassword="";
     private boolean changeToNewPass=false;
-
+    private FClosetGrilla fClosetGrilla;
+    private FClosetProfile fClosetProfile;
 
 
     private boolean isLoading = false;
 
-    DatePickerDialog.OnDateSetListener ondate = new DatePickerDialog.OnDateSetListener() {
 
-        public void onDateSet(DatePicker view, int year, int monthOfYear,
-                              int dayOfMonth) {
-
-            cumpleanos.setText(String.valueOf(dayOfMonth) + "-" + String.valueOf(monthOfYear+1)
-                    + "-" + String.valueOf(year));
-        }
-    };
 
     public static FCloset newInstance() {
         FCloset fragment = new FCloset();
@@ -192,41 +148,19 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
         TAG = "todos";
         isLoading = false;
 
-        Principal principal = ((Principal) getActivity());
-        principal.getHeader().setOnSearchListener(FCloset.this);
-        principal.setupUI(getView().findViewById(R.id.frame_grilla));
-        principal.setupUI(getView().findViewById(R.id.frame_profile));
+        fClosetGrilla = new FClosetGrilla(FCloset.this);
+        fragmentManager= getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.grilla_o_perfil,fClosetGrilla);
+        fragmentTransaction.commit();
 
+        ////
         fotoPerfil = (CircleImageView) getView().findViewById(R.id.photo);
         username = (TextView)getView().findViewById(R.id.username);
         cantPrendas = (TextView) getView().findViewById(R.id.cantPrendas);
 
-        emptyView = (TextView) getView().findViewById(R.id.empty_view);
-        emptyView.setTypeface(Util_Fonts.setRegular(getActivity()));
 
-        grilla = (GridView) getView().findViewById(R.id.grilla_prendas);
-        perfil = (LinearLayout) getView().findViewById(R.id.profile);
-
-        nombres = (EditText) getView().findViewById(R.id.nombres);
-        apellidos = (EditText) getView().findViewById(R.id.apellidos);
-        cumpleanos = (EditText) getView().findViewById(R.id.cumpleanos);
-        correo = (EditText) getView().findViewById(R.id.correo);
-        telefono = (EditText) getView().findViewById(R.id.telefono);
-        changePass = (Button) getView().findViewById(R.id.changePass);
-        updateProfile = (Button)getView().findViewById(R.id.updateProfile);
-
-
-
-        cumpleanos.setOnClickListener(this);
-        changePass.setOnClickListener(this);
-        updateProfile.setOnClickListener(this);
-
-        //SimpleDateFormat sdf = new SimpleDateFormat( "yyyy/MM/dd" );
-        //cumpleanos.setText(DateFormat.getDateInstance().format(new Date()));
-        grilla.setVisibility(View.VISIBLE);
-        perfil.setVisibility(View.GONE);
-        /*grilla.setVisibility(View.VISIBLE);
-        perfil.setVisibility(View.GONE);*/
+        //
         /*
         grilla.setOnItemLongClickListener(null);
         grilla.setOnItemSelectedListener(null);
@@ -235,32 +169,29 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
 
         fotoPerfil.setOnClickListener(this);
 
-        grilla.setOnItemLongClickListener(this);
-        grilla.setOnItemClickListener(this);
-        grilla.setOnScrollListener(this);
+        dsUsuario = new DSUsuario(getActivity());
+        try{
+            dsUsuario.setOnSuccessDetalleUsuario(FCloset.this);
+        }catch (ClassCastException e){
+            Log.e("error",e.toString());
+        }
 
-
+        dsUsuario.loadUsuario();
 
         /*
         CALL API REST
          */
-        dsCloset = new DSCloset(getActivity());
-        dsCloset.getUsuarioPrendas(TAG, String.valueOf(PAGE), "10");
-        dsCloset.setOnSuccessCatalogo(FCloset.this);
-
-        dsUsuario = new DSUsuario(getActivity());
-        dsUsuario.setOnSuccessDetalleUsuario(FCloset.this);
-        dsUsuario.loadUsuario();
+        //dec1
 
         /*
         SHOW LOAD DIALOG
          */
-        gd = new GlupDialog(getActivity());
-        gd.setCancelable(false);
-        gd.show();
+        //dec1
+
 
         if (getArguments().getString("numm")!=null)
             Log.e("numero 1", getArguments().getString("num"));
+        //
     }
     @Override
     public void onDetach() {
@@ -270,44 +201,11 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
 
 
     @Override
-    public void onSuccess(String success_msg, ArrayList<Prenda> prendas) {
-        gd.dismiss();
-        try {
-            if (PAGE == 1) {
-                if (prendas != null) {
-                    displayMessage(FULL);
-                    adapter = new PrendaAdapter(getActivity(), prendas);
-                    grilla.setAdapter(adapter);
-                    glup.setPrendas(adapter.getmPrendas());
-                    isLoading = false;
-                } else {
-                    displayMessage(EMPTY);
-                }
-            } else if (PAGE != 1) {
-                if (prendas != null) {
-                    displayMessage(FULL);
-                    if (!prendas.isEmpty()) {
-                        for (int i = 0; i < prendas.size(); i++) {
-                            adapter.add(prendas.get(i));
-                        }
-                    }
-                    glup.setPrendas(adapter.getmPrendas());
-                    isLoading = false;
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
-
-    @Override
     public void onSuccess(String success_msg, ArrayList<DetalleUser> detalleuser, ArrayList<DatoUser> datouser) {
         if (success_msg.equals("1")){
             Log.e("coneccion","hecha");
             try{
-               // adapterUser= new DetalleUserAdapter(datouser,detalleuser,getActivity());
+                // adapterUser= new DetalleUserAdapter(datouser,detalleuser,getActivity());
                 DatoUser dato = datouser.get(0);
                 DetalleUser detalle = detalleuser.get(0);
 
@@ -319,17 +217,7 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
                 username.setText(dato.getNomUser() + " " + dato.getApeUser());
                 cantPrendas.setText(dato.getNumPrend());
 
-                nombres.setText(detalle.getNomUser());
-                apellidos.setText(detalle.getApeUser());
-                cumpleanos.setText(detalle.getFecNac());
-                correo.setText(detalle.getCorreoUser());
-                telefono.setText(detalle.getNumTelef());
 
-                setChangeProfileElements(nombres.getText().toString(),
-                        apellidos.getText().toString(),
-                        cumpleanos.getText().toString(),
-                        correo.getText().toString(),
-                        telefono.getText().toString());
 
             }catch (Exception e){
                 Log.e(null,"se hizo la conexion, error en cargar la data");
@@ -340,6 +228,12 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
         }
     }
 
+    @Override
+    public void onFailed(String error_msg) {
+        Log.e("error",error_msg+" fallo carga cabecera de perfill");
+    }
+
+
     private void setChangeProfileElements(String s, String s1, String s2, String s3, String s4) {
         changeNombres = s;
         changeApellidos=s1;
@@ -349,128 +243,34 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
 
     }
 
-    @Override
-    public void onFailed(String error_msg) {
-        gd.dismiss();
-        displayMessage(EMPTY);
-    }
 
-    @Override
-    public void onSearchListener(String cadena) {
-        PAGE = 1;
-        if (cadena.equals("")) {
-            TAG = "todos";
-        } else {
-            TAG = cadena;
-        }
 
-        dsCloset.getUsuarioPrendas(TAG, String.valueOf(PAGE), "10");
-        dsCloset.setOnSuccessCatalogo(FCloset.this);
-    }
 
-    private void displayMessage(int type) {
-        if (type == EMPTY) {
-            grilla.setVisibility(View.GONE);
-            emptyView.setVisibility(View.VISIBLE);
-        } else if (type == FULL) {
-            grilla.setVisibility(View.VISIBLE);
-            emptyView.setVisibility(View.GONE);
-        }
-    }
 
-    @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
 
-    }
 
-    @Override
-    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount != 0) {
-            if (!isLoading) {
-                isLoading = true;
 
-                PAGE++;
-                dsCloset.getUsuarioPrendas(TAG, String.valueOf(PAGE), "10");
-                dsCloset.setOnSuccessCatalogo(FCloset.this);
-            }
-        }
-    }
-
-    @Override
-    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        ArrayList<Prenda> prendas = glup.getPrendas();
-        Log.e("prendas", prendas.size() + "");
-        Intent intent = new Intent(glup, Detalle.class);
-        intent.putExtra("prendas", prendas);
-        intent.putExtra("current", position);
-        startActivity(intent);
-        return false;
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
-        Prenda prenda = (Prenda) parent.getItemAtPosition(position);
-        dsCloset = new DSCloset(getActivity());
-        dsCloset.updateProbador(glup.getPrendas().get(position).getCod_prenda());
-        dsCloset.setOnSuccessUpdate(new OnSuccessUpdate() {
-            @Override
-            public void onSuccesUpdate(boolean status, int indProb) {
-                if (status) {
-                    if (indProb == 0) {
-                        ((CheckBox) view.findViewById(R.id.check)).setChecked(false);
-                    } else if (indProb == 1) {
-                        ((CheckBox) view.findViewById(R.id.check)).setChecked(true);
-                    }
-                } else {
-                    Log.e(FCloset.class.getName(), "Ocurrio un error");
-                }
-            }
-        });
-    }
 
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.photo:
-                grilla.setVisibility(View.GONE);
-                perfil.setVisibility(View.VISIBLE);
-                break;
-            case R.id.cumpleanos:
-                showDatePicker();
-                break;
-            case R.id.changePass:
-                Log.e("clic","cambiar password");
-                indVerPass = "false";
-                fragmentManager = getActivity().getSupportFragmentManager();
-                new NewPassDialog(FCloset.this).show(fragmentManager,"NewPassDialog");
 
-                break;
-            case R.id.updateProfile:
-                Log.e("clic","guardar cambios perfil");
-                fragmentManager = getActivity().getSupportFragmentManager();
-                ////dsUsuario = new DSUsuario(getActivity());
-                ////dsUsuario.setOnSuccessUpdateUser(FCloset.this);
-                //Log.e("antes del indVerPass", indVerPass);
-                //if (!changeToNewPass){
-                    indVerPass = detectedIndVerPass();
-                //}
-
-                Log.e("antes indVerPass", indVerPass);
-                if (indVerPass.equals("true")){
-                    new ConfirmationPassDialog(indVerPass,nombres.getText().toString(),
-                            apellidos.getText().toString(),
-                            cumpleanos.getText().toString(),
-                            correo.getText().toString(),
-                            telefono.getText().toString(),FCloset.this).show(fragmentManager, "ConfirmationPassDialog");
-                }else{
-
-                    dsUsuario.setOnSuccessUpdateUser(FCloset.this);
-                    dsUsuario.updateUsuario(indVerPass, nuevaPassword, nombres.getText().toString(),
-                            apellidos.getText().toString(), cumpleanos.getText().toString(),
-                            correo.getText().toString(), telefono.getText().toString());
+                //fragment replace closet grilla -> profile 
+                //FragmentViewController fragmentViewController= new FragmentViewController();
+                //fragmentViewController.setSecondView();
+                if (fClosetGrilla!=null){
+                    fClosetProfile= new FClosetProfile(FCloset.this);
+                    fragmentManager= getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.grilla_o_perfil,fClosetProfile);
+                    fragmentTransaction.addToBackStack("FClosetGrilla");
+                    fragmentTransaction.commit();
                 }
+
                 break;
+
         }
 
         /*Bundle bundle = new Bundle();
@@ -479,34 +279,23 @@ public class FCloset extends Fragment implements OnSuccessCatalogo,
 
     }
 
-    private String detectedIndVerPass() {
-        Log.e("newPassIndVerPass",nuevaPassword);
-        if (!(changeNombres.equals(nombres.getText().toString()) && changeApellidos.equals(apellidos.getText().toString())
-              && changeCorreo.equals(correo.getText().toString()) && changeTelefono.equals(telefono.getText().toString())
-                ) )
-                return "true";
-        else
-                return "false";
+
+
+
+
+    class FragmentViewController{
+        private boolean firstView = true;
+
+        public boolean isFirstView() { return firstView; }
+        public void setFirstView() { firstView = true; }
+        public void setSecondView() { firstView = false; }
     }
 
-    private void showDatePicker() {
-        DatePickerFragment date = new DatePickerFragment();
-        /**
-         * Set Up Current Date Into dialog
-         */
-        Calendar calender = Calendar.getInstance();
-        Bundle args = new Bundle();
-        args.putInt("year", calender.get(Calendar.YEAR));
-        args.putInt("month", calender.get(Calendar.MONTH));
-        args.putInt("day", calender.get(Calendar.DAY_OF_MONTH));
-        date.setArguments(args);
-        /**
-         * Set Call back to capture selected date
-         */
-        date.setCallBack(ondate);
-        date.show(getFragmentManager(), "Date Picker");
-    }
+
 
 
 
 }
+
+
+

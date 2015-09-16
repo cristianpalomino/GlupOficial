@@ -19,6 +19,7 @@ import android.widget.TextView;
 import pe.com.glup.R;
 import pe.com.glup.datasource.DSUsuario;
 import pe.com.glup.fragments.FCloset;
+import pe.com.glup.fragments.FClosetProfile;
 import pe.com.glup.interfaces.OnSuccessUpdatePass;
 import pe.com.glup.interfaces.OnSuccessUpdateUser;
 
@@ -27,12 +28,12 @@ import pe.com.glup.interfaces.OnSuccessUpdateUser;
  */
 public class NewPassDialog extends DialogFragment implements View.OnClickListener{
     private static final String TAG = NewPassDialog.class.getSimpleName();
-    private FCloset context;
+    private FClosetProfile context;
     private EditText passw,newPass,repeatNewPass;
     private TextView validator;
     private Button confirmation_new_pass;
     private boolean activarBoton;
-    public NewPassDialog(FCloset context) {
+    public NewPassDialog(FClosetProfile context) {
         this.context=context;
 
     }
