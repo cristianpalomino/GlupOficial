@@ -41,6 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <EditText
+            android:maxLength="6"
             android:inputType="textPassword"
             android:hint="Nueva Contraseña"
             android:textColor="@color/negro"
@@ -75,7 +76,7 @@
         android:layout_height="wrap_content">
         <EditText
             android:inputType="textPassword"
-            android:hint="Repita  Nueva Contraseña"
+            android:hint="Repetir Contraseña"
             android:textColor="@color/negro"
             android:id="@+id/new_pass_confirmation"
             android:layout_width="0dp"
@@ -83,6 +84,7 @@
             android:layout_height="wrap_content" />
         <Button
             android:enabled="false"
+            android:layout_marginLeft="10dp"
             android:id="@+id/btn_change_confirmation"
             android:background="@drawable/button_selector_disable"
             android:textColor="@color/rojo_glup"

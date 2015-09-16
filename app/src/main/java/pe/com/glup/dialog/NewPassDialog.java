@@ -31,6 +31,7 @@ public class NewPassDialog extends DialogFragment implements View.OnClickListene
     private EditText passw,newPass,repeatNewPass;
     private TextView validator;
     private Button confirmation_new_pass;
+    private boolean activarBoton;
     public NewPassDialog(FCloset context) {
         this.context=context;
 
@@ -49,6 +50,7 @@ public class NewPassDialog extends DialogFragment implements View.OnClickListene
         LayoutInflater inflater= getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.fragment_confirmation_new_pass,null);
         builder.setView(view);
+        activarBoton=false;
         passw= (EditText) view.findViewById(R.id.pass_current);
         newPass =(EditText) view.findViewById(R.id.new_pass);
         repeatNewPass=(EditText)view.findViewById(R.id.new_pass_confirmation);
@@ -77,6 +79,7 @@ public class NewPassDialog extends DialogFragment implements View.OnClickListene
                     validator.setVisibility(View.VISIBLE);
                     verificarRepeticion = true;
                     repeatNewPass.setTextColor(Color.GREEN);
+                    //if (!passw.getText().toString().equals(""))
                     confirmation_new_pass.setBackgroundResource(R.drawable.button_selector);
                     confirmation_new_pass.setText("OK");
                     confirmation_new_pass.setTextColor(getResources().getColor(R.color.celeste_glup));
