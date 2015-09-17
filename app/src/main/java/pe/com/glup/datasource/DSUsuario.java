@@ -2,7 +2,6 @@ package pe.com.glup.datasource;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.EditText;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
@@ -25,7 +24,6 @@ import pe.com.glup.beans.PerfilUsuario;
 import pe.com.glup.interfaces.OnSuccessDetalleUsuario;
 import pe.com.glup.interfaces.OnSuccessUpdatePass;
 import pe.com.glup.interfaces.OnSuccessUpdateUser;
-import pe.com.glup.interfaces.OnSuccessUpdateUser2;
 import pe.com.glup.session.Session_Manager;
 import pe.com.glup.ws.WSGlup;
 
@@ -38,13 +36,11 @@ public class DSUsuario {
     private OnSuccessUpdateUser onSuccessUpdateUser;
     private OnSuccessUpdatePass onSuccessUpdatePass;
 
-    private OnSuccessUpdateUser2 onSuccessUpdateUser2;
+
     private ArrayList<DatoUser> datoUser = new ArrayList<DatoUser>();
     private ArrayList<DetalleUser> detalleUser = new ArrayList<DetalleUser>();
 
-    public void setOnSuccessUpdateUser2(OnSuccessUpdateUser2 onSuccessUpdateUser2) {
-        this.onSuccessUpdateUser2 = onSuccessUpdateUser2;
-    }
+
 
     public void setOnSuccessUpdateUser(OnSuccessUpdateUser onSuccessUpdateUser) {
         this.onSuccessUpdateUser = onSuccessUpdateUser;
@@ -150,51 +146,7 @@ public class DSUsuario {
 
     }
 
-    public void updateUsuario2(String indVerPass,String passUser,String nombre, String apellido, String fecNac, String correo, String telef){
-        String URL = WSGlup.ORQUESTADOR_NUEVO;
 
-        Log.e("NombreActual",nombre);
-        Log.e("updateUsuarioPass",passUser);
-
-        RequestParams params = new RequestParams();
-        params.put("tag","modificarDatoUser");
-        params.put("codigo_usuario",new Session_Manager(context).getCurrentUserCode());
-        params.put("pass_usuario",passUser);
-        params.put("ind_verpass",indVerPass);
-        params.put("nom_usuario",nombre);
-        params.put("ape_usuario",apellido);
-        params.put("fecnac_usuario",resetFormatFecha(fecNac));
-        params.put("correo_usuario",correo);
-        params.put("numtelef_usuario", telef);
-
-
-
-        AsyncHttpClient httpClient = new AsyncHttpClient();
-        httpClient.post(context, URL, params, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
-                try {
-                    if (response.getInt("success") == 1) {
-                        onSuccessUpdateUser2.onSuccesUpdateUser2(true, response.getInt("success"), response.getString("success_msg"));
-                    } else {
-                        onSuccessUpdateUser2.onSuccesUpdateUser2(true, response.getInt("success"), response.getString("error_msg"));
-                    }
-
-                    Log.e("json", response.toString());
-                } catch (JSONException e) {
-                    onSuccessUpdateUser2.onSuccesUpdateUser2(false, -1, "");
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                super.onFailure(statusCode, headers, responseString, throwable);
-                onSuccessUpdateUser2.onSuccesUpdateUser2(false, -1, "");
-            }
-        });
-
-    }
 
     private String resetFormatFecha(String fecNac) {
         try {

@@ -5,22 +5,106 @@
     android:orientation="vertical"
     tools:context="pe.com.glup.fragments.FProbador">
 
-
-    <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/scroll_top"
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:src="@drawable/superior_on"
+            android:id="@+id/superior"
+            android:padding="30dp"
+            android:layout_gravity="left|top"
+            android:background="@null"
+            android:textColor="@color/celeste_glup"
+            android:text="Superior"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageButton
+            android:src="@drawable/medio_on"
+            android:id="@+id/medio"
+            android:padding="30dp"
+            android:layout_gravity="right|top"
+            android:background="@null"
+            android:textColor="@color/celeste_glup"
+            android:text="Medio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
-        android:layout_weight="1">
+        android:layout_weight="1" >
 
-    </android.support.v4.view.ViewPager>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/scroll_top"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
+            />
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/scroll_bottom"
+        <ImageButton
+            android:background="@null"
+            android:src="@drawable/anterior"
+            android:padding="30dp"
+            android:id="@+id/button_previous_top"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            />
+
+        <ImageButton
+
+            android:background="@null"
+            android:src="@drawable/siguiente"
+            android:padding="30dp"
+            android:id="@+id/button_next_top"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:text="Next" />
+    </RelativeLayout>
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
         android:layout_weight="1">
 
-    </android.support.v4.view.ViewPager>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/scroll_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
+            />
+
+        <ImageButton
+            android:background="@null"
+            android:padding="30dp"
+            android:src="@drawable/anterior"
+            android:id="@+id/button_previous_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:text="Previous" />
+
+        <ImageButton
+            android:background="@null"
+            android:padding="30dp"
+            android:src="@drawable/siguiente"
+            android:paddingTop="30dp"
+            android:paddingBottom="30dp"
+            android:id="@+id/button_next_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:text="Next" />
+    </RelativeLayout>
+
+
 </LinearLayout>

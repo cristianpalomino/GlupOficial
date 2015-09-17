@@ -8,6 +8,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.apache.http.Header;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -55,7 +56,7 @@ public class DSProbador {
                 responseProbador.message = catalogo.getTag();
                 responseProbador.prendas = prendas;
                 responseProbador.tipo = filtro_posicion;
-//                BusHolder.getInstance().post(responseProbador);
+                BusHolder.getInstance().post(responseProbador);
             }
 
             @Override
@@ -69,6 +70,41 @@ public class DSProbador {
                 BusHolder.getInstance().post(responseProbador);
             }
         });
+    }
+    public void enviarRetirarPrenda(String codPrenda){
+        /*
+        tag: enviarProbador
+        codigo_usuario: aquí se deberá enviar el código de usuario.
+        codigo_prenda: aquí se deberá enviar el código de la prenda.
+        Respuesta:
+        indProb: ‘1’ se envió al probador, ‘0’ se retiró del probador.
+         */
+        String URL=WSGlup.ORQUESTADOR;
+
+        RequestParams params = new RequestParams();
+        params.put("tag","enviarProbador");
+        params.put("codigo_usuario", new Session_Manager(context).getCurrentUserCode());
+        params.put("codigo_prenda",codPrenda);
+
+        AsyncHttpClient httpClient = new AsyncHttpClient();
+        httpClient.post(context,URL,params,new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
+                super.onSuccess(statusCode,headers,response);
+                try {
+                    String indProb= response.getString("indProb");
+                }catch (JSONException e){
+
+                }
+            }
+            @Override
+            public void onFailure(int statusCode,Header[] headers,String responseString,Throwable throwable){
+                super.onFailure(statusCode, headers, responseString, throwable);
+
+            }
+
+        });
+
     }
 
     public class ResponseProbador

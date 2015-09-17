@@ -7,9 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.HorizontalScrollView;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.squareup.otto.Subscribe;
@@ -22,23 +21,22 @@ import pe.com.glup.adapters.PagerTopAdapter;
 import pe.com.glup.beans.Prenda;
 import pe.com.glup.bus.BusHolder;
 import pe.com.glup.datasource.DSProbador;
-import pe.com.glup.glup.Glup;
-import pe.com.glup.views.ScrollPager;
+import pe.com.glup.interfaces.OnClickProbador;
+import pe.com.glup.interfaces.OnSuccessDisableSliding;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FProbador.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link FProbador#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class FProbador extends Fragment {
 
+public class FProbador extends Fragment implements View.OnClickListener{
+
+    private ImageButton superior,medio;
     private ViewPager pagerTop;
     private ViewPager pagerBotton;
     private ArrayList<Prenda> prendasTop;
     private ArrayList<Prenda> prendasBottom;
+    private SlidingMenu menuright;
+    private OnClickProbador onClickProbador;
+    private PagerTopAdapter pagerTopAdapter;
+    private PagerBottomAdapter pagerBottomAdapter;
+    private int posCurrentTop,posCurrentBottom;
 
     public static FProbador newInstance() {
         FProbador fragment = new FProbador();
@@ -65,21 +63,38 @@ public class FProbador extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        /*
-        SlidingMenu menuright = new SlidingMenu(getActivity());
+        BusHolder.getInstance().register(this);
+        menuright = new SlidingMenu(getActivity());
         menuright.setMode(SlidingMenu.LEFT_RIGHT);
-        menuright.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        menuright.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
 //        menu.setShadowWidthRes(R.dimen.shadow_width);
 //        menu.setShadowDrawable(R.drawable.shadow);
         menuright.setBehindOffsetRes(R.dimen.slidingmenu_offset);
         menuright.setFadeDegree(0.35f);
         menuright.attachToActivity(getActivity(), SlidingMenu.SLIDING_CONTENT);
-
         menuright.setMenu(R.layout.menu_left);
         menuright.setSecondaryMenu(R.layout.menu_right);
-*/
+
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.menu_left, FMenuLeft.newInstance(), FMenuLeft.class.getName())
+                .commit();
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.menu_rigth, FMenuRigth.newInstance(), FMenuRigth.class.getName())
+                .commit();
+
+        superior =(ImageButton) getView().findViewById(R.id.superior);
+        medio = (ImageButton) getView().findViewById(R.id.medio);
+        superior.setOnClickListener(this);
+        medio.setOnClickListener(this);
+
+
         pagerTop = (ViewPager) getView().findViewById(R.id.scroll_top);
         pagerBotton = (ViewPager) getView().findViewById(R.id.scroll_bottom);
+
+        getView().findViewById(R.id.button_previous_top).setOnClickListener(this);
+        getView().findViewById(R.id.button_next_top).setOnClickListener(this);
+        getView().findViewById(R.id.button_previous_bottom).setOnClickListener(this);
+        getView().findViewById(R.id.button_next_bottom).setOnClickListener(this);
 
         pagerTop.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -90,10 +105,13 @@ public class FProbador extends Fragment {
             @Override
             public void onPageSelected(int position) {
                 if(prendasTop.get(position).getTipo().toUpperCase().equals("VESTIDO"))
-                {
+                {   Log.e("TOP", ((Prenda) pagerTopAdapter.getItem(position)).getCod_prenda()+" "+
+                        ((Prenda) pagerTopAdapter.getItem(position)).getIndProbador());
                     pagerBotton.setVisibility(View.GONE);
+                    posCurrentTop=position;
                 }else{
                     pagerBotton.setVisibility(View.VISIBLE);
+                    posCurrentBottom=position;
                 }
             }
 
@@ -113,16 +131,118 @@ public class FProbador extends Fragment {
     @Subscribe
     public void succesPrendas(DSProbador.ResponseProbador responseProbador) {
         if (responseProbador.tipo.equals("A"))
-        {
+        {   Log.e(null,responseProbador.toString());
             this.prendasTop = responseProbador.prendas;
-            PagerTopAdapter pagerTopAdapter = new PagerTopAdapter(getActivity(), this.prendasTop);
+            pagerTopAdapter = new PagerTopAdapter(getActivity(), this.prendasTop);
             pagerTop.setAdapter(pagerTopAdapter);
+
 
         } else if (responseProbador.tipo.equals("B"))
         {
             this.prendasBottom = responseProbador.prendas;
-            PagerBottomAdapter pagerBottomAdapter = new PagerBottomAdapter(getActivity(), this.prendasBottom);
+            pagerBottomAdapter = new PagerBottomAdapter(getActivity(), this.prendasBottom);
             pagerBotton.setAdapter(pagerBottomAdapter);
         }
     }
+
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.superior:
+                Log.e(null, "superior");
+                menuright.toggle();
+                break;
+            case R.id.medio:
+                Log.e(null, "medio");
+                menuright.showSecondaryMenu(true);
+                break;
+            case R.id.button_previous_top:
+                Log.e(null,"previos_top");
+                previousPageTop();
+                break;
+            case R.id.button_next_top:
+                Log.e(null,"next_top");
+                nextPageTop();
+                break;
+            case R.id.button_previous_bottom:
+                Log.e(null,"previos_bottom");
+                previousPageBottom();
+                break;
+            case R.id.button_next_bottom:
+                Log.e(null,"next_bottom");
+                nextPageBottom();
+                break;
+        }
+    }
+    private int getItemTop(int i) {
+        return pagerTop.getCurrentItem() + i;
+    }
+
+    private int getItemBottom(int i) {
+        return pagerBotton.getCurrentItem() + i;
+    }
+    private void nextPageTop() {
+        int currentPage = pagerTop.getCurrentItem();
+        int totalPages = pagerTop.getAdapter().getCount();
+
+        int nextPage = currentPage+1;
+        if (nextPage >= totalPages) {
+            // We can't go forward anymore.
+            // Loop to the first page. If you don't want looping just
+            // return here.
+            nextPage = 0;
+        }
+
+        pagerTop.setCurrentItem(nextPage, true);
+    }
+
+    private void previousPageTop() {
+        int currentPage = pagerTop.getCurrentItem();
+        int totalPages = pagerTop.getAdapter().getCount();
+
+        int previousPage = currentPage-1;
+        if (previousPage < 0) {
+            // We can't go back anymore.
+            // Loop to the last page. If you don't want looping just
+            // return here.
+            previousPage = totalPages - 1;
+        }
+
+        pagerTop.setCurrentItem(previousPage, true);
+    }
+
+    private void nextPageBottom() {
+        int currentPage = pagerBotton.getCurrentItem();
+        int totalPages = pagerBotton.getAdapter().getCount();
+
+        int nextPage = currentPage+1;
+        if (nextPage >= totalPages) {
+            // We can't go forward anymore.
+            // Loop to the first page. If you don't want looping just
+            // return here.
+            nextPage = 0;
+        }
+
+        pagerBotton.setCurrentItem(nextPage, true);
+    }
+
+    private void previousPageBottom() {
+        int currentPage = pagerBotton.getCurrentItem();
+        int totalPages = pagerBotton.getAdapter().getCount();
+
+        int previousPage = currentPage-1;
+        if (previousPage < 0) {
+            // We can't go back anymore.
+            // Loop to the last page. If you don't want looping just
+            // return here.
+            previousPage = totalPages - 1;
+        }
+
+        pagerBotton.setCurrentItem(previousPage, true);
+    }
+
+
+
 }

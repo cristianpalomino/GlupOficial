@@ -5,26 +5,27 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import pe.com.glup.R;
 import pe.com.glup.bus.BusHolder;
-import pe.com.glup.datasource.DSUsuario;
 import pe.com.glup.fragments.FCatalogo;
 import pe.com.glup.fragments.FCloset;
 import pe.com.glup.fragments.FMenuLeft;
 import pe.com.glup.fragments.FMenuRigth;
 import pe.com.glup.fragments.FProbador;
 import pe.com.glup.fragments.Fragment_Home;
+import pe.com.glup.interfaces.OnClickProbador;
 import pe.com.glup.interfaces.OnSuccessDetalleUsuario;
+import pe.com.glup.interfaces.OnSuccessDisableSliding;
 import pe.com.glup.views.Footer;
 import pe.com.glup.views.Header;
 
-public class Principal extends Glup implements Footer.OnChangeTab,FCloset.FragmentIterationListener {
+public class Principal extends Glup implements Footer.OnChangeTab,
+        FCloset.FragmentIterationListener {
 
+    private OnSuccessDisableSliding onSuccessDisableSliding;
     private boolean flagChangeTab = false;
     private final String[] MESSAGES = {"HOME", "CLOSET", "PROBADOR", "CAMERA"};
     private final Fragment[] FRAGMENTS = {
@@ -41,6 +42,10 @@ public class Principal extends Glup implements Footer.OnChangeTab,FCloset.Fragme
     private OnChangeTab onChangeTab;
     private SlidingMenu menuright;
     private OnSuccessDetalleUsuario onSuccessDetalleUsuario;
+
+    public void setOnSuccessDisableSliding(OnSuccessDisableSliding onSuccessDisableSliding) {
+        this.onSuccessDisableSliding = onSuccessDisableSliding;
+    }
 
     public void setOnChangeTab(OnChangeTab onChangeTab) {
         this.onChangeTab = onChangeTab;
@@ -61,18 +66,9 @@ public class Principal extends Glup implements Footer.OnChangeTab,FCloset.Fragme
         footer.setOnChangeTab(this);
         footer.initView();
 
-        menuright = new SlidingMenu(this);
-        menuright.setMode(SlidingMenu.LEFT_RIGHT);
-        menuright.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-//        menu.setShadowWidthRes(R.dimen.shadow_width);
-//        menu.setShadowDrawable(R.drawable.shadow);
-        menuright.setBehindOffsetRes(R.dimen.slidingmenu_offset);
-        menuright.setFadeDegree(0.35f);
-        menuright.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
 
-        menuright.setMenu(R.layout.menu_left);
-        menuright.setSecondaryMenu(R.layout.menu_right);
-        menuright.setSlidingEnabled(false);
+
+
         /*
         Temporal
          */
@@ -107,9 +103,12 @@ public class Principal extends Glup implements Footer.OnChangeTab,FCloset.Fragme
         //((ViewGroup) namebar.getParent()).removeView(namebar);
         if (!CURRENT_FRAGMENT_TAG.equals("pe.com.glup.fragments.FProbador")){
             Log.e("!Probador", "deberia cerrarse");
-            menuright.setSlidingEnabled(false);
+            //menuright.setSlidingEnabled(false);
+            //onSuccessDisableSliding.onSuccessDisableSliding(true);
+
         } else {
-            menuright.setSlidingEnabled(true);
+
+            //menuright.setSlidingEnabled(true);
         }
         flagChangeTab = true;
 
@@ -129,6 +128,8 @@ public class Principal extends Glup implements Footer.OnChangeTab,FCloset.Fragme
     public void onFragmentIteration(Bundle parameters) {
         Log.e("Click profile",parameters.getString("datos"));
     }
+
+
 
     public interface OnChangeTab {
         void onChangeTab(int position);
@@ -151,17 +152,7 @@ public class Principal extends Glup implements Footer.OnChangeTab,FCloset.Fragme
         //super.onBackPressed();
     }
 
-    @Override
 
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-    public void detectedAfterFragment(){
-
-    }
     
 
-    }
+}

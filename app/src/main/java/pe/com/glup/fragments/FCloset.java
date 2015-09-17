@@ -2,9 +2,7 @@ package pe.com.glup.fragments;
 
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.support.v4.app.FragmentManager;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -12,22 +10,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import pe.com.glup.R;
@@ -35,26 +27,11 @@ import pe.com.glup.adapters.DetalleUserAdapter;
 import pe.com.glup.adapters.PrendaAdapter;
 import pe.com.glup.beans.DatoUser;
 import pe.com.glup.beans.DetalleUser;
-import pe.com.glup.beans.Prenda;
 import pe.com.glup.datasource.DSCloset;
 import pe.com.glup.datasource.DSUsuario;
-import pe.com.glup.dialog.ConfirmationPassDialog;
 import pe.com.glup.dialog.GlupDialog;
-import pe.com.glup.dialog.NewPassDialog;
-import pe.com.glup.glup.Detalle;
 import pe.com.glup.glup.Glup;
-import pe.com.glup.glup.Principal;
-import pe.com.glup.interfaces.OnPassProfileElements;
-import pe.com.glup.interfaces.OnSearchListener;
-import pe.com.glup.interfaces.OnSuccessUpdate;
-import pe.com.glup.interfaces.OnSuccessCatalogo;
 import pe.com.glup.interfaces.OnSuccessDetalleUsuario;
-import pe.com.glup.interfaces.OnSuccessUpdatePass;
-import pe.com.glup.interfaces.OnSuccessUpdateUser;
-import pe.com.glup.interfaces.OnSuccessUpdateUser2;
-import pe.com.glup.session.Session_Manager;
-import pe.com.glup.utils.DatePickerFragment;
-import pe.com.glup.utils.Util_Fonts;
 
 /**
  * A simple {@link Fragment} subclass.

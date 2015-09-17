@@ -37,6 +37,10 @@ public class PagerTopAdapter extends PagerAdapter {
         return prendas.size();
     }
 
+    public Object getItem(int position) {
+        return prendas.get(position);
+    }
+
     @Override
     public boolean isViewFromObject(View view, Object object) {
         return view == ((LinearLayout) object);
