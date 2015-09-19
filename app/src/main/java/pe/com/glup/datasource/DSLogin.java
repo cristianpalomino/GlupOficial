@@ -1,6 +1,7 @@
 package pe.com.glup.datasource;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
@@ -33,7 +34,7 @@ public class DSLogin {
     }
 
     public void loginUsuario(String usuario, String password) {
-        String URL = WSGlup.ORQUESTADOR;
+        String URL = WSGlup.ORQUESTADOR_NUEVO;
 
         RequestParams params = new RequestParams();
         params.put("tag", "login");
@@ -51,6 +52,7 @@ public class DSLogin {
                     if (success == 1) {
                         Gson gson = new Gson();
                         Usuario usuario = gson.fromJson(response.toString(), Usuario.class);
+                        Log.e("loginsExo",usuario.getSexoUser());
                         onSuccessLogin.onSuccessLogin(true, usuario,"Bienvenido");
                     } else {
                         onSuccessLogin.onSuccessLogin(false, null, response.getString("error_msg"));

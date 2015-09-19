@@ -38,7 +38,11 @@
             android:ems="10"
             android:layout_height="wrap_content"
             android:layout_marginBottom="6dp"/>
-        <EditText
+        <TextView
+            android:paddingTop="15dp"
+            android:paddingLeft="5dp"
+            android:paddingBottom="15dp"
+            style="@android:style/Widget.DeviceDefault.Light.Spinner"
             android:id="@+id/cumpleanos"
             android:layout_width="match_parent"
             android:layout_gravity="center"

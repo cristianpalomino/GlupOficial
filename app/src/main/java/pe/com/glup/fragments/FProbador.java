@@ -14,16 +14,19 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
+import java.util.IllegalFormatCodePointException;
 
 import pe.com.glup.R;
 import pe.com.glup.adapters.PagerBottomAdapter;
 import pe.com.glup.adapters.PagerTopAdapter;
+import pe.com.glup.adapters.PrendaAdapter;
 import pe.com.glup.beans.Prenda;
 import pe.com.glup.bus.BusHolder;
 import pe.com.glup.datasource.DSProbador;
 import pe.com.glup.interfaces.OnClickProbador;
 import pe.com.glup.interfaces.OnSuccessDisableSliding;
 import pe.com.glup.interfaces.OnSuccessPrendas;
+import pe.com.glup.session.Session_Manager;
 
 
 public class FProbador extends Fragment implements View.OnClickListener,OnSuccessPrendas{
@@ -85,6 +88,13 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
 
         superior =(ImageButton) getView().findViewById(R.id.superior);
         medio = (ImageButton) getView().findViewById(R.id.medio);
+        if (new Session_Manager(getActivity()).getCurrentUserSexo().equals("H")){
+            superior.setImageResource(R.drawable.superiorh_on);
+            medio.setImageResource(R.drawable.medioh_on);
+        }else {
+            superior.setImageResource(R.drawable.superior_on);
+            superior.setImageResource(R.drawable.medio_on);
+        }
         superior.setOnClickListener(this);
         medio.setOnClickListener(this);
 
@@ -266,6 +276,39 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
     public void getIndProbador(String indProb) {
         Log.e("enFProbador", indProb);
 
+    }
+    @Subscribe
+    public  void getReloadPrendas(PrendaAdapter.Holder holder ){
+        Log.e("check", String.valueOf(holder.corazon.isChecked()));
+        DSProbador dsProbadorA = new DSProbador(getActivity());
+
+        try{
+            dsProbadorA.setOnSuccessPrendas(FProbador.this);
+        }catch (ClassCastException c){
+            Log.e("errorProb",c.toString());
+        }
+        dsProbadorA.getGlobalPrendas("A", "1", "20");
+
+        DSProbador dsProbadorB = new DSProbador(getActivity());
+        try{
+            dsProbadorB.setOnSuccessPrendas(FProbador.this);
+        }catch (ClassCastException c){
+            Log.e("errorProb",c.toString());
+        }
+
+        dsProbadorB.getGlobalPrendas("B", "1", "20");
+    }
+    @Subscribe
+    public void addProbador(Prenda prenda){
+        Log.e("codProbador",prenda.getCod_prenda());
+        Log.e("filtroPos",prenda.getFiltroPosicion());
+        if (prenda.getFiltroPosicion().equals("A")){
+            this.prendasTop.add(prenda);
+            pagerTopAdapter.notifyDataSetChanged();
+        }else {
+            this.prendasBottom.add(prenda);
+            pagerBottomAdapter.notifyDataSetChanged();
+        }
     }
 
 

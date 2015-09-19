@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -50,7 +51,8 @@ public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
     private DSUsuario dsUsuario;
 
     private LinearLayout perfil;
-    private EditText nombres,apellidos,cumpleanos,correo,telefono;
+    private EditText nombres,apellidos,correo,telefono;
+    private TextView cumpleanos;
     private Button updateProfile,changePass;
     private String indVerPass;
     private FragmentManager fragmentManager;
@@ -105,7 +107,7 @@ public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
 
         nombres = (EditText) getView().findViewById(R.id.nombres);
         apellidos = (EditText) getView().findViewById(R.id.apellidos);
-        cumpleanos = (EditText) getView().findViewById(R.id.cumpleanos);
+        cumpleanos = (TextView) getView().findViewById(R.id.cumpleanos);
         correo = (EditText) getView().findViewById(R.id.correo);
         telefono = (EditText) getView().findViewById(R.id.telefono);
         changePass = (Button) getView().findViewById(R.id.changePass);

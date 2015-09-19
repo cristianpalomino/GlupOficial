@@ -20,6 +20,7 @@ public class Prenda implements Serializable {
     private String precio;
     private String numGusta;
     private ArrayList<String> talla;
+    private String filtroPosicion;
 
     public Prenda() {
     }
@@ -37,6 +38,14 @@ public class Prenda implements Serializable {
         this.precio = precio;
         this.numGusta = numGusta;
         this.talla = talla;
+    }
+
+    public String getFiltroPosicion() {
+        return filtroPosicion;
+    }
+
+    public void setFiltroPosicion(String filtroPosicion) {
+        this.filtroPosicion = filtroPosicion;
     }
 
     public String getIndUserReg() {

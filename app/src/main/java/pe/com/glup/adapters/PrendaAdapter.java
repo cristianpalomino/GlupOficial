@@ -117,7 +117,7 @@ public class PrendaAdapter extends BaseAdapter  {
         holder.corazon.setOnCheckedChangeListener( new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton toggleButton, boolean isChecked) {
-                Log.e("checkChange",String.valueOf(isChecked));
+                Log.e("checkChange", String.valueOf(isChecked));
                 if (isChecked) {
                     holder.contado.setText(String.valueOf(cont - 1));
                     holder.corazon.setChecked(false);
@@ -126,6 +126,8 @@ public class PrendaAdapter extends BaseAdapter  {
                     holder.corazon.setChecked(true);
                 }
                 notifyDataSetChanged();
+
+
             }
         }) ;
         holder.corazon.setOnClickListener(new View.OnClickListener() {
@@ -135,6 +137,7 @@ public class PrendaAdapter extends BaseAdapter  {
                 int dis = cont - 1;
                 int au = cont + 1;
                 Log.e("disAu",String.valueOf(dis)+" "+String.valueOf(au));
+
                 if (checkUpdated.equals("1")){
                     //holder.contado.setText(String.valueOf(dis));
                     //holder.corazon.setChecked(false);
@@ -153,16 +156,18 @@ public class PrendaAdapter extends BaseAdapter  {
                 int dis = cont - 1;
                 int au = cont + 1;
                 Log.e("disAu", String.valueOf(dis) + " " + String.valueOf(au));
-                if (checkUpdated.equals("1")){
-                    //holder.contado.setText(String.valueOf(dis));
-                    //holder.corazon.setChecked(false);
+
+               /* if (checkUpdated.equals("1")){
+                    holder.contado.setText(String.valueOf(dis));
+                    holder.corazon.setChecked(false);
                 }else{
-                    //holder.contado.setText(String.valueOf(au));
-                    //  holder.corazon.setChecked(true);
+                    holder.contado.setText(String.valueOf(au));
+                    holder.corazon.setChecked(true);
                 }
-                //notifyDataSetChanged();
-                //dsProbador = new DSProbador(finalConvertView.getContext());
-                //dsProbador.setIndProbador(finalprenda.getCod_prenda());
+                notifyDataSetChanged();*/
+                BusHolder.getInstance().post(prenda);
+                dsProbador = new DSProbador(finalConvertView.getContext());
+                dsProbador.setIndProbador(finalprenda.getCod_prenda());
 
             }
         });
@@ -176,19 +181,20 @@ public class PrendaAdapter extends BaseAdapter  {
     public void getIndProbador(String indProb) {
         checkUpdated=indProb;
         Log.e("enAdapter",indProb);
+        BusHolder.getInstance().post(holder);
     }
 
 
 
-    class Holder {
+    public class Holder {
 
-        TextView marca;
-        TextView contado;
-        ToggleButton corazon;
-        TextView modelo;
-        TextView precio;
-        ImageView imagen;
-        CheckBox check;
+        public TextView marca;
+        public TextView contado;
+        public ToggleButton corazon;
+        public TextView modelo;
+        public TextView precio;
+        public ImageView imagen;
+        public CheckBox check;
     }
 
     public ArrayList<Prenda> getmPrendas() {

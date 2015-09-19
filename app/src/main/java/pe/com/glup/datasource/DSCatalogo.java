@@ -1,6 +1,7 @@
 package pe.com.glup.datasource;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
@@ -46,7 +47,6 @@ public class DSCatalogo {
                 replace(WSGlup.NUMERO_PAGINA, pagina).
                 replace(WSGlup.NUMERO_REGISTROS, registros).
                 replace(WSGlup.BUSCAR, buscar);
-
         RequestParams params = new RequestParams();
         params.put("tag", "prendaCatalogo");
         params.put("codigo_usuario", new Session_Manager(context).getCurrentUserCode());

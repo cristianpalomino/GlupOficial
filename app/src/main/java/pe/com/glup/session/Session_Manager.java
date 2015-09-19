@@ -14,6 +14,7 @@ public class Session_Manager {
     private int PRIVATE_MODE = 0;
 
     public static final String USER_CODE = "userCodigo";
+    public static final String USER_SEXO = "sexCodigo";
     public static final String USER_LOGIN = "userLogin";
 
     private SharedPreferences preferences;
@@ -26,9 +27,9 @@ public class Session_Manager {
         editor = preferences.edit();
     }
 
-    public String getCurrentUserCode() {
-        return preferences.getString(USER_CODE, "-1");
-    }
+    public String getCurrentUserCode() {return preferences.getString(USER_CODE, "-1");}
+
+    public String getCurrentUserSexo() { return preferences.getString(USER_SEXO, "-1"); }
 
     public boolean isLogin() {
         return preferences.getBoolean(USER_LOGIN, false);
@@ -37,6 +38,7 @@ public class Session_Manager {
     public void openSession(Usuario usuario) {
         editor.putBoolean(USER_LOGIN, true);
         editor.putString(USER_CODE, usuario.getCodUser());
+        editor.putString(USER_SEXO,usuario.getSexoUser());
         editor.commit();
     }
 

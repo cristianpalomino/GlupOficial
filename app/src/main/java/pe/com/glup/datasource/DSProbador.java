@@ -58,7 +58,9 @@ public class DSProbador {
 
                 Catalogo catalogo = gson.fromJson(response.toString(), Catalogo.class);
                 prendas = catalogo.getPrendas();
-
+                for (int i=0;i<prendas.size();i++){
+                    prendas.get(i).setFiltroPosicion(filtro_posicion);
+                }
                 ResponseProbador responseProbador = new ResponseProbador();
                 responseProbador.message = catalogo.getTag();
                 responseProbador.prendas = prendas;
@@ -79,14 +81,6 @@ public class DSProbador {
         });
     }
     public void setIndProbador(String codPrenda){
-        /*
-            {
-            "tag": "enviarProbador",
-            "success": 1,
-            "error": 0,
-            "indProb": "0"
-            }
-        * */
 
         String URL=WSGlup.ORQUESTADOR;
 

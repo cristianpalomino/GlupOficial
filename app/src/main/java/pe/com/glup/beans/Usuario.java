@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class Usuario {
 
     private String tag;
+    private String sexoUser;
     private String indRegistro;
     private String indCorreo;
     private String codUser;
@@ -17,8 +18,9 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(String tag, String indRegistro, String indCorreo, String codUser, int error, int success) {
+    public Usuario(String tag, String sexoUser,String indRegistro, String indCorreo, String codUser, int error, int success) {
         this.tag = tag;
+        this.sexoUser=sexoUser;
         this.indRegistro = indRegistro;
         this.indCorreo = indCorreo;
         this.codUser = codUser;
@@ -29,6 +31,8 @@ public class Usuario {
     public String getTag() {
         return tag;
     }
+
+    public String getSexoUser() {return sexoUser;}
 
     public String getIndRegistro() {
         return indRegistro;
