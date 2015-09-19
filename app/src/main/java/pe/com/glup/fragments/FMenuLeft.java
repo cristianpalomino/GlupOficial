@@ -3,6 +3,7 @@ package pe.com.glup.fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +58,12 @@ public class FMenuLeft extends Fragment implements OnSuccessPrendas{
 
 
         DSProbador dsProbadorA = new DSProbador(getActivity());
-        dsProbadorA.setOnSuccessPrendas(FMenuLeft.this);
+        try {
+            dsProbadorA.setOnSuccessPrendas(FMenuLeft.this);
+        }catch (ClassCastException c){
+            Log.e(null,c.toString());
+        }
+
         dsProbadorA.getGlobalPrendas("A", "1", "20");
     }
 

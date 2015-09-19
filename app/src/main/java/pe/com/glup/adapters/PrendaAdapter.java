@@ -63,7 +63,7 @@ public class PrendaAdapter extends BaseAdapter  {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-         holder = null;
+        holder = null;
         final Prenda prenda = mPrendas.get(position);
         Log.e("MenuLeft",prenda.getCod_prenda()+ " "+prenda.getIndProbador());
         if (convertView == null) {
@@ -125,25 +125,25 @@ public class PrendaAdapter extends BaseAdapter  {
                     holder.contado.setText(String.valueOf(cont + 1));
                     holder.corazon.setChecked(true);
                 }
-                    notifyDataSetChanged();
+                notifyDataSetChanged();
             }
         }) ;
         holder.corazon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                        Log.e("contador",String.valueOf(cont));
-                        int dis = cont - 1;
-                        int au = cont + 1;
-                        Log.e("disAu",String.valueOf(dis)+" "+String.valueOf(au));
-                        if (checkUpdated.equals("1")){
-                            //holder.contado.setText(String.valueOf(dis));
-                            //holder.corazon.setChecked(false);
-                        }else{
-                            //holder.contado.setText(String.valueOf(au));
-                            //holder.corazon.setChecked(true);
-                        }
-                        dsProbador = new DSProbador(finalConvertView.getContext());
-                        dsProbador.setIndProbador(finalprenda.getCod_prenda());
+                Log.e("contador",String.valueOf(cont));
+                int dis = cont - 1;
+                int au = cont + 1;
+                Log.e("disAu",String.valueOf(dis)+" "+String.valueOf(au));
+                if (checkUpdated.equals("1")){
+                    //holder.contado.setText(String.valueOf(dis));
+                    //holder.corazon.setChecked(false);
+                }else{
+                    //holder.contado.setText(String.valueOf(au));
+                    //holder.corazon.setChecked(true);
+                }
+                dsProbador = new DSProbador(finalConvertView.getContext());
+                dsProbador.setIndProbador(finalprenda.getCod_prenda());
             }
         });
         holder.imagen.setOnClickListener(new View.OnClickListener() {
@@ -158,11 +158,11 @@ public class PrendaAdapter extends BaseAdapter  {
                     //holder.corazon.setChecked(false);
                 }else{
                     //holder.contado.setText(String.valueOf(au));
-                  //  holder.corazon.setChecked(true);
+                    //  holder.corazon.setChecked(true);
                 }
                 //notifyDataSetChanged();
                 //dsProbador = new DSProbador(finalConvertView.getContext());
-                dsProbador.setIndProbador(finalprenda.getCod_prenda());
+                //dsProbador.setIndProbador(finalprenda.getCod_prenda());
 
             }
         });

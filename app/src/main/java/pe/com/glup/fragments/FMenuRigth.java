@@ -2,6 +2,7 @@ package pe.com.glup.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +53,12 @@ public class FMenuRigth extends Fragment implements OnSuccessPrendas{
         listView = (ListView) getView().findViewById(R.id.listView);
 
         DSProbador dsProbadorA = new DSProbador(getActivity());
-        dsProbadorA.setOnSuccessPrendas(FMenuRigth.this);
+
+        try {
+            dsProbadorA.setOnSuccessPrendas(FMenuRigth.this);
+        }catch (ClassCastException c){
+            Log.e(null, c.toString());
+        }
         dsProbadorA.getGlobalPrendas("B", "1", "20");
     }
 
