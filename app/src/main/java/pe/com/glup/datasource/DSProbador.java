@@ -1,6 +1,7 @@
 package pe.com.glup.datasource;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import pe.com.glup.beans.Catalogo;
 import pe.com.glup.beans.Prenda;
 import pe.com.glup.bus.BusHolder;
+import pe.com.glup.interfaces.OnSuccessPrendas;
 import pe.com.glup.session.Session_Manager;
 import pe.com.glup.ws.WSGlup;
 
@@ -26,10 +28,15 @@ public class DSProbador {
 
     private Context context;
     private ArrayList<Prenda> prendas = new ArrayList<Prenda>();
+    private OnSuccessPrendas onSuccessPrendas;
 
     public DSProbador(Context context) {
         this.context = context;
         BusHolder.getInstance().register(this);
+    }
+
+    public void setOnSuccessPrendas(OnSuccessPrendas onSuccessPrendas) {
+        this.onSuccessPrendas = onSuccessPrendas;
     }
 
     public void getGlobalPrendas(final String filtro_posicion, String pagina, String registros) {
@@ -56,7 +63,7 @@ public class DSProbador {
                 responseProbador.message = catalogo.getTag();
                 responseProbador.prendas = prendas;
                 responseProbador.tipo = filtro_posicion;
-                BusHolder.getInstance().post(responseProbador);
+                onSuccessPrendas.succesPrendas(responseProbador);//bug retroceso probador-catalog-probador
             }
 
             @Override
@@ -67,18 +74,20 @@ public class DSProbador {
                 responseProbador.message = responseString;
                 responseProbador.prendas = null;
                 responseProbador.tipo = filtro_posicion;
-                BusHolder.getInstance().post(responseProbador);
+                onSuccessPrendas.succesPrendas(responseProbador);
             }
         });
     }
-    public void enviarRetirarPrenda(String codPrenda){
+    public void setIndProbador(String codPrenda){
         /*
-        tag: enviarProbador
-        codigo_usuario: aquí se deberá enviar el código de usuario.
-        codigo_prenda: aquí se deberá enviar el código de la prenda.
-        Respuesta:
-        indProb: ‘1’ se envió al probador, ‘0’ se retiró del probador.
-         */
+            {
+            "tag": "enviarProbador",
+            "success": 1,
+            "error": 0,
+            "indProb": "0"
+            }
+        * */
+
         String URL=WSGlup.ORQUESTADOR;
 
         RequestParams params = new RequestParams();
@@ -93,19 +102,23 @@ public class DSProbador {
                 super.onSuccess(statusCode,headers,response);
                 try {
                     String indProb= response.getString("indProb");
+                    Log.e("dsProbador", indProb);
+                    BusHolder.getInstance().post(indProb);
                 }catch (JSONException e){
-
+                    Log.e("dsProbador",e.toString());
                 }
             }
             @Override
             public void onFailure(int statusCode,Header[] headers,String responseString,Throwable throwable){
                 super.onFailure(statusCode, headers, responseString, throwable);
-
+                String indProb=responseString;
+                BusHolder.getInstance().post(indProb);
             }
 
         });
 
     }
+
 
     public class ResponseProbador
     {

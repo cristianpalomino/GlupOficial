@@ -136,9 +136,6 @@ public class FClosetGrilla extends Fragment implements OnSuccessCatalogo,
 
     }
 
-
-
-
     @Override
     public void onDetach() {
         super.onDetach();

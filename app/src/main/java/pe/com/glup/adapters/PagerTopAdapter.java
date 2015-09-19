@@ -2,6 +2,7 @@ package pe.com.glup.adapters;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +50,7 @@ public class PagerTopAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         View itemView = this.layoutInflater.inflate(R.layout.item_pager_top, container, false);
-
+        Log.e("topAdapter",prendas.get(position).getIndProbador());
         Prenda prenda = prendas.get(position);
         TextView marca = (TextView) itemView.findViewById(R.id.item_marca_prenda);
         ImageView imagen = (ImageView) itemView.findViewById(R.id.item_imagen_prenda);

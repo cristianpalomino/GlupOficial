@@ -16,9 +16,10 @@ import pe.com.glup.adapters.PrendaAdapter;
 import pe.com.glup.beans.Prenda;
 import pe.com.glup.bus.BusHolder;
 import pe.com.glup.datasource.DSProbador;
+import pe.com.glup.interfaces.OnSuccessPrendas;
 
 
-public class FMenuRigth extends Fragment {
+public class FMenuRigth extends Fragment implements OnSuccessPrendas{
 
     private ListView listView;
     private ArrayList<Prenda> prendasTop;
@@ -51,10 +52,11 @@ public class FMenuRigth extends Fragment {
         listView = (ListView) getView().findViewById(R.id.listView);
 
         DSProbador dsProbadorA = new DSProbador(getActivity());
+        dsProbadorA.setOnSuccessPrendas(FMenuRigth.this);
         dsProbadorA.getGlobalPrendas("B", "1", "20");
     }
 
-    @Subscribe
+    @Override
     public void succesPrendas(DSProbador.ResponseProbador responseProbador) {
         if (responseProbador.tipo.equals("B"))
         {

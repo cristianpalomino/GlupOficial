@@ -7,31 +7,43 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
+import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import pe.com.glup.R;
 import pe.com.glup.beans.Prenda;
+import pe.com.glup.bus.BusHolder;
+import pe.com.glup.datasource.DSProbador;
 import pe.com.glup.glup.Principal;
 import pe.com.glup.utils.Util_Fonts;
+import android.os.Looper;
+import android.os.Handler;
 
 /**
  * Created by Glup on 25/06/15.
  */
-public class PrendaAdapter extends BaseAdapter {
+public class PrendaAdapter extends BaseAdapter  {
 
     private ArrayList<Prenda> mPrendas;
     private Context context;
     private LayoutInflater inflater;
+    private String checkUpdated;
+    private  Holder holder;
+
+    private DSProbador dsProbador;
 
     public PrendaAdapter(Context context, ArrayList<Prenda> prendas) {
         this.context = context;
         this.mPrendas = prendas;
         this.inflater = LayoutInflater.from(context);
+        BusHolder.getInstance().register(this);
     }
 
     @Override
@@ -51,9 +63,9 @@ public class PrendaAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Holder holder = null;
-        Prenda prenda = mPrendas.get(position);
-
+         holder = null;
+        final Prenda prenda = mPrendas.get(position);
+        Log.e("MenuLeft",prenda.getCod_prenda()+ " "+prenda.getIndProbador());
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.item_catalogo, parent, false);
             holder = new Holder();
@@ -64,6 +76,7 @@ public class PrendaAdapter extends BaseAdapter {
             holder.modelo = (TextView) convertView.findViewById(R.id.modelo_prenda);
             holder.imagen = (ImageView) convertView.findViewById(R.id.item_imagen_prenda);
             holder.check = (CheckBox) convertView.findViewById(R.id.check);
+            holder.corazon = (ToggleButton) convertView.findViewById(R.id.corazon_prenda);
 
             convertView.setTag(holder);
         } else {
@@ -89,15 +102,89 @@ public class PrendaAdapter extends BaseAdapter {
 
         Picasso.with(context).load(prenda.getImagen()).fit().placeholder(R.drawable.progress_animator).centerInside().noFade().into(holder.imagen);
 
-//        boolean checked = prenda.getIndProbador().equals("1");
-//        holder.check.setChecked(checked);
+        boolean checked = prenda.getIndProbador().equals("1");
+        holder.corazon.setChecked(checked);
+
+        checkUpdated=prenda.getIndProbador();
+        final Integer cont = Integer.parseInt(holder.contado.getText().toString());
+        //final View finalConvertView = convertView;
+        //
+        final View finalConvertView = convertView;
+        final Prenda finalprenda = prenda;
+        final boolean[] finalChecked = {checked};
+        final Holder finalHolder = holder;
+
+        holder.corazon.setOnCheckedChangeListener( new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton toggleButton, boolean isChecked) {
+                Log.e("checkChange",String.valueOf(isChecked));
+                if (isChecked) {
+                    holder.contado.setText(String.valueOf(cont - 1));
+                    holder.corazon.setChecked(false);
+                }else {
+                    holder.contado.setText(String.valueOf(cont + 1));
+                    holder.corazon.setChecked(true);
+                }
+                    notifyDataSetChanged();
+            }
+        }) ;
+        holder.corazon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                        Log.e("contador",String.valueOf(cont));
+                        int dis = cont - 1;
+                        int au = cont + 1;
+                        Log.e("disAu",String.valueOf(dis)+" "+String.valueOf(au));
+                        if (checkUpdated.equals("1")){
+                            //holder.contado.setText(String.valueOf(dis));
+                            //holder.corazon.setChecked(false);
+                        }else{
+                            //holder.contado.setText(String.valueOf(au));
+                            //holder.corazon.setChecked(true);
+                        }
+                        dsProbador = new DSProbador(finalConvertView.getContext());
+                        dsProbador.setIndProbador(finalprenda.getCod_prenda());
+            }
+        });
+        holder.imagen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("click", "en IMAGEN");
+                int dis = cont - 1;
+                int au = cont + 1;
+                Log.e("disAu", String.valueOf(dis) + " " + String.valueOf(au));
+                if (checkUpdated.equals("1")){
+                    //holder.contado.setText(String.valueOf(dis));
+                    //holder.corazon.setChecked(false);
+                }else{
+                    //holder.contado.setText(String.valueOf(au));
+                  //  holder.corazon.setChecked(true);
+                }
+                //notifyDataSetChanged();
+                //dsProbador = new DSProbador(finalConvertView.getContext());
+                dsProbador.setIndProbador(finalprenda.getCod_prenda());
+
+            }
+        });
 
         return convertView;
     }
 
+
+
+    @Subscribe
+    public void getIndProbador(String indProb) {
+        checkUpdated=indProb;
+        Log.e("enAdapter",indProb);
+    }
+
+
+
     class Holder {
+
         TextView marca;
         TextView contado;
+        ToggleButton corazon;
         TextView modelo;
         TextView precio;
         ImageView imagen;

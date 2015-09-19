@@ -23,9 +23,10 @@ import pe.com.glup.bus.BusHolder;
 import pe.com.glup.datasource.DSProbador;
 import pe.com.glup.interfaces.OnClickProbador;
 import pe.com.glup.interfaces.OnSuccessDisableSliding;
+import pe.com.glup.interfaces.OnSuccessPrendas;
 
 
-public class FProbador extends Fragment implements View.OnClickListener{
+public class FProbador extends Fragment implements View.OnClickListener,OnSuccessPrendas{
 
     private ImageButton superior,medio;
     private ViewPager pagerTop;
@@ -104,14 +105,14 @@ public class FProbador extends Fragment implements View.OnClickListener{
 
             @Override
             public void onPageSelected(int position) {
-                if(prendasTop.get(position).getTipo().toUpperCase().equals("VESTIDO"))
-                {   Log.e("TOP", ((Prenda) pagerTopAdapter.getItem(position)).getCod_prenda()+" "+
-                        ((Prenda) pagerTopAdapter.getItem(position)).getIndProbador());
+                if (prendasTop.get(position).getTipo().toUpperCase().equals("VESTIDO")) {
+                    Log.e("TOP", ((Prenda) pagerTopAdapter.getItem(position)).getCod_prenda() + " " +
+                            ((Prenda) pagerTopAdapter.getItem(position)).getIndProbador());
                     pagerBotton.setVisibility(View.GONE);
-                    posCurrentTop=position;
-                }else{
+                    posCurrentTop = position;
+                } else {
                     pagerBotton.setVisibility(View.VISIBLE);
-                    posCurrentBottom=position;
+                    posCurrentBottom = position;
                 }
             }
 
@@ -122,24 +123,48 @@ public class FProbador extends Fragment implements View.OnClickListener{
         });
 
         DSProbador dsProbadorA = new DSProbador(getActivity());
+
+        try{
+            dsProbadorA.setOnSuccessPrendas(FProbador.this);
+        }catch (ClassCastException c){
+            Log.e("errorProb",c.toString());
+        }
         dsProbadorA.getGlobalPrendas("A", "1", "20");
 
         DSProbador dsProbadorB = new DSProbador(getActivity());
+        try{
+            dsProbadorB.setOnSuccessPrendas(FProbador.this);
+        }catch (ClassCastException c){
+            Log.e("errorProb",c.toString());
+        }
+
         dsProbadorB.getGlobalPrendas("B", "1", "20");
     }
 
-    @Subscribe
+    @Override
     public void succesPrendas(DSProbador.ResponseProbador responseProbador) {
         if (responseProbador.tipo.equals("A"))
         {   Log.e(null,responseProbador.toString());
-            this.prendasTop = responseProbador.prendas;
+            //this.prendasTop = responseProbador.prendas;
+            this.prendasTop = new ArrayList<Prenda>();
+            for (int i=0;i<responseProbador.prendas.size();i++){
+                if (responseProbador.prendas.get(i).getIndProbador().equals("1")){
+                    this.prendasTop.add(responseProbador.prendas.get(i));
+                }
+            }
             pagerTopAdapter = new PagerTopAdapter(getActivity(), this.prendasTop);
             pagerTop.setAdapter(pagerTopAdapter);
 
 
         } else if (responseProbador.tipo.equals("B"))
         {
-            this.prendasBottom = responseProbador.prendas;
+            //this.prendasBottom = responseProbador.prendas;
+            this.prendasBottom = new ArrayList<Prenda>();
+            for (int i=0;i<responseProbador.prendas.size();i++){
+                if (responseProbador.prendas.get(i).getIndProbador().equals("1")){
+                    this.prendasBottom.add(responseProbador.prendas.get(i));
+                }
+            }
             pagerBottomAdapter = new PagerBottomAdapter(getActivity(), this.prendasBottom);
             pagerBotton.setAdapter(pagerBottomAdapter);
         }
@@ -176,13 +201,7 @@ public class FProbador extends Fragment implements View.OnClickListener{
                 break;
         }
     }
-    private int getItemTop(int i) {
-        return pagerTop.getCurrentItem() + i;
-    }
 
-    private int getItemBottom(int i) {
-        return pagerBotton.getCurrentItem() + i;
-    }
     private void nextPageTop() {
         int currentPage = pagerTop.getCurrentItem();
         int totalPages = pagerTop.getAdapter().getCount();
@@ -241,6 +260,12 @@ public class FProbador extends Fragment implements View.OnClickListener{
         }
 
         pagerBotton.setCurrentItem(previousPage, true);
+    }
+
+    @Subscribe
+    public void getIndProbador(String indProb) {
+        Log.e("enFProbador", indProb);
+
     }
 
 

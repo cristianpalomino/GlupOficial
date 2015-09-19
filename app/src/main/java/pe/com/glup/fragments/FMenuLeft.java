@@ -19,19 +19,14 @@ import pe.com.glup.adapters.PrendaAdapter;
 import pe.com.glup.beans.Prenda;
 import pe.com.glup.bus.BusHolder;
 import pe.com.glup.datasource.DSProbador;
+import pe.com.glup.interfaces.OnSuccessPrendas;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FMenuLeft.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link FMenuLeft#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class FMenuLeft extends Fragment {
+
+public class FMenuLeft extends Fragment implements OnSuccessPrendas{
 
     private ListView listView;
     private ArrayList<Prenda> prendasTop;
+    private DSProbador dsProbador;
 
     public static FMenuLeft newInstance() {
         FMenuLeft fragment = new FMenuLeft();
@@ -44,7 +39,7 @@ public class FMenuLeft extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        BusHolder.getInstance().register(this);
+
         if (getArguments() != null) {
         }
     }
@@ -60,11 +55,14 @@ public class FMenuLeft extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         listView = (ListView) getView().findViewById(R.id.listView);
 
+
         DSProbador dsProbadorA = new DSProbador(getActivity());
+        dsProbadorA.setOnSuccessPrendas(FMenuLeft.this);
         dsProbadorA.getGlobalPrendas("A", "1", "20");
     }
 
-    @Subscribe
+
+    @Override
     public void succesPrendas(DSProbador.ResponseProbador responseProbador) {
         if (responseProbador.tipo.equals("A"))
         {
