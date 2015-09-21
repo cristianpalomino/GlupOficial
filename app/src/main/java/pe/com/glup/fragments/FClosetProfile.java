@@ -32,6 +32,7 @@ import pe.com.glup.interfaces.OnSuccessDetalleUsuario;
 import pe.com.glup.interfaces.OnSuccessUpdatePass;
 import pe.com.glup.interfaces.OnSuccessUpdateUser;
 import pe.com.glup.utils.DatePickerFragment;
+import pe.com.glup.utils.MessageUtil;
 
 
 public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
@@ -307,6 +308,7 @@ public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
     @Override
     public void onSuccesUpdateUser(boolean status, int indOp, String msg) {
         Log.e("mensajeSuccess", msg+ " indicador "+ indOp);
+        MessageUtil.showToast(getActivity(),msg);
     }
 
 
