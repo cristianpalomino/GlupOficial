@@ -16,6 +16,8 @@ import java.util.ArrayList;
 
 import pe.com.glup.R;
 import pe.com.glup.beans.Prenda;
+import pe.com.glup.bus.BusHolder;
+import pe.com.glup.interfaces.OnClickTopProbador;
 import pe.com.glup.utils.Util_Fonts;
 
 /**
@@ -26,11 +28,13 @@ public class PagerTopAdapter extends PagerAdapter {
     private Context context;
     private LayoutInflater layoutInflater;
     private ArrayList<Prenda> prendas;
+    OnClickTopProbador onClickTopProbador;
 
     public PagerTopAdapter(Context context,ArrayList<Prenda> prendas) {
         this.context = context;
         this.prendas = prendas;
         this.layoutInflater = (LayoutInflater)this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        BusHolder.getInstance().register(this);
     }
 
     @Override
@@ -48,10 +52,10 @@ public class PagerTopAdapter extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
+    public Object instantiateItem(final ViewGroup container, int position) {
         View itemView = this.layoutInflater.inflate(R.layout.item_pager_top, container, false);
         Log.e("topAdapter",prendas.get(position).getIndProbador());
-        Prenda prenda = prendas.get(position);
+        final Prenda prenda = prendas.get(position);
         TextView marca = (TextView) itemView.findViewById(R.id.item_marca_prenda);
         ImageView imagen = (ImageView) itemView.findViewById(R.id.item_imagen_prenda);
 
@@ -59,6 +63,21 @@ public class PagerTopAdapter extends PagerAdapter {
         marca.setTypeface(Util_Fonts.setRegular(context));
         Picasso.with(context).load(prenda.getImagen()).fit().centerInside().placeholder(R.drawable.progress_animator).noFade().into(imagen);
 
+        imagen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("pagerTop", prenda.getCod_prenda());
+                /*try {
+                    onClickTopProbador= (OnClickTopProbador) context.getApplicationContext();
+                    onClickTopProbador.onClickTopProbador(prenda.getCod_prenda());
+                }catch (ClassCastException c){
+                    Log.e(null,c.toString());
+                }*/
+                String tag="BusTopAdapter";
+                BusHolder.getInstance().post(tag);
+
+            }
+        });
         container.addView(itemView);
 
         return itemView;

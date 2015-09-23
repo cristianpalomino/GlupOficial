@@ -41,6 +41,10 @@
             android:name=".glup.Principal"
             android:label="@string/title_activity_principal"
             android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".dialog.DetailActivity"
+            android:label="@string/title_activity_principal"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

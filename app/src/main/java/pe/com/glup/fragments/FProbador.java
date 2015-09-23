@@ -1,5 +1,6 @@
 package pe.com.glup.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -23,7 +24,9 @@ import pe.com.glup.adapters.PrendaAdapter;
 import pe.com.glup.beans.Prenda;
 import pe.com.glup.bus.BusHolder;
 import pe.com.glup.datasource.DSProbador;
+import pe.com.glup.dialog.DetailActivity;
 import pe.com.glup.interfaces.OnClickProbador;
+import pe.com.glup.interfaces.OnClickTopProbador;
 import pe.com.glup.interfaces.OnSuccessDisableSliding;
 import pe.com.glup.interfaces.OnSuccessPrendas;
 import pe.com.glup.session.Session_Manager;
@@ -301,7 +304,7 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
     @Subscribe
     public void addProbador(Prenda prenda){
         Log.e("codProbador",prenda.getCod_prenda());
-        Log.e("filtroPos",prenda.getFiltroPosicion());
+        Log.e("filtroPos", prenda.getFiltroPosicion());
         if (prenda.getFiltroPosicion().equals("A")){
             this.prendasTop.add(prenda);
             pagerTopAdapter.notifyDataSetChanged();
@@ -311,6 +314,12 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
         }
     }
 
+    @Subscribe
+    public void addReserva(String tag){
+       Log.e(null,tag);
+            startActivity(new Intent(getActivity(), DetailActivity.class));
+
+    }
 
 
 }
