@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
@@ -21,6 +22,8 @@ public class DetailActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             crearFullScreenDialog();
         }
+        String codigoPrenda=getIntent().getExtras().getString("codigoPrenda");
+        Log.e("dentroActvFull", codigoPrenda);
     }
 
     private void crearFullScreenDialog() {

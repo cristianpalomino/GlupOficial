@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import pe.com.glup.beans.Catalogo;
 import pe.com.glup.beans.Prenda;
+import pe.com.glup.beans.Tienda;
 import pe.com.glup.bus.BusHolder;
 import pe.com.glup.interfaces.OnSuccessPrendas;
 import pe.com.glup.session.Session_Manager;
@@ -28,6 +29,7 @@ public class DSProbador {
 
     private Context context;
     private ArrayList<Prenda> prendas = new ArrayList<Prenda>();
+    ArrayList<Tienda> tiendas = new ArrayList<Tienda>();
     private OnSuccessPrendas onSuccessPrendas;
 
     public DSProbador(Context context) {
@@ -93,7 +95,7 @@ public class DSProbador {
         httpClient.post(context,URL,params,new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response){
-                super.onSuccess(statusCode,headers,response);
+                super.onSuccess(statusCode, headers, response);
                 try {
                     String indProb= response.getString("indProb");
                     Log.e("dsProbador", indProb);
@@ -113,11 +115,91 @@ public class DSProbador {
 
     }
 
+    public void getPrendaDetalle(String codigoPrenda){
+        String URL=WSGlup.ORQUESTADOR_NUEVO;
+
+        RequestParams params = new RequestParams();
+        params.put("tag","detallePrenda");
+        params.put("codigo_prenda",codigoPrenda);
+        params.put("codigo_usuario", new Session_Manager(context).getCurrentUserCode());
+
+        AsyncHttpClient httpClient = new AsyncHttpClient();
+        httpClient.post(context,URL,params,new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
+                super.onSuccess(statusCode, headers, response);
+                Gson gson=new Gson();
+
+
+                ResponseDetallePrenda responseDetallePrenda = gson.fromJson(response.toString(),ResponseDetallePrenda.class);
+                prendas = responseDetallePrenda.getPrendas();
+                Log.e("success",responseDetallePrenda.getSuccess()+"");
+                Log.e("descripcion",prendas.get(0).getDescripcion());
+
+                BusHolder.getInstance().post(responseDetallePrenda);
+
+
+
+            }
+            @Override
+            public  void onFailure(int statusCode, Header[] headers,String responseString,Throwable throwable){
+                super.onFailure(statusCode, headers, responseString, throwable);
+            }
+        });
+    }
+    public void getTiendasDisponibles(String codigoPrenda){
+        String URL=WSGlup.ORQUESTADOR_NUEVO;
+
+        RequestParams params = new RequestParams();
+        params.put("tag","listarTiendaPrenda");
+        params.put("codigo_prenda",codigoPrenda);
+        params.put("codigo_usuario", new Session_Manager(context).getCurrentUserCode());
+
+        AsyncHttpClient httpClient = new AsyncHttpClient();
+        httpClient.post(context,URL,params,new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
+                super.onSuccess(statusCode, headers, response);
+                Gson gson=new Gson();
+
+
+                ResponseTiendasDisponibles responseTiendasDisponibles = gson.fromJson(response.toString(),ResponseTiendasDisponibles.class);
+                tiendas = responseTiendasDisponibles.getTiendas();
+                Log.e("success",responseTiendasDisponibles.getSuccess()+"");
+                Log.e("descripcion", tiendas.get(0).getLocal());
+
+                BusHolder.getInstance().post(responseTiendasDisponibles);
+            }
+            @Override
+            public  void onFailure(int statusCode, Header[] headers,String responseString,Throwable throwable){
+                super.onFailure(statusCode,headers,responseString,throwable);
+            }
+        });
+    }
+
 
     public class ResponseProbador
     {
         public String tipo;
         public String message;
         public ArrayList<Prenda> prendas;
+    }
+    public class ResponseDetallePrenda{
+        private String tag;
+        private int success;
+        private ArrayList<Prenda> prendas;
+
+        public String getTag() {return tag;}
+        public int getSuccess() {return success;}
+        public ArrayList<Prenda> getPrendas() {return prendas;}
+    }
+    public class ResponseTiendasDisponibles{
+        private String tag;
+        private int success;
+        private ArrayList<Tienda> tiendas;
+
+        public String getTag() {return tag;}
+        public int getSuccess() {return success;}
+        public ArrayList<Tienda> getTiendas() {return tiendas;}
     }
 }

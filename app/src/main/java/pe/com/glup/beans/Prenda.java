@@ -22,10 +22,13 @@ public class Prenda implements Serializable {
     private ArrayList<String> talla;
     private String filtroPosicion;
 
+    private String descripcion;
+    private String composicion;
+
     public Prenda() {
     }
 
-    public Prenda(String indUserReg, String cod_prenda, String marca, String tipo, String modelo, String estilo, String imagen, String indProbador, String nombre, String precio, String numGusta, ArrayList<String> talla) {
+    public Prenda(String indUserReg, String cod_prenda, String marca, String tipo, String modelo, String estilo, String imagen, String indProbador, String nombre, String precio, String numGusta, ArrayList<String> talla, String descripcion, String composicion) {
         this.indUserReg = indUserReg;
         this.cod_prenda = cod_prenda;
         this.marca = marca;
@@ -38,6 +41,8 @@ public class Prenda implements Serializable {
         this.precio = precio;
         this.numGusta = numGusta;
         this.talla = talla;
+        this.descripcion=descripcion;
+        this.composicion=composicion;
     }
 
     public String getFiltroPosicion() {
@@ -95,6 +100,11 @@ public class Prenda implements Serializable {
     public String getNumGusta() {
         return numGusta;
     }
+
+
+    public String getDescripcion() {return descripcion;}
+
+    public String getComposicion() {return composicion;}
 
     @Override
     public String toString() {

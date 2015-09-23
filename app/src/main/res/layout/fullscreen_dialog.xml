@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <RelativeLayout
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="@dimen/activity_horizontal_margin">
-
-
-
-
         <View
             android:id="@+id/centro"
             android:layout_width="1dp"
@@ -20,18 +15,172 @@
             android:layout_centerInParent="true"
             android:background="@null" />
 
-
-
-
-        <TextView
-            android:id="@+id/hora_text"
-            style="@android:style/Widget.DeviceDefault.Light.Spinner"
+        <ImageButton
+            android:src="@mipmap/ic_close"
+            android:id="@+id/cerrar_add_reserva"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:text="Small Text"
             android:textAppearance="?android:attr/textAppearanceSmall" />
-
     </RelativeLayout>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" android:fillViewport="true">
+    <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+        <RelativeLayout
+            android:gravity="center"
+            android:orientation="vertical" android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="32dp">
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:id="@+id/marca_reserva"
+                android:text="MYCH "
+                android:textSize="24sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="6dp"
+                android:id="@+id/tipo_prenda_reserva"
+                android:textSize="20sp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/marca_reserva"
+                android:text="Polo Mandiz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_margin="16sp"
+                android:gravity="center"
+                android:id="@+id/descripcion_reserva"
+                android:text="@string/descripcion_prenda"
+                android:textSize="18sp"
+                android:layout_below="@+id/tipo_prenda_reserva"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="6dp"
+                android:id="@+id/composicion_reserva"
+                android:text="Composicion:"
+                android:textSize="18sp"
+                android:layout_below="@+id/descripcion_reserva"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <RelativeLayout
+                android:gravity="center"
+                android:id="@+id/componentes"
+                android:layout_below="@id/composicion_reserva"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textSize="14sp"
+                    android:layout_margin="6dp"
+                    android:text="componente1"
+                    android:id="@+id/componente1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:visibility="gone"
+                    android:textSize="14sp"
+                    android:layout_margin="6dp"
+                    android:layout_toRightOf="@id/componente1"
+                    android:text="componente2"
+                    android:id="@+id/componente2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:visibility="gone"
+                    android:textSize="14sp"
+                    android:layout_margin="6dp"
+                    android:layout_toRightOf="@id/componente2"
+                    android:text="componente3"
+                    android:id="@+id/componente3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+            <Spinner
+                style="@android:style/Widget.DeviceDefault.Light.Spinner"
+                android:textSize="18sp"
+                android:layout_margin="12dp"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/centro2"
+                android:layout_below="@id/componentes"
+                android:hint="Elegir tienda"
+                android:id="@+id/elegir_tienda_reserva"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </Spinner>
+
+            <View
+                android:id="@+id/centro2"
+                android:layout_width="1dp"
+                android:layout_height="1dp"
+                android:layout_centerInParent="true"
+                android:background="@null" />
+
+            <TextView
+                android:textSize="18sp"
+                android:layout_margin="12dp"
+                android:id="@+id/precio_reserva"
+                android:layout_below="@id/componentes"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="right|bottom"
+                android:text="S/.140"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <RadioGroup
+            android:id="@+id/elegir_talla_reserva"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ToggleButton
+                android:text="S"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/darker_gray"
+                android:background="@null"/>
+            <ToggleButton
+                android:text="M"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/darker_gray"
+                android:background="@null"/>
+            <ToggleButton
+                android:text="L"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/darker_gray"
+                android:background="@null"/>
+            <ToggleButton
+                android:text="XL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/darker_gray"
+                android:background="@null"/>
+        </RadioGroup>
+        <Button
+            android:layout_margin="48dp"
+            android:id="@+id/add_reserva"
+            android:textAllCaps="false"
+            android:shadowColor="@color/azul_glup"
+            android:background="@drawable/button_selector"
+            android:textColor="@color/celeste_glup"
+            android:text="Agregar a Reserva"
+            android:layout_width="220dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
 </ScrollView>
+</RelativeLayout>
