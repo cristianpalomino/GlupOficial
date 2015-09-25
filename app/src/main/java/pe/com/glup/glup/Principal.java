@@ -27,12 +27,12 @@ public class Principal extends Glup implements Footer.OnChangeTab,
 
     private OnSuccessDisableSliding onSuccessDisableSliding;
     private boolean flagChangeTab = false;
-    private final String[] MESSAGES = {"HOME", "CLOSET", "PROBADOR", "CAMERA"};
+    private final String[] MESSAGES = {"HOME", "CLOSET", "PROBADOR","RESERVA", "CAMERA"};
     private final Fragment[] FRAGMENTS = {
             FCatalogo.newInstance(),
             FCloset.newInstance(),
             FProbador.newInstance(),
-            Fragment_Home.newInstance(MESSAGES[3], MESSAGES[3])
+            Fragment_Home.newInstance(MESSAGES[4], MESSAGES[4])
     };
     private static String CURRENT_FRAGMENT_TAG;
 

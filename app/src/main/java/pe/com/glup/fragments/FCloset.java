@@ -137,13 +137,6 @@ public class FCloset extends Fragment implements View.OnClickListener,OnSuccessD
         cantPrendas = (TextView) getView().findViewById(R.id.cantPrendas);
 
 
-        //
-        /*
-        grilla.setOnItemLongClickListener(null);
-        grilla.setOnItemSelectedListener(null);
-        grilla.setOnScrollListener(null);
-        */
-
         fotoPerfil.setOnClickListener(this);
 
         dsUsuario = new DSUsuario(getActivity());
@@ -154,17 +147,6 @@ public class FCloset extends Fragment implements View.OnClickListener,OnSuccessD
         }
 
         dsUsuario.loadUsuario();
-
-        /*
-        CALL API REST
-         */
-        //dec1
-
-        /*
-        SHOW LOAD DIALOG
-         */
-        //dec1
-
 
         if (getArguments().getString("numm")!=null)
             Log.e("numero 1", getArguments().getString("num"));

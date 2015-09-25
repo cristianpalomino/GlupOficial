@@ -197,17 +197,62 @@ public class DSProbador {
         httpClient.post(context,URL,params,new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode,Header[] headers, JSONObject response){
-                super.onSuccess(statusCode,headers,response);
+                super.onSuccess(statusCode, headers, response);
                 Gson gson=new Gson();
-                ResponseTallasDisponibles responseTallasDisponibles=
-                        gson.fromJson(response.toString(),ResponseTallasDisponibles.class);
-                tallas=responseTallasDisponibles.getTallas();
-                Log.e("success",responseTallasDisponibles.getSuccess()+"");
-                Log.e("talla0",tallas.get(0).getTalla());
 
-                BusHolder.getInstance().post(responseTallasDisponibles);
+                try {
+                    ResponseTallasDisponibles responseTallasDisponibles=
+                            gson.fromJson(response.toString(),ResponseTallasDisponibles.class);
+                    if (response.getInt("success")==1){
+                        tallas=responseTallasDisponibles.getTallas();
+                        Log.e("success",responseTallasDisponibles.getSuccess()+"");
+                        Log.e("talla0",tallas.get(0).getTalla());
+                    }
+                    BusHolder.getInstance().post(responseTallasDisponibles);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public  void onFailure(int statusCode, Header[] headers,String responseString,Throwable throwable){
+                super.onFailure(statusCode, headers, responseString, throwable);
             }
         });
+    }
+    public void reservarPrenda(String codPrenda, String idTalla){
+        String URL = WSGlup.ORQUESTADOR_NUEVO;
+
+        RequestParams params=new RequestParams();
+        params.put("codigo_prenda",codPrenda);
+        params.put("codigo_usuario",new Session_Manager(context).getCurrentUserCode());
+        params.put("id_talla",idTalla);
+        params.put("tag","reservarPrenda");
+
+        AsyncHttpClient httpClient= new AsyncHttpClient();
+        httpClient.post(context,URL,params,new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode,Header[] headers,JSONObject response){
+                super.onSuccess(statusCode,headers,response);
+                Gson gson=new Gson();
+                try {
+                    Log.e("successR",response.getInt("success")+"");
+                    ResponseReservarPrenda responseReservarPrenda=gson.fromJson(
+                            response.toString(),ResponseReservarPrenda.class);
+                    Log.e("seReservo",responseReservarPrenda.getSuccess()+"");
+                    BusHolder.getInstance().post(responseReservarPrenda);
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
+
+
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                Log.e("ERROR",responseString);
+            }
+        });
+
     }
 
 
@@ -243,5 +288,16 @@ public class DSProbador {
         public String getTag() {return tag;}
         public int getSuccess() {return success;}
         public ArrayList<TallaDisponible> getTallas() {return tallas;}
+    }
+    public class  ResponseReservarPrenda{
+        private String tag;
+        private int success;
+        private int error;
+        private String indReserva;
+
+        public String getTag() {return tag;}
+        public int getSuccess() {return success;}
+        public int getError() {return error;}
+        public String getIndReserva() {return indReserva;}
     }
 }

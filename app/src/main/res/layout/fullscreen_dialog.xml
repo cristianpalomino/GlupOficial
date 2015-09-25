@@ -16,13 +16,16 @@
             android:layout_centerInParent="true"
             android:background="@null" />
 
-        <Button
-            android:src="@mipmap/ic_close"
+        <ImageView
+            android:paddingRight="30dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:src="@drawable/atras_icon"
             android:id="@+id/cerrar_add_reserva"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
             android:text="Cerrar"
             android:textAppearance="?android:attr/textAppearanceSmall" />
     </RelativeLayout>

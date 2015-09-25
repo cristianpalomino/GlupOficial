@@ -333,8 +333,6 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
         bundle.putString("codigoPrenda", successLongClick.codigo_prenda);
         intent.putExtras(bundle);
         startActivity(intent);
-
-
     }
 
 }
