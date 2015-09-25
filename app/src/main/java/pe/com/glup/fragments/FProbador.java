@@ -317,7 +317,7 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
     @Subscribe
     public void addReservaTop(PagerTopAdapter.SuccessTopLongClick successLongClick){
        Log.e(null, successLongClick.tag + " " + successLongClick.succcess+ " "+successLongClick.codigo_prenda);
-        Intent intent = new Intent(getActivity(),DetailActivity.class);
+        Intent intent = new Intent(getActivity().getApplicationContext(),DetailActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("codigoPrenda", successLongClick.codigo_prenda);
         intent.putExtras(bundle);
@@ -328,9 +328,9 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
     @Subscribe
     public void addReservaBottom(PagerBottomAdapter.SuccessBottomLongClick successLongClick){
         Log.e(null, successLongClick.tag + " " + successLongClick.succcess+ " "+successLongClick.codigo_prenda);
-        Intent intent = new Intent(getActivity(),DetailActivity.class);
+        Intent intent = new Intent(getActivity().getApplicationContext(),DetailActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putString("codigoPrenda",successLongClick.codigo_prenda);
+        bundle.putString("codigoPrenda", successLongClick.codigo_prenda);
         intent.putExtras(bundle);
         startActivity(intent);
 

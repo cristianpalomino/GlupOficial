@@ -30,4 +30,8 @@
     <string name="content_confirmation_pass">Ingresa tu contraseña para guardar el cambio</string>
     <string name="descripcion_prenda">Fiel a la firma de estilo urbano de la diseñadora Victoria Beckham, este top de mezclilla de color azul se hace a mano  con los hombros estrechos y cintura ajustada.</string>
 
+    <string-array name="tiendas">
+        <item>Cargando</item>
+        <item>Tiendas</item>
+    </string-array>
 </resources>

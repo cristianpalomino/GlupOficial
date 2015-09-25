@@ -7,7 +7,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/activity_horizontal_margin">
+        android:padding="@dimen/activity_horizontal_margin"
+        android:id="@+id/relativeLayout">
         <View
             android:id="@+id/centro"
             android:layout_width="1dp"
@@ -15,20 +16,21 @@
             android:layout_centerInParent="true"
             android:background="@null" />
 
-        <ImageButton
+        <Button
             android:src="@mipmap/ic_close"
             android:id="@+id/cerrar_add_reserva"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:text="Small Text"
+            android:text="Cerrar"
             android:textAppearance="?android:attr/textAppearanceSmall" />
     </RelativeLayout>
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" android:fillViewport="true">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" android:fillViewport="true"
+    android:layout_below="@+id/relativeLayout">
     <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
@@ -38,7 +40,10 @@
             android:gravity="center"
             android:orientation="vertical" android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="32dp">
+            android:paddingBottom="32dp"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"
+            android:paddingTop="10dp">
             <TextView
                 android:layout_centerHorizontal="true"
                 android:id="@+id/marca_reserva"
@@ -107,6 +112,7 @@
             </RelativeLayout>
 
             <Spinner
+                android:entries="@array/tiendas"
                 style="@android:style/Widget.DeviceDefault.Light.Spinner"
                 android:textSize="18sp"
                 android:layout_margin="12dp"
@@ -145,29 +151,45 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <ToggleButton
+                android:id="@+id/talla1"
+                android:textSize="24sp"
                 android:text="S"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:textColor="@android:color/darker_gray"
-                android:background="@null"/>
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:gravity="center"
+                android:background="@drawable/talla_prenda"
+                />
             <ToggleButton
+                android:layout_marginLeft="20dp"
+                android:id="@+id/talla2"
+                android:textSize="24sp"
                 android:text="M"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:textColor="@android:color/darker_gray"
-                android:background="@null"/>
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:gravity="center"
+                android:background="@drawable/talla_prenda"/>
             <ToggleButton
+                android:layout_marginLeft="20dp"
+                android:id="@+id/talla3"
+                android:textSize="24sp"
                 android:text="L"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:textColor="@android:color/darker_gray"
-                android:background="@null"/>
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:gravity="center"
+                android:background="@drawable/talla_prenda"/>
             <ToggleButton
+                android:layout_marginLeft="20dp"
+                android:id="@+id/talla4"
+                android:textSize="24sp"
                 android:text="XL"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:textColor="@android:color/darker_gray"
-                android:background="@null"/>
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:gravity="center"
+                android:background="@drawable/talla_prenda"/>
         </RadioGroup>
         <Button
             android:layout_margin="48dp"

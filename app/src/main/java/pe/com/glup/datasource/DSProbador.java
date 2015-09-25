@@ -16,8 +16,10 @@ import java.util.ArrayList;
 
 import pe.com.glup.beans.Catalogo;
 import pe.com.glup.beans.Prenda;
+import pe.com.glup.beans.TallaDisponible;
 import pe.com.glup.beans.Tienda;
 import pe.com.glup.bus.BusHolder;
+import pe.com.glup.dialog.FullScreenDialog;
 import pe.com.glup.interfaces.OnSuccessPrendas;
 import pe.com.glup.session.Session_Manager;
 import pe.com.glup.ws.WSGlup;
@@ -30,6 +32,7 @@ public class DSProbador {
     private Context context;
     private ArrayList<Prenda> prendas = new ArrayList<Prenda>();
     ArrayList<Tienda> tiendas = new ArrayList<Tienda>();
+    ArrayList<TallaDisponible> tallas= new ArrayList<TallaDisponible>();
     private OnSuccessPrendas onSuccessPrendas;
 
     public DSProbador(Context context) {
@@ -115,7 +118,7 @@ public class DSProbador {
 
     }
 
-    public void getPrendaDetalle(String codigoPrenda){
+    public void getPrendaDetalle(final String codigoPrenda){
         String URL=WSGlup.ORQUESTADOR_NUEVO;
 
         RequestParams params = new RequestParams();
@@ -134,7 +137,8 @@ public class DSProbador {
                 ResponseDetallePrenda responseDetallePrenda = gson.fromJson(response.toString(),ResponseDetallePrenda.class);
                 prendas = responseDetallePrenda.getPrendas();
                 Log.e("success",responseDetallePrenda.getSuccess()+"");
-                Log.e("descripcion",prendas.get(0).getDescripcion());
+                Log.e("descripcion", prendas.get(0).getDescripcion());
+
 
                 BusHolder.getInstance().post(responseDetallePrenda);
 
@@ -165,14 +169,43 @@ public class DSProbador {
 
                 ResponseTiendasDisponibles responseTiendasDisponibles = gson.fromJson(response.toString(),ResponseTiendasDisponibles.class);
                 tiendas = responseTiendasDisponibles.getTiendas();
-                Log.e("success",responseTiendasDisponibles.getSuccess()+"");
+                Log.e("success",responseTiendasDisponibles.getSuccess() + "");
                 Log.e("descripcion", tiendas.get(0).getLocal());
 
+
+
                 BusHolder.getInstance().post(responseTiendasDisponibles);
+
             }
             @Override
             public  void onFailure(int statusCode, Header[] headers,String responseString,Throwable throwable){
                 super.onFailure(statusCode,headers,responseString,throwable);
+            }
+        });
+    }
+
+    public void getTallasDisponibles(String codPrenda, String nomLocal){
+        String URL=WSGlup.ORQUESTADOR_NUEVO;
+
+        RequestParams params = new RequestParams();
+        params.put("codigo_prenda",codPrenda);
+        params.put("codigo_usuario",new Session_Manager(context).getCurrentUserCode());
+        params.put("nom_local",nomLocal);
+        params.put("tag","listarTallaPrenda");
+
+        AsyncHttpClient httpClient = new AsyncHttpClient();
+        httpClient.post(context,URL,params,new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode,Header[] headers, JSONObject response){
+                super.onSuccess(statusCode,headers,response);
+                Gson gson=new Gson();
+                ResponseTallasDisponibles responseTallasDisponibles=
+                        gson.fromJson(response.toString(),ResponseTallasDisponibles.class);
+                tallas=responseTallasDisponibles.getTallas();
+                Log.e("success",responseTallasDisponibles.getSuccess()+"");
+                Log.e("talla0",tallas.get(0).getTalla());
+
+                BusHolder.getInstance().post(responseTallasDisponibles);
             }
         });
     }
@@ -201,5 +234,14 @@ public class DSProbador {
         public String getTag() {return tag;}
         public int getSuccess() {return success;}
         public ArrayList<Tienda> getTiendas() {return tiendas;}
+    }
+    public class ResponseTallasDisponibles{
+        private String tag;
+        private int success;
+        private ArrayList<TallaDisponible> tallas;
+
+        public String getTag() {return tag;}
+        public int getSuccess() {return success;}
+        public ArrayList<TallaDisponible> getTallas() {return tallas;}
     }
 }
