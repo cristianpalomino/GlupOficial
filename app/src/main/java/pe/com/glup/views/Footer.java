@@ -23,10 +23,7 @@ import pe.com.glup.utils.FastBlur;
  */
 public class Footer extends LinearLayout implements View.OnClickListener {
 
-    private ImageView home;
-    private ImageView closet;
-    private ImageView probador;
-    private ImageView camara;
+    private ImageView home,closet,probador,camara,reserva;
 
     private ImageView fondo;
 
@@ -62,11 +59,13 @@ public class Footer extends LinearLayout implements View.OnClickListener {
         closet = (ImageView) findViewById(R.id.tabcloset);
         probador = (ImageView) findViewById(R.id.tabprobador);
         camara = (ImageView) findViewById(R.id.tabcamera);
+        reserva = (ImageView) findViewById(R.id.tabreserva);
 
         home.setOnClickListener(this);
         closet.setOnClickListener(this);
         probador.setOnClickListener(this);
         camara.setOnClickListener(this);
+        reserva.setOnClickListener(this);
 
         onChangeTab.currentTab(0);
         activeDefaultTab();
@@ -92,8 +91,10 @@ public class Footer extends LinearLayout implements View.OnClickListener {
 //            closet.setBackgroundResource(R.drawable.glup_tab_on);
 //            probador.setBackgroundResource(R.drawable.glup_tab_off);
 //            camara.setBackgroundResource(R.drawable.glup_tab_on);
-        } else if (v.equals(camara)) {
+        } else if (v.equals(reserva)){
             onChangeTab.onChangeTab(3);
+        } else if (v.equals(camara)) {
+            onChangeTab.onChangeTab(4);
 //            home.setBackgroundResource(R.drawable.glup_tab_on);
 //            closet.setBackgroundResource(R.drawable.glup_tab_on);
 //            probador.setBackgroundResource(R.drawable.glup_tab_on);

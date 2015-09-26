@@ -12,13 +12,15 @@
             android:id="@+id/reserva"
             android:layout_width="64dp"
             android:layout_height="64dp" />
-        <ImageView
+        <View
+            android:layout_margin="10dp"
             android:id="@+id/separador"
+            android:layout_width="1dp"
+            android:layout_height="64dp"
+            android:background="@color/negro"
+            android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/reserva"
-            android:src="@drawable/linea_separadora"
-            android:layout_centerInParent="true"
-            android:layout_width="5dp"
-            android:layout_height="64dp" />
+            android:layout_toEndOf="@+id/reserva" />
         <ToggleButton
             android:background="@drawable/reserva_confirmada"
             android:layout_margin="10dp"
@@ -28,6 +30,7 @@
             android:layout_height="64dp" />
     </RelativeLayout>
     <FrameLayout
+        android:id="@+id/fragment_reserva_ticket"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></FrameLayout>
 

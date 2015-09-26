@@ -15,6 +15,7 @@ import pe.com.glup.fragments.FCloset;
 import pe.com.glup.fragments.FMenuLeft;
 import pe.com.glup.fragments.FMenuRigth;
 import pe.com.glup.fragments.FProbador;
+import pe.com.glup.fragments.FReserva;
 import pe.com.glup.fragments.Fragment_Home;
 import pe.com.glup.interfaces.OnClickProbador;
 import pe.com.glup.interfaces.OnSuccessDetalleUsuario;
@@ -32,7 +33,8 @@ public class Principal extends Glup implements Footer.OnChangeTab,
             FCatalogo.newInstance(),
             FCloset.newInstance(),
             FProbador.newInstance(),
-            Fragment_Home.newInstance(MESSAGES[4], MESSAGES[4])
+            FReserva.newInstance(),
+            Fragment_Home.newInstance(MESSAGES[5], MESSAGES[5])
     };
     private static String CURRENT_FRAGMENT_TAG;
 
@@ -84,6 +86,7 @@ public class Principal extends Glup implements Footer.OnChangeTab,
     @Override
     public void onChangeTab(int position) {
         onChangeTab.onChangeTab(position);
+        Log.e("position",position+"");
 
         CURRENT_FRAGMENT_TAG = FRAGMENTS[position].getClass().getName().toString();
         Fragment current = getSupportFragmentManager().findFragmentByTag(CURRENT_FRAGMENT_TAG);
