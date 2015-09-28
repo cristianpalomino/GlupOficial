@@ -91,9 +91,9 @@ public class Footer extends LinearLayout implements View.OnClickListener {
 //            closet.setBackgroundResource(R.drawable.glup_tab_on);
 //            probador.setBackgroundResource(R.drawable.glup_tab_off);
 //            camara.setBackgroundResource(R.drawable.glup_tab_on);
-        } else if (v.equals(reserva)){
+        } else if (v.equals(camara)){
             onChangeTab.onChangeTab(3);
-        } else if (v.equals(camara)) {
+        } else if (v.equals(reserva)) {
             onChangeTab.onChangeTab(4);
 //            home.setBackgroundResource(R.drawable.glup_tab_on);
 //            closet.setBackgroundResource(R.drawable.glup_tab_on);

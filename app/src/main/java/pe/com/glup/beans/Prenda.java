@@ -130,4 +130,16 @@ public class Prenda implements Serializable {
                 ", talla=" + talla +
                 '}';
     }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public void setPrecio(String precio) {
+        this.precio = precio;
+    }
 }

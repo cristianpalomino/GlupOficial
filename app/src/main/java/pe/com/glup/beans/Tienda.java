@@ -10,6 +10,9 @@ public class Tienda {
     private String indUserReg;
     private ArrayList<TallaDisponible> tallaDisponibles;
 
+    public Tienda() {
+    }
+
     public Tienda(String local, String indUserReg, ArrayList<TallaDisponible> tallaDisponibles) {
         this.local = local;
         this.indUserReg = indUserReg;
@@ -32,5 +35,9 @@ public class Tienda {
                 "local='" + local + '\'' +
                 ", indUserReg='" + indUserReg + '\'' +
                 '}';
+    }
+
+    public void setLocal(String local) {
+        this.local = local;
     }
 }

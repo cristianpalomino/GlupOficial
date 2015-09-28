@@ -34,4 +34,5 @@
         <item>Cargando</item>
         <item>Tiendas</item>
     </string-array>
+    <string name="item_string">Item %1$d</string>
 </resources>

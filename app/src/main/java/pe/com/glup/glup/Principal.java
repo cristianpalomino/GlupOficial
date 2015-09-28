@@ -3,8 +3,6 @@ package pe.com.glup.glup;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.View;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
@@ -12,12 +10,9 @@ import pe.com.glup.R;
 import pe.com.glup.bus.BusHolder;
 import pe.com.glup.fragments.FCatalogo;
 import pe.com.glup.fragments.FCloset;
-import pe.com.glup.fragments.FMenuLeft;
-import pe.com.glup.fragments.FMenuRigth;
 import pe.com.glup.fragments.FProbador;
 import pe.com.glup.fragments.FReserva;
 import pe.com.glup.fragments.Fragment_Home;
-import pe.com.glup.interfaces.OnClickProbador;
 import pe.com.glup.interfaces.OnSuccessDetalleUsuario;
 import pe.com.glup.interfaces.OnSuccessDisableSliding;
 import pe.com.glup.views.Footer;
@@ -28,13 +23,12 @@ public class Principal extends Glup implements Footer.OnChangeTab,
 
     private OnSuccessDisableSliding onSuccessDisableSliding;
     private boolean flagChangeTab = false;
-    private final String[] MESSAGES = {"HOME", "CLOSET", "PROBADOR","RESERVA", "CAMERA"};
+    private final String[] MESSAGES = {"HOME", "CLOSET", "PROBADOR", "CAMERA","RESERVA"};
     private final Fragment[] FRAGMENTS = {
             FCatalogo.newInstance(),
             FCloset.newInstance(),
             FProbador.newInstance(),
-            FReserva.newInstance(),
-            Fragment_Home.newInstance(MESSAGES[5], MESSAGES[5])
+            Fragment_Home.newInstance(MESSAGES[3], MESSAGES[3]), FReserva.newInstance()
     };
     private static String CURRENT_FRAGMENT_TAG;
 
@@ -69,8 +63,6 @@ public class Principal extends Glup implements Footer.OnChangeTab,
         footer.initView();
 
 
-
-
         /*
         Temporal
          */
@@ -91,10 +83,12 @@ public class Principal extends Glup implements Footer.OnChangeTab,
         CURRENT_FRAGMENT_TAG = FRAGMENTS[position].getClass().getName().toString();
         Fragment current = getSupportFragmentManager().findFragmentByTag(CURRENT_FRAGMENT_TAG);
         if (current != null) {
+            Log.e(null,"curren not null"+current.toString());
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.frame_principal, FRAGMENTS[position], CURRENT_FRAGMENT_TAG)
                     .commit();
         } else {
+            Log.e(null,"current null");
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.frame_principal, FRAGMENTS[position], CURRENT_FRAGMENT_TAG)
                     .addToBackStack(CURRENT_FRAGMENT_TAG)
@@ -105,7 +99,7 @@ public class Principal extends Glup implements Footer.OnChangeTab,
         Log.e("FRAGMENTS", CURRENT_FRAGMENT_TAG + "");
         //((ViewGroup) namebar.getParent()).removeView(namebar);
         if (!CURRENT_FRAGMENT_TAG.equals("pe.com.glup.fragments.FProbador")){
-            Log.e("!Probador", "deberia cerrarse");
+            Log.e("!Probador", "deberia cerrarsel los sliders");
             //menuright.setSlidingEnabled(false);
             //onSuccessDisableSliding.onSuccessDisableSliding(true);
 

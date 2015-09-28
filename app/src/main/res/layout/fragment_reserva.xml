@@ -17,7 +17,7 @@
             android:id="@+id/separador"
             android:layout_width="1dp"
             android:layout_height="64dp"
-            android:background="@color/negro"
+            android:background="@color/celeste_glup"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/reserva"
             android:layout_toEndOf="@+id/reserva" />
