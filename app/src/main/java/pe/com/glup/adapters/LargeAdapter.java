@@ -34,7 +34,7 @@ public final class LargeAdapter extends RecyclerView.Adapter<LargeAdapter.ViewHo
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(android.R.layout.simple_list_item_1, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_textview, parent, false);
         return ViewHolder.newInstance(view);
     }
 
@@ -53,7 +53,7 @@ public final class LargeAdapter extends RecyclerView.Adapter<LargeAdapter.ViewHo
         private final TextView textView;
 
         public static ViewHolder newInstance(View itemView) {
-            TextView textView = (TextView) itemView.findViewById(android.R.id.text1);
+            TextView textView = (TextView) itemView.findViewById(R.id.textview);
             return new ViewHolder(itemView, textView);
         }
 

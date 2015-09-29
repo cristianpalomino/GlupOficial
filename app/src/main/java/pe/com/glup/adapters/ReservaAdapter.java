@@ -1,6 +1,7 @@
 package pe.com.glup.adapters;
 
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +12,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import pe.com.glup.R;
+import pe.com.glup.beans.Prenda;
 import pe.com.glup.beans.ReservaItem;
+import pe.com.glup.beans.Tienda;
 
 /**
  * Created by Glup on 28/09/15.
@@ -26,6 +29,27 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ReservaV
         this.itemLayout= itemLayout;
         this.reservaItems=reservaItems;
     }
+
+    public ReservaAdapter(Context context, int itemLayout) {
+
+        reservaItems = new ArrayList<ReservaItem>();
+        for (int i=0;i<10;i++){
+            ReservaItem reservaItem = new ReservaItem();
+            Tienda tienda = new Tienda();
+            tienda.setLocal("tienda " + i);
+            Prenda prenda = new Prenda();
+            prenda.setMarca("Marca " + i);
+            prenda.setTipo("Tipo " + i);
+            prenda.setPrecio("Precio " + i);
+            reservaItem.setTienda(tienda);
+            reservaItem.setPrenda(prenda);
+            reservaItems.add(reservaItem);
+            notifyDataSetChanged();
+        }
+        this.context=context;
+        this.itemLayout= itemLayout;
+    }
+
     @Override
     public ReservaViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(itemLayout,parent,false);
@@ -34,6 +58,7 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ReservaV
 
     @Override
     public void onBindViewHolder(ReservaViewHolder holder, int position) {
+
         holder.eliminarReserva.setOnClickListener(this);
         holder.nombreTienda.setText(reservaItems.get(position).getTienda().getLocal());
         holder.marcaPrenda.setText(reservaItems.get(position).getPrenda().getMarca());

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
     <RelativeLayout
         android:id="@+id/cantReservas"
@@ -14,15 +16,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </RelativeLayout>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_prendas_reserva"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5"
-        android:descendantFocusability="beforeDescendants"
-        android:scrollbars="vertical"
-        android:fadeScrollbars="true">
-    </android.support.v7.widget.RecyclerView>
+        android:layout_weight="5">
+        <android.support.v7.widget.RecyclerView
+            android:padding="16dp"
+            android:id="@+id/recycler_prendas_reserva"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/item_prenda_reserva"
+            />
+        <pe.com.glup.utils.FastScroller
+            android:id="@+id/fastscroller"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignTop="@id/recycler_prendas_reserva"
+            android:layout_alignBottom="@id/recycler_prendas_reserva"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+
     <RelativeLayout
         android:gravity="center_horizontal"
         android:layout_width="match_parent"
