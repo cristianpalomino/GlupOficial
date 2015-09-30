@@ -10,6 +10,7 @@
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent">
         <TextView
+            android:visibility="gone"
             android:id="@+id/reserva_tienda"
             android:textColor="@color/celeste_glup"
             android:textSize="22sp"
@@ -43,7 +44,8 @@
                 android:layout_marginStart="17dp"
                 android:layout_alignTop="@+id/precio_parcial"
                 android:layout_toRightOf="@+id/reserva_marca"
-                android:layout_toEndOf="@+id/reserva_marca" />
+                android:layout_toEndOf="@+id/reserva_marca"
+                android:layout_alignBottom="@+id/precio_parcial" />
             <TextView
                 android:id="@+id/precio_parcial"
                 android:textColor="@color/celeste_glup"
@@ -51,24 +53,20 @@
                 android:text="S/.140"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/reserva_eliminar"
+                android:layout_toStartOf="@+id/reserva_eliminar" />
+
+            <ImageView
+                android:padding="10dp"
+                android:id="@+id/reserva_eliminar"
+                android:src="@drawable/tacho_off"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginRight="47dp"
-                android:layout_marginEnd="47dp" />
+                android:layout_alignParentEnd="true" />
         </RelativeLayout>
-
-        <ImageView
-            android:padding="10dp"
-
-            android:id="@+id/reserva_eliminar"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/tacho_off"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
 
 
     </RelativeLayout>
@@ -78,11 +76,13 @@
         android:layout_height="1dp"
         android:background="@android:color/black"/>
     <RelativeLayout
+        android:id="@+id/layout_total"
         android:visibility="gone"
         android:padding="24dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:id="@+id/total_reserva"
             android:textColor="@color/celeste_glup"
             android:textSize="18sp"
             android:layout_marginRight="36dp"

@@ -7,14 +7,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import pe.com.glup.R;
 import pe.com.glup.beans.Prenda;
 import pe.com.glup.beans.ReservaItem;
+import pe.com.glup.beans.ReservaList;
 import pe.com.glup.beans.Tienda;
+import pe.com.glup.bus.BusHolder;
+import pe.com.glup.datasource.DSProbador;
+import pe.com.glup.datasource.DSReserva;
 
 /**
  * Created by Glup on 28/09/15.
@@ -22,30 +28,49 @@ import pe.com.glup.beans.Tienda;
 public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ReservaViewHolder>
                             implements View.OnClickListener{
     private int itemLayout;
-    private ArrayList<ReservaItem> reservaItems;
+    private ArrayList<HashMap> reservaItems;
     private Context context;
-    public ReservaAdapter(Context context,int itemLayout,ArrayList<ReservaItem> reservaItems){
+    private float total=0;
+    public ReservaAdapter(Context context,int itemLayout,ArrayList<HashMap> reservaItems){
         this.context=context;
         this.itemLayout= itemLayout;
         this.reservaItems=reservaItems;
+        calcularTotal();
+        BusHolder.getInstance().register(this);
+    }
+
+    private float calcularTotal() {
+
+        for (HashMap hashMap:reservaItems){
+            float precio= Float.parseFloat(((Prenda) hashMap.get("prenda")).getPrecio());
+            total+=precio;
+        }
+        return total;
+
+    }
+    private ArrayList<Integer> TiendasComunes(){
+        int cont=0;
+        String nomLocal="";
+        ArrayList<Integer> unicos=new ArrayList<Integer>();
+        for (HashMap hashMap:reservaItems){
+            if (cont==0){
+                nomLocal=hashMap.get("local").toString();
+                unicos.add(cont);
+            }
+            if (cont>=1){
+                if (nomLocal.equals(hashMap.get("local").toString())){
+                    //sigue invi
+                }else{
+                    nomLocal=hashMap.get("local").toString();
+                    unicos.add(cont);
+                }
+            }
+            cont++;
+        }
+        return unicos;
     }
 
     public ReservaAdapter(Context context, int itemLayout) {
-
-        reservaItems = new ArrayList<ReservaItem>();
-        for (int i=0;i<10;i++){
-            ReservaItem reservaItem = new ReservaItem();
-            Tienda tienda = new Tienda();
-            tienda.setLocal("tienda " + i);
-            Prenda prenda = new Prenda();
-            prenda.setMarca("Marca " + i);
-            prenda.setTipo("Tipo " + i);
-            prenda.setPrecio("Precio " + i);
-            reservaItem.setTienda(tienda);
-            reservaItem.setPrenda(prenda);
-            reservaItems.add(reservaItem);
-            notifyDataSetChanged();
-        }
         this.context=context;
         this.itemLayout= itemLayout;
     }
@@ -57,13 +82,30 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ReservaV
     }
 
     @Override
-    public void onBindViewHolder(ReservaViewHolder holder, int position) {
+    public void onBindViewHolder(final ReservaViewHolder holder, final int position) {
 
-        holder.eliminarReserva.setOnClickListener(this);
-        holder.nombreTienda.setText(reservaItems.get(position).getTienda().getLocal());
-        holder.marcaPrenda.setText(reservaItems.get(position).getPrenda().getMarca());
-        holder.tipo.setText(reservaItems.get(position).getPrenda().getTipo());
-        holder.precio.setText(reservaItems.get(position).getPrenda().getPrecio());
+        holder.eliminarReserva.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DSReserva dsReserva = new DSReserva(context);
+                dsReserva.eliminarDeReserva(((Prenda) reservaItems.get(position).get("prenda")).getCod_prenda());
+                reservaItems.remove(position);
+                notifyDataSetChanged();
+            }
+        });
+        holder.nombreTienda.setText(reservaItems.get(position).get("local").toString());
+        holder.marcaPrenda.setText(((Prenda) reservaItems.get(position).get("prenda")).getMarca());
+        holder.tipo.setText(((Prenda) reservaItems.get(position).get("prenda")).getTipo());
+        holder.precio.setText("S/."+((Prenda) reservaItems.get(position).get("prenda")).getPrecio());
+        if (position==getItemCount()-1){
+            holder.layoutTotal.setVisibility(View.VISIBLE);
+            holder.total.setText("S/."+calcularTotal());
+        }
+        for (Integer integer:TiendasComunes()){
+            if (position==integer){
+                holder.nombreTienda.setVisibility(View.VISIBLE);
+            }
+        }
 
     }
 
@@ -76,6 +118,7 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ReservaV
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.reserva_eliminar:
+
                 break;
         }
     }
@@ -86,6 +129,8 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ReservaV
         protected static TextView tipo;
         protected static TextView precio;
         protected static ImageView eliminarReserva;
+        protected static RelativeLayout layoutTotal;
+        protected static TextView total;
         public ReservaViewHolder(View itemView) {
             super(itemView);
             nombreTienda = (TextView) itemView.findViewById(R.id.reserva_tienda);
@@ -93,6 +138,8 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ReservaV
             tipo = (TextView) itemView.findViewById(R.id.reserva_tipo);
             precio = (TextView) itemView.findViewById(R.id.precio_parcial);
             eliminarReserva = (ImageView) itemView.findViewById(R.id.reserva_eliminar);
+            layoutTotal = (RelativeLayout) itemView.findViewById(R.id.layout_total);
+            total = (TextView) itemView.findViewById(R.id.total_reserva);
         }
     }
 }
