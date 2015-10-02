@@ -37,4 +37,8 @@
     <string name="item_string">Item %1$d</string>
     <string name="fastscroller_track">FastScroller track</string>
     <string name="fastscroller_handle">FastScroller handle</string>
+    <string name="content_confirmation_reserva">Porfavor ingrese el codigo enviado a su correo</string>
+    <string name="text_time_reserva">Tus prendas se han reservado por 12 horas, recogelas con el siguiente número</string>
+    <string name="text_solicita_ticket">Para usarlo en lo que mas te guste, solicitalos luego de tu compra</string>
+    <string name="text_cantidad_puntos">La cantidad de puntos, varia segun la prenda que compres no te olvides de solicitar que se atendio vía Glup</string>
 </resources>

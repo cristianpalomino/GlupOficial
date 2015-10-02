@@ -253,7 +253,6 @@ public class DSProbador {
 
     }
 
-
     public class ResponseProbador
     {
         public String tipo;

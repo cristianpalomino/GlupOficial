@@ -10,11 +10,11 @@
         android:layout_height="0dp"
         android:layout_weight="0.5">
         <TextView
-            android:layout_marginLeft="16dp"
+            android:layout_marginLeft="32dp"
             android:id="@+id/contReserva"
             android:textStyle="bold"
             android:textSize="22sp"
-            android:text="3 Reservas"
+            android:text="0 Reservas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </RelativeLayout>
@@ -22,12 +22,17 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5">
-        <android.support.v7.widget.RecyclerView
+        <ProgressBar
+            android:id="@+id/temp_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"/>
+        <ListView
             android:padding="16dp"
             android:id="@+id/recycler_prendas_reserva"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/item_demo_01"
+            android:scrollbars="vertical"
             />
     </RelativeLayout>
 
