@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import pe.com.glup.R;
-import pe.com.glup.adapters.RecyclerViewDemoAdapter;
 import pe.com.glup.adapters.ReservaListAdapter;
 import pe.com.glup.beans.Prenda;
 import pe.com.glup.beans.ReservaItem;
@@ -36,7 +35,6 @@ public class FReservaInfo extends Fragment implements View.OnClickListener{
     private TextView cantReserva;
     private ListView recyclerReserva, listView;
     private Button confirmar;
-    private RecyclerViewDemoAdapter reservaAdapterDemo;
     private ReservaListAdapter reservaAdapter;
     private LinearLayoutManager linearLayoutManager;
     private FragmentManager fragmentManager;

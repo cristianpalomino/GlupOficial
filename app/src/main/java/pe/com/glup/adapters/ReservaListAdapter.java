@@ -111,6 +111,16 @@ public class ReservaListAdapter extends BaseAdapter {
                     holder.nombreTienda.setVisibility(View.VISIBLE);
                 }
             }
+            if (tag.equals("FReservaInfo")){
+                holder.eliminarReserva.setVisibility(View.VISIBLE);
+            }else {
+                holder.eliminarReserva.setVisibility(View.INVISIBLE);
+                holder.eliminarReserva.setEnabled(false);
+                holder.nombreTienda.setTextSize(14);
+                holder.marcaPrenda.setTextSize(14);
+                holder.tipo.setTextSize(14);
+                holder.precio.setTextSize(14);
+            }
 
             holder.nombreTienda.setText(reservaItems.get(position).get("local").toString());
             holder.marcaPrenda.setText(((Prenda) reservaItems.get(position).get("prenda")).getMarca());

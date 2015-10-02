@@ -25,6 +25,7 @@ public class Prenda implements Serializable {
     private String descripcion;
     private String composicion;
     private String indReser;
+    private String local;
 
     public Prenda() {
     }
@@ -112,6 +113,14 @@ public class Prenda implements Serializable {
     public String getComposicion() {return composicion;}
 
     public String getIndReser() {return indReser;}
+
+    public String getLocal() {
+        return local;
+    }
+
+    public void setLocal(String local) {
+        this.local = local;
+    }
 
     @Override
     public String toString() {

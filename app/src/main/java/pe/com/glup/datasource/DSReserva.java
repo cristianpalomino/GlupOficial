@@ -15,6 +15,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import pe.com.glup.beans.Prenda;
 import pe.com.glup.beans.ReservaList;
 import pe.com.glup.beans.TicketList;
 import pe.com.glup.bus.BusHolder;
@@ -89,7 +90,7 @@ public class DSReserva {
                 Gson gson = new Gson();
 
                 try {
-                    Log.e("dsReserva",response.getInt("success") + " Se elimino prenda "+codPrenda);
+                    Log.e("dsReserva", response.getInt("success") + " Se elimino prenda " + codPrenda);
                         if (response.getInt("success")==1){
                             ResponseReload responseReload= new ResponseReload();
                             responseReload.fragment=((Glup)context).getSupportFragmentManager().findFragmentByTag("FReservaInfo");
@@ -176,8 +177,12 @@ public class DSReserva {
                     Log.e("dsReserva ", response.getInt("success") + " listando tickets ... ");
                     ResponseTicket responseTicket = gson.fromJson(response.toString(),
                             ResponseTicket.class);
-                    if (response.getInt("success")==1){
-                        Log.e(null,"cant. de tickets "+responseTicket.listaTicket.size());
+                    if (response.getInt("success")==1) {
+                        Log.e(null, "cant. de tickets " + responseTicket.listaTicket.size());
+                      /*  for (TicketList list : responseTicket.listaTicket) {
+                            Log.e(null, "code ticket " + list.getCodVenta());
+
+                        }*/
                     }
                     BusHolder.getInstance().post(responseTicket);
                 } catch (JSONException e) {
@@ -187,8 +192,38 @@ public class DSReserva {
             }
         });
     }
+    public void listarDetalleTicket(final String codVenta){
+        String URL=WSGlup.ORQUESTADOR_NUEVO;
 
-    
+        RequestParams params= new RequestParams();
+        params.put("codigo_usuario",new Session_Manager(context).getCurrentUserCode());
+        params.put("codigo_venta",codVenta);
+        params.put("tag","detalleTicketReserva");
+
+        AsyncHttpClient httpClient = new AsyncHttpClient();
+        httpClient.post(context,URL,params,new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+
+                Gson gson = new Gson();
+                try {
+                    Log.e("dsReserva ", response.getInt("success") + " listando reservas de ticket..."+codVenta);
+                    ResponseDetalleTicket responseDetalleTicket = gson.fromJson(response.toString(),
+                            ResponseDetalleTicket.class);
+                    if (response.getInt("success")==1){
+                        Log.e(null,"cant. de reservas del ticket "+responseDetalleTicket.detalleTicket.size());
+                    }
+                    BusHolder.getInstance().post(responseDetalleTicket);
+                } catch (JSONException e) {
+                    Log.e("dsReserva", e.toString());
+                }
+
+            }
+        });
+    }
+
+
 
     public class ResponseReserva
     {   public String tag;
@@ -214,5 +249,12 @@ public class DSReserva {
         public ArrayList<TicketList> listaTicket;
 
     }
+    public class ResponseDetalleTicket{
+        public String tag;
+        public int success;
+        public int error;
+        public ArrayList<ReservaList> detalleTicket;
+    }
+
 
 }

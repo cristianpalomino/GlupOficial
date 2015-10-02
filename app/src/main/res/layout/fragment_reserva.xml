@@ -30,8 +30,10 @@
             android:layout_height="64dp" />
     </RelativeLayout>
     <FrameLayout
+        android:layout_marginBottom="60dp"
         android:id="@+id/fragment_reserva_ticket"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></FrameLayout>
+
 
 </LinearLayout>
