@@ -10,7 +10,7 @@
         android:layout_height="0dp"
         android:layout_weight="0.5">
         <TextView
-            android:layout_marginLeft="32dp"
+            android:layout_marginLeft="36dp"
             android:id="@+id/contReserva"
             android:textStyle="bold"
             android:textSize="22sp"

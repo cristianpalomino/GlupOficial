@@ -30,4 +30,7 @@
     <color name="instagram_off">#125688</color>
     <color name="instagram_on">#88aac3</color>
 
+    <color name="gris_glup">#c2c2c2</color>
+    <color name="text_gris_glup">#8f8f8f</color>
+
 </resources>

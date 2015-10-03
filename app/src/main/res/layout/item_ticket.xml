@@ -4,21 +4,22 @@
     android:layout_height="match_parent">
     <RelativeLayout
         android:layout_below="@+id/ticket_item"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
-            android:src="@drawable/iconoticket_off"
             android:layout_marginLeft="10dp"
+            android:src="@drawable/iconoticket_off"
             android:id="@+id/image_ticket"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_width="48dp"
-            android:layout_height="48dp" />
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
         <TextView
             android:id="@+id/code_ticket"
-            android:layout_margin="15dp"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="8dp"
             android:textColor="@color/celeste_glup"
             android:textSize="16sp"
             android:text="#DEMO000001"
@@ -27,7 +28,8 @@
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/total_ticket"
-            android:layout_margin="15dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="8dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:textColor="@color/celeste_glup"
@@ -38,8 +40,7 @@
     </RelativeLayout>
     <View
         android:id="@+id/separador_item_ticket"
-        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/black"/>
+        android:background="@color/gris_glup"/>
 </LinearLayout>

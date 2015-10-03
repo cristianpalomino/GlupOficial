@@ -45,7 +45,6 @@ public class ReservaListAdapter extends BaseAdapter {
             total+=precio;
         }
         return total;
-
     }
 
     private ArrayList<Integer> TiendasComunes(){
@@ -100,6 +99,8 @@ public class ReservaListAdapter extends BaseAdapter {
             holder.eliminarReserva = (ImageView) convertView.findViewById(R.id.reserva_eliminar);
             holder.layoutTotal = (RelativeLayout) convertView.findViewById(R.id.layout_total);
             holder.total = (TextView) convertView.findViewById(R.id.total_reserva);
+            holder.contenedor = (RelativeLayout) convertView.findViewById(R.id.layout_item_prenda_reserva);
+            holder.contenedorBeforeLocal = (RelativeLayout) convertView.findViewById(R.id.layout_prenda_local);
 
             if (position==getCount()-1){
                 holder.layoutTotal.setVisibility(View.VISIBLE);
@@ -114,12 +115,16 @@ public class ReservaListAdapter extends BaseAdapter {
             if (tag.equals("FReservaInfo")){
                 holder.eliminarReserva.setVisibility(View.VISIBLE);
             }else {
+                holder.contenedor.setPadding(10,0,0,0);
+                holder.contenedorBeforeLocal.setPadding(0,8,0,0);
                 holder.eliminarReserva.setVisibility(View.INVISIBLE);
                 holder.eliminarReserva.setEnabled(false);
+                holder.eliminarReserva.setPadding(0,0,0,0);
                 holder.nombreTienda.setTextSize(14);
                 holder.marcaPrenda.setTextSize(14);
                 holder.tipo.setTextSize(14);
                 holder.precio.setTextSize(14);
+                holder.total.setVisibility(View.GONE);
             }
 
             holder.nombreTienda.setText(reservaItems.get(position).get("local").toString());
@@ -156,6 +161,8 @@ public class ReservaListAdapter extends BaseAdapter {
          ImageView eliminarReserva;
          RelativeLayout layoutTotal;
          TextView total;
+         RelativeLayout contenedor;
+         RelativeLayout contenedorBeforeLocal;
     }
     public void add(HashMap hashMap){
         reservaItems.add(hashMap);

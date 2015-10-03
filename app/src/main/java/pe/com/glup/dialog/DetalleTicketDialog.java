@@ -54,6 +54,7 @@ public class DetalleTicketDialog extends DialogFragment {
         builder.setView(v);
         progressBar = (ProgressBar) v.findViewById(R.id.progress_detalle_ticket);
         progressBar.setVisibility(View.VISIBLE);
+
         return builder.create();
     }
     @Subscribe
