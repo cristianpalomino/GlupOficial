@@ -12,6 +12,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
+import pe.com.glup.R;
 import pe.com.glup.bus.BusHolder;
 import pe.com.glup.datasource.DSReserva;
 import pe.com.glup.glup.Glup;
@@ -30,7 +31,8 @@ public class ConfirmationDeleteReserva extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         AlertDialog.Builder builder =
-                new AlertDialog.Builder(getActivity());
+                new AlertDialog.Builder(getActivity(), R.style.DeleteReservaDialogTheme);
+
 
         builder.setMessage("¿Confirma eliminar la reserva seleccionada?")
                 .setTitle("Confirmacion")
@@ -40,7 +42,6 @@ public class ConfirmationDeleteReserva extends DialogFragment {
                         DSReserva dsReserva= new DSReserva(context);
                         dsReserva.eliminarDeReserva(codPrenda);
                         //dsReserva.listarReserva();
-
 
 
                         dialog.cancel();

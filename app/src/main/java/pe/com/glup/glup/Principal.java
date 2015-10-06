@@ -9,6 +9,7 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import pe.com.glup.R;
 import pe.com.glup.bus.BusHolder;
 import pe.com.glup.fragments.FCatalogo;
+import pe.com.glup.fragments.FCatalogoNew;
 import pe.com.glup.fragments.FCloset;
 import pe.com.glup.fragments.FProbador;
 import pe.com.glup.fragments.FReserva;
@@ -25,7 +26,7 @@ public class Principal extends Glup implements Footer.OnChangeTab,
     private boolean flagChangeTab = false;
     private final String[] MESSAGES = {"HOME", "CLOSET", "PROBADOR", "CAMERA","RESERVA"};
     private final Fragment[] FRAGMENTS = {
-            FCatalogo.newInstance(),
+            FCatalogoNew.newInstance(),
             FCloset.newInstance(),
             FProbador.newInstance(),
             Fragment_Home.newInstance(MESSAGES[3], MESSAGES[3]), FReserva.newInstance()

@@ -1,4 +1,11 @@
 <resources>
+    <style name="DatePickerDialogTheme" parent="@style/Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/celeste_glup</item>
+    </style>
+
+    <style name="DeleteReservaDialogTheme" parent="@style/Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/celeste_glup</item>
+    </style>
 
     <style name="Widget.GifMoviewView" parent="@android:style/Widget"></style>
 

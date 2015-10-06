@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/Users/Glup/Projects/GlupOficial/viewpager/build/intermediates/bundles/debug/res/values/values.xml -->
+    <!-- From: file:/Users/Glup/GlupOficial/viewpager/build/intermediates/bundles/debug/res/values/values.xml -->
     <eat-comment/>
     <attr format="boolean" name="centered"/>
     <attr format="color" name="selectedColor"/>

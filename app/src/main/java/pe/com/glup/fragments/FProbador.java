@@ -156,6 +156,7 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
 
     @Override
     public void succesPrendas(DSProbador.ResponseProbador responseProbador) {
+        Log.e(null,"Recargando prendas para probador ..."+responseProbador.success);
         if (responseProbador.tipo.equals("A"))
         {   Log.e(null,responseProbador.toString());
             //this.prendasTop = responseProbador.prendas;
@@ -181,6 +182,19 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
             pagerBottomAdapter = new PagerBottomAdapter(getActivity(), this.prendasBottom);
             pagerBotton.setAdapter(pagerBottomAdapter);
         }
+        /*if success ==1
+            for (int position=0;position<prendasTop.size();position++){
+                if (prendasTop.get(position).getTipo().toUpperCase().equals("VESTIDO")) {
+                    Log.e("TOP", ((Prenda) pagerTopAdapter.getItem(position)).getCod_prenda() + " " +
+                            ((Prenda) pagerTopAdapter.getItem(position)).getIndProbador());
+                    pagerBotton.setVisibility(View.GONE);
+                    posCurrentTop = position;
+                } else {
+                    pagerBotton.setVisibility(View.VISIBLE);
+                    posCurrentBottom = position;
+                }
+            }*/
+
     }
 
 
@@ -299,7 +313,7 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
             Log.e("errorProb",c.toString());
         }
 
-        dsProbadorB.getGlobalPrendas("B", "1", "20");
+
     }
     @Subscribe
     public void addProbador(Prenda prenda){

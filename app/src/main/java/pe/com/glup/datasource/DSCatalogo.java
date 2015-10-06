@@ -43,7 +43,7 @@ public class DSCatalogo {
     }
 
     public void getGlobalPrendas(String buscar, String pagina, String registros) {
-        String URL = WSGlup.ORQUESTADOR_CATALOGO.
+        String URL = WSGlup.ORQUESTADOR_NUEVO_CATALOGO.
                 replace(WSGlup.NUMERO_PAGINA, pagina).
                 replace(WSGlup.NUMERO_REGISTROS, registros).
                 replace(WSGlup.BUSCAR, buscar);

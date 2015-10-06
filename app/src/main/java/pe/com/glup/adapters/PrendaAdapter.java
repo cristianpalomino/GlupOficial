@@ -84,7 +84,7 @@ public class PrendaAdapter extends BaseAdapter  {
         }
 
         holder.marca.setText(prenda.getMarca());
-        holder.modelo.setText(prenda.getModelo());
+        holder.modelo.setText(prenda.getTipo());
         holder.contado.setText(prenda.getNumGusta());
 
         //Log.e("fragmento",this.context.getApplicationContext().);
@@ -149,6 +149,7 @@ public class PrendaAdapter extends BaseAdapter  {
                 dsProbador.setIndProbador(finalprenda.getCod_prenda());
             }
         });
+        /*
         holder.imagen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -157,20 +158,20 @@ public class PrendaAdapter extends BaseAdapter  {
                 int au = cont + 1;
                 Log.e("disAu", String.valueOf(dis) + " " + String.valueOf(au));
 
-               /* if (checkUpdated.equals("1")){
-                    holder.contado.setText(String.valueOf(dis));
-                    holder.corazon.setChecked(false);
-                }else{
-                    holder.contado.setText(String.valueOf(au));
-                    holder.corazon.setChecked(true);
-                }
-                notifyDataSetChanged();*/
+                // if (checkUpdated.equals("1")){
+                //    holder.contado.setText(String.valueOf(dis));
+                //    holder.corazon.setChecked(false);
+                //}else{
+                //    holder.contado.setText(String.valueOf(au));
+                //    holder.corazon.setChecked(true);
+                //}
+                //notifyDataSetChanged();
                 BusHolder.getInstance().post(prenda);
                 dsProbador = new DSProbador(finalConvertView.getContext());
                 dsProbador.setIndProbador(finalprenda.getCod_prenda());
 
             }
-        });
+        });*/
 
         return convertView;
     }

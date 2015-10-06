@@ -32,7 +32,7 @@ public class Prenda implements Serializable {
 
     public Prenda(String indUserReg, String cod_prenda, String marca, String tipo,
                   String modelo, String estilo, String imagen, String indProbador,
-                  String nombre, String precio, String numGusta, ArrayList<String> talla,
+                  String nombre, String precio, String numGusta,
                   String descripcion, String composicion, String indReser) {
         this.indUserReg = indUserReg;
         this.cod_prenda = cod_prenda;
@@ -45,7 +45,6 @@ public class Prenda implements Serializable {
         this.nombre = nombre;
         this.precio = precio;
         this.numGusta = numGusta;
-        this.talla = talla;
         this.descripcion=descripcion;
         this.composicion=composicion;
         this.indReser=indReser;

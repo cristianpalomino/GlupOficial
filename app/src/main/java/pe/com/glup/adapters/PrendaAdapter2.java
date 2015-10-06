@@ -2,6 +2,7 @@ package pe.com.glup.adapters;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,16 +18,23 @@ import java.util.ArrayList;
 
 import pe.com.glup.R;
 import pe.com.glup.beans.Prenda;
+import pe.com.glup.glup.Detalle;
+import pe.com.glup.glup.Glup;
 import pe.com.glup.glup.Principal;
 import pe.com.glup.utils.Util_Fonts;
 /**
  * Created by Glup on 18/09/15.
  */
-public class PrendaAdapter2 extends BaseAdapter {
+public class PrendaAdapter2 extends BaseAdapter implements View.OnLongClickListener{
 
     private ArrayList<Prenda> mPrendas;
     private Context context;
     private LayoutInflater inflater;
+    private ViewGroup viewGroup;
+    private int position;
+    private String codPrenda;
+    private String tipo;
+    private Glup glup;
 
     public PrendaAdapter2(Context context, ArrayList<Prenda> prendas) {
         this.context = context;
@@ -50,7 +58,7 @@ public class PrendaAdapter2 extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         Holder holder = null;
         Prenda prenda = mPrendas.get(position);
 
@@ -69,9 +77,16 @@ public class PrendaAdapter2 extends BaseAdapter {
         } else {
             holder = (Holder) convertView.getTag();
         }
+        glup = (Glup) context;
+
+        this.position=position;
+        this.viewGroup=parent;
+        this.codPrenda=prenda.getCod_prenda();
+        this.tipo=prenda.getTipo();
+
 
         holder.marca.setText(prenda.getMarca());
-        holder.modelo.setText(prenda.getModelo());
+        holder.modelo.setText(prenda.getTipo());
         holder.contado.setText(prenda.getNumGusta());
 
         //Log.e("fragmento",this.context.getApplicationContext().);
@@ -91,17 +106,39 @@ public class PrendaAdapter2 extends BaseAdapter {
 
 //        boolean checked = prenda.getIndProbador().equals("1");
 //        holder.check.setChecked(checked);
+        holder.imagen.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Log.e("click:",position+" codPrenda:"+codPrenda);
+                ArrayList<Prenda> prendas = glup.getPrendas();
+                Intent intent = new Intent(glup, Detalle.class);
+                intent.putExtra("prendas", prendas);
+                intent.putExtra("current", position);
+                glup.startActivity(intent);
+                return false;
+            }
+        });
+        //holder.imagen.setOnLongClickListener(this);
+
 
         return convertView;
     }
 
-    class Holder {
-        TextView marca;
-        TextView contado;
-        TextView modelo;
-        TextView precio;
-        ImageView imagen;
-        CheckBox check;
+    @Override
+    public boolean onLongClick(View v) {
+        Log.e("Prenda:", "posicion " + position + " codigo:" +
+                codPrenda+ " Tipo:" +
+               tipo);
+        return false;
+    }
+
+    public class Holder {
+        public TextView marca;
+        public TextView contado;
+        public TextView modelo;
+        public TextView precio;
+        public ImageView imagen;
+        public CheckBox check;
     }
 
     public ArrayList<Prenda> getmPrendas() {

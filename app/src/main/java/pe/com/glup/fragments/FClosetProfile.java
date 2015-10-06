@@ -199,7 +199,12 @@ public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
         }
     }
     private void showDatePicker() {
+
+
+
         DatePickerFragment date = new DatePickerFragment();
+        //date.setStyle(DatePickerFragment.STYLE_NORMAL,R.style.DatePickerDialogTheme);
+
         /**
          * Set Up Current Date Into dialog
          */
@@ -212,6 +217,17 @@ public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
         /**
          * Set Call back to capture selected date
          */
+  /*
+        new DatePickerDialog(context.getActivity(), R.style.DatePickerDialogTheme, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                //DO SOMETHING
+                cumpleanos.setText(String.valueOf(dayOfMonth) + "-" + String.valueOf(monthOfYear+1)
+                        + "-" + String.valueOf(year));
+            }
+        }, args.getInt("year"),args.getInt("month"), args.getInt("day")).show();
+        */
+
 
         date.setCallBack(ondate);
         date.show(context.getActivity().getSupportFragmentManager(), "Date Picker");

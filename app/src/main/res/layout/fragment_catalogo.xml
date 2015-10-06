@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="120dp">
+        <ToggleButton
+            android:textColor="@android:color/transparent"
+            android:background="@drawable/catalogo_hombre"
+            android:layout_margin="10dp"
+            android:id="@+id/catalogo_hombre"
+            android:layout_width="48dp"
+            android:layout_height="48dp" />
+        <View
+            android:layout_margin="10dp"
+            android:id="@+id/separador"
+            android:layout_width="1dp"
+            android:layout_height="48dp"
+            android:background="@color/gris_glup"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/catalogo_hombre"
+            android:layout_toEndOf="@+id/catalogo_hombre" />
+        <ToggleButton
+            android:textColor="@android:color/transparent"
+            android:background="@drawable/catalogo_mujer"
+            android:layout_margin="10dp"
+            android:layout_toRightOf="@+id/separador"
+            android:id="@+id/catalogo_mujer"
+            android:layout_width="48dp"
+            android:layout_height="48dp" />
+    </RelativeLayout>
+    <FrameLayout
+        android:layout_marginBottom="60dp"
+        android:id="@+id/fragment_catalogo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></FrameLayout>
+
+
+</LinearLayout>

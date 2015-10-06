@@ -254,7 +254,7 @@ public class DSProbador {
     }
 
     public class ResponseProbador
-    {
+    {   public int success;
         public String tipo;
         public String message;
         public ArrayList<Prenda> prendas;

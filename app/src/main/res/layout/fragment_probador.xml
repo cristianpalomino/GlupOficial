@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="pe.com.glup.fragments.FProbador">
+    tools:context="pe.com.glup.fragments.FProbador"
+    android:layout_marginBottom="60dp">
 
     <FrameLayout
         android:layout_width="match_parent"

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 import pe.com.glup.R;
 import pe.com.glup.adapters.PrendaAdapter;
+import pe.com.glup.adapters.PrendaAdapter2;
 import pe.com.glup.beans.Prenda;
 import pe.com.glup.datasource.DSCatalogo;
 import pe.com.glup.dialog.GlupDialog;
@@ -36,7 +37,7 @@ import pe.com.glup.utils.Util_Fonts;
  */
 public class FCatalogo extends Fragment implements OnSuccessCatalogo,
         OnSearchListener,
-        AbsListView.OnScrollListener, AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener {
+        AbsListView.OnScrollListener, AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener{
 
     private static final int EMPTY = 0;
     private static final int FULL = 1;
@@ -46,7 +47,7 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
     private static String TAG = "todos";
 
     private DSCatalogo dsCatalogo;
-    private PrendaAdapter adapter;
+    private PrendaAdapter2 prendaAdapter;
     protected GlupDialog gd;
 
     private TextView emptyView;
@@ -56,6 +57,14 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
 
     public static FCatalogo newInstance() {
         FCatalogo fragment = new FCatalogo();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static FCatalogo newInstance(String TAG) {
+        FCatalogo fragment = new FCatalogo();
+        FCatalogo.TAG=TAG;
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -80,7 +89,7 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         PAGE = 1;
-        TAG = "todos";
+        //TAG = "todos";
         isLoading = false;
 
         Principal principal = ((Principal) getActivity());
@@ -99,7 +108,7 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
         */
 
         grilla.setOnItemLongClickListener(this);
-        grilla.setOnItemClickListener(this);
+        //grilla.setOnItemClickListener(this);
         grilla.setOnScrollListener(this);
 
         /*
@@ -124,9 +133,9 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
             if (PAGE == 1) {
                 if (prendas != null) {
                     displayMessage(FULL);
-                    adapter = new PrendaAdapter(getActivity(), prendas);
-                    grilla.setAdapter(adapter);
-                    glup.setPrendas(adapter.getmPrendas());
+                    prendaAdapter = new PrendaAdapter2(getActivity(), prendas);
+                    grilla.setAdapter(prendaAdapter);
+                    glup.setPrendas(prendaAdapter.getmPrendas());
                     isLoading = false;
                 } else {
                     displayMessage(EMPTY);
@@ -136,16 +145,17 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
                     displayMessage(FULL);
                     if (!prendas.isEmpty()) {
                         for (int i = 0; i < prendas.size(); i++) {
-                            adapter.add(prendas.get(i));
+                            prendaAdapter.add(prendas.get(i));
                         }
                     }
-                    glup.setPrendas(adapter.getmPrendas());
+                    glup.setPrendas(prendaAdapter.getmPrendas());
                     isLoading = false;
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     @Override
@@ -156,6 +166,7 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
 
     @Override
     public void onSearchListener(String cadena) {
+        Log.e("null","se ejecuta onSearchListner en Catalogo");
         PAGE = 1;
         if (cadena.equals("")) {
             TAG = "todos";
@@ -184,6 +195,7 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        Log.e("cargando","onscroll");
         if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount != 0) {
             if (!isLoading) {
                 isLoading = true;
@@ -197,11 +209,16 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
 
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        ArrayList<Prenda> prendas = glup.getPrendas();
+        Log.e("longclick","en grilla");
+        Log.e("Prenda:", "posicion " + position + " codigo:" +
+                ((Prenda) parent.getItemAtPosition(position)).getCod_prenda() + " Tipo:" +
+                ((Prenda) parent.getItemAtPosition(position)).getTipo());
+       /* ArrayList<Prenda> prendas = glup.getPrendas();
         Intent intent = new Intent(glup, Detalle.class);
         intent.putExtra("prendas", prendas);
         intent.putExtra("current", position);
-        startActivity(intent);
+        startActivity(intent);*/
+
         return false;
     }
 

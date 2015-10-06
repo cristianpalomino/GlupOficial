@@ -12,6 +12,8 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
+import pe.com.glup.R;
+
 public class DatePickerFragment extends DialogFragment {
     OnDateSetListener ondateSet;
     private int year, month, day;
@@ -33,6 +35,6 @@ public class DatePickerFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        return new DatePickerDialog(getActivity(), ondateSet, year, month, day);
+        return new DatePickerDialog(getActivity(),R.style.DatePickerDialogTheme ,ondateSet, year, month, day);
     }
 }

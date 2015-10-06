@@ -23,6 +23,10 @@ public class WSGlup {
             "num_pagina=#num_pagina&" +
             "num_registro=#num_registro&" +
             "buscar=#buscar";
+    public static final String ORQUESTADOR_NUEVO_CATALOGO = "http://108-179-236-242-1wde1bf0tu0m.runscope.net/~glupserver/API/orquestadorServiciosApp.php?"+
+            "num_pagina=#num_pagina&" +
+            "num_registro=#num_registro&" +
+            "buscar=#buscar";
     public static final String ORQUESTADOR_PROBADOR = "http://glup-com-pe-ormvxmez8gb9.runscope.net/api/orquestadorServiciosApp.php?" +
             "num_pagina=#num_pagina&" +
             "num_registro=#num_registro&" +
