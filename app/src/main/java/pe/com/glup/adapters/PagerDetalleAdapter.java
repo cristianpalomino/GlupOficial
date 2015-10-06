@@ -1,16 +1,15 @@
 package pe.com.glup.adapters;
 
-
 import android.content.Context;
-import android.content.Intent;
+import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -22,80 +21,58 @@ import java.util.ArrayList;
 import pe.com.glup.R;
 import pe.com.glup.beans.Prenda;
 import pe.com.glup.datasource.DSProbador;
-import pe.com.glup.glup.Detalle;
-import pe.com.glup.glup.DetalleNew;
 import pe.com.glup.glup.Glup;
-import pe.com.glup.glup.Principal;
 import pe.com.glup.utils.Util_Fonts;
+
 /**
- * Created by Glup on 18/09/15.
+ * Created by Glup on 6/10/15.
  */
-public class PrendaAdapter2 extends BaseAdapter implements View.OnLongClickListener{
+public class PagerDetalleAdapter extends PagerAdapter {
 
-    private ArrayList<Prenda> mPrendas;
     private Context context;
-    private LayoutInflater inflater;
-    private ViewGroup viewGroup;
-    private int position;
-    private String codPrenda;
-    private String tipo;
-    private Glup glup;
+    private LayoutInflater layoutInflater;
+    private ArrayList<Prenda> prendas;
 
-    public PrendaAdapter2(Context context, ArrayList<Prenda> prendas) {
+    public PagerDetalleAdapter(Context context, ArrayList<Prenda> prendas) {
         this.context = context;
-        this.mPrendas = prendas;
-        this.inflater = LayoutInflater.from(context);
+        this.layoutInflater = (LayoutInflater)this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.prendas = prendas;
     }
 
     @Override
-    public int getCount() {
-        return mPrendas.size();
-    }
+    public int getCount() {return prendas.size();}
+    public Object getItem(int position){ return prendas.get(position);}
 
     @Override
-    public long getItemId(int position) {
-        return position;
+    public boolean isViewFromObject(View view, Object object) {
+        return view== ((LinearLayout) object);
     }
-
     @Override
-    public Object getItem(int position) {
-        return mPrendas.get(position);
-    }
-
-    @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public Object instantiateItem(final ViewGroup container, int position) {
+        View itemView=null;
         final Holder holder;
-        Prenda prenda = mPrendas.get(position);
-
-        if (convertView == null) {
-            convertView = inflater.inflate(R.layout.item_catalogo, parent, false);
+        final Prenda prenda = prendas.get(position);
+        if (itemView==null){
+            itemView = this.layoutInflater.inflate(R.layout.item_detalle,container,false);
             holder = new Holder();
+            holder.marca = (TextView) itemView.findViewById(R.id.item_marca_prenda);
+            holder.precio = (TextView) itemView.findViewById(R.id.precio_prenda);
+            holder.contado = (TextView) itemView.findViewById(R.id.contador_corazon);
+            holder.modelo = (TextView) itemView.findViewById(R.id.modelo_prenda);
+            holder.imagen = (ImageView) itemView.findViewById(R.id.item_imagen_prenda);
+            holder.check = (CheckBox) itemView.findViewById(R.id.check);
+            holder.corazon = (ToggleButton) itemView.findViewById(R.id.corazon_prenda);
 
-            holder.marca = (TextView) convertView.findViewById(R.id.item_marca_prenda);
-            holder.precio = (TextView) convertView.findViewById(R.id.precio_prenda);
-            holder.contado = (TextView) convertView.findViewById(R.id.contador_corazon);
-            holder.modelo = (TextView) convertView.findViewById(R.id.modelo_prenda);
-            holder.imagen = (ImageView) convertView.findViewById(R.id.item_imagen_prenda);
-            holder.check = (CheckBox) convertView.findViewById(R.id.check);
-            holder.corazon = (ToggleButton) convertView.findViewById(R.id.corazon_prenda);
-
-            convertView.setTag(holder);
             holder.contado.setText(prenda.getNumGusta());
             boolean checked = prenda.getIndProbador().equals("1");
             holder.corazon.setChecked(checked);
-        } else {
-            holder = (Holder) convertView.getTag();
+        }else {
+            holder = (Holder) itemView.getTag();
         }
-        glup = (Glup) context;
-
-        this.position=position;
-        this.viewGroup=parent;
-        this.codPrenda=prenda.getCod_prenda();
-        this.tipo=prenda.getTipo();
-
 
         holder.marca.setText(prenda.getMarca());
         holder.modelo.setText(prenda.getTipo());
+
 
         //Log.e("fragmento",this.context.getApplicationContext().);
         if(prenda.getPrecio() == null){
@@ -109,33 +86,24 @@ public class PrendaAdapter2 extends BaseAdapter implements View.OnLongClickListe
         holder.modelo.setTypeface(Util_Fonts.setRegular(context));
         holder.contado.setTypeface(Util_Fonts.setRegular(context));
 
+        holder.imagen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("code:",prenda.getCod_prenda());
+            }
+        });
+
 
         Picasso.with(context).load(prenda.getImagen()).fit().placeholder(R.drawable.progress_animator).centerInside().noFade().into(holder.imagen);
 
-//        boolean checked = prenda.getIndProbador().equals("1");
-//        holder.check.setChecked(checked);
-        holder.imagen.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                Log.e("click:", position + " codPrenda:" + codPrenda);
-                ArrayList<Prenda> prendas = glup.getPrendas();
-                Intent intent = new Intent(glup, DetalleNew.class);
-                intent.putExtra("prendas", prendas);
-                intent.putExtra("current", position);
-                glup.startActivity(intent);
-                return false;
-            }
-        });
-        //holder.imagen.setOnLongClickListener(this);
 
 
         final String checkUpdated=prenda.getIndProbador();
         final Integer cont = Integer.parseInt(holder.contado.getText().toString());
         //final View finalConvertView = convertView;
         //
-        final View finalConvertView = convertView;
+        final View finalConvertView = itemView;
         final Prenda finalprenda = prenda;
-
         final Holder finalHolder = holder;
 
         holder.corazon.setOnCheckedChangeListener( new CompoundButton.OnCheckedChangeListener() {
@@ -176,15 +144,14 @@ public class PrendaAdapter2 extends BaseAdapter implements View.OnLongClickListe
             }
         });
 
-        return convertView;
+        container.addView(itemView);
+        return itemView;
     }
 
+
     @Override
-    public boolean onLongClick(View v) {
-        Log.e("Prenda:", "posicion " + position + " codigo:" +
-                codPrenda+ " Tipo:" +
-               tipo);
-        return false;
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        container.removeView((LinearLayout) object);
     }
 
     public class Holder {
@@ -195,14 +162,5 @@ public class PrendaAdapter2 extends BaseAdapter implements View.OnLongClickListe
         public ImageView imagen;
         public CheckBox check;
         public ToggleButton corazon;
-    }
-
-    public ArrayList<Prenda> getmPrendas() {
-        return mPrendas;
-    }
-
-    public void add(Prenda prenda) {
-        mPrendas.add(prenda);
-        notifyDataSetChanged();
     }
 }

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import pe.com.glup.R;
 import pe.com.glup.adapters.PrendaAdapter2;
+import pe.com.glup.adapters.PrendaAdapterBackup;
 import pe.com.glup.beans.Prenda;
 import pe.com.glup.datasource.DSCloset;
 import pe.com.glup.dialog.GlupDialog;
@@ -50,7 +51,7 @@ public class FClosetGrilla extends Fragment implements OnSuccessCatalogo,
 
     private TextView emptyView;
     private GridView grilla;
-    private PrendaAdapter2 adapter;
+    private PrendaAdapterBackup adapter;
     private DSCloset dsCloset;
 
     private Glup glup;
@@ -222,7 +223,7 @@ public class FClosetGrilla extends Fragment implements OnSuccessCatalogo,
             if (PAGE == 1) {
                 if (prendas != null) {
                     displayMessage(FULL);
-                    adapter = new PrendaAdapter2(FClosetGrilla.this.getActivity(), prendas);
+                    adapter = new PrendaAdapterBackup(FClosetGrilla.this.getActivity(), prendas);
                     grilla.setAdapter(adapter);
                     glup.setPrendas(adapter.getmPrendas());
                     isLoading = false;

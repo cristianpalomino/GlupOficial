@@ -59,6 +59,7 @@ public class FullScreenDialog extends DialogFragment implements View.OnClickList
     private ArrayList<Prenda> prendaDetalle= new ArrayList<Prenda>();
     private ArrayList<Tienda> tiendas = new ArrayList<Tienda>();
     private DSProbador dsProbador;
+    private ToggleButton info;
     public FullScreenDialog() {
         // Required empty public constructor
 
@@ -106,6 +107,8 @@ public class FullScreenDialog extends DialogFragment implements View.OnClickList
         tallasMax.add((ToggleButton)getView().findViewById(R.id.talla3));
         tallasMax.add((ToggleButton) getView().findViewById(R.id.talla4));
         addReserva=(Button) getView().findViewById(R.id.add_reserva);
+        info = (ToggleButton) getView().findViewById(R.id.info_detalle);
+        info.setChecked(true);
         int i=0;
         String[] prueba={"S","M","L","XL"};
         for (ToggleButton toggleButton:tallasMax){
@@ -228,7 +231,8 @@ public class FullScreenDialog extends DialogFragment implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.cerrar_add_reserva:
-                Log.e(null,"clic cerrar add reservar");
+                Log.e(null, "clic cerrar add reservar");
+                info.setChecked(false);
                 getActivity().onBackPressed();
                 break;
             case R.id.add_reserva:
@@ -256,6 +260,9 @@ public class FullScreenDialog extends DialogFragment implements View.OnClickList
                 }
 
                 break;
+            case R.id.info_detalle:
+                info.setChecked(true);
+                break;
         }
     }
 
@@ -280,6 +287,9 @@ public class FullScreenDialog extends DialogFragment implements View.OnClickList
             ArrayList<TallaDisponible> tallas1=responseTallasDisponibles.getTallas();
             //max 4 tallas por no deforma la interfaz
             int size=tallas1.size();
+            if (size>4){
+                size=4;
+            }
             limpiarToggleButtons(size);
             Log.e("tamaño", size + "");
             idTallas=new ArrayList<String>();

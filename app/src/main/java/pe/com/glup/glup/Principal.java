@@ -108,6 +108,9 @@ public class Principal extends Glup implements Footer.OnChangeTab,
 
             //menuright.setSlidingEnabled(true);
         }
+        if (CURRENT_FRAGMENT_TAG.equals("pe.com.glup.fragments.FCatalogoNew")){
+            Log.e(null,"entro Catalogo nuevo");
+        }
         flagChangeTab = true;
 
     }
@@ -149,6 +152,7 @@ public class Principal extends Glup implements Footer.OnChangeTab,
 
         //super.onBackPressed();
     }
+
 
 
     

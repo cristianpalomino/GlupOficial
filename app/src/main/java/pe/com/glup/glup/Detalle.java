@@ -118,7 +118,7 @@ public class Detalle extends AppCompatActivity implements View.OnClickListener,O
         }
         else if(v.equals(btnreservar)){
             Toast.makeText(Detalle.this,"Boton Reservar Presionado",Toast.LENGTH_LONG).show();
-            // *** A Modificar ***
+            // A Modificar
             //DSInfo dsInfo= new DSInfo(Detalle.this);
             //dsInfo.getReservaPrenda(prendas.get(current_position).getCod_prenda(), prendas.get(current_position).getNombre());
             //dsInfo.setOnSuccesPrenda(Detalle.this);

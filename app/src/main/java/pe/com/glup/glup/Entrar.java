@@ -24,7 +24,7 @@ import pe.com.glup.utils.Util_Fonts;
 import pe.com.glup.views.GifView;
 
 
-public class Entrar extends Glup implements OnSuccessLogin {
+public class Entrar extends Glup implements OnSuccessLogin, View.OnClickListener {
 
     private Button facebook;
     private Button twitter;
@@ -33,7 +33,7 @@ public class Entrar extends Glup implements OnSuccessLogin {
     private EditText edtusuario;
     private EditText edtpassword;
 
-    private Button btnentrar;
+    private Button btnentrar,btnIniciar,btnRegistrar;
     private DSLogin dsLogin;
 
     private GlupDialog dialog;
@@ -41,13 +41,29 @@ public class Entrar extends Glup implements OnSuccessLogin {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.entrar);
-        setupUI(findViewById(R.id.frame_entrar));
+        setContentView(R.layout.entrar_new);
 
-        facebook = (Button) findViewById(R.id.btnfacebook);
+
+
+        Session_Manager manager = new Session_Manager(Entrar.this);
+        if (manager.isLogin()) {
+            Intent intent = new Intent(Entrar.this, Principal.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        } else {
+            setupUI(findViewById(R.id.frame_entrar));
+
+
+        /*facebook = (Button) findViewById(R.id.btnfacebook);
         twitter = (Button) findViewById(R.id.btntwitter);
-        instagram = (Button) findViewById(R.id.btninstagram);
+        instagram = (Button) findViewById(R.id.btninstagram);*/
         btnentrar = (Button) findViewById(R.id.btnentrar);
+
+        btnIniciar = (Button) findViewById(R.id.btnIniciar);
+        btnRegistrar = (Button) findViewById(R.id.btnRegistrar);
+
+        btnIniciar.setOnClickListener(this);
+        btnRegistrar.setOnClickListener(this);
 
         edtusuario = (EditText) findViewById(R.id.edtusuario);
         edtpassword = (EditText) findViewById(R.id.edtpassword);
@@ -60,13 +76,13 @@ public class Entrar extends Glup implements OnSuccessLogin {
         o.setTypeface(Util_Fonts.setRegular(this));
         */
 
-
+        /*
         TextView title = (TextView) findViewById(R.id.title_entrar);
-        title.setTypeface(Util_Fonts.setBold(this));
+        title.setTypeface(Util_Fonts.setBold(this));*/
 
-        facebook.setTypeface(Util_Fonts.setBold(this));
+        /*facebook.setTypeface(Util_Fonts.setBold(this));
         twitter.setTypeface(Util_Fonts.setBold(this));
-        instagram.setTypeface(Util_Fonts.setBold(this));
+        instagram.setTypeface(Util_Fonts.setBold(this));*/
         btnentrar.setTypeface(Util_Fonts.setBold(this));
         edtusuario.setTypeface(Util_Fonts.setRegular(this));
         edtpassword.setTypeface(Util_Fonts.setRegular(this));
@@ -88,6 +104,8 @@ public class Entrar extends Glup implements OnSuccessLogin {
                 dsLogin.setOnSuccessLogin(Entrar.this);
             }
         });
+
+        }
     }
 
     @Override
@@ -107,5 +125,21 @@ public class Entrar extends Glup implements OnSuccessLogin {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         Entrar.this.finish();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btnIniciar:
+                btnIniciar.setBackgroundDrawable(getResources().getDrawable(R.drawable.glup_square_button_negro));
+                btnRegistrar.setBackgroundDrawable(getResources().getDrawable(R.drawable.glup_square_button_celeste));
+                break;
+            case  R.id.btnRegistrar:
+                Intent intent=null;
+                intent = new Intent(Entrar.this, Registro.class);
+                btnRegistrar.setBackgroundDrawable(getResources().getDrawable(R.drawable.glup_square_button_negro));
+                btnIniciar.setBackgroundDrawable(getResources().getDrawable(R.drawable.glup_square_button_celeste));
+                break;
+        }
     }
 }

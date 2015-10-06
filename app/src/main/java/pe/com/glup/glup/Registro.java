@@ -36,12 +36,12 @@ public class Registro extends Glup implements OnSuccessRegistro {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.registro);
+        setContentView(R.layout.registro_new);
         setupUI(findViewById(R.id.frame_registro));
-
+/*
         facebook = (Button) findViewById(R.id.btnfacebook);
         twitter = (Button) findViewById(R.id.btntwitter);
-        instagram = (Button) findViewById(R.id.btninstagram);
+        instagram = (Button) findViewById(R.id.btninstagram);*/
         btnregistro = (Button) findViewById(R.id.btnregistro);
 
         edtusuario = (EditText) findViewById(R.id.edtusuario);
@@ -55,13 +55,13 @@ public class Registro extends Glup implements OnSuccessRegistro {
         title.setTypeface(Util_Fonts.setRegular(this));
         o.setTypeface(Util_Fonts.setRegular(this));
         */
-
+/*
         TextView title = (TextView) findViewById(R.id.title_registro);
-        title.setTypeface(Util_Fonts.setBold(this));
-
+        title.setTypeface(Util_Fonts.setBold(this));*/
+/*
         facebook.setTypeface(Util_Fonts.setBold(this));
         twitter.setTypeface(Util_Fonts.setBold(this));
-        instagram.setTypeface(Util_Fonts.setBold(this));
+        instagram.setTypeface(Util_Fonts.setBold(this));*/
         btnregistro.setTypeface(Util_Fonts.setBold(this));
         edtnombres.setTypeface(Util_Fonts.setRegular(this));
         edtusuario.setTypeface(Util_Fonts.setRegular(this));

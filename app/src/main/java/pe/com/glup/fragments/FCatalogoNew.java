@@ -46,7 +46,7 @@ public class FCatalogoNew extends Fragment implements View.OnClickListener {
         inicializarCatalogoSexo();
     }
 
-    private void inicializarCatalogoSexo() {
+    public void inicializarCatalogoSexo() {
        if (new Session_Manager(getActivity()).getCurrentUserSexo().equals("H")){
             mujer.setChecked(false);
             hombre.setChecked(true);

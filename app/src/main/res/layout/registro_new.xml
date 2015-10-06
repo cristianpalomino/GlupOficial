@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/frame_registro"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="10">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:id="@+id/imageView"
+            android:src="@drawable/logo_glup"
+            android:adjustViewBounds="true"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_margin="20dp" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:orientation="vertical"
+        android:weightSum="10">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@android:color/darker_gray"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+
+            <EditText
+                android:id="@+id/edtnombres"
+                style="@style/Glup_Edittext_Square"
+                android:layout_width="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:ems="10"
+                android:hint="Nombres"
+                android:textColorHint="@android:color/darker_gray"
+                android:textColor="@android:color/black"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
+                android:maxLength="25" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@android:color/darker_gray"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <EditText
+                android:id="@+id/edtusuario"
+                style="@style/Glup_Edittext_Square"
+                android:layout_width="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="1dp"
+                android:ems="10"
+                android:hint="Usuario"
+                android:textColorHint="@android:color/darker_gray"
+                android:textColor="@android:color/black"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
+                android:maxLength="25" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@android:color/darker_gray"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <EditText
+                android:id="@+id/edtpassword"
+                style="@style/Glup_Edittext_Square"
+                android:layout_width="match_parent"
+                android:layout_marginTop="1dp"
+                android:ems="10"
+                android:textColorHint="@android:color/darker_gray"
+                android:textColor="@android:color/black"
+                android:hint="Contraseña"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                android:maxLength="25" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@android:color/darker_gray"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+
+        <Button
+            android:id="@+id/btnregistro"
+            style="@style/Glup_Button_Square_Celeste"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|bottom"
+            android:text="REGISTRAR" />
+
+    </FrameLayout>
+
+
+</LinearLayout>
