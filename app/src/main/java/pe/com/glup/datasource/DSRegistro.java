@@ -1,6 +1,7 @@
 package pe.com.glup.datasource;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
@@ -35,18 +36,19 @@ public class DSRegistro {
     }
 
 
-
     public DSRegistro(Context context) {
         this.context = context;
     }
 
-    public void registrarUsuario(String usuario, String correo, String password) {
-        String URL = WSGlup.ORQUESTADOR;
+    public void registrarUsuario(String nombre,String apellido,String sexo,String correo, String password) {
+        String URL = WSGlup.ORQUESTADOR_NUEVO;
 
         RequestParams params = new RequestParams();
         params.put("tag", "registroUser");
-        params.put("nombre_usuario", usuario);
+        params.put("nombre_usuario", nombre);
+        params.put("ape_usuario",apellido);
         params.put("correo_usuario", correo);
+        params.put("sexo_usuario",sexo);
         params.put("pass_usuario", password);
 
         AsyncHttpClient httpClient = new AsyncHttpClient();
@@ -57,6 +59,7 @@ public class DSRegistro {
 
                 try {
                     int success = response.getInt("success");
+                    Log.e(null,"registro success:"+success);
                     if (success == 1) {
                         Gson gson = new Gson();
                         Usuario usuario = gson.fromJson(response.toString(), Usuario.class);

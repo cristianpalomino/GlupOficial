@@ -18,8 +18,8 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import pe.com.glup.R;
+import pe.com.glup.glup.Entrar;
 import pe.com.glup.glup.Glup;
-import pe.com.glup.glup.Home;
 import pe.com.glup.glup.Principal;
 import pe.com.glup.interfaces.OnSearchListener;
 import pe.com.glup.session.Session_Manager;
@@ -178,7 +178,7 @@ public class Header extends LinearLayout implements Principal.OnChangeTab {
         Session_Manager manager = new Session_Manager(getContext());
         manager.closeSession();
 
-        Intent intent = new Intent(getContext(), Home.class);
+        Intent intent = new Intent(getContext(), Entrar.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         getContext().startActivity(intent);
         ((Glup)getContext()).finish();

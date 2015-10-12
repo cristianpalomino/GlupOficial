@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+    android:padding="32dp">
+
+    <TextView
+        android:textColor="@color/celeste_glup"
+        android:textSize="20sp"
+        android:text="Código de Verificación"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/input_correo"
+        android:inputType="textEmailAddress"
+        android:layout_marginTop="25dp"
+        android:gravity="center_horizontal"
+        android:textColor="@color/negro"
+        android:textColorHint="@color/gris_glup_nuevo"
+        android:hint="Ingrese su correo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:imeOptions="actionDone"/>
+    <RelativeLayout
+        android:layout_marginTop="6dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/text_send_code"
+            android:visibility="invisible"
+            android:layout_centerInParent="true"
+            android:textColor="@color/celeste_glup"
+            android:layout_alignParentLeft="true"
+            android:text="Se envio el codigo a su correo"
+            android:textSize="12sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/send_code"
+            android:textAllCaps="false"
+            android:shadowColor="@color/azul_glup"
+            android:background="@drawable/button_selector"
+            android:textColor="@color/celeste_glup"
+            android:text="Enviar código"
+            android:layout_alignParentRight="true"
+            android:layout_width="120dp"
+            android:layout_height="30dp"/>
+
+    </RelativeLayout>
+    <EditText
+        android:textColor="@color/negro"
+        android:imeOptions="actionDone"
+        android:id="@+id/input_code"
+        android:inputType="textPassword"
+        android:layout_marginTop="25dp"
+        android:gravity="center_horizontal"
+        android:textColorHint="@color/gris_glup_nuevo"
+        android:hint="Ingrese su código"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <RelativeLayout
+        android:layout_marginTop="6dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/text_code_verification"
+            android:visibility="invisible"
+            android:layout_centerInParent="true"
+            android:textColor="@color/celeste_glup"
+            android:layout_alignParentLeft="true"
+            android:text="Codigos coinciden"
+            android:textSize="12sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+    <Button
+        android:layout_marginTop="40dp"
+        android:id="@+id/btn_next"
+        android:textAllCaps="false"
+        android:shadowColor="@color/azul_glup"
+        android:background="@drawable/button_selector"
+        android:textColor="@color/celeste_glup"
+        android:text="Listo"
+        android:layout_width="160dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"/>
+</LinearLayout>

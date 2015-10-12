@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:textColor="@color/gris_glup_nuevo"
+        android:layout_margin="30dp"
+        android:textSize="18sp"
+        android:id="@+id/entrar_red_social"
+        android:text="Ingresar también con"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ToggleButton
+            android:id="@+id/btn_fb"
+            android:textColor="@android:color/transparent"
+            android:layout_margin="10dp"
+            android:background="@drawable/entrar_iniciar_fb"
+            android:layout_width="36dp"
+            android:layout_height="36dp" />
+        <ToggleButton
+            android:id="@+id/btn_tw"
+            android:textColor="@android:color/transparent"
+            android:layout_margin="10dp"
+            android:background="@drawable/entrar_iniciar_tw"
+            android:layout_width="36dp"
+            android:layout_height="36dp" />
+        <ToggleButton
+            android:id="@+id/btn_ins"
+            android:textColor="@android:color/transparent"
+            android:layout_margin="10dp"
+            android:background="@drawable/entrar_iniciar_ins"
+            android:layout_width="36dp"
+            android:layout_height="36dp" />
+
+    </LinearLayout>
+</LinearLayout>

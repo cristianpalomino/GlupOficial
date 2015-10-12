@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:background="@drawable/bg_1080x1920"
+              android:id="@+id/frame_entrar"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+    <FrameLayout
+        android:layout_weight="1.75"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:id="@+id/imageView"
+            android:src="@drawable/logo_glup"
+            android:adjustViewBounds="true"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_margin="20dp" />
+    </FrameLayout>
+    <RelativeLayout
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:src="@drawable/slogan"
+            android:layout_width="240dp"
+            android:layout_height="48dp" />
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_weight="0.25"
+        android:layout_marginRight="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3.25">
+        <TextView
+            android:background="@null"
+            android:layout_weight="0.5"
+            android:layout_width="0dp"
+            android:layout_height="30dp" />
+        <ToggleButton
+            android:textColor="@android:color/transparent"
+            android:id="@+id/btnIniciar"
+            android:textAllCaps="false"
+            android:shadowColor="@color/azul_glup"
+            android:background="@drawable/entrar_iniciar"
+            android:text="Iniciar"
+            android:layout_height="30dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"/>
+        <TextView
+            android:background="@null"
+            android:layout_weight="0.25"
+            android:layout_width="0dp"
+            android:layout_height="30dp" />
+        <ToggleButton
+            android:textColor="@android:color/transparent"
+            android:id="@+id/btnRegistrar"
+            android:textAllCaps="false"
+            android:shadowColor="@color/azul_glup"
+            android:background="@drawable/entrar_registrate"
+            android:text="Registrate"
+            android:layout_height="30dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"/>
+        <TextView
+            android:background="@null"
+            android:layout_weight="0.5"
+            android:layout_width="0dp"
+            android:layout_height="30dp" />
+    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/fragment_entrar"
+        android:visibility="visible"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_weight="14"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+        <include
+            layout="@layout/fragment_registrate">
+
+        </include>
+
+    </FrameLayout>
+
+
+</LinearLayout>

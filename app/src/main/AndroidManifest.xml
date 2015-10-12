@@ -23,11 +23,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".glup.Inicio"
+            android:name=".glup.ForgetPassChange"
             android:label="@string/title_activity_home"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".glup.Home"
+            android:name=".glup.ForgetPassCode"
+            android:label="@string/title_activity_home"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".glup.RegistroNew"
             android:label="@string/title_activity_home"
             android:screenOrientation="portrait" />
         <activity

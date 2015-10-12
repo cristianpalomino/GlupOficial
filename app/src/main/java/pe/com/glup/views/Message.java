@@ -35,8 +35,5 @@ public class Message extends Toast{
         textView.setText(msg);
         this.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
         this.setView(textView);
-
-
-
     }
 }

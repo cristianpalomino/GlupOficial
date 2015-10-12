@@ -72,12 +72,12 @@ public class Registro extends Glup implements OnSuccessRegistro {
             public void onClick(View v) {
                 dialog = new GlupDialog(Registro.this);
                 dialog.show();
-
+/*
                 dsRegistro = new DSRegistro(Registro.this);
                 dsRegistro.registrarUsuario(edtnombres.getText().toString(),
                         edtusuario.getText().toString(),
                         edtpassword.getText().toString());
-                dsRegistro.setOnSuccessRegistro(Registro.this);
+                dsRegistro.setOnSuccessRegistro(Registro.this);*/
             }
         });
     }

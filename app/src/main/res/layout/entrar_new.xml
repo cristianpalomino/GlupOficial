@@ -1,105 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/bg_1080x1920"
     android:id="@+id/frame_entrar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
     <FrameLayout
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="150dp"
+            android:layout_height="120dp"
             android:id="@+id/imageView"
             android:src="@drawable/logo_glup"
             android:adjustViewBounds="true"
             android:layout_gravity="center_horizontal|top"
             android:layout_margin="20dp" />
     </FrameLayout>
+    <RelativeLayout
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:src="@drawable/slogan"
+            android:layout_width="240dp"
+            android:layout_height="48dp" />
+    </RelativeLayout>
     <LinearLayout
-        android:layout_margin="40dp"
+        android:layout_weight="0.25"
+        android:layout_marginRight="40dp"
+        android:layout_marginLeft="40dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
+        android:orientation="horizontal"
+        android:weightSum="3.25">
+        <TextView
+            android:background="@null"
+            android:layout_weight="0.5"
+            android:layout_width="0dp"
+            android:layout_height="30dp" />
         <Button
+            android:textColor="@color/celeste_glup"
             android:id="@+id/btnIniciar"
-            style="@style/Glup_Button_Square_Azul"
+            android:textAllCaps="false"
+            android:shadowColor="@color/azul_glup"
+            android:background="@drawable/button_selector"
+            android:text="Iniciar"
+            android:layout_height="30dp"
+            android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="INICIAR" />
-
-
+            android:layout_gravity="center_horizontal"/>
+        <TextView
+            android:background="@null"
+            android:layout_weight="0.25"
+            android:layout_width="0dp"
+            android:layout_height="30dp" />
         <Button
+            android:textColor="@color/celeste_glup"
             android:id="@+id/btnRegistrar"
-            style="@style/Glup_Button_Square_Celeste"
+            android:textAllCaps="false"
+            android:shadowColor="@color/azul_glup"
+            android:background="@drawable/button_selector"
+            android:text="Registrate"
+            android:layout_height="30dp"
+            android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="REGISTRATE" />
-
+            android:layout_gravity="center_horizontal"/>
+        <TextView
+            android:background="@null"
+            android:layout_weight="0.5"
+            android:layout_width="0dp"
+            android:layout_height="30dp" />
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_margin="20dp"
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@android:color/darker_gray"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-        <EditText
-            android:id="@+id/edtusuario"
-            style="@style/Glup_Edittext_Square"
-            android:layout_width="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:ems="10"
-            android:textColorHint="@android:color/darker_gray"
-            android:textColor="@android:color/black"
-            android:hint="Usuario"
-            android:imeOptions="actionNext"
-            android:inputType="textEmailAddress"
-            android:maxLength="25" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@android:color/darker_gray"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-        <EditText
-            android:id="@+id/edtpassword"
-            style="@style/Glup_Edittext_Square"
-            android:layout_width="match_parent"
-            android:textColorHint="@android:color/darker_gray"
-            android:textColor="@android:color/black"
-            android:layout_marginTop="1dp"
-            android:ems="10"
-            android:hint="Contraseña"
-            android:imeOptions="actionDone"
-            android:inputType="textPassword"
-            android:maxLength="25" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@android:color/darker_gray"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-    </LinearLayout>
-
     <FrameLayout
+        android:id="@+id/fragment_entrar"
+        android:visibility="visible"
+        android:layout_marginTop="20dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
+        android:layout_weight="14"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
-            android:id="@+id/btnentrar"
-            style="@style/Glup_Button_Square_Celeste"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|center_horizontal"
-            android:text="Entrar" />
+        android:layout_height="0dp">
+
     </FrameLayout>
 
 

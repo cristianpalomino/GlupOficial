@@ -73,7 +73,12 @@ public class DSUsuario {
                 Log.e(null,response.toString());
                 PerfilUsuario perfilUsuario = gson.fromJson(response.toString(), PerfilUsuario.class);
                 Log.e("Success", String.valueOf(perfilUsuario.getSuccess()));
-                String cumple= inverseResetFormatFecha(perfilUsuario.getDetalleuser().get(0).getFecNac().toString());
+                String cumple="";
+                if (perfilUsuario.getDetalleuser().get(0).getFecNac().equals(null)){
+                    cumple="";
+                }else {
+                    cumple= inverseResetFormatFecha(perfilUsuario.getDetalleuser().get(0).getFecNac().toString());
+                }
                 perfilUsuario.getDetalleuser().get(0).setFecNac(cumple);
                 detalleUser=perfilUsuario.getDetalleuser();
                 Log.e("apeUser",perfilUsuario.getDetalleuser().get(0).getCorreoUser().toString());

@@ -41,4 +41,12 @@
     <string name="text_time_reserva">Tus prendas se han reservado por 12 horas, recogelas con el siguiente número</string>
     <string name="text_solicita_ticket">Para usarlo en lo que mas te guste, solicitalos luego de tu compra</string>
     <string name="text_cantidad_puntos">La cantidad de puntos, varia segun la prenda que compres no te olvides de solicitar que se atendio vía Glup</string>
+    <string name="validacion_contrasena_registro">Tu contraseña debe contener una letra mayuscula,minuscula y un numero y debe estar entre 4 y 12 caracteres</string>
+
+    <string name="validacion_pass_registro">Debe contener una mayúscula, un número y de 6 a 8 carácteres </string>
+    <string name="btn_recovery_pass">¿Olvidastes tu contraseña?</string>
+    <string name="btn_recovery_pass_pressed"><u>¿Olvidastes tu contraseña?</u></string>
+
+
+
 </resources>

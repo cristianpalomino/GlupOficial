@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@null"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <LinearLayout
+        android:background="@null"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent">
+            <EditText
+                android:visibility="visible"
+                android:background="@null"
+                android:id="@+id/edt_correo"
+                style="@style/Glup_Edittext_Square"
+                android:layout_width="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:ems="10"
+                android:hint="Correo"
+                android:textColorHint="@color/gris_glup_nuevo"
+                android:textColor="@android:color/black"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
+                android:maxLength="25" />
+            <EditText
+                android:visibility="gone"
+                android:maxLength="12"
+                android:layout_marginTop="15dp"
+                android:id="@+id/edt_correo"
+                android:textColorHint="@color/gris_glup_nuevo"
+                android:textColor="@android:color/black"
+                android:gravity="center"
+                android:hint="Correo"
+                android:background="@null"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@android:color/darker_gray"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <EditText
+                android:visibility="visible"
+                android:background="@null"
+                android:id="@+id/edt_password"
+                style="@style/Glup_Edittext_Square"
+                android:layout_width="match_parent"
+                android:layout_marginTop="1dp"
+                android:ems="10"
+                android:textColorHint="@color/gris_glup_nuevo"
+                android:textColor="@android:color/black"
+                android:hint="Contraseña"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                android:maxLength="25" />
+            <EditText
+                android:visibility="gone"
+                android:maxLength="12"
+                android:layout_marginTop="15dp"
+                android:id="@+id/edt_password"
+                android:textColorHint="@color/gris_glup_nuevo"
+                android:textColor="@android:color/black"
+                android:gravity="center"
+                android:hint="Contraseña"
+                android:background="@null"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@android:color/darker_gray"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <LinearLayout
+                android:visibility="visible"
+
+                android:layout_margin="4dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/pass_success"
+                    android:layout_marginRight="4dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/icono_x"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp" />
+                <TextView
+                    android:textColor="@color/celeste_glup"
+                    android:id="@+id/txt_pass_success"
+                    android:visibility="visible"
+                    android:textSize="10sp"
+                    android:text="@string/validacion_pass_registro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:id="@+id/layout_radio_hombre"
+                        android:layout_margin="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:textColor="@color/gris_glup_nuevo"
+                            android:text="Hombre"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <RadioButton
+                            android:id="@+id/radio_hombre"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_toRightOf="@+id/layout_radio_hombre"
+                        android:layout_margin="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:textColor="@color/gris_glup_nuevo"
+                            android:text="Mujer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <RadioButton
+                            android:id="@+id/radio_mujer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </RadioGroup>
+
+            <Button
+                android:layout_marginTop="10dp"
+                android:id="@+id/btnregistro"
+                android:textAllCaps="false"
+                android:shadowColor="@color/azul_glup"
+                android:background="@drawable/button_selector"
+                android:textColor="@color/celeste_glup"
+                android:text="Listo"
+                android:layout_width="160dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"/>
+
+
+    </LinearLayout>
+    <ProgressBar
+        android:visibility="gone"
+        android:id="@+id/progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+</RelativeLayout>

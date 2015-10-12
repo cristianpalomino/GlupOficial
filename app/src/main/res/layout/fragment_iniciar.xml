@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout">
+
+        <EditText
+            android:background="@null"
+            android:id="@+id/edtusuario"
+            style="@style/Glup_Edittext_Square"
+            android:layout_width="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:ems="10"
+            android:textColorHint="@color/gris_glup_nuevo"
+            android:textColor="@android:color/black"
+            android:hint="Usuario"
+            android:imeOptions="actionNext"
+            android:inputType="textEmailAddress"
+            android:maxLength="25" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@android:color/darker_gray"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <EditText
+            android:background="@null"
+            android:id="@+id/edtpassword"
+            style="@style/Glup_Edittext_Square"
+            android:layout_width="match_parent"
+            android:textColorHint="@color/gris_glup_nuevo"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="1dp"
+            android:ems="10"
+            android:hint="Contraseña"
+            android:imeOptions="actionDone"
+            android:inputType="textPassword"
+            android:maxLength="25" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@android:color/darker_gray"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+
+        <Button
+            android:layout_margin="5dp"
+            android:background="@null"
+            android:id="@+id/change_pass"
+            android:textAllCaps="false"
+            android:shadowColor="@color/azul_glup"
+            android:textColor="@color/celeste_glup"
+            android:text="@string/btn_recovery_pass"
+            android:layout_width="240dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="12dp"/>
+
+        <Button
+            android:layout_marginTop="30dp"
+            android:id="@+id/btnentrar"
+            android:textAllCaps="false"
+            android:shadowColor="@color/azul_glup"
+            android:background="@drawable/button_selector"
+            android:textColor="@color/celeste_glup"
+            android:text="Listo"
+            android:layout_width="160dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+    <ProgressBar
+        android:visibility="gone"
+        android:id="@+id/progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+</RelativeLayout>

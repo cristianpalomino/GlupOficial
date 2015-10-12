@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:padding="32dp">
+
+    <TextView
+        android:textColor="@color/celeste_glup"
+        android:textSize="20sp"
+        android:text="Cambiar contraseña"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:textColor="@color/negro"
+        android:id="@+id/new_pass"
+        android:inputType="textPassword"
+        android:layout_marginTop="25dp"
+        android:gravity="center_vertical"
+        android:textColorHint="@color/gris_glup"
+        android:hint="Nueva contraseña"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:textColor="@color/celeste_glup"
+        android:id="@+id/txt_pass_info_success"
+        android:visibility="visible"
+        android:textSize="10sp"
+        android:text="@string/validacion_pass_registro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:textColor="@color/negro"
+        android:id="@+id/repeat_new_pass"
+        android:inputType="textPassword"
+        android:layout_marginTop="25dp"
+        android:gravity="center_vertical"
+        android:textColorHint="@color/gris_glup"
+        android:hint="Repetir contraseña"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <RelativeLayout
+        android:visibility="visible"
+        android:layout_margin="4dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:visibility="visible"
+            android:id="@+id/pass_success"
+            android:layout_marginRight="4dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:src="@drawable/icono_check"
+            android:layout_width="12dp"
+            android:layout_height="12dp" />
+        <TextView
+            android:textColor="@color/celeste_glup"
+            android:id="@+id/txt_pass_success"
+            android:visibility="invisible"
+            android:textSize="10sp"
+            android:text="Contraseña segura"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <Button
+        android:layout_marginTop="40dp"
+        android:id="@+id/btn_next_login"
+        android:textAllCaps="false"
+        android:shadowColor="@color/azul_glup"
+        android:background="@drawable/button_selector"
+        android:textColor="@color/celeste_glup"
+        android:text="Listo"
+        android:layout_width="160dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"/>
+</LinearLayout>

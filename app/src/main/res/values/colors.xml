@@ -32,5 +32,6 @@
 
     <color name="gris_glup">#c2c2c2</color>
     <color name="text_gris_glup">#8f8f8f</color>
+    <color name="gris_glup_nuevo">#b1b1b1</color>
 
 </resources>
