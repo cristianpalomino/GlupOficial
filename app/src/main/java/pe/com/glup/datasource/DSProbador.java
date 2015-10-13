@@ -45,7 +45,7 @@ public class DSProbador {
     }
 
     public void getGlobalPrendas(final String filtro_posicion, String pagina, String registros) {
-        String URL = WSGlup.ORQUESTADOR_PROBADOR.
+        String URL = WSGlup.ORQUESTADOR_NUEVO_PROBADOR.
                 replace(WSGlup.NUMERO_PAGINA, pagina).
                 replace(WSGlup.NUMERO_REGISTROS, registros).
                 replace(WSGlup.FILTRO_POSICION, filtro_posicion);
@@ -87,7 +87,7 @@ public class DSProbador {
     }
     public void setIndProbador(String codPrenda){
 
-        String URL=WSGlup.ORQUESTADOR;
+        String URL=WSGlup.ORQUESTADOR_NUEVO;
 
         RequestParams params = new RequestParams();
         params.put("tag","enviarProbador");
@@ -102,6 +102,8 @@ public class DSProbador {
                 try {
                     String indProb= response.getString("indProb");
                     Log.e("dsProbador", indProb);
+                    Gson gson=new Gson();
+                    ResponseSetIndProbador responseSetIndProbador = gson.fromJson(response.toString(), ResponseSetIndProbador.class);
                     BusHolder.getInstance().post(indProb);
                 }catch (JSONException e){
                     Log.e("dsProbador",e.toString());
@@ -251,6 +253,10 @@ public class DSProbador {
             }
         });
 
+    }
+    public class ResponseSetIndProbador{
+        public String tag,indProb;
+        public int success;
     }
 
     public class ResponseProbador

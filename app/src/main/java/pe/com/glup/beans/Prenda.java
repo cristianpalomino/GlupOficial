@@ -50,6 +50,14 @@ public class Prenda implements Serializable {
         this.indReser=indReser;
     }
 
+    public void setNumGusta(String numGusta) {
+        this.numGusta = numGusta;
+    }
+
+    public void setIndProbador(String indProbador) {
+        this.indProbador = indProbador;
+    }
+
     public String getFiltroPosicion() {
         return filtroPosicion;
     }

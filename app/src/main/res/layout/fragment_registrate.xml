@@ -54,7 +54,7 @@
                 android:hint="Contraseña"
                 android:imeOptions="actionDone"
                 android:inputType="textPassword"
-                android:maxLength="25" />
+                android:maxLength="12" />
             <EditText
                 android:visibility="gone"
                 android:maxLength="12"
@@ -141,6 +141,17 @@
                 </RelativeLayout>
 
             </RadioGroup>
+
+            <TextView
+                android:gravity="center"
+                android:textColor="@color/celeste_glup"
+                android:id="@+id/txt_select_sexo"
+                android:visibility="gone"
+                android:textSize="10sp"
+                android:text="@string/elija_hombre_mujer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
 
             <Button
                 android:layout_marginTop="10dp"

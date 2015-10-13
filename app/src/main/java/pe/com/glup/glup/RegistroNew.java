@@ -52,8 +52,6 @@ public class RegistroNew extends Glup implements  View.OnClickListener {
 			btnIniciar = (ToggleButton) findViewById(R.id.btnIniciar);
 			btnRegistrar = (ToggleButton) findViewById(R.id.btnRegistrar);
 
-
-
 			btnIniciar.setOnClickListener(this);
 			btnRegistrar.setOnClickListener(this);
 

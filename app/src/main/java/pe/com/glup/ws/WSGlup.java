@@ -31,4 +31,9 @@ public class WSGlup {
             "num_pagina=#num_pagina&" +
             "num_registro=#num_registro&" +
             "filtro_posicion=#filtro_posicion";
+
+    public static final String ORQUESTADOR_NUEVO_PROBADOR = "http://108-179-236-242-1wde1bf0tu0m.runscope.net/~glupserver/API/orquestadorServiciosApp.php?"+
+            "num_pagina=#num_pagina&" +
+            "num_registro=#num_registro&" +
+            "filtro_posicion=#filtro_posicion";
 }

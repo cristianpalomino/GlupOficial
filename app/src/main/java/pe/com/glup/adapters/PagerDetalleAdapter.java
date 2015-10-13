@@ -48,7 +48,7 @@ public class PagerDetalleAdapter extends PagerAdapter {
         return view== ((LinearLayout) object);
     }
     @Override
-    public Object instantiateItem(final ViewGroup container, int position) {
+    public Object instantiateItem(final ViewGroup container, final int position) {
         View itemView=null;
         final Holder holder;
         final Prenda prenda = prendas.get(position);
@@ -106,40 +106,33 @@ public class PagerDetalleAdapter extends PagerAdapter {
         final Prenda finalprenda = prenda;
         final Holder finalHolder = holder;
 
-        holder.corazon.setOnCheckedChangeListener( new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton toggleButton, boolean isChecked) {
-                Log.e("checkChange", String.valueOf(isChecked));
-                if (isChecked) {
-                    holder.contado.setText(String.valueOf(cont - 1));
-                    holder.corazon.setChecked(false);
-                }else {
-                    holder.contado.setText(String.valueOf(cont + 1));
-                    holder.corazon.setChecked(true);
-                }
-                notifyDataSetChanged();
-
-
-            }
-        }) ;
         holder.corazon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("contador",String.valueOf(cont));
+                Log.e("contador", String.valueOf(cont));
                 int dis = cont - 1;
                 int au = cont + 1;
-                Log.e("disAu",String.valueOf(dis)+" "+String.valueOf(au));
+                Log.e("disAu", String.valueOf(dis) + " " + String.valueOf(au));
 
-                if (checkUpdated.equals("1")){
-                    //holder.contado.setText(String.valueOf(dis));
-                    //holder.corazon.setChecked(false);
-                }else{
-                    //holder.contado.setText(String.valueOf(au));
-                    //holder.corazon.setChecked(true);
+                if (holder.corazon.isChecked()==true) { //los que eran falsos
+                    prendas.get(position).setNumGusta(""+String.valueOf(au)+"");
+                    prendas.get(position).setIndProbador("1");
+                    holder.contado.setText(""+String.valueOf(au)+"");
+                    holder.corazon.setChecked(true);
+                    Log.e("corazon:", prenda.getCod_prenda());
+                    Toast.makeText(context, "Se agrego al Probador", Toast.LENGTH_LONG).show();
+
+                } else {
+                    prendas.get(position).setNumGusta(""+String.valueOf(dis)+"");
+                    prendas.get(position).setIndProbador("0");
+                    Log.e("sincorazon:", prenda.getCod_prenda());
+                    holder.contado.setText("" + String.valueOf(dis) + "");
+                    holder.corazon.setChecked(false);
+                    Toast.makeText(context, "Se elimino del Probador", Toast.LENGTH_LONG).show();
                 }
+
                 DSProbador dsProbador = new DSProbador(finalConvertView.getContext());
                 dsProbador.setIndProbador(finalprenda.getCod_prenda());
-                Toast.makeText(context, "Se agrego al Probador", Toast.LENGTH_LONG).show();
 
             }
         });

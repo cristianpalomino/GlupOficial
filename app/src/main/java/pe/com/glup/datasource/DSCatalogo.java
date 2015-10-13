@@ -47,6 +47,7 @@ public class DSCatalogo {
                 replace(WSGlup.NUMERO_PAGINA, pagina).
                 replace(WSGlup.NUMERO_REGISTROS, registros).
                 replace(WSGlup.BUSCAR, buscar);
+        Log.e("Pagina",pagina);
         RequestParams params = new RequestParams();
         params.put("tag", "prendaCatalogo");
         params.put("codigo_usuario", new Session_Manager(context).getCurrentUserCode());
@@ -60,6 +61,9 @@ public class DSCatalogo {
 
                 Catalogo catalogo = gson.fromJson(response.toString(), Catalogo.class);
                 prendas = catalogo.getPrendas();
+                //for (Prenda p:prendas){
+                    //Log.e(null,p.toString());
+                //}
                 onSuccessCatalogo.onSuccess(catalogo.getTag(), prendas);
             }
 
@@ -72,7 +76,7 @@ public class DSCatalogo {
     }
 
     public void updateProbador(String codigo_prenda) {
-        String URL = WSGlup.ORQUESTADOR;
+        String URL = WSGlup.ORQUESTADOR_NUEVO;
 
         RequestParams params = new RequestParams();
         params.put("tag", "enviarProbador");

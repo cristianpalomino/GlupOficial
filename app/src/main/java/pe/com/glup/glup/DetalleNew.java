@@ -11,11 +11,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ToggleButton;
 
+import com.squareup.otto.Subscribe;
+
 import java.util.ArrayList;
 
 import pe.com.glup.R;
 import pe.com.glup.adapters.PagerDetalleAdapter;
 import pe.com.glup.beans.Prenda;
+import pe.com.glup.bus.BusHolder;
 import pe.com.glup.dialog.DetailActivity;
 
 /**
@@ -36,6 +39,7 @@ public class DetalleNew extends AppCompatActivity implements
     @Override
     protected  void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        BusHolder.getInstance().register(this);
         setContentView(R.layout.fragment_detalle_new);
         pagerDetalle = (ViewPager) findViewById(R.id.scroll_detalle);
         atras = (ImageView) findViewById(R.id.cerrar_detalle);
@@ -88,5 +92,9 @@ public class DetalleNew extends AppCompatActivity implements
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+    @Subscribe
+    public void getIndProbador(String indProb) {
+        pagerDetalleAdapter.notifyDataSetChanged();
     }
 }

@@ -42,7 +42,7 @@ public class DSInfo {
     }
 
     public  void getInfoPrenda(String codigo){
-        String URL = WSGlup.ORQUESTADOR;
+        String URL = WSGlup.ORQUESTADOR_NUEVO;
 
         RequestParams params = new RequestParams();
         params.put("tag", "detallePrenda");
@@ -78,7 +78,7 @@ public class DSInfo {
 
 
     public  void getReservaPrenda(String codigo_prenda,String codigo_tienda){
-        String URL = WSGlup.ORQUESTADOR;
+        String URL = WSGlup.ORQUESTADOR_NUEVO;
 
         RequestParams params = new RequestParams();
         params.put("tag", "enviarReserva");

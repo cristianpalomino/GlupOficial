@@ -52,12 +52,10 @@ public class ForgetPassChange extends AppCompatActivity implements View.OnClickL
 				number = false;
 				range = false;
 				int size = s.toString().length();
-				if (size > 0) {
-					//textConfirmPass.setVisibility(View.VISIBLE);
-				} else {
+				if (size == 0) {
 					textConfirmPass.setText(getResources().getString(R.string.validacion_pass_registro));
 				}
-				if (size >= 6 && size <= 8) {
+				if (size >= 6 && size <= 12) {
 					range = true;
 				}
 				for (int i = 0; i < size; i++) {
@@ -85,7 +83,10 @@ public class ForgetPassChange extends AppCompatActivity implements View.OnClickL
 
 			@Override
 			public void afterTextChanged(Editable s) {
-
+				int size = s.toString().length();
+				if (size == 0) {
+					textConfirmPass.setText(getResources().getString(R.string.validacion_pass_registro));
+				}
 			}
 		});
 		inputRepeatPass.addTextChangedListener(new TextWatcher() {

@@ -79,6 +79,9 @@ public class PrendaAdapter extends BaseAdapter  {
             holder.corazon = (ToggleButton) convertView.findViewById(R.id.corazon_prenda);
 
             convertView.setTag(holder);
+            holder.contado.setText(prenda.getNumGusta());
+            boolean checked = prenda.getIndProbador().equals("1");
+            holder.corazon.setChecked(checked);
         } else {
             holder = (Holder) convertView.getTag();
         }
@@ -102,17 +105,14 @@ public class PrendaAdapter extends BaseAdapter  {
 
         Picasso.with(context).load(prenda.getImagen()).fit().placeholder(R.drawable.progress_animator).centerInside().noFade().into(holder.imagen);
 
-        boolean checked = prenda.getIndProbador().equals("1");
-        holder.corazon.setChecked(checked);
 
-        checkUpdated=prenda.getIndProbador();
+
+        //checkUpdated=prenda.getIndProbador();
         final Integer cont = Integer.parseInt(holder.contado.getText().toString());
         //final View finalConvertView = convertView;
         //
         final View finalConvertView = convertView;
         final Prenda finalprenda = prenda;
-        final boolean[] finalChecked = {checked};
-        final Holder finalHolder = holder;
 
         holder.corazon.setOnCheckedChangeListener( new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -138,13 +138,6 @@ public class PrendaAdapter extends BaseAdapter  {
                 int au = cont + 1;
                 Log.e("disAu",String.valueOf(dis)+" "+String.valueOf(au));
 
-                if (checkUpdated.equals("1")){
-                    //holder.contado.setText(String.valueOf(dis));
-                    //holder.corazon.setChecked(false);
-                }else{
-                    //holder.contado.setText(String.valueOf(au));
-                    //holder.corazon.setChecked(true);
-                }
                 dsProbador = new DSProbador(finalConvertView.getContext());
                 dsProbador.setIndProbador(finalprenda.getCod_prenda());
             }

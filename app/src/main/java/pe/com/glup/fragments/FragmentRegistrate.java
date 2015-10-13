@@ -43,7 +43,7 @@ public class FragmentRegistrate extends Fragment implements RadioButton.OnChecke
 	private String sexo="";
 	private int filtroUpper,filtroLower,filtroNumber,filtroRange;
 	private ImageView passSuccess;
-	private TextView txtPassSuccess;
+	private TextView txtPassSuccess,txtChoiceSexo;
 	private boolean upper=false,lower=false,number=false,range=false;
 	private ImageView iconValid;
 
@@ -69,7 +69,8 @@ public class FragmentRegistrate extends Fragment implements RadioButton.OnChecke
 		edtPassword = (EditText) getView().findViewById(R.id.edt_password);
 		hombre= (RadioButton) getView().findViewById(R.id.radio_hombre);
 		mujer = (RadioButton) getView().findViewById(R.id.radio_mujer);
-		iconValid= (ImageView) getView().findViewById(R.id.pass_success);
+		txtChoiceSexo = (TextView) getView().findViewById(R.id.txt_select_sexo);
+
 		hombre.setOnClickListener(this);
 		mujer.setOnClickListener(this);
 		btnregistro.setOnClickListener(this);
@@ -106,10 +107,12 @@ public class FragmentRegistrate extends Fragment implements RadioButton.OnChecke
 			case R.id.radio_hombre:
 				mujer.setChecked(false);
 				hombre.setChecked(true);
+				txtChoiceSexo.setVisibility(View.GONE);
 				break;
 			case R.id.radio_mujer:
 				hombre.setChecked(false);
 				mujer.setChecked(true);
+				txtChoiceSexo.setVisibility(View.GONE);
 				break;
 			case R.id.btnregistro:
 				if (mujer.isChecked()){
@@ -121,8 +124,9 @@ public class FragmentRegistrate extends Fragment implements RadioButton.OnChecke
 
 				if (upper && lower && number && range ){
 					if (sexo==""){
-						MessageUtil.showToast(getActivity(),"Elija sexo Hombre o Mujer");
+						txtChoiceSexo.setVisibility(View.VISIBLE);
 					}else{
+						txtChoiceSexo.setVisibility(View.GONE);
 						dialog = new GlupDialog(context);
 						dialog.show();
 						dsRegistro = new DSRegistro(context);
@@ -176,7 +180,7 @@ public class FragmentRegistrate extends Fragment implements RadioButton.OnChecke
 			passSuccess.setVisibility(View.GONE);
 			txtPassSuccess.setText(getResources().getString(R.string.validacion_pass_registro));
 		}
-		if (size>=6 && size<=8){
+		if (size>=6 && size<=12){
 			range=true;
 		}
 		for (int i=0;i<size;i++){

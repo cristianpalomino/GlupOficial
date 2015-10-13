@@ -1,6 +1,7 @@
 package pe.com.glup.fragments;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,12 +15,15 @@ import android.widget.CheckBox;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.squareup.otto.Subscribe;
+
 import java.util.ArrayList;
 
 import pe.com.glup.R;
 import pe.com.glup.adapters.PrendaAdapter;
 import pe.com.glup.adapters.PrendaAdapter2;
 import pe.com.glup.beans.Prenda;
+import pe.com.glup.bus.BusHolder;
 import pe.com.glup.datasource.DSCatalogo;
 import pe.com.glup.dialog.GlupDialog;
 import pe.com.glup.glup.Detalle;
@@ -54,6 +58,7 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
     private GridView grilla;
 
     private boolean isLoading = false;
+    private Context context;
 
     public static FCatalogo newInstance() {
         FCatalogo fragment = new FCatalogo();
@@ -74,6 +79,7 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         glup = (Glup) getActivity();
+        BusHolder.getInstance().register(this);
         if (getArguments() != null) {
 
         }
@@ -88,13 +94,13 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        context=getActivity();
         PAGE = 1;
         //TAG = "todos";
         isLoading = false;
 
         Principal principal = ((Principal) getActivity());
         principal.getHeader().setOnSearchListener(FCatalogo.this);
-        principal.setupUI(getView().findViewById(R.id.frame_grilla));
 
         emptyView = (TextView) getView().findViewById(R.id.empty_view);
         emptyView.setTypeface(Util_Fonts.setRegular(getActivity()));
@@ -115,13 +121,13 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
         CALL REST API
          */
         dsCatalogo = new DSCatalogo(getActivity());
-        dsCatalogo.getGlobalPrendas(TAG, String.valueOf(PAGE), "10");
+        dsCatalogo.getGlobalPrendas(TAG, String.valueOf(PAGE), "12");
         dsCatalogo.setOnSuccessCatalogo(FCatalogo.this);
 
         /*
         SHOW LOAD DIALOG
          */
-        gd = new GlupDialog(getActivity());
+        gd = new GlupDialog(context);
         gd.setCancelable(false);
         gd.show();
     }
@@ -133,9 +139,20 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
             if (PAGE == 1) {
                 if (prendas != null) {
                     displayMessage(FULL);
-                    prendaAdapter = new PrendaAdapter2(getActivity(), prendas);
+                    Log.e("tamaño:","prendas size"+prendas.size());
+                    try{
+                        prendaAdapter.notifyDataSetChanged();
+                    }
+                    catch(NullPointerException e)
+                    {
+                        prendaAdapter = new PrendaAdapter2(context, prendas);
+                    }
+
                     grilla.setAdapter(prendaAdapter);
                     glup.setPrendas(prendaAdapter.getmPrendas());
+                    for (Prenda pp:prendaAdapter.getmPrendas()){
+                        //Log.e("FCatalogo",pp.toString());
+                    }
                     isLoading = false;
                 } else {
                     displayMessage(EMPTY);
@@ -166,7 +183,7 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
 
     @Override
     public void onSearchListener(String cadena) {
-        Log.e("null","se ejecuta onSearchListner en Catalogo");
+        Log.e("null", "se ejecuta onSearchListner en Catalogo");
         PAGE = 1;
         if (cadena.equals("")) {
             TAG = "todos";
@@ -201,7 +218,9 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
                 isLoading = true;
 
                 PAGE++;
+
                 dsCatalogo.getGlobalPrendas(TAG, String.valueOf(PAGE), "10");
+
                 dsCatalogo.setOnSuccessCatalogo(FCatalogo.this);
             }
         }
@@ -224,7 +243,7 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
 
     @Override
     public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
-        Prenda prenda = (Prenda) parent.getItemAtPosition(position);
+        /*Prenda prenda = (Prenda) parent.getItemAtPosition(position);
         dsCatalogo = new DSCatalogo(getActivity());
         dsCatalogo.updateProbador(glup.getPrendas().get(position).getCod_prenda());
         dsCatalogo.setOnSuccessUpdate(new OnSuccessUpdate() {
@@ -240,6 +259,10 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
                     Log.e(FCatalogo.class.getName(), "Ocurrio un error");
                 }
             }
-        });
+        });*/
+    }
+    @Subscribe
+    public void getIndProbador(String indProb) {
+        prendaAdapter.notifyDataSetChanged();
     }
 }

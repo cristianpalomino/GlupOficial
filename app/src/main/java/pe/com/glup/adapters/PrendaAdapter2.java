@@ -65,27 +65,39 @@ public class PrendaAdapter2 extends BaseAdapter implements View.OnLongClickListe
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final Holder holder;
-        Prenda prenda = mPrendas.get(position);
+        final Prenda prenda = mPrendas.get(position);
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if (convertView == null) {
+
             convertView = inflater.inflate(R.layout.item_catalogo, parent, false);
-            holder = new Holder();
 
-            holder.marca = (TextView) convertView.findViewById(R.id.item_marca_prenda);
-            holder.precio = (TextView) convertView.findViewById(R.id.precio_prenda);
-            holder.contado = (TextView) convertView.findViewById(R.id.contador_corazon);
-            holder.modelo = (TextView) convertView.findViewById(R.id.modelo_prenda);
-            holder.imagen = (ImageView) convertView.findViewById(R.id.item_imagen_prenda);
-            holder.check = (CheckBox) convertView.findViewById(R.id.check);
-            holder.corazon = (ToggleButton) convertView.findViewById(R.id.corazon_prenda);
-
-            convertView.setTag(holder);
-            holder.contado.setText(prenda.getNumGusta());
-            boolean checked = prenda.getIndProbador().equals("1");
-            holder.corazon.setChecked(checked);
+            //convertView.setTag(holder);
         } else {
-            holder = (Holder) convertView.getTag();
+          //  holder = (Holder) convertView.getTag();
         }
+        Log.e("Despues", "codigoPrenda:" + prenda.getCod_prenda() + " ,indProbador:" + prenda.getIndProbador() + " ," +
+                "numMeGusta:" + prenda.getNumGusta());
+
+        holder = new Holder();
+
+        holder.marca = (TextView) convertView.findViewById(R.id.item_marca_prenda);
+        holder.precio = (TextView) convertView.findViewById(R.id.precio_prenda);
+        holder.contado = (TextView) convertView.findViewById(R.id.contador_corazon);
+        holder.modelo = (TextView) convertView.findViewById(R.id.modelo_prenda);
+        holder.imagen = (ImageView) convertView.findViewById(R.id.item_imagen_prenda);
+        holder.check = (CheckBox) convertView.findViewById(R.id.check);
+        holder.corazon = (ToggleButton) convertView.findViewById(R.id.corazon_prenda);
+
+
+
+        holder.contado.setText(prenda.getNumGusta());
+        //notifyDataSetChanged();
+        boolean checked = prenda.getIndProbador().equals("1");
+        holder.corazon.setChecked(checked);
+        //notifyDataSetChanged();
+
+
         glup = (Glup) context;
 
         this.position=position;
@@ -137,15 +149,15 @@ public class PrendaAdapter2 extends BaseAdapter implements View.OnLongClickListe
         final Prenda finalprenda = prenda;
 
         final Holder finalHolder = holder;
-
-        holder.corazon.setOnCheckedChangeListener( new CompoundButton.OnCheckedChangeListener() {
+/*
+        holder.corazon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton toggleButton, boolean isChecked) {
                 Log.e("checkChange", String.valueOf(isChecked));
                 if (isChecked) {
                     holder.contado.setText(String.valueOf(cont - 1));
                     holder.corazon.setChecked(false);
-                }else {
+                } else {
                     holder.contado.setText(String.valueOf(cont + 1));
                     holder.corazon.setChecked(true);
                 }
@@ -153,29 +165,37 @@ public class PrendaAdapter2 extends BaseAdapter implements View.OnLongClickListe
 
 
             }
-        }) ;
+        });*/
         holder.corazon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("contador",String.valueOf(cont));
+                Log.e("contador", String.valueOf(cont));
                 int dis = cont - 1;
                 int au = cont + 1;
-                Log.e("disAu",String.valueOf(dis)+" "+String.valueOf(au));
+                Log.e("disAu", String.valueOf(dis) + " " + String.valueOf(au));
 
-                if (checkUpdated.equals("1")){
-                    //holder.contado.setText(String.valueOf(dis));
-                    //holder.corazon.setChecked(false);
-                }else{
-                    //holder.contado.setText(String.valueOf(au));
-                    //holder.corazon.setChecked(true);
+                if (holder.corazon.isChecked()==true) { //los que eran falsos
+                    mPrendas.get(position).setNumGusta(""+String.valueOf(au)+"");
+                    mPrendas.get(position).setIndProbador("1");
+                    holder.contado.setText(""+String.valueOf(au)+"");
+                    holder.corazon.setChecked(true);
+                    Log.e("corazon:", prenda.getCod_prenda());
+                    Toast.makeText(context, "Se agrego al Probador", Toast.LENGTH_LONG).show();
+
+                } else {
+                    mPrendas.get(position).setNumGusta(""+String.valueOf(dis)+"");
+                    mPrendas.get(position).setIndProbador("0");
+                    Log.e("sincorazon:", prenda.getCod_prenda());
+                    holder.contado.setText("" + String.valueOf(dis) + "");
+                    holder.corazon.setChecked(false);
+                    Toast.makeText(context, "Se elimino del Probador", Toast.LENGTH_LONG).show();
                 }
+
                 DSProbador dsProbador = new DSProbador(finalConvertView.getContext());
                 dsProbador.setIndProbador(finalprenda.getCod_prenda());
-                Toast.makeText(context, "Se agrego al Probador", Toast.LENGTH_LONG).show();
 
             }
         });
-
         return convertView;
     }
 

@@ -72,16 +72,17 @@ public class ForgetPassCode extends AppCompatActivity implements View.OnClickLis
 	}
 	@Subscribe
 	public void getCodeChangePass(DSLogin.ResponseOlvidePass responseOlvidePass){
-		if (responseOlvidePass.error==1){
-			textSendCode.setText("Correo no registrado");
-			sendCode.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_selector));
-			sendCode.setTextColor(getResources().getColor(R.color.celeste_glup));
-		}else{
+		if (responseOlvidePass.success==1){
 			textSendCode.setText("Se envio el codigo a su correo");
 			textSendCode.setVisibility(View.VISIBLE);
 			next.setEnabled(true);
 			codigo=responseOlvidePass.cod_confirmacion;
 			codigoUser=responseOlvidePass.cod_usuario;
+		}else{
+			textSendCode.setText("Correo no registrado");
+			textSendCode.setVisibility(View.VISIBLE);
+			sendCode.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_selector));
+			sendCode.setTextColor(getResources().getColor(R.color.celeste_glup));
 		}
 	}
 }

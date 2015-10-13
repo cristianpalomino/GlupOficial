@@ -65,12 +65,22 @@ public class Entrar extends AppCompatActivity implements  View.OnClickListener {
             twitter = (Button) findViewById(R.id.btntwitter);
             instagram = (Button) findViewById(R.id.btninstagram);*/
             fragmentManager = this.getSupportFragmentManager();
+            /*
             fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fragment_entrar, new FragmentEntrarDefault(), TAG[0]);
             fragmentTransaction.commit();
+            */
 
             btnIniciar = (Button) findViewById(R.id.btnIniciar);
             btnRegistrar = (Button) findViewById(R.id.btnRegistrar);
+
+            btnIniciar.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_selector_pressed));
+            btnIniciar.setTextColor(getResources().getColor(R.color.blanco));
+            btnRegistrar.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_selector));
+            btnRegistrar.setTextColor(getResources().getColor(R.color.celeste_glup));
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_entrar,new FragmentIniciar(),TAG[1]);
+            fragmentTransaction.commit();
 
 
             btnIniciar.setOnClickListener(this);

@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"/>
 
     <EditText
+        android:maxLength="12"
         android:textColor="@color/negro"
         android:id="@+id/new_pass"
         android:inputType="textPassword"
@@ -33,6 +34,7 @@
         android:layout_height="wrap_content" />
 
     <EditText
+        android:maxLength="12"
         android:textColor="@color/negro"
         android:id="@+id/repeat_new_pass"
         android:inputType="textPassword"
