@@ -19,8 +19,8 @@ import pe.com.glup.beans.Prenda;
 import pe.com.glup.beans.TallaDisponible;
 import pe.com.glup.beans.Tienda;
 import pe.com.glup.bus.BusHolder;
-import pe.com.glup.dialog.FullScreenDialog;
 import pe.com.glup.interfaces.OnSuccessPrendas;
+import pe.com.glup.interfaces.OnSuccessProbador;
 import pe.com.glup.session.Session_Manager;
 import pe.com.glup.ws.WSGlup;
 
@@ -34,6 +34,8 @@ public class DSProbador {
     ArrayList<Tienda> tiendas = new ArrayList<Tienda>();
     ArrayList<TallaDisponible> tallas= new ArrayList<TallaDisponible>();
     private OnSuccessPrendas onSuccessPrendas;
+    private OnSuccessProbador onSuccessProbador;
+
 
     public DSProbador(Context context) {
         this.context = context;
@@ -44,11 +46,15 @@ public class DSProbador {
         this.onSuccessPrendas = onSuccessPrendas;
     }
 
-    public void getGlobalPrendas(final String filtro_posicion, String pagina, String registros) {
-        String URL = WSGlup.ORQUESTADOR_NUEVO_PROBADOR.
-                replace(WSGlup.NUMERO_PAGINA, pagina).
-                replace(WSGlup.NUMERO_REGISTROS, registros).
-                replace(WSGlup.FILTRO_POSICION, filtro_posicion);
+    public void setOnSuccessProbador(OnSuccessProbador onSuccessProbador) {
+        this.onSuccessProbador = onSuccessProbador;
+    }
+
+    public void getGlobalPrendasCatalogo(final String filtro_posicion, String pagina, String registros) {
+            String URL = WSGlup.ORQUESTADOR_NUEVO_PROBADOR.
+                    replace(WSGlup.NUMERO_PAGINA, pagina).
+                    replace(WSGlup.NUMERO_REGISTROS, registros).
+                    replace(WSGlup.FILTRO_POSICION, filtro_posicion);
 
         RequestParams params = new RequestParams();
         params.put("tag", "prendaCatalogoPosicion");
@@ -66,11 +72,53 @@ public class DSProbador {
                 for (int i=0;i<prendas.size();i++){
                     prendas.get(i).setFiltroPosicion(filtro_posicion);
                 }
+                ResponseCatalogo responseCatalogo = new ResponseCatalogo();
+                responseCatalogo.message = catalogo.getTag();
+                responseCatalogo.prendas = prendas;
+                responseCatalogo.tipo = filtro_posicion;
+                onSuccessPrendas.succesPrendas(responseCatalogo);//bug retroceso probador-catalog-probador
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+
+                ResponseCatalogo responseCatalogo = new ResponseCatalogo();
+                responseCatalogo.message = responseString;
+                responseCatalogo.prendas = null;
+                responseCatalogo.tipo = filtro_posicion;
+                onSuccessPrendas.succesPrendas(responseCatalogo);
+            }
+        });
+    }
+    public void getGlobalPrendasProbador(final String filtro_posicion, String pagina, String registros) {
+        String URL = WSGlup.ORQUESTADOR_NUEVO_PROBADOR.
+                replace(WSGlup.NUMERO_PAGINA, pagina).
+                replace(WSGlup.NUMERO_REGISTROS, registros).
+                replace(WSGlup.FILTRO_POSICION, filtro_posicion);
+
+        RequestParams params = new RequestParams();
+        params.put("tag", "prendaProbadorPosicion");
+        params.put("codigo_usuario", new Session_Manager(context).getCurrentUserCode());
+
+        AsyncHttpClient httpClient = new AsyncHttpClient();
+        httpClient.post(context, URL, params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                Gson gson = new Gson();
+
+                Catalogo catalogo = gson.fromJson(response.toString(), Catalogo.class);
+                prendas = catalogo.getPrendas();
+                for (int i = 0; i < prendas.size(); i++) {
+                    prendas.get(i).setFiltroPosicion(filtro_posicion);
+                }
                 ResponseProbador responseProbador = new ResponseProbador();
+                //responseProbador.success=catalogo.getSuccess();
                 responseProbador.message = catalogo.getTag();
                 responseProbador.prendas = prendas;
                 responseProbador.tipo = filtro_posicion;
-                onSuccessPrendas.succesPrendas(responseProbador);//bug retroceso probador-catalog-probador
+                onSuccessProbador.succesPrendas(responseProbador);//bug retroceso probador-catalog-probador
             }
 
             @Override
@@ -81,10 +129,11 @@ public class DSProbador {
                 responseProbador.message = responseString;
                 responseProbador.prendas = null;
                 responseProbador.tipo = filtro_posicion;
-                onSuccessPrendas.succesPrendas(responseProbador);
+                onSuccessProbador.succesPrendas(responseProbador);
             }
         });
     }
+
     public void setIndProbador(String codPrenda){
 
         String URL=WSGlup.ORQUESTADOR_NUEVO;
@@ -259,12 +308,20 @@ public class DSProbador {
         public int success;
     }
 
+    public class ResponseCatalogo
+    {   public int success;
+        public String tipo;
+        public String message;
+        public ArrayList<Prenda> prendas;
+    }
+
     public class ResponseProbador
     {   public int success;
         public String tipo;
         public String message;
         public ArrayList<Prenda> prendas;
     }
+
     public class ResponseDetallePrenda{
         private String tag;
         private int success;

@@ -79,7 +79,6 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         glup = (Glup) getActivity();
-        BusHolder.getInstance().register(this);
         if (getArguments() != null) {
 
         }
@@ -94,6 +93,7 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        BusHolder.getInstance().register(this);
         context=getActivity();
         PAGE = 1;
         //TAG = "todos";
@@ -263,6 +263,13 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
     }
     @Subscribe
     public void getIndProbador(String indProb) {
-        prendaAdapter.notifyDataSetChanged();
+        try{
+            prendaAdapter.notifyDataSetChanged();
+        }
+        catch(NullPointerException e)
+        {
+            Log.e(null,"prendaAdapter en catalogo null-recarga de corazones fail");
+        }
+
     }
 }

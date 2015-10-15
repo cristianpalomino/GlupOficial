@@ -2,7 +2,6 @@ package pe.com.glup.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +13,6 @@ import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 
 import pe.com.glup.R;
-import pe.com.glup.adapters.PagerBottomAdapter;
-import pe.com.glup.adapters.PagerTopAdapter;
-import pe.com.glup.adapters.PrendaAdapter;
-import pe.com.glup.adapters.PrendaAdapter2;
 import pe.com.glup.adapters.PrendaAdapterMenu;
 import pe.com.glup.beans.Prenda;
 import pe.com.glup.bus.BusHolder;
@@ -67,15 +62,15 @@ public class FMenuLeft extends Fragment implements OnSuccessPrendas{
             Log.e(null,c.toString());
         }
 
-        dsProbadorA.getGlobalPrendas("A", "1", "20");
+        dsProbadorA.getGlobalPrendasCatalogo("A", "1", "20");
     }
 
 
     @Override
-    public void succesPrendas(DSProbador.ResponseProbador responseProbador) {
-        if (responseProbador.tipo.equals("A"))
+    public void succesPrendas(DSProbador.ResponseCatalogo responseCatalogo) {
+        if (responseCatalogo.tipo.equals("A"))
         {
-            this.prendasTop = responseProbador.prendas;
+            this.prendasTop = responseCatalogo.prendas;
             prendaAdapter = new PrendaAdapterMenu(getActivity(),this.prendasTop);
             listView.setAdapter(prendaAdapter);
         }

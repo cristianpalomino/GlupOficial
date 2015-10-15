@@ -13,8 +13,6 @@ import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 
 import pe.com.glup.R;
-import pe.com.glup.adapters.PrendaAdapter;
-import pe.com.glup.adapters.PrendaAdapter2;
 import pe.com.glup.adapters.PrendaAdapterMenu;
 import pe.com.glup.beans.Prenda;
 import pe.com.glup.bus.BusHolder;
@@ -62,14 +60,14 @@ public class FMenuRigth extends Fragment implements OnSuccessPrendas{
         }catch (ClassCastException c){
             Log.e(null, c.toString());
         }
-        dsProbadorA.getGlobalPrendas("B", "1", "20");
+        dsProbadorA.getGlobalPrendasCatalogo("B", "1", "20");
     }
 
     @Override
-    public void succesPrendas(DSProbador.ResponseProbador responseProbador) {
-        if (responseProbador.tipo.equals("B"))
+    public void succesPrendas(DSProbador.ResponseCatalogo responseCatalogo) {
+        if (responseCatalogo.tipo.equals("B"))
         {
-            this.prendasTop = responseProbador.prendas;
+            this.prendasTop = responseCatalogo.prendas;
             prendaAdapter = new PrendaAdapterMenu(getActivity(),this.prendasTop);
             listView.setAdapter(prendaAdapter);
         }
