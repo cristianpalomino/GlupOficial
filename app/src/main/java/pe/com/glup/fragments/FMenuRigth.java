@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import pe.com.glup.R;
 import pe.com.glup.adapters.PrendaAdapter;
 import pe.com.glup.adapters.PrendaAdapter2;
+import pe.com.glup.adapters.PrendaAdapterMenu;
 import pe.com.glup.beans.Prenda;
 import pe.com.glup.bus.BusHolder;
 import pe.com.glup.datasource.DSProbador;
@@ -25,7 +26,7 @@ public class FMenuRigth extends Fragment implements OnSuccessPrendas{
 
     private ListView listView;
     private ArrayList<Prenda> prendasTop;
-    private  PrendaAdapter2 prendaAdapter;
+    private  PrendaAdapterMenu prendaAdapter;
 
     public static FMenuRigth newInstance() {
         FMenuRigth fragment = new FMenuRigth();
@@ -69,7 +70,7 @@ public class FMenuRigth extends Fragment implements OnSuccessPrendas{
         if (responseProbador.tipo.equals("B"))
         {
             this.prendasTop = responseProbador.prendas;
-            prendaAdapter = new PrendaAdapter2(getActivity(),this.prendasTop);
+            prendaAdapter = new PrendaAdapterMenu(getActivity(),this.prendasTop);
             listView.setAdapter(prendaAdapter);
         }
     }

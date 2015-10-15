@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import pe.com.glup.R;
 import pe.com.glup.beans.Prenda;
+import pe.com.glup.bus.BusHolder;
 import pe.com.glup.datasource.DSProbador;
 import pe.com.glup.glup.Detalle;
 import pe.com.glup.glup.DetalleNew;
@@ -45,6 +46,7 @@ public class PrendaAdapter2 extends BaseAdapter implements View.OnLongClickListe
         this.context = context;
         this.mPrendas = prendas;
         this.inflater = LayoutInflater.from(context);
+        BusHolder.getInstance().register(this);
     }
 
     @Override
@@ -193,7 +195,7 @@ public class PrendaAdapter2 extends BaseAdapter implements View.OnLongClickListe
 
                 DSProbador dsProbador = new DSProbador(finalConvertView.getContext());
                 dsProbador.setIndProbador(finalprenda.getCod_prenda());
-
+                BusHolder.getInstance().post(holder);
             }
         });
         return convertView;

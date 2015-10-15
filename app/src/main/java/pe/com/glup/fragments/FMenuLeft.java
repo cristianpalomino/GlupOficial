@@ -18,6 +18,7 @@ import pe.com.glup.adapters.PagerBottomAdapter;
 import pe.com.glup.adapters.PagerTopAdapter;
 import pe.com.glup.adapters.PrendaAdapter;
 import pe.com.glup.adapters.PrendaAdapter2;
+import pe.com.glup.adapters.PrendaAdapterMenu;
 import pe.com.glup.beans.Prenda;
 import pe.com.glup.bus.BusHolder;
 import pe.com.glup.datasource.DSProbador;
@@ -29,7 +30,7 @@ public class FMenuLeft extends Fragment implements OnSuccessPrendas{
     private ListView listView;
     private ArrayList<Prenda> prendasTop;
     private DSProbador dsProbador;
-    private PrendaAdapter2 prendaAdapter;
+    private PrendaAdapterMenu prendaAdapter;
 
     public static FMenuLeft newInstance() {
         FMenuLeft fragment = new FMenuLeft();
@@ -75,7 +76,7 @@ public class FMenuLeft extends Fragment implements OnSuccessPrendas{
         if (responseProbador.tipo.equals("A"))
         {
             this.prendasTop = responseProbador.prendas;
-            prendaAdapter = new PrendaAdapter2(getActivity(),this.prendasTop);
+            prendaAdapter = new PrendaAdapterMenu(getActivity(),this.prendasTop);
             listView.setAdapter(prendaAdapter);
         }
     }

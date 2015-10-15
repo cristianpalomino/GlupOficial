@@ -31,7 +31,6 @@ public class PagerBottomAdapter extends PagerAdapter {
     public PagerBottomAdapter(Context context, ArrayList<Prenda> prendas) {
         this.context = context;
         this.prendas = prendas;
-        this.layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         BusHolder.getInstance().register(this);
     }
 
@@ -47,6 +46,7 @@ public class PagerBottomAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
+        this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View itemView = this.layoutInflater.inflate(R.layout.item_pager_bottom, container, false);
 
         final Prenda prenda = prendas.get(position);

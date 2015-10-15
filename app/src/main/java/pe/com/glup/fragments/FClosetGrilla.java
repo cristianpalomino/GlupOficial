@@ -16,12 +16,16 @@ import android.widget.CheckBox;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.squareup.otto.Subscribe;
+
 import java.util.ArrayList;
 
 import pe.com.glup.R;
+import pe.com.glup.adapters.PrendaAdapter;
 import pe.com.glup.adapters.PrendaAdapter2;
 import pe.com.glup.adapters.PrendaAdapterBackup;
 import pe.com.glup.beans.Prenda;
+import pe.com.glup.bus.BusHolder;
 import pe.com.glup.datasource.DSCloset;
 import pe.com.glup.dialog.GlupDialog;
 import pe.com.glup.glup.Detalle;
@@ -51,7 +55,7 @@ public class FClosetGrilla extends Fragment implements OnSuccessCatalogo,
 
     private TextView emptyView;
     private GridView grilla;
-    private PrendaAdapterBackup adapter;
+    private PrendaAdapter adapter;
     private DSCloset dsCloset;
 
     private Glup glup;
@@ -81,6 +85,7 @@ public class FClosetGrilla extends Fragment implements OnSuccessCatalogo,
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        BusHolder.getInstance().register(this);
         glup = (Glup) context.getActivity();
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -223,7 +228,7 @@ public class FClosetGrilla extends Fragment implements OnSuccessCatalogo,
             if (PAGE == 1) {
                 if (prendas != null) {
                     displayMessage(FULL);
-                    adapter = new PrendaAdapterBackup(FClosetGrilla.this.getActivity(), prendas);
+                    adapter = new PrendaAdapter(FClosetGrilla.this.getActivity(), prendas);
                     grilla.setAdapter(adapter);
                     glup.setPrendas(adapter.getmPrendas());
                     isLoading = false;
@@ -268,6 +273,10 @@ public class FClosetGrilla extends Fragment implements OnSuccessCatalogo,
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
+    }
+    @Subscribe
+    public void getIndProbador(String indProb) {
+        adapter.notifyDataSetChanged();
     }
 
 }

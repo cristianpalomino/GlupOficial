@@ -39,6 +39,7 @@ public class Principal extends Glup implements Footer.OnChangeTab,
     private OnChangeTab onChangeTab;
     private SlidingMenu menuright;
     private OnSuccessDetalleUsuario onSuccessDetalleUsuario;
+    private int position;
 
     public void setOnSuccessDisableSliding(OnSuccessDisableSliding onSuccessDisableSliding) {
         this.onSuccessDisableSliding = onSuccessDisableSliding;
@@ -79,15 +80,16 @@ public class Principal extends Glup implements Footer.OnChangeTab,
     @Override
     public void onChangeTab(int position) {
         onChangeTab.onChangeTab(position);
-        Log.e("position",position+"");
-
-        CURRENT_FRAGMENT_TAG = FRAGMENTS[position].getClass().getName().toString();
+        Log.e("position", position + "");
+        this.position=position;
+        CURRENT_FRAGMENT_TAG = FRAGMENTS[position].getClass().getSimpleName();
         Fragment current = getSupportFragmentManager().findFragmentByTag(CURRENT_FRAGMENT_TAG);
         if (current != null) {
-            Log.e(null,"curren not null"+current.toString());
+            Log.e(null,"currenT not null"+current.toString());
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.frame_principal, FRAGMENTS[position], CURRENT_FRAGMENT_TAG)
                     .commit();
+
         } else {
             Log.e(null,"current null");
             getSupportFragmentManager().beginTransaction()
@@ -99,7 +101,7 @@ public class Principal extends Glup implements Footer.OnChangeTab,
         Log.e("FRAGMENTS", getSupportFragmentManager().getBackStackEntryCount() + "");
         Log.e("FRAGMENTS", CURRENT_FRAGMENT_TAG + "");
         //((ViewGroup) namebar.getParent()).removeView(namebar);
-        if (!CURRENT_FRAGMENT_TAG.equals("pe.com.glup.fragments.FProbador")){
+        if (!CURRENT_FRAGMENT_TAG.equals("FProbador")){
             Log.e("!Probador", "deberia cerrarsel los sliders");
             //menuright.setSlidingEnabled(false);
             //onSuccessDisableSliding.onSuccessDisableSliding(true);
@@ -108,8 +110,12 @@ public class Principal extends Glup implements Footer.OnChangeTab,
 
             //menuright.setSlidingEnabled(true);
         }
-        if (CURRENT_FRAGMENT_TAG.equals("pe.com.glup.fragments.FCatalogoNew")){
+        if (CURRENT_FRAGMENT_TAG.equals("FCatalogoNew")){
             Log.e(null,"entro Catalogo nuevo");
+            //ResponseUpdateGeneroCatalogo responseUpdateGeneroCatalogo = new ResponseUpdateGeneroCatalogo();
+            //responseUpdateGeneroCatalogo.success=1;
+            //BusHolder.getInstance().post(responseUpdateGeneroCatalogo);
+
         }
         flagChangeTab = true;
 
@@ -147,12 +153,27 @@ public class Principal extends Glup implements Footer.OnChangeTab,
 
         if(getFragmentManager().getBackStackEntryCount() > 0)
             getFragmentManager().popBackStack();
-        else
-            super.onBackPressed();
+        else{
+            Fragment current = getSupportFragmentManager().findFragmentByTag(CURRENT_FRAGMENT_TAG);
+            if (current==null){
+                Log.e("enBack","current null");
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.frame_principal, FRAGMENTS[position], CURRENT_FRAGMENT_TAG)
+                        .addToBackStack(CURRENT_FRAGMENT_TAG)
+                        .commit();
+            } else {
+                super.onBackPressed();
+            }
+
+        }
+
 
         //super.onBackPressed();
     }
 
+    public class ResponseUpdateGeneroCatalogo{
+        public int success=0;
+    }
 
 
     

@@ -42,6 +42,7 @@ public class DSRegistro {
 
     public void registrarUsuario(String nombre,String apellido,String sexo,String correo, String password) {
         String URL = WSGlup.ORQUESTADOR_NUEVO;
+        Log.e("sexoUsuario",sexo);
 
         RequestParams params = new RequestParams();
         params.put("tag", "registroUser");
@@ -63,6 +64,7 @@ public class DSRegistro {
                     if (success == 1) {
                         Gson gson = new Gson();
                         Usuario usuario = gson.fromJson(response.toString(), Usuario.class);
+                        Log.e("sexoRegistrado", usuario.getSexoUser());
                         onSuccessRegistro.onSuccessRegistro(true, usuario, "Se registro exitosamente.");
                     } else {
                         onSuccessRegistro.onSuccessRegistro(false, null, response.getString("error_msg"));

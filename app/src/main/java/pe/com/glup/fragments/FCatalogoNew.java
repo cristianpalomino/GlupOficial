@@ -1,16 +1,21 @@
 package pe.com.glup.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ToggleButton;
 
+import com.squareup.otto.Subscribe;
+
 import pe.com.glup.R;
 import pe.com.glup.bus.BusHolder;
+import pe.com.glup.glup.Principal;
 import pe.com.glup.session.Session_Manager;
 
 /**
@@ -48,6 +53,7 @@ public class FCatalogoNew extends Fragment implements View.OnClickListener {
 
     public void inicializarCatalogoSexo() {
        if (new Session_Manager(getActivity()).getCurrentUserSexo().equals("H")){
+            Log.e(null,"es hombre");
             mujer.setChecked(false);
             hombre.setChecked(true);
             fCatalogo = FCatalogo.newInstance("genH");
@@ -56,7 +62,8 @@ public class FCatalogoNew extends Fragment implements View.OnClickListener {
             fragmentTransaction.replace(R.id.fragment_catalogo,fCatalogo,tagFragment);
             fragmentTransaction.commit();
         }else {
-            hombre.setChecked(false);
+           Log.e(null,"no es hombre");
+           hombre.setChecked(false);
             mujer.setChecked(true);
             fCatalogo = FCatalogo.newInstance("genM");
             String tagFragment2 = FCatalogo.class.getSimpleName()+"Mujer";
@@ -86,5 +93,15 @@ public class FCatalogoNew extends Fragment implements View.OnClickListener {
                 fragmentTransaction.commit();
                 break;
         }
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        inicializarCatalogoSexo();
+        //mujer.postInvalidate();
+        //hombre.postInvalidate();
+            //getActivity().finish();
     }
 }

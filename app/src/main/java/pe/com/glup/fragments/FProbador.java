@@ -21,6 +21,8 @@ import pe.com.glup.R;
 import pe.com.glup.adapters.PagerBottomAdapter;
 import pe.com.glup.adapters.PagerTopAdapter;
 import pe.com.glup.adapters.PrendaAdapter;
+import pe.com.glup.adapters.PrendaAdapter2;
+import pe.com.glup.adapters.PrendaAdapterMenu;
 import pe.com.glup.beans.Prenda;
 import pe.com.glup.bus.BusHolder;
 import pe.com.glup.datasource.DSProbador;
@@ -152,6 +154,7 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
         }
 
         dsProbadorB.getGlobalPrendas("B", "1", "20");
+
     }
 
     @Override
@@ -181,6 +184,19 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
             }
             pagerBottomAdapter = new PagerBottomAdapter(getActivity(), this.prendasBottom);
             pagerBotton.setAdapter(pagerBottomAdapter);
+        }
+        if (responseProbador.success==1){
+            for (int position=0;position<prendasTop.size();position++){
+                if (prendasTop.get(position).getTipo().toUpperCase().equals("VESTIDO")) {
+                    Log.e("TOP", ((Prenda) pagerTopAdapter.getItem(position)).getCod_prenda() + " " +
+                            ((Prenda) pagerTopAdapter.getItem(position)).getIndProbador());
+                    pagerBotton.setVisibility(View.GONE);
+                    posCurrentTop = position;
+                } else {
+                    pagerBotton.setVisibility(View.VISIBLE);
+                    posCurrentBottom = position;
+                }
+            }
         }
         /*if success ==1
             for (int position=0;position<prendasTop.size();position++){
@@ -295,7 +311,7 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
 
     }
     @Subscribe
-    public  void getReloadPrendas(PrendaAdapter.Holder holder ){
+    public  void getReloadPrendas(PrendaAdapterMenu.Holder holder ){
         Log.e("check", String.valueOf(holder.corazon.isChecked()));
         DSProbador dsProbadorA = new DSProbador(getActivity());
 
@@ -312,9 +328,10 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
         }catch (ClassCastException c){
             Log.e("errorProb",c.toString());
         }
-
+        dsProbadorB.getGlobalPrendas("B", "1", "20");
 
     }
+
     @Subscribe
     public void addProbador(Prenda prenda){
         Log.e("codProbador",prenda.getCod_prenda());
