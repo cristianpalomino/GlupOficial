@@ -350,7 +350,7 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
             pagerBottomAdapter = new PagerBottomAdapter(getActivity(), this.prendasBottom);
             pagerBotton.setAdapter(pagerBottomAdapter);
         }
-        if (responseCatalogo.success==1){
+        if (responseCatalogo.success==1 && prendasTop!=null){
             for (int position=0;position<prendasTop.size();position++){
                 if (prendasTop.get(position).getTipo().toUpperCase().equals("VESTIDO")) {
                     Log.e("TOP", ((Prenda) pagerTopAdapter.getItem(position)).getCod_prenda() + " " +

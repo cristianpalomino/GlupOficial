@@ -107,14 +107,14 @@ public class DSProbador {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 Gson gson = new Gson();
-
+                Log.e("enProbadorResp",response.toString());
                 Catalogo catalogo = gson.fromJson(response.toString(), Catalogo.class);
                 prendas = catalogo.getPrendas();
                 for (int i = 0; i < prendas.size(); i++) {
                     prendas.get(i).setFiltroPosicion(filtro_posicion);
                 }
                 ResponseProbador responseProbador = new ResponseProbador();
-                //responseProbador.success=catalogo.getSuccess();
+                responseProbador.success=catalogo.getSuccess();
                 responseProbador.message = catalogo.getTag();
                 responseProbador.prendas = prendas;
                 responseProbador.tipo = filtro_posicion;
@@ -124,7 +124,7 @@ public class DSProbador {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
-
+                Log.e("enProbadorError",responseString);
                 ResponseProbador responseProbador = new ResponseProbador();
                 responseProbador.message = responseString;
                 responseProbador.prendas = null;
