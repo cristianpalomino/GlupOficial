@@ -43,16 +43,18 @@ public class DSCatalogo {
     }
 
     public void getGlobalPrendas(String buscar, String pagina, String registros) {
+        AsyncHttpClient httpClient = new AsyncHttpClient();
+
         String URL = WSGlup.ORQUESTADOR_NUEVO_CATALOGO.
                 replace(WSGlup.NUMERO_PAGINA, pagina).
                 replace(WSGlup.NUMERO_REGISTROS, registros).
                 replace(WSGlup.BUSCAR, buscar);
-        Log.e("Pagina",pagina);
+        Log.e("Pagina", pagina);
         RequestParams params = new RequestParams();
         params.put("tag", "prendaCatalogo");
         params.put("codigo_usuario", new Session_Manager(context).getCurrentUserCode());
 
-        AsyncHttpClient httpClient = new AsyncHttpClient();
+
         httpClient.post(context, URL, params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {

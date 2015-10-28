@@ -23,6 +23,7 @@ import pe.com.glup.beans.Prenda;
 import pe.com.glup.bus.BusHolder;
 import pe.com.glup.datasource.DSProbador;
 import pe.com.glup.dialog.DetailActivity;
+import pe.com.glup.dialog.GlupDialog;
 import pe.com.glup.interfaces.OnClickProbador;
 import pe.com.glup.interfaces.OnSuccessPrendas;
 import pe.com.glup.interfaces.OnSuccessProbador;
@@ -41,6 +42,8 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
     private PagerTopAdapter pagerTopAdapter;
     private PagerBottomAdapter pagerBottomAdapter;
     private int posCurrentTop,posCurrentBottom;
+    protected GlupDialog gd;
+
 
     public static FProbador newInstance() {
         FProbador fragment = new FProbador();
@@ -150,6 +153,10 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
 
         dsProbadorB.getGlobalPrendasProbador("B", "1", "20");
 
+        gd = new GlupDialog(getActivity());
+        gd.setCancelable(false);
+        gd.show();
+
     }
 
     @Override
@@ -184,20 +191,24 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
                 menuright.showSecondaryMenu(true);
                 break;
             case R.id.button_previous_top:
-                Log.e(null,"previos_top");
-                previousPageTop();
+                Log.e(null, "previos_top");
+                if (pagerTop!=null && pagerTop.getAdapter()!=null)
+                    previousPageTop();
                 break;
             case R.id.button_next_top:
-                Log.e(null,"next_top");
-                nextPageTop();
+                Log.e(null, "next_top");
+                if (pagerTop!=null && pagerTop.getAdapter()!=null)
+                    nextPageTop();
                 break;
             case R.id.button_previous_bottom:
-                Log.e(null,"previos_bottom");
-                previousPageBottom();
+                Log.e(null, "previos_bottom");
+                if (pagerBotton!=null && pagerBotton.getAdapter()!=null)
+                    previousPageBottom();
                 break;
             case R.id.button_next_bottom:
                 Log.e(null,"next_bottom");
-                nextPageBottom();
+                if (pagerBotton!=null)
+                    nextPageBottom();
                 break;
         }
     }
@@ -327,6 +338,7 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
     @Override
     public void succesPrendas(DSProbador.ResponseProbador responseCatalogo) {
         Log.e(null,"Recargando prendas para probador ..."+ responseCatalogo.success);
+        gd.dismiss();
         if (responseCatalogo.tipo.equals("A"))
         {   Log.e(null, responseCatalogo.toString());
             this.prendasTop = new ArrayList<Prenda>();

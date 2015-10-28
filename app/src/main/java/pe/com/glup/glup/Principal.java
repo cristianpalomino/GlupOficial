@@ -3,11 +3,13 @@ package pe.com.glup.glup;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.View;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import pe.com.glup.R;
 import pe.com.glup.bus.BusHolder;
+import pe.com.glup.fragments.FCamera;
 import pe.com.glup.fragments.FCatalogo;
 import pe.com.glup.fragments.FCatalogoNew;
 import pe.com.glup.fragments.FCloset;
@@ -29,7 +31,7 @@ public class Principal extends Glup implements Footer.OnChangeTab,
             FCatalogoNew.newInstance(),
             FCloset.newInstance(),
             FProbador.newInstance(),
-            Fragment_Home.newInstance(MESSAGES[3], MESSAGES[3]), FReserva.newInstance()
+            FCamera.newInstance(), FReserva.newInstance()
     };
     private static String CURRENT_FRAGMENT_TAG;
 
@@ -110,6 +112,12 @@ public class Principal extends Glup implements Footer.OnChangeTab,
 
             //menuright.setSlidingEnabled(true);
         }
+        if (CURRENT_FRAGMENT_TAG.equals("FCamera")){
+            footer.setVisibility(View.GONE);
+        }else {
+            footer.setVisibility(View.VISIBLE);
+        }
+
         if (CURRENT_FRAGMENT_TAG.equals("FCatalogoNew")){
             Log.e(null,"entro Catalogo nuevo");
             //ResponseUpdateGeneroCatalogo responseUpdateGeneroCatalogo = new ResponseUpdateGeneroCatalogo();
@@ -140,7 +148,6 @@ public class Principal extends Glup implements Footer.OnChangeTab,
 
     public interface OnChangeTab {
         void onChangeTab(int position);
-
         void currentTab(int current);
     }
 
@@ -150,10 +157,15 @@ public class Principal extends Glup implements Footer.OnChangeTab,
 
     @Override
     public void onBackPressed() {
-
+        if (CURRENT_FRAGMENT_TAG.equals("FCamera")){
+            footer.setVisibility(View.VISIBLE);
+        }else {
+            footer.setVisibility(View.GONE);
+        }
         if(getFragmentManager().getBackStackEntryCount() > 0)
             getFragmentManager().popBackStack();
         else{
+            /*Cuando navega por el menu footer muy rapido y no carga algunos componentes*/
             Fragment current = getSupportFragmentManager().findFragmentByTag(CURRENT_FRAGMENT_TAG);
             if (current==null){
                 Log.e("enBack","current null");
@@ -162,6 +174,7 @@ public class Principal extends Glup implements Footer.OnChangeTab,
                         .addToBackStack(CURRENT_FRAGMENT_TAG)
                         .commit();
             } else {
+
                 super.onBackPressed();
             }
 

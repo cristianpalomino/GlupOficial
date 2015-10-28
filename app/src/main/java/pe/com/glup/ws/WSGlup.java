@@ -23,7 +23,7 @@ public class WSGlup {
             "num_pagina=#num_pagina&" +
             "num_registro=#num_registro&" +
             "buscar=#buscar";
-    public static final String ORQUESTADOR_NUEVO_CATALOGO = "http://108-179-236-242-1wde1bf0tu0m.runscope.net/~glupserver/API/orquestadorServiciosApp.php?"+
+    public static final String ORQUESTADOR_NUEVO_CATALOGO = "http://108.179.236.242/~glupserver/API/orquestadorServiciosApp.php?"+
             "num_pagina=#num_pagina&" +
             "num_registro=#num_registro&" +
             "buscar=#buscar";
@@ -36,4 +36,10 @@ public class WSGlup {
             "num_pagina=#num_pagina&" +
             "num_registro=#num_registro&" +
             "filtro_posicion=#filtro_posicion";
+
+    public static final String ORQUESTADOR_PROCESOS = "http://108-179-236-242-1wde1bf0tu0m.runscope.net/~glupserver/API/orquestadorProcesosServer.php";
+    public static final String ORQUESTADOR_IMAGENES_CAMERA="http://104.131.28.129/api/v1/algorithm-1/";
+    public static final String ORQUESTADOR_IMAGENES_CAMERA_INFERIOR="http://192.254.250.185/~jesusram/api/prueba_subida.php";
+
+
 }

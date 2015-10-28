@@ -171,17 +171,18 @@ public class Header extends LinearLayout implements Principal.OnChangeTab {
 
     public void showOptionsCamera() {
         btnbuscar.setVisibility(GONE);
+        frame_buscar.setVisibility(GONE);/**/
 
         /**
          * Temporal
-         */
+
         Session_Manager manager = new Session_Manager(getContext());
         manager.closeSession();
 
         Intent intent = new Intent(getContext(), Entrar.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         getContext().startActivity(intent);
-        ((Glup)getContext()).finish();
+        ((Glup)getContext()).finish(); */
     }
 
     public View showOptionsDetail() {

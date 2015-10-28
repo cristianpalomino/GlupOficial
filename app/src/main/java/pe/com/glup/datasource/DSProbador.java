@@ -107,18 +107,28 @@ public class DSProbador {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 Gson gson = new Gson();
-                Log.e("enProbadorResp",response.toString());
-                Catalogo catalogo = gson.fromJson(response.toString(), Catalogo.class);
-                prendas = catalogo.getPrendas();
-                for (int i = 0; i < prendas.size(); i++) {
-                    prendas.get(i).setFiltroPosicion(filtro_posicion);
+                Log.e("enProbadorResponse", response.toString());
+                try {
+                    if (response.getInt("error")==0){
+                        Catalogo catalogo = gson.fromJson(response.toString(), Catalogo.class);
+                        prendas = catalogo.getPrendas();
+                        for (int i = 0; i < prendas.size(); i++) {
+                            prendas.get(i).setFiltroPosicion(filtro_posicion);
+                        }
+                        ResponseProbador responseProbador = new ResponseProbador();
+                        responseProbador.success=catalogo.getSuccess();
+                        responseProbador.message = catalogo.getTag();
+                        responseProbador.prendas = prendas;
+                        responseProbador.tipo = filtro_posicion;
+                        onSuccessProbador.succesPrendas(responseProbador);//bug retroceso probador-catalog-probador
+                    }else{
+                        Log.e("ProbadorError",response.getString("error_msg"));
+                    }
+                }catch (JSONException e){
+                    e.printStackTrace();
                 }
-                ResponseProbador responseProbador = new ResponseProbador();
-                responseProbador.success=catalogo.getSuccess();
-                responseProbador.message = catalogo.getTag();
-                responseProbador.prendas = prendas;
-                responseProbador.tipo = filtro_posicion;
-                onSuccessProbador.succesPrendas(responseProbador);//bug retroceso probador-catalog-probador
+
+
             }
 
             @Override
