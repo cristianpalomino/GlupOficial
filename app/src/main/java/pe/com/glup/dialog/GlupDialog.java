@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import pe.com.glup.R;
 
@@ -31,9 +32,8 @@ public class GlupDialog extends AlertDialog {
 
     private void initDialog() {
         LayoutInflater inflater = LayoutInflater.from(getContext());
-        final View view = inflater.inflate(R.layout.glup_dialog, null);
+        View view = inflater.inflate(R.layout.glup_dialog, null);
         setView(view);
-
         getWindow().setWindowAnimations(R.style.Dialog_Animation_UP_DOWN);
         getWindow().setBackgroundDrawable(new ColorDrawable(android.R.color.transparent));
     }

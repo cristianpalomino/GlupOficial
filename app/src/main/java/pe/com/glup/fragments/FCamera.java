@@ -27,6 +27,7 @@ import pe.com.glup.bus.BusHolder;
 import pe.com.glup.datasource.DSCamera;
 import pe.com.glup.events.Flash;
 import pe.com.glup.events.TakePhoto;
+import pe.com.glup.glup.Principal;
 import pe.com.glup.utils.CameraUtils;
 import pe.com.glup.views.CameraSurface;
 import pe.com.glup.views.SquareLayout;
@@ -44,7 +45,7 @@ public class FCamera extends Fragment implements View.OnClickListener {
 	private TextView title;
 
 	private ToggleButton take;
-	private ImageButton flashBack;
+	private ImageButton atrasCamara;
 	private ToggleButton refresh;
 	private ImageButton next;
 
@@ -77,10 +78,10 @@ public class FCamera extends Fragment implements View.OnClickListener {
 	@Override
 	public void onActivityCreated(Bundle savedInstance){
 		super.onActivityCreated(savedInstance);
+
 		BusHolder.getInstance().register(this);
 		context=getActivity();
-		surface = new CameraSurface(context);
-		isFlash = new Flash();
+
 		codPrenda="";
 		filtro="superior";
 		gridActivate=false;
@@ -102,6 +103,12 @@ public class FCamera extends Fragment implements View.OnClickListener {
 		superior = (ImageView) getView().findViewById(R.id.superior);
 		medio = (ImageView) getView().findViewById(R.id.medio);
 		iconPreview = (ImageView) getView().findViewById(R.id.icon_preview);
+		atrasCamara = (ImageButton) getView().findViewById(R.id.atras_camara);
+		atrasCamara.setOnClickListener(this);
+
+		Log.e("superior",getRelativeTop(superior)+"dp en pixeles "+(int)convertDpToPixel(getRelativeTop(superior),context));
+		surface = new CameraSurface(context,(int)convertDpToPixel(getRelativeTop(superior),context));
+		isFlash = new Flash();
 
 		flashAutomatic.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -188,7 +195,7 @@ public class FCamera extends Fragment implements View.OnClickListener {
 			}
 		});
 
-		flashBack = (ImageButton) getView().findViewById(R.id.flashBack);
+
 		flash.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -264,6 +271,10 @@ public class FCamera extends Fragment implements View.OnClickListener {
 				filtro="superior";
 				medio.setVisibility(View.GONE);
 				superior.setVisibility(View.VISIBLE);
+				break;
+			case R.id.atras_camara:
+				((Principal)context).onBackPressed();
+				break;
 		}
 
 	}
@@ -350,5 +361,15 @@ public class FCamera extends Fragment implements View.OnClickListener {
 
 	}
 
+	private int getRelativeTop(View myView) {
+		if (myView.getParent() == myView.getRootView())
+			return myView.getTop();
+		else
+			return myView.getTop() + getRelativeTop((View) myView.getParent());
+	}
+	public  float convertDpToPixel(float dp, Context context){
+		float px = dp * (context.getResources().getDisplayMetrics().densityDpi/160);
+		return px;
+	}
 
 }

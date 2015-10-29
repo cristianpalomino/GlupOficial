@@ -25,7 +25,8 @@
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
-            android:background="@color/celeste_glup"
+            android:alpha="0.8"
+            android:background="#cc000000"
             android:orientation="vertical">
 
             <ImageView
@@ -74,6 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <LinearLayout
+                android:layout_marginTop="16dp"
                 android:orientation="vertical"
                 android:layout_width="60dp"
                 android:layout_height="180dp">
@@ -113,7 +115,8 @@
             android:id="@+id/footer"
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:background="@android:color/transparent"
+            android:alpha="0.8"
+            android:background="#cc000000"
             android:orientation="horizontal">
 
             <ToggleButton

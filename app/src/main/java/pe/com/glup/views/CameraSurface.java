@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+import pe.com.glup.R;
 import pe.com.glup.bus.BusHolder;
 import pe.com.glup.events.Enfocar;
 import pe.com.glup.events.Flash;
@@ -69,11 +70,13 @@ public class CameraSurface extends SurfaceView implements SurfaceHolder.Callback
 
     private String codPrenda;
     private int ancho,alto;
+    private int margenSuperior;
 
 
-    public CameraSurface(Context context) {
+    public CameraSurface(Context context, int i) {
         super(context);
         this.context = context;
+        this.margenSuperior=i;
         initHolder();
         BusHolder.getInstance().register(this);
         codPrenda="";
@@ -262,14 +265,14 @@ public class CameraSurface extends SurfaceView implements SurfaceHolder.Callback
             Log.e("lenght",length+"");
             int ridArea = tamano - length;
             Log.e("ridArea",ridArea+"");
-            p.setColor(Color.GREEN);
+            p.setColor(getResources().getColor(R.color.celeste_glup));
             canvas.drawRect(5,
                     5,
                     length-5,
-                    length-(int)(ridArea*0.25),
+                    length-((int)(ridArea*0.25)),
                     p);
             if (gridActivate){
-                p.setColor(Color.GRAY);
+                p.setColor(getResources().getColor(R.color.celeste_glup));
                 p.setStrokeWidth(4);
                 p.setStyle(Paint.Style.STROKE);
                 int posy=length-(int)(ridArea*0.25);

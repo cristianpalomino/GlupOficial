@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
@@ -136,8 +137,14 @@ public class FClosetGrilla extends Fragment implements OnSuccessCatalogo,
          */
         //dec1
         gd = new GlupDialog(getActivity());
+        //WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        //lp.copyFrom(gd.getWindow().getAttributes());
+        //lp.width = 150;
+        //lp.height = 150;
         gd.setCancelable(false);
         gd.show();
+        //gd.getWindow().setAttributes(lp);
+
 
 
     }

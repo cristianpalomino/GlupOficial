@@ -78,7 +78,7 @@ public class DSCamera {
 		interface_notification.getBuilder().setContentTitle("Subiendo Imagenes a Glup");
 		interface_notification.setProgress(2, 0);
 		final AsyncHttpClient httpClient = new AsyncHttpClient();
-		httpClient.setTimeout(12000000);
+		httpClient.setTimeout(9000000);
 
 		String URL=WSGlup.ORQUESTADOR_IMAGENES_CAMERA;
 		RequestParams params =new RequestParams();
