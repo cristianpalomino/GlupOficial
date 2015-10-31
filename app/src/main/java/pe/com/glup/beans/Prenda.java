@@ -26,6 +26,15 @@ public class Prenda implements Serializable {
     private String composicion;
     private String indReser;
     private String local;
+    private String indReserGen;
+
+    public String getIndReserGen() {
+        return indReserGen;
+    }
+
+    public void setIndReserGen(String indReserGen) {
+        this.indReserGen = indReserGen;
+    }
 
     public Prenda() {
     }

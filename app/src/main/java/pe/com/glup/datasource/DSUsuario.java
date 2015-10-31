@@ -70,7 +70,7 @@ public class DSUsuario {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 Gson gson = new Gson();
-                Log.e(null,response.toString());
+                Log.e("null",response.toString());
                 PerfilUsuario perfilUsuario = gson.fromJson(response.toString(), PerfilUsuario.class);
                 Log.e("Success", String.valueOf(perfilUsuario.getSuccess()));
                 String cumple="";

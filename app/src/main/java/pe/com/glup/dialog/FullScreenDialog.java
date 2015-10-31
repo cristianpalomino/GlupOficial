@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,6 +21,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -154,16 +156,26 @@ public class FullScreenDialog extends DialogFragment implements View.OnClickList
             codPrenda=prendaDetalle.get(0).getCod_prenda();
             Log.e("indReser",prendaDetalle.get(0).getIndReser());
             if (prendaDetalle.get(0).getIndReser().equals("1")){
-                addReserva.setText("Ya esta en reserva");
+                addReserva.setText("Ya esta reservado");
                 addReserva.setTextColor(Color.GRAY);
                 addReserva.setEnabled(false);
                 addReserva.postInvalidate();
+            }else if (prendaDetalle.get(0).getIndReserGen().equals("1")){
+                    addReserva.setText("Reservado por otro usuario");
+                    addReserva.setTextColor(Color.GRAY);
+                    addReserva.setEnabled(false);
+                    addReserva.postInvalidate();
             }else{
-                addReserva.setText("Agregar a Reserva");
-                addReserva.setTextColor(context.getResources().getColor(R.color.celeste_glup));
-                addReserva.setEnabled(true);
-                addReserva.postInvalidate();
+                    addReserva.setText("Agregar a Reserva");
+                    addReserva.setTextColor(context.getResources().getColor(R.color.celeste_glup));
+                    addReserva.setEnabled(true);
+                    addReserva.postInvalidate();
             }
+
+
+
+
+
 
         }
 
@@ -287,20 +299,31 @@ public class FullScreenDialog extends DialogFragment implements View.OnClickList
             ArrayList<TallaDisponible> tallas1=responseTallasDisponibles.getTallas();
             //max 4 tallas por no deforma la interfaz
             int size=tallas1.size();
-            if (size>4){
-                size=4;
+            boolean tallaStandar =false;
+            if (size==1 && tallas1.get(0).getTalla().equals("Standar")){
+                Log.e("null","change dimen size talla "+tallas1.get(0).getTalla());
+                tallaStandar=true;
             }
-            limpiarToggleButtons(size);
-            Log.e("tamaño", size + "");
-            idTallas=new ArrayList<String>();
-            for (int i=0;i<size;i++){
-                idTallas.add(tallas1.get(i).getId_talla());
-                tallasMax.get(i).setTextOff(tallas1.get(i).getTalla());
-                tallasMax.get(i).setTextOn(tallas1.get(i).getTalla());
-                Log.e("textoChan",String.valueOf(tallasMax.get(i).getTextOff()));
-                tallasMax.get(i).setVisibility(View.VISIBLE);
-                tallasMax.get(i).setChecked(tallasMax.get(i).isChecked());
-            }
+            /*}else{*/
+                if (size>4){
+                    size=4;
+                }
+                limpiarToggleButtons(size);
+                Log.e("tamaño", size + "");
+                idTallas=new ArrayList<String>();
+                for (int i=0;i<size;i++){
+                    idTallas.add(tallas1.get(i).getId_talla());
+                    tallasMax.get(i).setTextOff(tallas1.get(i).getTalla());
+                    tallasMax.get(i).setTextOn(tallas1.get(i).getTalla());
+                    Log.e("textoChan", String.valueOf(tallasMax.get(i).getTextOff()));
+                    if (tallaStandar){
+                        tallasMax.get(i).setBackgroundDrawable(getResources().getDrawable(R.drawable.talla_prenda_standar));
+                        tallasMax.get(i).setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                        tallasMax.get(i).setTextSize(20);
+                    }
+                    tallasMax.get(i).setVisibility(View.VISIBLE);
+                    tallasMax.get(i).setChecked(tallasMax.get(i).isChecked());
+                }
 
 
         }
@@ -314,7 +337,7 @@ public class FullScreenDialog extends DialogFragment implements View.OnClickList
             addReserva.setEnabled(false);
             addReserva.postInvalidate();
             MessageUtil.showToast(context,"Reserva de Prenda Satisfactoria");
-        }else{
+        } else {
             addReserva.setText("Agregar a Reserva");
             addReserva.setTextColor(context.getResources().getColor(R.color.celeste_glup));
             addReserva.setEnabled(true);

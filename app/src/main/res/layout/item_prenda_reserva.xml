@@ -66,14 +66,17 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true" />
+            <View
+                android:layout_marginBottom="6dp"
+                android:layout_alignBottom="@+id/reserva_eliminar"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gris_glup"/>
         </RelativeLayout>
 
 
     </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/gris_glup"/>
+
     <RelativeLayout
         android:id="@+id/layout_total"
         android:visibility="gone"

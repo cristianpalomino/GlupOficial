@@ -239,13 +239,13 @@ public class CameraSurface extends SurfaceView implements SurfaceHolder.Callback
             p.setColor(Color.BLUE);
             p.setStrokeWidth(3);
             p.setStyle(Paint.Style.STROKE);
-            if (mHasFocusArea) {
+            /*if (mHasFocusArea) {
                 canvas.drawRect(mFocusScreenX - size,
                         mFocusScreenY - size,
                         mFocusScreenX + size,
                         mFocusScreenY + size,
                         p);
-            }
+            }*/
             int maxSize = 2048;
             int srcSize = Math.max(mPictureSize.width, mPictureSize.height);
             Log.e("null", "camara ancho " + mPictureSize.width + " alto " + mPictureSize.height);
@@ -493,20 +493,25 @@ public class CameraSurface extends SurfaceView implements SurfaceHolder.Callback
 
     @Subscribe
     public void turnFlash(Flash flash) {
-        if (flash.isTurn()) {
-            Camera.Parameters p = camera.getParameters();
-            p.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-            camera.setParameters(p);
-            camera.startPreview();
-            flash.setTurn(false);
-        } else {
-            Log.e(null, "camara " + camera.getParameters());
-            Camera.Parameters p = camera.getParameters();
-            p.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-            camera.setParameters(p);
-            camera.startPreview();
-            flash.setTurn(true);
+        if (camera!=null){
+            if (flash.isTurn()) {
+                Camera.Parameters p = camera.getParameters();
+                p.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                camera.setParameters(p);
+                camera.startPreview();
+                flash.setTurn(false);
+            } else {
+                Log.e(null, "camara " + camera.getParameters());
+                Camera.Parameters p = camera.getParameters();
+                p.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+                camera.setParameters(p);
+                camera.startPreview();
+                flash.setTurn(true);
+            }
+            BusHolder.getInstance().post(new SuccessEnableFlash());
         }
+
+
     }
 
     @Subscribe
@@ -571,5 +576,6 @@ public class CameraSurface extends SurfaceView implements SurfaceHolder.Callback
         public Bitmap bitmap;
     }
 
+    public class SuccessEnableFlash{}
 
 }

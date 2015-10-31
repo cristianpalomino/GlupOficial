@@ -48,6 +48,7 @@ public class DetalleTicketDialog extends DialogFragment {
         LayoutInflater inflater = (getActivity()).getLayoutInflater();
         View v=inflater.inflate(R.layout.dialog_show_detalle_ticket,null);
         listView = (ListView) v.findViewById(R.id.list_detalle_ticket);
+        listView.setDivider(null);
         reservas = new ArrayList<HashMap>();
         reservaAdapter = new ReservaListAdapter(getActivity(),reservas,this.getTag());
         listView.setAdapter(reservaAdapter);

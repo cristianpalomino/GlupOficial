@@ -1,5 +1,6 @@
 package pe.com.glup.fragments;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,6 +25,7 @@ import pe.com.glup.bus.BusHolder;
 import pe.com.glup.datasource.DSProbador;
 import pe.com.glup.dialog.DetailActivity;
 import pe.com.glup.dialog.GlupDialog;
+import pe.com.glup.dialog.GlupDialogNew;
 import pe.com.glup.interfaces.OnClickProbador;
 import pe.com.glup.interfaces.OnSuccessPrendas;
 import pe.com.glup.interfaces.OnSuccessProbador;
@@ -42,7 +44,7 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
     private PagerTopAdapter pagerTopAdapter;
     private PagerBottomAdapter pagerBottomAdapter;
     private int posCurrentTop,posCurrentBottom;
-    protected GlupDialog gd;
+    protected GlupDialogNew gd;
 
 
     public static FProbador newInstance() {
@@ -153,10 +155,10 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
 
         dsProbadorB.getGlobalPrendasProbador("B", "1", "20");
 
-        gd = new GlupDialog(getActivity());
-        gd.setCancelable(false);
-        gd.show();
-
+        android.support.v4.app.FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        gd = new GlupDialogNew();
+        //gd.setCancelable(false);
+        gd.show(fragmentManager,GlupDialog.class.getSimpleName());
     }
 
     @Override

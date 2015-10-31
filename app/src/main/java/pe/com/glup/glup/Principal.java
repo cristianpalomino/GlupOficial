@@ -7,6 +7,8 @@ import android.view.View;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
+import android.os.Handler;
+
 import pe.com.glup.R;
 import pe.com.glup.bus.BusHolder;
 import pe.com.glup.fragments.FCamera;
@@ -34,6 +36,7 @@ public class Principal extends Glup implements Footer.OnChangeTab,
             FCamera.newInstance(), FReserva.newInstance()
     };
     private static String CURRENT_FRAGMENT_TAG;
+    private Fragment current;
 
 
     private Footer footer;
@@ -85,7 +88,7 @@ public class Principal extends Glup implements Footer.OnChangeTab,
         Log.e("position", position + "");
         this.position=position;
         CURRENT_FRAGMENT_TAG = FRAGMENTS[position].getClass().getSimpleName();
-        Fragment current = getSupportFragmentManager().findFragmentByTag(CURRENT_FRAGMENT_TAG);
+        current = getSupportFragmentManager().findFragmentByTag(CURRENT_FRAGMENT_TAG);
         if (current != null) {
             Log.e(null,"currenT not null"+current.toString());
             getSupportFragmentManager().beginTransaction()
@@ -158,13 +161,29 @@ public class Principal extends Glup implements Footer.OnChangeTab,
     @Override
     public void onBackPressed() {
         if (CURRENT_FRAGMENT_TAG.equals("FCamera")){
-            footer.setVisibility(View.VISIBLE);
-        }else {
             footer.setVisibility(View.GONE);
+        }else {
+            footer.setVisibility(View.VISIBLE);
         }
-        if(getFragmentManager().getBackStackEntryCount() > 0)
-            getFragmentManager().popBackStack();
-        else{
+        if(getSupportFragmentManager().getBackStackEntryCount() > 0){
+            Log.e("null", "entro a back pila");
+            Log.e("count",getSupportFragmentManager().getBackStackEntryCount()+"");
+            getSupportFragmentManager().popBackStack();
+            Log.e("count", getSupportFragmentManager().getBackStackEntryCount() + "");
+            //getSupportFragmentManager().popBackStackImmediate();
+
+                current = getSupportFragmentManager().findFragmentById(R.id.frame_principal);
+                CURRENT_FRAGMENT_TAG = current.getTag();
+                Log.e("tag", CURRENT_FRAGMENT_TAG);
+                if (CURRENT_FRAGMENT_TAG.equals("FCamera")){
+                    footer.setVisibility(View.GONE);
+                }else {
+                    footer.setVisibility(View.VISIBLE);
+                }
+
+
+
+        }else{
             /*Cuando navega por el menu footer muy rapido y no carga algunos componentes*/
             Fragment current = getSupportFragmentManager().findFragmentByTag(CURRENT_FRAGMENT_TAG);
             if (current==null){
@@ -174,10 +193,15 @@ public class Principal extends Glup implements Footer.OnChangeTab,
                         .addToBackStack(CURRENT_FRAGMENT_TAG)
                         .commit();
             } else {
-
+                if (CURRENT_FRAGMENT_TAG.equals("FCamera")){
+                    footer.setVisibility(View.GONE);
+                }else {
+                    footer.setVisibility(View.VISIBLE);
+                }
+                Log.e("null","entro a super back");
                 super.onBackPressed();
             }
-
+            super.onBackPressed();//
         }
 
 

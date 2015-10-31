@@ -1,6 +1,7 @@
 package pe.com.glup.fragments;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import pe.com.glup.beans.Prenda;
 import pe.com.glup.bus.BusHolder;
 import pe.com.glup.datasource.DSCloset;
 import pe.com.glup.dialog.GlupDialog;
+import pe.com.glup.dialog.GlupDialogNew;
 import pe.com.glup.glup.Detalle;
 import pe.com.glup.glup.Glup;
 import pe.com.glup.glup.Principal;
@@ -49,7 +51,7 @@ public class FClosetGrilla extends Fragment implements OnSuccessCatalogo,
     private static final int EMPTY = 0;
     private static final int FULL = 1;
     private FCloset context;
-    protected GlupDialog gd;
+    protected GlupDialogNew gd;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -136,13 +138,10 @@ public class FClosetGrilla extends Fragment implements OnSuccessCatalogo,
         SHOW LOAD DIALOG
          */
         //dec1
-        gd = new GlupDialog(getActivity());
-        //WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        //lp.copyFrom(gd.getWindow().getAttributes());
-        //lp.width = 150;
-        //lp.height = 150;
-        gd.setCancelable(false);
-        gd.show();
+        android.support.v4.app.FragmentManager fragmentManager= getActivity().getSupportFragmentManager();
+        gd = new GlupDialogNew();
+        //gd.setCancelable(false);
+        gd.show(fragmentManager,GlupDialog.class.getSimpleName());
         //gd.getWindow().setAttributes(lp);
 
 

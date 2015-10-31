@@ -1,6 +1,7 @@
 package pe.com.glup.fragments;
 
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import pe.com.glup.beans.Prenda;
 import pe.com.glup.bus.BusHolder;
 import pe.com.glup.datasource.DSCatalogo;
 import pe.com.glup.dialog.GlupDialog;
+import pe.com.glup.dialog.GlupDialogNew;
 import pe.com.glup.glup.Detalle;
 import pe.com.glup.glup.Glup;
 import pe.com.glup.glup.Principal;
@@ -52,7 +54,7 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
 
     private DSCatalogo dsCatalogo;
     private PrendaAdapter2 prendaAdapter;
-    protected GlupDialog gd;
+    protected GlupDialogNew gd;
 
     private TextView emptyView;
     private GridView grilla;
@@ -121,15 +123,16 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
         CALL REST API
          */
         dsCatalogo = new DSCatalogo(getActivity());
-        dsCatalogo.getGlobalPrendas(TAG, String.valueOf(PAGE), "12");
+        dsCatalogo.getGlobalPrendas(TAG, String.valueOf(PAGE), "10");
         dsCatalogo.setOnSuccessCatalogo(FCatalogo.this);
 
         /*
         SHOW LOAD DIALOG
          */
-        gd = new GlupDialog(context);
-        gd.setCancelable(false);
-        gd.show();
+        android.support.v4.app.FragmentManager fragmentManager=getActivity().getSupportFragmentManager();
+        gd = new GlupDialogNew();
+        //gd.setCancelable(false);
+        gd.show(fragmentManager,GlupDialog.class.getSimpleName());
     }
 
     @Override

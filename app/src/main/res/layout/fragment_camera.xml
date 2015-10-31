@@ -25,8 +25,7 @@
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
-            android:alpha="0.8"
-            android:background="#cc000000"
+            android:background="#000000"
             android:orientation="vertical">
 
             <ImageView
@@ -51,13 +50,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/atras_camara"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_gravity="left|center_vertical"
                 android:background="@android:color/transparent"
-                android:padding="16dp"
+                android:layout_margin="14dp"
+                android:paddingLeft="0dp"
+                android:paddingRight="12dp"
+                android:paddingBottom="6dp"
+                android:paddingTop="6dp"
                 android:src="@drawable/atras_camara" />
 
             <ImageButton
@@ -80,6 +83,7 @@
                 android:layout_width="60dp"
                 android:layout_height="180dp">
                 <ImageView
+                    android:elevation="10dp"
                     android:id="@+id/flash_automatico"
                     android:layout_margin="12dp"
                     android:src="@drawable/flash_automatico"
@@ -138,8 +142,8 @@
                 <ImageView
                     android:id="@+id/superior"
                     android:src="@drawable/icon_superior"
-                    android:layout_width="68dp"
-                    android:layout_height="68dp"/>
+                    android:layout_width="62dp"
+                    android:layout_height="62dp"/>
                 <ImageView
                     android:id="@+id/medio"
                     android:visibility="gone"
@@ -167,8 +171,8 @@
                     android:layout_marginLeft="20dp"
                     android:layout_gravity="left|center_vertical"
                     android:src="@drawable/icon_preview"
-                    android:layout_width="68dp"
-                    android:layout_height="68dp"/>
+                    android:layout_width="62dp"
+                    android:layout_height="62dp"/>
                 <ImageView
                     android:id="@+id/imageb"
                     android:layout_width="65dp"

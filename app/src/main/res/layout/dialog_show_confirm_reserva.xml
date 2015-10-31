@@ -42,6 +42,7 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
         <LinearLayout
+            android:visibility="gone"
             android:layout_margin="6dp"
             android:orientation="vertical"
             android:layout_weight="4"
@@ -81,6 +82,7 @@
     </LinearLayout>
 
     <TextView
+        android:visibility="gone"
         android:textSize="8sp"
         android:text="@string/text_cantidad_puntos"
         android:layout_margin="10dp"

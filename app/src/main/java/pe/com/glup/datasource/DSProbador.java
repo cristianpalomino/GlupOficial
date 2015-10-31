@@ -195,10 +195,13 @@ public class DSProbador {
                 Gson gson=new Gson();
 
 
+
                 ResponseDetallePrenda responseDetallePrenda = gson.fromJson(response.toString(),ResponseDetallePrenda.class);
                 prendas = responseDetallePrenda.getPrendas();
                 Log.e("success",responseDetallePrenda.getSuccess()+"");
                 Log.e("descripcion", prendas.get(0).getDescripcion());
+
+
 
 
                 BusHolder.getInstance().post(responseDetallePrenda);
@@ -265,6 +268,11 @@ public class DSProbador {
                     if (response.getInt("success")==1){
                         tallas=responseTallasDisponibles.getTallas();
                         Log.e("success",responseTallasDisponibles.getSuccess()+"");
+                        int r=0;
+                        for (TallaDisponible t:tallas){
+                            Log.e("null","talla "+r+":"+t.getTalla());
+                            r++;
+                        }
                         Log.e("talla0",tallas.get(0).getTalla());
                     }
                     BusHolder.getInstance().post(responseTallasDisponibles);
@@ -335,11 +343,13 @@ public class DSProbador {
     public class ResponseDetallePrenda{
         private String tag;
         private int success;
+        public String indReserGen;
         private ArrayList<Prenda> prendas;
 
         public String getTag() {return tag;}
         public int getSuccess() {return success;}
         public ArrayList<Prenda> getPrendas() {return prendas;}
+
     }
     public class ResponseTiendasDisponibles{
         private String tag;

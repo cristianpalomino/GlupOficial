@@ -122,7 +122,7 @@ public class DSReserva {
                     Log.e("dsReserva", response.getInt("success") + " Se envio a correo "+response.getString("indEnvio"));
                     ResponseSendEmail responseSendEmail = gson.fromJson(response.toString(),
                             ResponseSendEmail.class);
-                    Log.e(null,"codigo generado "+responseSendEmail.cod_confirmacion);
+                    Log.e("null","codigo generado "+responseSendEmail.cod_confirmacion);
                     BusHolder.getInstance().post(responseSendEmail);
                 } catch (JSONException e) {
                     Log.e("dsReserva", e.toString());
@@ -150,7 +150,7 @@ public class DSReserva {
                     Log.e("dsReserva", response.getInt("success") + " Se genero codigo de confirmacion "+response.getString("cod_confirmacion"));
                     ResponseConfirmReserva responseConfirmReserva = gson.fromJson(response.toString(),
                             ResponseConfirmReserva.class);
-                    Log.e(null,"codigo generado "+responseConfirmReserva.cod_confirmacion);
+                    Log.e("null","codigo generado "+responseConfirmReserva.cod_confirmacion);
                     BusHolder.getInstance().post(responseConfirmReserva);
                 } catch (JSONException e) {
                     Log.e("dsReserva", e.toString());

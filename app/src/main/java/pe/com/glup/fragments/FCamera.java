@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +22,8 @@ import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import android.os.Handler;
+import android.os.Looper;
 
 import pe.com.glup.R;
 import pe.com.glup.bus.BusHolder;
@@ -45,7 +48,7 @@ public class FCamera extends Fragment implements View.OnClickListener {
 	private TextView title;
 
 	private ToggleButton take;
-	private ImageButton atrasCamara;
+	private ImageView atrasCamara;
 	private ToggleButton refresh;
 	private ImageButton next;
 
@@ -103,7 +106,7 @@ public class FCamera extends Fragment implements View.OnClickListener {
 		superior = (ImageView) getView().findViewById(R.id.superior);
 		medio = (ImageView) getView().findViewById(R.id.medio);
 		iconPreview = (ImageView) getView().findViewById(R.id.icon_preview);
-		atrasCamara = (ImageButton) getView().findViewById(R.id.atras_camara);
+		atrasCamara = (ImageView) getView().findViewById(R.id.atras_camara);
 		atrasCamara.setOnClickListener(this);
 
 		Log.e("superior",getRelativeTop(superior)+"dp en pixeles "+(int)convertDpToPixel(getRelativeTop(superior),context));
@@ -123,7 +126,7 @@ public class FCamera extends Fragment implements View.OnClickListener {
 				}
 			}
 		});
-		Log.e(null,"initUI "+CameraUtils.isFlash(context));
+		Log.e(null, "initUI " + CameraUtils.isFlash(context));
 
 		if (!CameraUtils.isFlash(context)) {
 			//Utils.showMessage(CameraGlup.this, "Este dispositivo no tiene Flash");
@@ -183,6 +186,15 @@ public class FCamera extends Fragment implements View.OnClickListener {
 				take.setEnabled(true);
 				take.setChecked(false);
 				refresh.setEnabled(false);
+				Handler handler = new Handler(Looper.getMainLooper());
+				handler.postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						refresh.setChecked(false);
+						//refresh.invalidate();
+					}
+				},1200);
+
 				iconPreview.setVisibility(View.VISIBLE);
 				title.setText("Lado A");
 			}
@@ -203,7 +215,8 @@ public class FCamera extends Fragment implements View.OnClickListener {
 					//Utils.showMessage(CameraGlup.this, "Este dispositivo no tiene Flash");
 					return;
 				} else {
-					BusHolder.getInstance().post(isFlash);
+					DSCamera dsCamera = new DSCamera(context);
+					dsCamera.flashAutomatico(isFlash);
 				}
 			}
 		});
@@ -222,6 +235,7 @@ public class FCamera extends Fragment implements View.OnClickListener {
 
 
 	}
+
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -232,12 +246,25 @@ public class FCamera extends Fragment implements View.OnClickListener {
 		filtro="superior";
 		medio.setVisibility(View.GONE);
 		superior.setVisibility(View.VISIBLE);
+
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
-		BusHolder.getInstance().unregister(this);
+		BusHolder.getInstance().register(this);
+		if (!CameraUtils.isFlash(context)) {
+			//Utils.showMessage(CameraGlup.this, "Este dispositivo no tiene Flash");
+			flashAutomatic.setVisibility(View.GONE);
+			flash.setVisibility(View.VISIBLE);
+			return;
+		} else {
+			if (surface!=null){
+				Log.e("Resumen","entro ");
+				DSCamera dsCamera = new DSCamera(context);
+				dsCamera.flashAutomatico(isFlash);
+			}
+		}
 		flashAutomatic.setVisibility(View.GONE);
 		flash.setVisibility(View.VISIBLE);
 		flash.setChecked(false);
@@ -279,6 +306,9 @@ public class FCamera extends Fragment implements View.OnClickListener {
 
 	}
 
+
+
+
 	@Subscribe
 	public void onSuccess(CameraSurface.SuccessSavePhoto successSavePhoto) {
 		Log.e(null, successSavePhoto.msg);
@@ -297,6 +327,7 @@ public class FCamera extends Fragment implements View.OnClickListener {
 				imageb.setVisibility(View.VISIBLE);
 				imageb.setTag(successSavePhoto.result);
 				take.setChecked(false);
+				title.setText("Lado B");
 				break;
 			case 2:
 				title.setText("Lado B");

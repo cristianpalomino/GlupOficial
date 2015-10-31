@@ -75,30 +75,55 @@ public class Footer extends LinearLayout implements View.OnClickListener {
     public void onClick(View v) {
         if (v.equals(home)) {
             onChangeTab.onChangeTab(0);
+            home.setEnabled(false);
+            closet.setEnabled(true);
+            probador.setEnabled(true);
+            camara.setEnabled(true);
+            reserva.setEnabled(true);
 //            home.setBackgroundResource(R.drawable.glup_tab_off);
 //            closet.setBackgroundResource(R.drawable.glup_tab_on);
 //            probador.setBackgroundResource(R.drawable.glup_tab_on);
 //            camara.setBackgroundResource(R.drawable.glup_tab_on);
         } else if (v.equals(closet)) {
             onChangeTab.onChangeTab(1);
+            home.setEnabled(true);
+            closet.setEnabled(false);
+            probador.setEnabled(true);
+            camara.setEnabled(true);
+            reserva.setEnabled(true);
 //            home.setBackgroundResource(R.drawable.glup_tab_on);
 //            closet.setBackgroundResource(R.drawable.glup_tab_off);
 //            probador.setBackgroundResource(R.drawable.glup_tab_on);
 //            camara.setBackgroundResource(R.drawable.glup_tab_on);
         } else if (v.equals(probador)) {
             onChangeTab.onChangeTab(2);
+            home.setEnabled(true);
+            closet.setEnabled(true);
+            probador.setEnabled(false);
+            camara.setEnabled(true);
+            reserva.setEnabled(true);
 //            home.setBackgroundResource(R.drawable.glup_tab_on);
 //            closet.setBackgroundResource(R.drawable.glup_tab_on);
 //            probador.setBackgroundResource(R.drawable.glup_tab_off);
 //            camara.setBackgroundResource(R.drawable.glup_tab_on);
         } else if (v.equals(camara)){
             onChangeTab.onChangeTab(3);
+            home.setEnabled(true);
+            closet.setEnabled(true);
+            probador.setEnabled(true);
+            camara.setEnabled(true);
+            reserva.setEnabled(true);
         } else if (v.equals(reserva)) {
             onChangeTab.onChangeTab(4);
 //            home.setBackgroundResource(R.drawable.glup_tab_on);
 //            closet.setBackgroundResource(R.drawable.glup_tab_on);
 //            probador.setBackgroundResource(R.drawable.glup_tab_on);
 //            camara.setBackgroundResource(R.drawable.glup_tab_off);
+            home.setEnabled(true);
+            closet.setEnabled(true);
+            probador.setEnabled(true);
+            camara.setEnabled(true);
+            reserva.setEnabled(false);
         }
     }
 

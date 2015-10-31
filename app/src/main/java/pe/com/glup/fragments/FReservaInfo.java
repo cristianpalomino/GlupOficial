@@ -69,6 +69,7 @@ public class FReservaInfo extends Fragment implements View.OnClickListener{
         Log.e("fragment", this.toString());
         reservas = new ArrayList<HashMap>();
         listView = (ListView) getView().findViewById(R.id.recycler_prendas_reserva);
+        listView.setDivider(null);
         cantReserva = ((TextView)getView().findViewById(R.id.contReserva));
         reservaAdapter = new ReservaListAdapter(context,reservas,this.getTag());
         listView.setAdapter(reservaAdapter);
