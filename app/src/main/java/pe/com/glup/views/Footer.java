@@ -8,7 +8,9 @@ import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
 import android.os.Build;
+import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -16,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import pe.com.glup.R;
+import pe.com.glup.fragments.FCatalogoNew;
+import pe.com.glup.glup.Principal;
 import pe.com.glup.utils.FastBlur;
 
 /**
@@ -29,6 +33,7 @@ public class Footer extends LinearLayout implements View.OnClickListener {
 
     private View view;
     private OnChangeTab onChangeTab;
+    private Context context;
 
     public void setOnChangeTab(OnChangeTab onChangeTab) {
         this.onChangeTab = onChangeTab;
@@ -36,6 +41,7 @@ public class Footer extends LinearLayout implements View.OnClickListener {
 
     public Footer(Context context) {
         super(context);
+        this.context=context;
     }
 
     public Footer(Context context, AttributeSet attrs) {
@@ -67,7 +73,15 @@ public class Footer extends LinearLayout implements View.OnClickListener {
         camara.setOnClickListener(this);
         reserva.setOnClickListener(this);
 
-        onChangeTab.currentTab(0);
+
+        //onChangeTab.currentTab(0);
+        /*String CURRENT_FRAGMENT_TAG = FCatalogoNew.class.getSimpleName();
+        Fragment current= FCatalogoNew.newInstance();
+        ((Principal)context).getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frame_principal, current, CURRENT_FRAGMENT_TAG)
+                .commit();
+
+        Log.e("FRAGMENTS", CURRENT_FRAGMENT_TAG + "");*/
         activeDefaultTab();
     }
 

@@ -2,6 +2,8 @@ package pe.com.glup.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ToggleButton;
 
 import com.squareup.otto.Subscribe;
+
 
 import pe.com.glup.R;
 import pe.com.glup.bus.BusHolder;
@@ -83,6 +86,13 @@ public class FCatalogoNew extends Fragment implements View.OnClickListener {
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fragment_catalogo,fCatalogo,tagFragment);
                 fragmentTransaction.commit();
+                Handler handler2 = new android.os.Handler();
+                handler2.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        hombre.setChecked(true);
+                    }
+                }, 1500);
                 break;
             case R.id.catalogo_mujer:
                 hombre.setChecked(false);
@@ -91,6 +101,14 @@ public class FCatalogoNew extends Fragment implements View.OnClickListener {
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fragment_catalogo, fCatalogo, tagFragment2);
                 fragmentTransaction.commit();
+                Handler handler = new android.os.Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mujer.setChecked(true);
+                    }
+                }, 1500);
+
                 break;
         }
     }

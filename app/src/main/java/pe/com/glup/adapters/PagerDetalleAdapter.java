@@ -32,6 +32,7 @@ public class PagerDetalleAdapter extends PagerAdapter {
     private Context context;
     private LayoutInflater layoutInflater;
     private ArrayList<Prenda> prendas;
+    static final int SHORT_DELAY = 1000;
 
     public PagerDetalleAdapter(Context context, ArrayList<Prenda> prendas) {
         this.context = context;
@@ -112,27 +113,29 @@ public class PagerDetalleAdapter extends PagerAdapter {
                 Log.e("contador", String.valueOf(cont));
                 int dis = cont - 1;
                 int au = cont + 1;
+                int action=0;//1 agregando 2 eliminando
                 Log.e("disAu", String.valueOf(dis) + " " + String.valueOf(au));
 
                 if (holder.corazon.isChecked()==true) { //los que eran falsos
-                    prendas.get(position).setNumGusta(""+String.valueOf(au)+"");
+                    prendas.get(position).setNumGusta("" + String.valueOf(au) + "");
                     prendas.get(position).setIndProbador("1");
-                    holder.contado.setText(""+String.valueOf(au)+"");
+                    holder.contado.setText("" + String.valueOf(au) + "");
                     holder.corazon.setChecked(true);
                     Log.e("corazon:", prenda.getCod_prenda());
-                    Toast.makeText(context, "Se agrego al Probador", Toast.LENGTH_LONG).show();
-
+                    //Toast.makeText(context, "Se agrego al Probador",SHORT_DELAY).show();
+                    action=1;
                 } else {
-                    prendas.get(position).setNumGusta(""+String.valueOf(dis)+"");
+                    prendas.get(position).setNumGusta("" + String.valueOf(dis) + "");
                     prendas.get(position).setIndProbador("0");
                     Log.e("sincorazon:", prenda.getCod_prenda());
                     holder.contado.setText("" + String.valueOf(dis) + "");
                     holder.corazon.setChecked(false);
-                    Toast.makeText(context, "Se elimino del Probador", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(context, "Se elimino del Probador", SHORT_DELAY).show();
+                    action=2;
                 }
 
                 DSProbador dsProbador = new DSProbador(finalConvertView.getContext());
-                dsProbador.setIndProbador(finalprenda.getCod_prenda());
+                dsProbador.setIndProbador(finalprenda.getCod_prenda(),action);
 
             }
         });

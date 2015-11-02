@@ -257,6 +257,7 @@ public class FCamera extends Fragment implements View.OnClickListener {
 			//Utils.showMessage(CameraGlup.this, "Este dispositivo no tiene Flash");
 			flashAutomatic.setVisibility(View.GONE);
 			flash.setVisibility(View.VISIBLE);
+			flash.setChecked(false);
 			return;
 		} else {
 			if (surface!=null){
@@ -402,5 +403,11 @@ public class FCamera extends Fragment implements View.OnClickListener {
 		float px = dp * (context.getResources().getDisplayMetrics().densityDpi/160);
 		return px;
 	}
+
+	public float convertPixelsToDp(float px, Context context){
+		float dp = px / (context.getResources().getDisplayMetrics().densityDpi / 160f);
+		return dp;
+	}
+
 
 }

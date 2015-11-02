@@ -1,7 +1,10 @@
 package pe.com.glup.datasource;
 
 import android.content.Context;
+import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
@@ -19,6 +22,9 @@ import pe.com.glup.beans.Prenda;
 import pe.com.glup.beans.TallaDisponible;
 import pe.com.glup.beans.Tienda;
 import pe.com.glup.bus.BusHolder;
+import pe.com.glup.dialog.GlupDialog;
+import pe.com.glup.dialog.GlupDialogNew;
+import pe.com.glup.glup.Principal;
 import pe.com.glup.interfaces.OnSuccessPrendas;
 import pe.com.glup.interfaces.OnSuccessProbador;
 import pe.com.glup.session.Session_Manager;
@@ -35,6 +41,9 @@ public class DSProbador {
     ArrayList<TallaDisponible> tallas= new ArrayList<TallaDisponible>();
     private OnSuccessPrendas onSuccessPrendas;
     private OnSuccessProbador onSuccessProbador;
+    GlupDialogNew gd;
+    static final int SHORT_DELAY = 100;
+
 
 
     public DSProbador(Context context) {
@@ -144,7 +153,20 @@ public class DSProbador {
         });
     }
 
-    public void setIndProbador(String codPrenda){
+    public void setIndProbador(String codPrenda,int action){
+        final String msj1,msj2;
+        if (action==1){
+             msj1="Se esta enviando a Probador...";
+             msj2="Se agrego al Probador";
+        }else {
+            msj1="Se esta eliminando del Probador...";
+            msj2="Se elimino del Probador";
+        }
+
+        android.support.v4.app.FragmentManager fragmentManager= ((AppCompatActivity)context).getSupportFragmentManager();
+        gd = new GlupDialogNew(msj1,context);
+        //gd.setCancelable(false)
+        gd.show(fragmentManager,GlupDialog.class.getSimpleName());
 
         String URL=WSGlup.ORQUESTADOR_NUEVO;
 
@@ -158,7 +180,18 @@ public class DSProbador {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response){
                 super.onSuccess(statusCode, headers, response);
+                gd.dismiss();
+                final Toast toast= Toast.makeText(context, msj2, SHORT_DELAY);
+                toast.show();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        toast.cancel();
+                    }
+                }, 1000);
                 try {
+
                     String indProb= response.getString("indProb");
                     Log.e("dsProbador", indProb);
                     Gson gson=new Gson();
@@ -171,6 +204,16 @@ public class DSProbador {
             @Override
             public void onFailure(int statusCode,Header[] headers,String responseString,Throwable throwable){
                 super.onFailure(statusCode, headers, responseString, throwable);
+                gd.dismiss();
+                final Toast toast= Toast.makeText(context, msj2, SHORT_DELAY);
+                toast.show();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        toast.cancel();
+                    }
+                }, 1000);
                 String indProb=responseString;
                 BusHolder.getInstance().post(indProb);
             }

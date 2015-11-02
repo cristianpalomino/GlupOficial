@@ -41,6 +41,7 @@ public class PrendaAdapter extends BaseAdapter implements View.OnLongClickListen
     private String codPrenda;
     private String tipo;
     private Glup glup;
+    static final int SHORT_DELAY = 1000;
 
     public PrendaAdapter(Context context, ArrayList<Prenda> prendas) {
         this.context = context;
@@ -156,21 +157,23 @@ public class PrendaAdapter extends BaseAdapter implements View.OnLongClickListen
         holder.corazon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int action=0;//1 agregando 2 eliminando
                 if (holder.corazon.isChecked()==true) { //los que eran falsos
                     mPrendas.get(position).setIndProbador("1");
                     holder.corazon.setChecked(true);
                     Log.e("corazon:", prenda.getCod_prenda());
-                    Toast.makeText(context, "Se agrego al Probador", Toast.LENGTH_LONG).show();
-
+                    //Toast.makeText(context, "Se agrego al Probador", SHORT_DELAY).show();
+                    action=1;
                 } else {
                     mPrendas.get(position).setIndProbador("0");
                     Log.e("sincorazon:", prenda.getCod_prenda());
                     holder.corazon.setChecked(false);
-                    Toast.makeText(context, "Se elimino del Probador", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(context, "Se elimino del Probador", SHORT_DELAY).show();
+                    action=2;
                 }
 
                 DSProbador dsProbador = new DSProbador(finalConvertView.getContext());
-                dsProbador.setIndProbador(finalprenda.getCod_prenda());
+                dsProbador.setIndProbador(finalprenda.getCod_prenda(),action);
                 BusHolder.getInstance().post(holder);
             }
         });

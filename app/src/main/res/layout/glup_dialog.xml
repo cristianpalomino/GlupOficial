@@ -6,14 +6,27 @@
     android:layout_gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_gravity="center"
-        android:layout_margin="10dp"
-        android:adjustViewBounds="true"
-        android:scaleType="centerInside"
-        android:src="@drawable/progress_animator" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/progress_animator" />
+        <TextView
+            android:gravity="center"
+            android:id="@+id/message_dialog"
+            android:text="Cargando ..."
+            android:textAppearance="?android:textAppearanceSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
 </FrameLayout>
 
 
