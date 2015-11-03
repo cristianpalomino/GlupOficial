@@ -178,7 +178,11 @@ public class Principal extends Glup implements Footer.OnChangeTab,
             Log.e("null", "entro a back pila");
             getSupportFragmentManager().popBackStack();
             //getSupportFragmentManager().popBackStackImmediate();
+            Log.e("ULTIMO",getSupportFragmentManager().getBackStackEntryAt(count-1).getName());
+            Log.e("PENULTIMO",getSupportFragmentManager().getBackStackEntryAt(count-2).getName());
+
             if (count-2>=0){
+                int flag=1;
                 String LAST_FRAGMENT_TAG = getSupportFragmentManager().getBackStackEntryAt(count-2).getName();
                 Log.e("name", LAST_FRAGMENT_TAG);
                 if (!LAST_FRAGMENT_TAG.equals("FCamera")){
@@ -186,6 +190,13 @@ public class Principal extends Glup implements Footer.OnChangeTab,
                 }else {
                     footer.setVisibility(View.GONE);
                 }
+                if (getSupportFragmentManager().getBackStackEntryAt(count-1).getName().equals("FClosetProfile")){
+                    flag=0;
+                    ButtonUpdateProfile buttonUpdateProfile= new ButtonUpdateProfile();
+                    buttonUpdateProfile.flag=flag;
+                    BusHolder.getInstance().post(buttonUpdateProfile);
+                }
+
             }
 
 
@@ -217,6 +228,10 @@ public class Principal extends Glup implements Footer.OnChangeTab,
 
     public class ResponseUpdateGeneroCatalogo{
         public int success=0;
+    }
+
+    public class ButtonUpdateProfile{
+        public int flag=1;
     }
 
 

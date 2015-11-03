@@ -25,6 +25,11 @@ public class GlupDialogNew extends DialogFragment {
     private Context context=null;
     public GlupDialogNew() {
     }
+
+    public GlupDialogNew(Context context) {
+        this.context = context;
+    }
+
     public GlupDialogNew(String msj){
         this.msj=msj;
     }
@@ -54,7 +59,7 @@ public class GlupDialogNew extends DialogFragment {
         super.onResume();
         Window window = getDialog().getWindow();
         if (context!=null){
-         window.setLayout((int)convertPixelsToDp(500,context),(int)convertPixelsToDp(500,context));
+         window.setLayout((int)convertPixelsToDp(500, context),(int)convertPixelsToDp(500,context));
             Log.e("entro","convert to dp"+(int)convertPixelsToDp(500,context));
         }else {
             window.setLayout(200,200);

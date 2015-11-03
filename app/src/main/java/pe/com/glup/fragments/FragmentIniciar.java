@@ -17,6 +17,7 @@ import pe.com.glup.beans.Usuario;
 import pe.com.glup.bus.BusHolder;
 import pe.com.glup.datasource.DSLogin;
 import pe.com.glup.dialog.GlupDialog;
+import pe.com.glup.dialog.GlupDialogNew;
 import pe.com.glup.glup.ForgetPassCode;
 import pe.com.glup.glup.Principal;
 import pe.com.glup.interfaces.OnSuccessLogin;
@@ -30,7 +31,7 @@ public class FragmentIniciar extends Fragment implements OnSuccessLogin,View.OnC
 	private EditText edtusuario,edtpassword;
 	private Button btnRecoveryPass,btnentrar;
 	private DSLogin dsLogin;
-	private GlupDialog dialog;
+	private GlupDialogNew dialog;
 	private Context context;
 	@Override
 	public void onCreate(Bundle savedInstance){
@@ -61,22 +62,23 @@ public class FragmentIniciar extends Fragment implements OnSuccessLogin,View.OnC
 		btnentrar.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				dialog = new GlupDialog(context);
-				dialog.show();
+			dialog = new GlupDialogNew(context);
+			android.support.v4.app.FragmentManager fragmentManager= getActivity().getSupportFragmentManager();
+			dialog.show(fragmentManager,GlupDialogNew.class.getSimpleName());
 
-				//String user = edtusuario.getText().toString();
-				//String pass = edtpassword.getText().toString();
+			String user = edtusuario.getText().toString();
+			String pass = edtpassword.getText().toString();
 
-				String user = "User_Desa";
-				String pass = "desa123";
+			//String user = "User_Desa";
+			//String pass = "desa123";
 
-				dsLogin = new DSLogin(context);
-				try {
-					dsLogin.loginUsuario(user, pass);
-					dsLogin.setOnSuccessLogin(FragmentIniciar.this);
-				} catch (ClassCastException c) {
-					c.printStackTrace();
-				}
+			dsLogin = new DSLogin(context);
+			try {
+				dsLogin.loginUsuario(user, pass);
+				dsLogin.setOnSuccessLogin(FragmentIniciar.this);
+			} catch (ClassCastException c) {
+				c.printStackTrace();
+			}
 
 			}
 		});

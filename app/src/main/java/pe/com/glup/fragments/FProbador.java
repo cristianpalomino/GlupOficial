@@ -3,6 +3,7 @@ package pe.com.glup.fragments;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -77,7 +78,7 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
         menuright.setMode(SlidingMenu.LEFT_RIGHT);
         menuright.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
 //        menu.setShadowWidthRes(R.dimen.shadow_width);
-//        menu.setShadowDrawable(R.drawable.shadow);
+//        menuright.setShadowDrawable(R.drawable.shadow);
         menuright.setBehindOffsetRes(R.dimen.slidingmenu_offset);
         menuright.setFadeDegree(0.35f);
         menuright.attachToActivity(getActivity(), SlidingMenu.SLIDING_CONTENT);
@@ -163,7 +164,7 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
 
     @Override
     public void succesPrendas(DSProbador.ResponseCatalogo responseCatalogo) {
-       Log.e(null,"ya no deberia mostrar esto");
+       Log.e(null, "ya no deberia mostrar esto");
         /*if success ==1
             for (int position=0;position<prendasTop.size();position++){
                 if (prendasTop.get(position).getTipo().toUpperCase().equals("VESTIDO")) {

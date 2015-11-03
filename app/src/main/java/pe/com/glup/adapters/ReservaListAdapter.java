@@ -110,25 +110,27 @@ public class ReservaListAdapter extends BaseAdapter {
             for (Integer integer:TiendasComunes()){
                 if (position==integer){
                     holder.nombreTienda.setVisibility(View.VISIBLE);
+                    holder.marcaPrenda.setVisibility(View.VISIBLE);
                 }
             }
             if (tag.equals("FReservaInfo")){
                 holder.eliminarReserva.setVisibility(View.VISIBLE);
             }else {
                 holder.contenedor.setPadding(10,0,0,0);
-                holder.contenedorBeforeLocal.setPadding(0,8,0,0);
+                holder.contenedorBeforeLocal.setPadding(0, 8, 0, 0);
                 holder.eliminarReserva.setVisibility(View.INVISIBLE);
                 holder.eliminarReserva.setEnabled(false);
-                holder.eliminarReserva.setPadding(0,0,0,0);
+                holder.eliminarReserva.setPadding(0, 0, 0, 0);
                 holder.nombreTienda.setTextSize(14);
-                holder.marcaPrenda.setTextSize(14);
+                //holder.marcaPrenda.setTextSize(14);
                 holder.tipo.setTextSize(14);
                 holder.precio.setTextSize(14);
                 holder.total.setVisibility(View.GONE);
             }
 
             holder.nombreTienda.setText(reservaItems.get(position).get("local").toString());
-            holder.marcaPrenda.setText(((Prenda) reservaItems.get(position).get("prenda")).getMarca());
+            //holder.marcaPrenda.setText(((Prenda) reservaItems.get(position).get("prenda")).getMarca());
+            holder.marcaPrenda.setText(reservaItems.get(position).get("marca").toString());
             holder.tipo.setText(((Prenda) reservaItems.get(position).get("prenda")).getTipo());
             holder.precio.setText("S/."+((Prenda) reservaItems.get(position).get("prenda")).getPrecio());
 

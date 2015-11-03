@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
+import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -27,10 +28,12 @@ import pe.com.glup.adapters.DetalleUserAdapter;
 import pe.com.glup.adapters.PrendaAdapter;
 import pe.com.glup.beans.DatoUser;
 import pe.com.glup.beans.DetalleUser;
+import pe.com.glup.bus.BusHolder;
 import pe.com.glup.datasource.DSCloset;
 import pe.com.glup.datasource.DSUsuario;
 import pe.com.glup.dialog.GlupDialog;
 import pe.com.glup.glup.Glup;
+import pe.com.glup.glup.Principal;
 import pe.com.glup.interfaces.OnSuccessDetalleUsuario;
 
 /**
@@ -125,11 +128,17 @@ public class FCloset extends Fragment implements View.OnClickListener,OnSuccessD
         TAG = "todos";
         isLoading = false;
 
+        updateProfile = (Button) getView().findViewById(R.id.update);
+        updateProfile.setOnClickListener(this);
+        BusHolder.getInstance().register(this);
+        updateProfile.setVisibility(View.GONE);
+
         fClosetGrilla = new FClosetGrilla(FCloset.this);
         fragmentManager= getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.grilla_o_perfil,fClosetGrilla);
         fragmentTransaction.commit();
+
 
         ////
         fotoPerfil = (CircleImageView) getView().findViewById(R.id.photo);
@@ -203,19 +212,10 @@ public class FCloset extends Fragment implements View.OnClickListener,OnSuccessD
     }
 
 
-
-
-
-
-
-
-
-
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.photo:
-
                 //fragment replace closet grilla -> profile 
                 //FragmentViewController fragmentViewController= new FragmentViewController();
                 //fragmentViewController.setSecondView();
@@ -224,10 +224,16 @@ public class FCloset extends Fragment implements View.OnClickListener,OnSuccessD
                     fragmentManager= getActivity().getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.replace(R.id.grilla_o_perfil,fClosetProfile);
-                    fragmentTransaction.addToBackStack("FClosetGrilla");
+                    fragmentTransaction.addToBackStack(FClosetProfile.class.getSimpleName());
                     fragmentTransaction.commit();
+                    updateProfile.setVisibility(View.VISIBLE);
                 }
 
+                break;
+            case R.id.update:
+                Log.e("clic","updatePerfil");
+                SignalSaveProfile signalSaveProfile=new SignalSaveProfile();
+                BusHolder.getInstance().post(signalSaveProfile);
                 break;
 
         }
@@ -250,9 +256,15 @@ public class FCloset extends Fragment implements View.OnClickListener,OnSuccessD
         public void setSecondView() { firstView = false; }
     }
 
+    class SignalSaveProfile{}
 
-
-
+    @Subscribe
+    public void visibilityUpdateProfile(Principal.ButtonUpdateProfile buttonUpdateProfile){
+        Log.e("flag",buttonUpdateProfile.flag+"");
+        if (buttonUpdateProfile.flag==0){
+            updateProfile.setVisibility(View.GONE);
+        }
+    }
 
 }
 

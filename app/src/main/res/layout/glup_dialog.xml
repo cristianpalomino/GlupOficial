@@ -19,6 +19,7 @@
             android:scaleType="centerInside"
             android:src="@drawable/progress_animator" />
         <TextView
+            android:visibility="gone"
             android:gravity="center"
             android:id="@+id/message_dialog"
             android:text="Cargando ..."

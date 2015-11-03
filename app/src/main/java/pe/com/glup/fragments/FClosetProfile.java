@@ -2,6 +2,8 @@ package pe.com.glup.fragments;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -17,6 +19,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -25,12 +28,16 @@ import java.util.Calendar;
 import pe.com.glup.R;
 import pe.com.glup.beans.DatoUser;
 import pe.com.glup.beans.DetalleUser;
+import pe.com.glup.bus.BusHolder;
 import pe.com.glup.datasource.DSUsuario;
 import pe.com.glup.dialog.ConfirmationPassDialog;
 import pe.com.glup.dialog.NewPassDialog;
+import pe.com.glup.glup.Entrar;
+import pe.com.glup.glup.Glup;
 import pe.com.glup.interfaces.OnSuccessDetalleUsuario;
 import pe.com.glup.interfaces.OnSuccessUpdatePass;
 import pe.com.glup.interfaces.OnSuccessUpdateUser;
+import pe.com.glup.session.Session_Manager;
 import pe.com.glup.utils.DatePickerFragment;
 import pe.com.glup.utils.MessageUtil;
 
@@ -54,7 +61,7 @@ public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
     private LinearLayout perfil;
     private EditText nombres,apellidos,correo,telefono;
     private TextView cumpleanos;
-    private Button updateProfile,changePass;
+    private Button updateProfile,changePass,closeSession;
     private String indVerPass;
     private FragmentManager fragmentManager;
     private String changeNombres,changeApellidos,changeCumpleanos,changeCorreo,changeTelefono;
@@ -103,6 +110,7 @@ public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        BusHolder.getInstance().register(this);
 
         perfil = (LinearLayout) getView().findViewById(R.id.profile);
 
@@ -113,10 +121,12 @@ public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
         telefono = (EditText) getView().findViewById(R.id.telefono);
         changePass = (Button) getView().findViewById(R.id.changePass);
         updateProfile = (Button)getView().findViewById(R.id.updateProfile);
+        closeSession = (Button) getView().findViewById(R.id.cerrar_sesion);
 
         cumpleanos.setOnClickListener(this);
         changePass.setOnClickListener(this);
         updateProfile.setOnClickListener(this);
+        closeSession.setOnClickListener(this);
 
         dsUsuario = new DSUsuario(getActivity());
         try{
@@ -167,34 +177,15 @@ public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
                 new NewPassDialog(FClosetProfile.this).show(fragmentManager,"NewPassDialog");
 
                 break;
-            case R.id.updateProfile:
-                Log.e("clic","guardar cambios perfil");
-                fragmentManager = context.getActivity().getSupportFragmentManager();
-                ////dsUsuario = new DSUsuario(getActivity());
-                ////dsUsuario.setOnSuccessUpdateUser(FCloset.this);
-                //Log.e("antes del indVerPass", indVerPass);
-                //if (!changeToNewPass){
-                indVerPass = detectedIndVerPass();
-                //}
-
-                Log.e("antes indVerPass", indVerPass);
-                if (indVerPass.equals("true")){
-                    new ConfirmationPassDialog(indVerPass,nombres.getText().toString(),
-                            apellidos.getText().toString(),
-                            cumpleanos.getText().toString(),
-                            correo.getText().toString(),
-                            telefono.getText().toString(),FClosetProfile.this).show(fragmentManager, "ConfirmationPassDialog");
-                }else{
-                    try{
-                        dsUsuario.setOnSuccessUpdateUser(FClosetProfile.this);
-                    }catch (ClassCastException e){
-                        Log.e("error",e.toString());
-                    }
-
-                    dsUsuario.updateUsuario(indVerPass, nuevaPassword, nombres.getText().toString(),
-                            apellidos.getText().toString(), cumpleanos.getText().toString(),
-                            correo.getText().toString(), telefono.getText().toString());
-                }
+            case R.id.cerrar_sesion:
+                Log.e("clic", "cerrar sesion");
+                Context context=getActivity();
+                Session_Manager manager = new Session_Manager(context);
+                manager.closeSession();
+                Intent intent = new Intent(context, Entrar.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                context.startActivity(intent);
+                ((Glup)context).finish();
                 break;
         }
     }
@@ -331,6 +322,46 @@ public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
+    }
+
+    public class PassToFragmentParent{
+        public String changeNombres,changeApellidos,changeCumpleanos,changeCorreo,changeTelefono;
+        public String indVerPass,nuevaPassword,nombres,apellidos,cumpleanos,correo,telefono;
+    }
+
+    @Subscribe
+    public void saveProfile(FCloset.SignalSaveProfile signalSaveProfile){
+        Log.e("clic","guardar cambios perfil");
+        fragmentManager = context.getActivity().getSupportFragmentManager();
+        int count =fragmentManager.getBackStackEntryCount();
+        if (count>0){
+            Log.e("ultimoFrag",fragmentManager.getBackStackEntryAt(count-1).getName());
+        }
+        ////dsUsuario = new DSUsuario(getActivity());
+        ////dsUsuario.setOnSuccessUpdateUser(FCloset.this);
+        //Log.e("antes del indVerPass", indVerPass);
+        //if (!changeToNewPass){
+        indVerPass = detectedIndVerPass();
+        //}
+
+        Log.e("antes indVerPass", indVerPass);
+        if (indVerPass.equals("true")){
+            new ConfirmationPassDialog(indVerPass,nombres.getText().toString(),
+                    apellidos.getText().toString(),
+                    cumpleanos.getText().toString(),
+                    correo.getText().toString(),
+                    telefono.getText().toString(),FClosetProfile.this).show(fragmentManager, "ConfirmationPassDialog");
+        }else{
+            try{
+                dsUsuario.setOnSuccessUpdateUser(FClosetProfile.this);
+            }catch (ClassCastException e){
+                Log.e("error",e.toString());
+            }
+
+            dsUsuario.updateUsuario(indVerPass, nuevaPassword, nombres.getText().toString(),
+                    apellidos.getText().toString(), cumpleanos.getText().toString(),
+                    correo.getText().toString(), telefono.getText().toString());
+        }
     }
 
 }
