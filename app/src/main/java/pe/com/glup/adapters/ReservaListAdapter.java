@@ -49,18 +49,18 @@ public class ReservaListAdapter extends BaseAdapter {
 
     private ArrayList<Integer> TiendasComunes(){
         int cont=0;
-        String nomLocal="";
+        String nomMarca="";
         ArrayList<Integer> unicos=new ArrayList<Integer>();
         for (HashMap hashMap:reservaItems){
             if (cont==0){
-                nomLocal=hashMap.get("local").toString();
+                nomMarca=hashMap.get("marca").toString();
                 unicos.add(cont);
             }
             if (cont>=1){
-                if (nomLocal.equals(hashMap.get("local").toString())){
+                if (nomMarca.equals(hashMap.get("marca").toString())){
                     //sigue invi
                 }else{
-                    nomLocal=hashMap.get("local").toString();
+                    nomMarca=hashMap.get("marca").toString();
                     unicos.add(cont);
                 }
             }
@@ -109,6 +109,7 @@ public class ReservaListAdapter extends BaseAdapter {
             }
             for (Integer integer:TiendasComunes()){
                 if (position==integer){
+                    Log.e("positionReserva",position+"");
                     holder.nombreTienda.setVisibility(View.VISIBLE);
                     holder.marcaPrenda.setVisibility(View.VISIBLE);
                 }

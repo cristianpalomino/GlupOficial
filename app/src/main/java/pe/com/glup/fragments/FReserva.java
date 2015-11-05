@@ -1,6 +1,7 @@
 package pe.com.glup.fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -86,20 +87,40 @@ public class FReserva extends Fragment implements View.OnClickListener{
         switch (v.getId()){
             case R.id.reserva:
                 ticket.setChecked(false);
+                ticket.setEnabled(false);
                 fReservaInfo = new FReservaInfo();
                 String tag=fReservaInfo.getClass().getSimpleName().toString();
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fragment_reserva_ticket,fReservaInfo,tag);
                 fragmentTransaction.commit();
+                Handler handler2 = new android.os.Handler();
+                handler2.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        reserva.setChecked(true);
+                        ticket.setEnabled(true);
+                    }
+                }, 1250);
+
                 break;
             case R.id.ticket:
                 reserva.setChecked(false);
+                reserva.setEnabled(false);
                 fReservaTicket = new FReservaTicket();
                 String tag2 = fReservaTicket.getClass().getSimpleName().toString();
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fragment_reserva_ticket,fReservaTicket,tag2);
                 fragmentTransaction.commit();
+                Handler handler = new android.os.Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ticket.setChecked(true);
+                        reserva.setEnabled(true);
+                    }
+                }, 1250);
                 break;
+
         }
     }
 

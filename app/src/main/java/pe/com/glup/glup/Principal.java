@@ -1,5 +1,6 @@
 package pe.com.glup.glup;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -8,6 +9,8 @@ import android.view.View;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import android.os.Handler;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import pe.com.glup.R;
 import pe.com.glup.bus.BusHolder;
@@ -37,7 +40,7 @@ public class Principal extends Glup implements Footer.OnChangeTab,
     };
     private static String CURRENT_FRAGMENT_TAG;
     private Fragment current;
-
+    private FrameLayout framePrincipal;
 
     private Footer footer;
     private Header header;
@@ -62,6 +65,7 @@ public class Principal extends Glup implements Footer.OnChangeTab,
         setContentView(R.layout.principal);
         setupUI(findViewById(R.id.container_principal));
 
+        framePrincipal = (FrameLayout) findViewById(R.id.frame_principal);
         footer = (Footer) findViewById(R.id.glutab);
         header = (Header) findViewById(R.id.header);
         header.initView(Principal.this);
@@ -75,7 +79,7 @@ public class Principal extends Glup implements Footer.OnChangeTab,
                 .add(R.id.frame_principal, current, CURRENT_FRAGMENT_TAG)
                 .addToBackStack(CURRENT_FRAGMENT_TAG)
                 .commit();
-
+        framePrincipal.setPadding(0, 0, 0, (int) convertDpToPixel(60, this));
         Log.e("FRAGMENTS", CURRENT_FRAGMENT_TAG + "");
         /*
         Temporal
@@ -125,8 +129,17 @@ public class Principal extends Glup implements Footer.OnChangeTab,
         }
         if (CURRENT_FRAGMENT_TAG.equals("FCamera")){
             footer.setVisibility(View.GONE);
+            framePrincipal.setPadding(0,0,0,0);
+            /*LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            framePrincipal.setLayoutParams(lp);*/
         }else {
             footer.setVisibility(View.VISIBLE);
+            framePrincipal.setPadding(0, 0, 0, (int) convertDpToPixel(60, this));
+            Log.e("Margin", (int) convertDpToPixel(60, this) + "");
+            /*LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            lp.setMargins(0, 0, 0,(int) convertDpToPixel(60,this));
+
+            framePrincipal.setLayoutParams(lp);*/
         }
 
         if (CURRENT_FRAGMENT_TAG.equals("FCatalogoNew")){
@@ -168,27 +181,33 @@ public class Principal extends Glup implements Footer.OnChangeTab,
 
     @Override
     public void onBackPressed() {
-        if (CURRENT_FRAGMENT_TAG.equals("FCamera")){
-            footer.setVisibility(View.GONE);
-        }else {
-            footer.setVisibility(View.VISIBLE);
-        }
+
         int count=getSupportFragmentManager().getBackStackEntryCount();
         if(count> 0){
             Log.e("null", "entro a back pila");
             getSupportFragmentManager().popBackStack();
             //getSupportFragmentManager().popBackStackImmediate();
             Log.e("ULTIMO",getSupportFragmentManager().getBackStackEntryAt(count-1).getName());
-            Log.e("PENULTIMO",getSupportFragmentManager().getBackStackEntryAt(count-2).getName());
 
             if (count-2>=0){
+                Log.e("PENULTIMO",getSupportFragmentManager().getBackStackEntryAt(count-2).getName());
                 int flag=1;
                 String LAST_FRAGMENT_TAG = getSupportFragmentManager().getBackStackEntryAt(count-2).getName();
                 Log.e("name", LAST_FRAGMENT_TAG);
                 if (!LAST_FRAGMENT_TAG.equals("FCamera")){
                     footer.setVisibility(View.VISIBLE);
+                    footer.invalidate();
+                    framePrincipal.setPadding(0, 0, 0, (int) convertDpToPixel(60, this));
+                    /*LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                    lp.setMargins(0, 0, 0,(int) convertDpToPixel(60,this));
+                    Log.e("Margin", (int) convertDpToPixel(60, this) + "");
+                    framePrincipal.setLayoutParams(lp);*/
                 }else {
                     footer.setVisibility(View.GONE);
+                    footer.invalidate();
+                    framePrincipal.setPadding(0, 0, 0, 0);
+                    /*LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                    framePrincipal.setLayoutParams(lp);*/
                 }
                 if (getSupportFragmentManager().getBackStackEntryAt(count-1).getName().equals("FClosetProfile")){
                     flag=0;
@@ -202,7 +221,7 @@ public class Principal extends Glup implements Footer.OnChangeTab,
 
         }else{
             /*Cuando navega por el menu footer muy rapido y no carga algunos componentes*/
-           /* Fragment current = getSupportFragmentManager().findFragmentByTag(CURRENT_FRAGMENT_TAG);
+           /*Fragment current = getSupportFragmentManager().findFragmentByTag(CURRENT_FRAGMENT_TAG);
 
             if (current==null){
                 Log.e("enBack","current null");
@@ -210,12 +229,13 @@ public class Principal extends Glup implements Footer.OnChangeTab,
                         .add(R.id.frame_principal, FRAGMENTS[position], CURRENT_FRAGMENT_TAG)
                         .addToBackStack(CURRENT_FRAGMENT_TAG)
                         .commit();
-            } else {
                 if (CURRENT_FRAGMENT_TAG.equals("FCamera")){
                     footer.setVisibility(View.GONE);
                 }else {
                     footer.setVisibility(View.VISIBLE);
                 }
+            } else {
+
                 Log.e("null","entro a super back");
                 super.onBackPressed();
             }*/
@@ -234,7 +254,10 @@ public class Principal extends Glup implements Footer.OnChangeTab,
         public int flag=1;
     }
 
-
+    public  float convertDpToPixel(float dp, Context context){
+        float px = dp * (context.getResources().getDisplayMetrics().densityDpi/160);
+        return px;
+    }
     
 
 }

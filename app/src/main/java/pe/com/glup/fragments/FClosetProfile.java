@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
@@ -67,6 +68,7 @@ public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
     private String changeNombres,changeApellidos,changeCumpleanos,changeCorreo,changeTelefono;
     private String nuevaPassword="";
     private boolean changeToNewPass=false;
+    private RelativeLayout frameChangePass,frameCloseSession;
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -122,11 +124,15 @@ public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
         changePass = (Button) getView().findViewById(R.id.changePass);
         updateProfile = (Button)getView().findViewById(R.id.updateProfile);
         closeSession = (Button) getView().findViewById(R.id.cerrar_sesion);
+        frameChangePass = (RelativeLayout) getView().findViewById(R.id.frame_changePass);
+        frameCloseSession = (RelativeLayout) getView().findViewById(R.id.frame_cerrarSesion);
 
         cumpleanos.setOnClickListener(this);
         changePass.setOnClickListener(this);
         updateProfile.setOnClickListener(this);
         closeSession.setOnClickListener(this);
+        frameChangePass.setOnClickListener(this);
+        frameCloseSession.setOnClickListener(this);
 
         dsUsuario = new DSUsuario(getActivity());
         try{
@@ -186,6 +192,22 @@ public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 context.startActivity(intent);
                 ((Glup)context).finish();
+                break;
+            case R.id.frame_changePass:
+                Log.e("clic", "cambiar password");
+                indVerPass = "false";
+                fragmentManager = this.context.getActivity().getSupportFragmentManager();
+                new NewPassDialog(FClosetProfile.this).show(fragmentManager,"NewPassDialog");
+                break;
+            case R.id.frame_cerrarSesion:
+                Log.e("clic", "cerrar sesion");
+                Context context1=getActivity();
+                Session_Manager manager1 = new Session_Manager(context1);
+                manager1.closeSession();
+                Intent intent1 = new Intent(context1, Entrar.class);
+                intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                context1.startActivity(intent1);
+                ((Glup)context1).finish();
                 break;
         }
     }

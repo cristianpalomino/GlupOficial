@@ -62,7 +62,7 @@ public class FragmentIniciar extends Fragment implements OnSuccessLogin,View.OnC
 		btnentrar.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-			dialog = new GlupDialogNew(context);
+			dialog = new GlupDialogNew();
 			android.support.v4.app.FragmentManager fragmentManager= getActivity().getSupportFragmentManager();
 			dialog.show(fragmentManager,GlupDialogNew.class.getSimpleName());
 

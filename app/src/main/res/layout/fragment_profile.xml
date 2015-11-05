@@ -6,10 +6,14 @@
     android:layout_height="match_parent">
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
     <LinearLayout
+        android:scrollbars="vertical"
         android:id="@+id/profile"
-        android:layout_margin="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent">
         <EditText
@@ -83,36 +87,69 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="6dp"/>
 
-        <Button
-            android:paddingLeft="10dp"
-            android:gravity="center_vertical"
-            android:background="@null"
-            android:id="@+id/changePass"
-            android:textAllCaps="false"
-            android:shadowColor="@color/celeste_glup"
-            android:textColor="@color/gris_glup_nuevo"
-            android:text="Cambiar Contraseña"
-            android:layout_width="160dp"
-            android:layout_height="40dp"
-            android:layout_gravity="left"
-            android:layout_marginBottom="12dp"/>
+
+        <RelativeLayout
+            android:layout_marginTop="6dp"
+            android:id="@+id/frame_changePass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_marginTop="16dp"
+                android:gravity="center_vertical"
+                android:background="@null"
+                android:id="@+id/icon_cambiar_contrasena"
+                android:src="@drawable/icon_cambiar_contrase_a"
+                android:layout_width="16dp"
+                android:layout_height="16dp" />
+            <Button
+                android:textSize="16sp"
+                android:layout_toRightOf="@+id/icon_cambiar_contrasena"
+                android:paddingLeft="10dp"
+                android:gravity="center_vertical"
+                android:background="@null"
+                android:id="@+id/changePass"
+                android:textAllCaps="false"
+                android:shadowColor="@color/celeste_glup"
+                android:textColor="@color/gris_glup_nuevo"
+                android:text="Cambiar Contraseña"
+                android:layout_width="160dp"
+                android:layout_height="44dp"
+                android:layout_gravity="left" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/frame_cerrarSesion"
+            android:layout_marginTop="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_marginTop="16dp"
+                android:gravity="center_vertical"
+                android:background="@null"
+                android:id="@+id/icon_cerrar_sesion"
+                android:src="@drawable/icon_cerrar_sesion"
+                android:layout_width="16dp"
+                android:layout_height="16dp" />
+            <Button
+                android:textSize="16sp"
+                android:layout_toRightOf="@+id/icon_cerrar_sesion"
+                android:paddingLeft="10dp"
+                android:gravity="center_vertical"
+                android:background="@null"
+                android:id="@+id/cerrar_sesion"
+                android:textAllCaps="false"
+                android:shadowColor="@color/celeste_glup"
+                android:textColor="@color/gris_glup_nuevo"
+                android:text="Cerrar Sesión"
+                android:layout_width="160dp"
+                android:layout_height="44dp"
+                android:layout_gravity="left"
+                />
+        </RelativeLayout>
+
 
         <Button
-            android:paddingLeft="10dp"
-            android:gravity="center_vertical"
-            android:background="@null"
-            android:id="@+id/cerrar_sesion"
-            android:textAllCaps="false"
-            android:shadowColor="@color/celeste_glup"
-            android:textColor="@color/gris_glup_nuevo"
-            android:text="Cerrar Sesión"
-            android:layout_width="160dp"
-            android:layout_height="40dp"
-            android:layout_gravity="left"
-            android:layout_marginBottom="12dp"/>
-
-        <Button
-            android:visibility="gone"
+            android:layout_marginTop="20dp"
+            android:visibility="invisible"
             android:id="@+id/updateProfile"
             android:textAllCaps="false"
             android:shadowColor="@color/azul_glup"

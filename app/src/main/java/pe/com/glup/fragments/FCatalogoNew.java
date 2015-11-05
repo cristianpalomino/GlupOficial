@@ -81,6 +81,7 @@ public class FCatalogoNew extends Fragment implements View.OnClickListener {
         switch (v.getId()){
             case R.id.catalogo_hombre:
                 mujer.setChecked(false);
+                mujer.setEnabled(false);
                 fCatalogo = FCatalogo.newInstance("genH");
                 String tagFragment = FCatalogo.class.getSimpleName()+"Hombre";
                 fragmentTransaction = fragmentManager.beginTransaction();
@@ -91,11 +92,13 @@ public class FCatalogoNew extends Fragment implements View.OnClickListener {
                     @Override
                     public void run() {
                         hombre.setChecked(true);
+                        mujer.setEnabled(true);
                     }
                 }, 1500);
                 break;
             case R.id.catalogo_mujer:
                 hombre.setChecked(false);
+                hombre.setEnabled(false);
                 fCatalogo = FCatalogo.newInstance("genM");
                 String tagFragment2 = FCatalogo.class.getSimpleName()+"Mujer";
                 fragmentTransaction = fragmentManager.beginTransaction();
@@ -106,6 +109,7 @@ public class FCatalogoNew extends Fragment implements View.OnClickListener {
                     @Override
                     public void run() {
                         mujer.setChecked(true);
+                        hombre.setEnabled(true);
                     }
                 }, 1500);
 

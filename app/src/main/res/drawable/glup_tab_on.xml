@@ -7,14 +7,14 @@
                 <shape android:shape="rectangle">
                     <corners android:radius="0dp" />
 
-                    <solid android:color="@color/celeste_oscuro" />
+                    <solid android:color="@color/celeste_glup" />
                 </shape>
             </item>
             <item android:bottom="5dp">
                 <shape android:shape="rectangle">
                     <corners android:radius="0dp" />
 
-                    <solid android:color="@color/celeste_oscuro" />
+                    <solid android:color="@android:color/transparent" />
                 </shape>
             </item>
         </layer-list>

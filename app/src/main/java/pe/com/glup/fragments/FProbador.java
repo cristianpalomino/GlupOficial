@@ -84,12 +84,14 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
         menuright.attachToActivity(getActivity(), SlidingMenu.SLIDING_CONTENT);
         menuright.setMenu(R.layout.menu_left);
         menuright.setSecondaryMenu(R.layout.menu_right);
-
+/*
+        String name = getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount()-1).getName();
+        Fragment fragment=getActivity().getSupportFragmentManager().findFragmentByTag(name);*/
         getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.menu_left, FMenuLeft.newInstance(), FMenuLeft.class.getName())
+                .replace(R.id.menu_left, FMenuLeft.newInstance(), FMenuLeft.class.getSimpleName())
                 .commit();
         getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.menu_rigth, FMenuRigth.newInstance(), FMenuRigth.class.getName())
+                .replace(R.id.menu_rigth, FMenuRigth.newInstance(), FMenuRigth.class.getSimpleName())
                 .commit();
 
         superior =(ImageButton) getView().findViewById(R.id.superior);
@@ -188,6 +190,24 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
             case R.id.superior:
                 Log.e(null, "superior");
                 menuright.toggle();
+                menuright.clearAnimation();
+                menuright.setOnCloseListener(new SlidingMenu.OnCloseListener() {
+                    @Override
+                    public void onClose() {
+                        gd = new GlupDialogNew();
+                        android.support.v4.app.FragmentManager fragmentManager= getActivity().getSupportFragmentManager();
+                        gd.show(fragmentManager, GlupDialogNew.class.getSimpleName());
+                        Handler handler2 = new android.os.Handler();
+                        handler2.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                gd.dismiss();
+                            }
+                        }, 500);
+                    }
+                });
+
+
                 break;
             case R.id.medio:
                 Log.e(null, "medio");

@@ -93,11 +93,11 @@ public class FReservaInfo extends Fragment implements View.OnClickListener{
                 for (Prenda prenda:list.getDatos()){
                     HashMap hashMap = new HashMap();
                     hashMap.put("marca",list.getMarca());
+                    Log.e("Marca",list.getMarca());
                     hashMap.put("local",list.getLocal());
                     hashMap.put("prenda", prenda);
                     reservas.add(hashMap);
                     contReservas++;
-
                 }
 
             }
