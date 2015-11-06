@@ -188,11 +188,38 @@ public class Principal extends Glup implements Footer.OnChangeTab,
             getSupportFragmentManager().popBackStack();
             //getSupportFragmentManager().popBackStackImmediate();
             Log.e("ULTIMO",getSupportFragmentManager().getBackStackEntryAt(count-1).getName());
-
+            String ULTI_FRAGMENT_TAG = getSupportFragmentManager().getBackStackEntryAt(count-1).getName();
             if (count-2>=0){
                 Log.e("PENULTIMO",getSupportFragmentManager().getBackStackEntryAt(count-2).getName());
-                int flag=1;
                 String LAST_FRAGMENT_TAG = getSupportFragmentManager().getBackStackEntryAt(count-2).getName();
+                int flag=1;
+                switch(ULTI_FRAGMENT_TAG){
+                    case "FCatalogoNew":
+                        ReloadUnLockFooter reloadUnLockFooter = new ReloadUnLockFooter();
+                        reloadUnLockFooter.tag=ULTI_FRAGMENT_TAG;
+                        BusHolder.getInstance().post(reloadUnLockFooter);
+                        chekLastFragment(LAST_FRAGMENT_TAG);
+                        break;
+                    case "FCloset":
+                        ReloadUnLockFooter reloadUnLockFooter1 = new ReloadUnLockFooter();
+                        reloadUnLockFooter1.tag =ULTI_FRAGMENT_TAG;
+                        BusHolder.getInstance().post(reloadUnLockFooter1);
+                        chekLastFragment(LAST_FRAGMENT_TAG);
+                        break;
+                    case "FProbador":
+                        ReloadUnLockFooter reloadUnLockFooter2= new ReloadUnLockFooter();
+                        reloadUnLockFooter2.tag=ULTI_FRAGMENT_TAG;
+                        BusHolder.getInstance().post(reloadUnLockFooter2);
+                        chekLastFragment(LAST_FRAGMENT_TAG);
+                        break;
+                    case "FReserva":
+                        ReloadUnLockFooter reloadUnLockFooter3 = new ReloadUnLockFooter();
+                        reloadUnLockFooter3.tag=ULTI_FRAGMENT_TAG;
+                        BusHolder.getInstance().post(reloadUnLockFooter3);
+                        chekLastFragment(LAST_FRAGMENT_TAG);
+                        break;
+                    default:Log.e("Entro","defaul");chekLastFragment(LAST_FRAGMENT_TAG);break;
+                }
                 Log.e("name", LAST_FRAGMENT_TAG);
                 if (!LAST_FRAGMENT_TAG.equals("FCamera")){
                     footer.setVisibility(View.VISIBLE);
@@ -258,6 +285,39 @@ public class Principal extends Glup implements Footer.OnChangeTab,
         float px = dp * (context.getResources().getDisplayMetrics().densityDpi/160);
         return px;
     }
+
+    public  class ReloadBlockFooter{
+        public String tag;
+    }
+    public  class ReloadUnLockFooter{
+        public String tag;
+    }
+
+    public void chekLastFragment(String tag){
+        switch (tag){
+            case "FCatalogoNew":
+                ReloadBlockFooter reloadBlockFooter = new ReloadBlockFooter();
+                reloadBlockFooter.tag=tag;
+                BusHolder.getInstance().post(reloadBlockFooter);
+                break;
+            case "FCloset":
+                ReloadBlockFooter reloadBlockFooter1 = new ReloadBlockFooter();
+                reloadBlockFooter1.tag =tag;
+                BusHolder.getInstance().post(reloadBlockFooter1);
+                break;
+            case "FProbador":
+                ReloadBlockFooter reloadBlockFooter2= new ReloadBlockFooter();
+                reloadBlockFooter2.tag=tag;
+                BusHolder.getInstance().post(reloadBlockFooter2);
+                break;
+            case "FReserva":
+                ReloadBlockFooter reloadBlockFooter3 = new ReloadBlockFooter();
+                reloadBlockFooter3.tag=tag;
+                BusHolder.getInstance().post(reloadBlockFooter3);
+                break;
+        }
+    }
+
     
 
 }

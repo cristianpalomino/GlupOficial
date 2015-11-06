@@ -190,7 +190,7 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
             case R.id.superior:
                 Log.e(null, "superior");
                 menuright.toggle();
-                menuright.clearAnimation();
+               /* menuright.clearAnimation();
                 menuright.setOnCloseListener(new SlidingMenu.OnCloseListener() {
                     @Override
                     public void onClose() {
@@ -205,7 +205,7 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
                             }
                         }, 500);
                     }
-                });
+                });*/
 
 
                 break;

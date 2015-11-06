@@ -23,7 +23,7 @@ import pe.com.glup.interfaces.OnSuccessPrendas;
 public class FMenuRigth extends Fragment implements OnSuccessPrendas{
 
     private ListView listView;
-    private ArrayList<Prenda> prendasTop;
+    private ArrayList<Prenda> prendasBottom;
     private  PrendaAdapterMenu prendaAdapter;
 
     public static FMenuRigth newInstance() {
@@ -67,8 +67,8 @@ public class FMenuRigth extends Fragment implements OnSuccessPrendas{
     public void succesPrendas(DSProbador.ResponseCatalogo responseCatalogo) {
         if (responseCatalogo.tipo.equals("B"))
         {
-            this.prendasTop = responseCatalogo.prendas;
-            prendaAdapter = new PrendaAdapterMenu(getActivity(),this.prendasTop);
+            this.prendasBottom = responseCatalogo.prendas;
+            prendaAdapter = new PrendaAdapterMenu(getActivity(),this.prendasBottom);
             listView.setAdapter(prendaAdapter);
         }
     }

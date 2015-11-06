@@ -17,7 +17,10 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.squareup.otto.Subscribe;
+
 import pe.com.glup.R;
+import pe.com.glup.bus.BusHolder;
 import pe.com.glup.fragments.FCatalogoNew;
 import pe.com.glup.glup.Principal;
 import pe.com.glup.utils.FastBlur;
@@ -72,6 +75,8 @@ public class Footer extends LinearLayout implements View.OnClickListener {
         probador.setOnClickListener(this);
         camara.setOnClickListener(this);
         reserva.setOnClickListener(this);
+
+        BusHolder.getInstance().register(this);
 
 
         //onChangeTab.currentTab(0);
@@ -167,5 +172,42 @@ public class Footer extends LinearLayout implements View.OnClickListener {
         void onChangeTab(int position);
 
         void currentTab(int current);
+    }
+
+    @Subscribe
+    public void updateBlockTab(Principal.ReloadBlockFooter reloadBlockFooter){
+        switch (reloadBlockFooter.tag){
+            case "FCatalogoNew":
+                home.setEnabled(false);
+                break;
+            case "FCloset":
+                closet.setEnabled(false);
+                break;
+            case "FProbador":
+                probador.setEnabled(false);
+                break;
+            case "FReserva":
+                reserva.setEnabled(false);
+                break;
+        }
+
+    }
+
+    @Subscribe
+    public void updateUnlockTab(Principal.ReloadUnLockFooter reloadUnLockFooter){
+        switch (reloadUnLockFooter.tag){
+            case "FCatalogoNew":
+                home.setEnabled(true);
+                break;
+            case "FCloset":
+                closet.setEnabled(true);
+                break;
+            case "FProbador":
+                probador.setEnabled(true);
+                break;
+            case "FReserva":
+                reserva.setEnabled(true);
+                break;
+        }
     }
 }
