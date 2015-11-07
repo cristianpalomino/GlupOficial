@@ -23,8 +23,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#6E6E6E"
+        android:layout_height="1dp"
+        android:background="@color/gris_glup_nuevo"
         android:orientation="vertical" />
 
     <LinearLayout
@@ -34,46 +34,76 @@
         android:alpha="1"
         android:orientation="horizontal"
         android:weightSum="5">
-
-        <ImageButton
-            android:id="@+id/tabhome"
+        <FrameLayout
+            android:id="@+id/frameHome"
+            android:background="@android:color/transparent"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="1">
+            <ImageView
+                android:background="@android:color/transparent"
+                android:layout_gravity="center"
+                android:id="@+id/tabhome"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/catalogo_off" />
+        </FrameLayout>
+        <FrameLayout
+            android:id="@+id/frameCloset"
             android:background="@android:color/transparent"
-            android:src="@drawable/home_off" />
-
-        <ImageButton
-            android:id="@+id/tabcloset"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="1">
+            <ImageView
+                android:layout_gravity="center"
+                android:id="@+id/tabcloset"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/closet_off" />
+        </FrameLayout>
+        <FrameLayout
+            android:id="@+id/frameCamara"
             android:background="@android:color/transparent"
-            android:src="@drawable/closet_off" />
-
-        <ImageButton
-            android:id="@+id/tabcamera"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="1">
+            <ImageView
+                android:layout_gravity="center"
+                android:id="@+id/tabcamera"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/camara_off" />
+        </FrameLayout>
+        <FrameLayout
+            android:id="@+id/frameProbador"
             android:background="@android:color/transparent"
-            android:src="@drawable/camara_off" />
-
-        <ImageButton
-            android:id="@+id/tabprobador"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="1">
+            <ImageView
+                android:layout_gravity="center"
+                android:id="@+id/tabprobador"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/probador_off" />
+        </FrameLayout>
+        <FrameLayout
+            android:id="@+id/frameReserva"
             android:background="@android:color/transparent"
-            android:src="@drawable/probador_off" />
-
-        <ImageButton
-            android:id="@+id/tabreserva"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:src="@drawable/reserva_footer_off" />
+            android:layout_weight="1">
+            <ImageView
+                android:layout_gravity="center"
+                android:id="@+id/tabreserva"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/reserva_off" />
+        </FrameLayout>
 
     </LinearLayout>
 

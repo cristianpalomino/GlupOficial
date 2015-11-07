@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -31,6 +32,7 @@ import pe.com.glup.utils.FastBlur;
 public class Footer extends LinearLayout implements View.OnClickListener {
 
     private ImageView home,closet,probador,camara,reserva;
+    private FrameLayout frameHome,frameCloset,frameProbador,frameCamara,frameReserva;
 
     private ImageView fondo;
 
@@ -70,6 +72,18 @@ public class Footer extends LinearLayout implements View.OnClickListener {
         camara = (ImageView) findViewById(R.id.tabcamera);
         reserva = (ImageView) findViewById(R.id.tabreserva);
 
+        frameHome = (FrameLayout) findViewById(R.id.frameHome);
+        frameCloset = (FrameLayout) findViewById(R.id.frameCloset);
+        frameProbador = (FrameLayout) findViewById(R.id.frameProbador);
+        frameCamara  = (FrameLayout) findViewById(R.id.frameCamara);
+        frameReserva = (FrameLayout) findViewById(R.id.frameReserva);
+
+        frameHome.setOnClickListener(this);
+        frameCloset.setOnClickListener(this);
+        frameProbador.setOnClickListener(this);
+        frameCamara.setOnClickListener(this);
+        frameReserva.setOnClickListener(this);
+
         home.setOnClickListener(this);
         closet.setOnClickListener(this);
         probador.setOnClickListener(this);
@@ -98,63 +112,77 @@ public class Footer extends LinearLayout implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (v.equals(home)) {
+        if (v.equals(home) || v.equals(frameHome)) {
             onChangeTab.onChangeTab(0);
             home.setEnabled(false);
             closet.setEnabled(true);
             probador.setEnabled(true);
             camara.setEnabled(true);
             reserva.setEnabled(true);
-            /*home.setBackgroundResource(R.drawable.glup_tab_on);
-            closet.setBackgroundResource(R.drawable.glup_tab_off);
-            probador.setBackgroundResource(R.drawable.glup_tab_off);
-            reserva.setBackgroundResource(R.drawable.glup_tab_off);*/
-        } else if (v.equals(closet)) {
+            home.setImageResource(R.drawable.catalogo_on);
+            closet.setImageResource(R.drawable.closet_off);
+            camara.setImageResource(R.drawable.camara_off);
+            probador.setImageResource(R.drawable.probador_off);
+            reserva.setImageResource(R.drawable.reserva_off);
+        } else if (v.equals(closet) || v.equals(frameCloset)) {
             onChangeTab.onChangeTab(1);
             home.setEnabled(true);
             closet.setEnabled(false);
             probador.setEnabled(true);
             camara.setEnabled(true);
             reserva.setEnabled(true);
-            /*home.setBackgroundResource(R.drawable.glup_tab_off);
-            closet.setBackgroundResource(R.drawable.glup_tab_on);
-            probador.setBackgroundResource(R.drawable.glup_tab_off);
-            reserva.setBackgroundResource(R.drawable.glup_tab_off);*/
-        } else if (v.equals(probador)) {
+            home.setImageResource(R.drawable.catalogo_off);
+            closet.setImageResource(R.drawable.closet_on);
+            camara.setImageResource(R.drawable.camara_off);
+            probador.setImageResource(R.drawable.probador_off);
+            reserva.setImageResource(R.drawable.reserva_off);
+        } else if (v.equals(probador) || v.equals(frameProbador)) {
             onChangeTab.onChangeTab(2);
             home.setEnabled(true);
             closet.setEnabled(true);
             probador.setEnabled(false);
             camara.setEnabled(true);
             reserva.setEnabled(true);
-            /*home.setBackgroundResource(R.drawable.glup_tab_off);
-            closet.setBackgroundResource(R.drawable.glup_tab_off);
-            probador.setBackgroundResource(R.drawable.glup_tab_on);
-            reserva.setBackgroundResource(R.drawable.glup_tab_off);*/
-        } else if (v.equals(camara)){
+            home.setImageResource(R.drawable.catalogo_off);
+            closet.setImageResource(R.drawable.closet_off);
+            camara.setImageResource(R.drawable.camara_off);
+            probador.setImageResource(R.drawable.probador_on);
+            reserva.setImageResource(R.drawable.reserva_off);
+        } else if (v.equals(camara) || v.equals(frameCamara)){
             onChangeTab.onChangeTab(3);
             home.setEnabled(true);
             closet.setEnabled(true);
             probador.setEnabled(true);
             camara.setEnabled(true);
             reserva.setEnabled(true);
+            home.setImageResource(R.drawable.catalogo_off);
+            closet.setImageResource(R.drawable.closet_off);
+            camara.setImageResource(R.drawable.camara_on);
+            probador.setImageResource(R.drawable.probador_off);
+            reserva.setImageResource(R.drawable.reserva_off);
             //this.setVisibility(GONE);
-        } else if (v.equals(reserva)) {
+        } else if (v.equals(reserva) || v.equals(frameReserva)) {
             onChangeTab.onChangeTab(4);
             home.setEnabled(true);
             closet.setEnabled(true);
             probador.setEnabled(true);
             camara.setEnabled(true);
             reserva.setEnabled(false);
-            /*home.setBackgroundResource(R.drawable.glup_tab_off);
-            closet.setBackgroundResource(R.drawable.glup_tab_off);
-            probador.setBackgroundResource(R.drawable.glup_tab_off);
-            reserva.setBackgroundResource(R.drawable.glup_tab_on);*/
+            home.setImageResource(R.drawable.catalogo_off);
+            closet.setImageResource(R.drawable.closet_off);
+            camara.setImageResource(R.drawable.camara_off);
+            probador.setImageResource(R.drawable.probador_off);
+            reserva.setImageResource(R.drawable.reserva_on);
+            /*home.setImageResource(R.drawable.glup_tab_off);
+            closet.setImageResource(R.drawable.glup_tab_off);
+            probador.setImageResource(R.drawable.glup_tab_off);
+            reserva.setImageResource(R.drawable.glup_tab_on);*/
         }
         //activeDefaultTab();
     }
 
     private void activeDefaultTab() {
+        home.setImageResource(R.drawable.catalogo_on);
         /*Principal context=(Principal)getContext();
         int count= context.getSupportFragmentManager().getBackStackEntryCount();
         Log.e("stackCont",count+"");
@@ -162,10 +190,10 @@ public class Footer extends LinearLayout implements View.OnClickListener {
             String TAG= context.getSupportFragmentManager().getBackStackEntryAt(count-1).getName();
             Log.e("stackFragment",TAG);
         }*/
-//        home.setBackgroundResource(R.drawable.glup_tab_off);
-//        closet.setBackgroundResource(R.drawable.glup_tab_on);
-//        probador.setBackgroundResource(R.drawable.glup_tab_on);
-//        camara.setBackgroundResource(R.drawable.glup_tab_on);
+//        home.setImageResource(R.drawable.glup_tab_off);
+//        closet.setImageResource(R.drawable.glup_tab_on);
+//        probador.setImageResource(R.drawable.glup_tab_on);
+//        camara.setImageResource(R.drawable.glup_tab_on);
     }
 
     public interface OnChangeTab {
@@ -179,15 +207,35 @@ public class Footer extends LinearLayout implements View.OnClickListener {
         switch (reloadBlockFooter.tag){
             case "FCatalogoNew":
                 home.setEnabled(false);
+                home.setImageResource(R.drawable.catalogo_on);
+                closet.setImageResource(R.drawable.closet_off);
+                camara.setImageResource(R.drawable.camara_off);
+                probador.setImageResource(R.drawable.probador_off);
+                reserva.setImageResource(R.drawable.reserva_off);
                 break;
             case "FCloset":
                 closet.setEnabled(false);
+                home.setImageResource(R.drawable.catalogo_off);
+                closet.setImageResource(R.drawable.closet_on);
+                camara.setImageResource(R.drawable.camara_off);
+                probador.setImageResource(R.drawable.probador_off);
+                reserva.setImageResource(R.drawable.reserva_off);
                 break;
             case "FProbador":
                 probador.setEnabled(false);
+                home.setImageResource(R.drawable.catalogo_off);
+                closet.setImageResource(R.drawable.closet_off);
+                camara.setImageResource(R.drawable.camara_off);
+                probador.setImageResource(R.drawable.probador_on);
+                reserva.setImageResource(R.drawable.reserva_off);
                 break;
             case "FReserva":
                 reserva.setEnabled(false);
+                home.setImageResource(R.drawable.catalogo_off);
+                closet.setImageResource(R.drawable.closet_off);
+                camara.setImageResource(R.drawable.camara_off);
+                probador.setImageResource(R.drawable.probador_off);
+                reserva.setImageResource(R.drawable.reserva_on);
                 break;
         }
 
