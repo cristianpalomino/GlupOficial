@@ -13,7 +13,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.squareup.otto.Subscribe;
@@ -78,7 +80,42 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         BusHolder.getInstance().register(this);
-        //drawerLayout = (DrawerLayout) getView().findViewById(R.id.drawer_layout);
+        drawerLayout = (DrawerLayout) getView().findViewById(R.id.drawer_layout);
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        drawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                Log.e("slide", drawerView.getTag().toString() + " offset " + slideOffset);
+
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                Log.e("Drawerabierto", " " + drawerView.getTag());
+                if (drawerView.getTag().toString().equals("Superior")){
+                    drawerLayout.bringToFront();
+                    ((FrameLayout) getView().findViewById(R.id.menu_left2)).bringToFront();
+                }else{
+                    drawerLayout.bringToFront();
+                    ((FrameLayout) getView().findViewById(R.id.menu_rigth2)).bringToFront();
+                }
+                drawerLayout.requestLayout();
+                changePosButton("Drawerabierto", superior, medio);
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                Log.e("Drawercerrado", " " + drawerView.getTag());
+                FooterVisible footerVisible=new FooterVisible();
+                BusHolder.getInstance().post(footerVisible);
+                changePosButton("Drawercerrado", superior, medio);
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+                Log.e("state", newState + "");
+            }
+        });
         /*menuright = new SlidingMenu(getActivity());
         menuright.setMode(SlidingMenu.LEFT_RIGHT);
         menuright.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
@@ -93,10 +130,10 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
         String name = getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount()-1).getName();
         Fragment fragment=getActivity().getSupportFragmentManager().findFragmentByTag(name);*/
         getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.menu_left1, FMenuLeft.newInstance(), FMenuLeft.class.getSimpleName())
+                .replace(R.id.menu_left2, FMenuLeft.newInstance(), FMenuLeft.class.getSimpleName())
                 .commit();
         getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.menu_rigth1, FMenuRigth.newInstance(), FMenuRigth.class.getSimpleName())
+                .replace(R.id.menu_rigth2, FMenuRigth.newInstance(), FMenuRigth.class.getSimpleName())
                 .commit();
 
         superior =(ImageButton) getView().findViewById(R.id.superior);
@@ -194,11 +231,17 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
         switch (v.getId()){
             case R.id.superior:
                 Log.e(null, "superior");
+                FooterGone footerGone=new FooterGone();
+                BusHolder.getInstance().post(footerGone);
+                drawerLayout.openDrawer(GravityCompat.START);
                 //menuright.toggle();
                 //drawerLayout.openDrawer(GravityCompat.START);
                 break;
             case R.id.medio:
                 Log.e(null, "medio");
+                FooterGone footerGone1=new FooterGone();
+                BusHolder.getInstance().post(footerGone1);
+                drawerLayout.openDrawer(GravityCompat.END);
                 //menuright.showSecondaryMenu(true);
                 break;
             case R.id.button_previous_top:
@@ -385,6 +428,31 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
                     posCurrentBottom = position;
                 }
             }
+        }
+    }
+
+    public class FooterVisible{}
+    public class FooterGone{}
+
+    private void changePosButton(String s, ImageButton izq, ImageButton der) {
+        if (s.equals("Drawerabierto")) {
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)izq.getLayoutParams();
+            params.addRule(RelativeLayout.ALIGN_PARENT_LEFT, 0);
+            params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, 1);
+            izq.setLayoutParams(params);
+            RelativeLayout.LayoutParams params1 = (RelativeLayout.LayoutParams)der.getLayoutParams();
+            params1.addRule(RelativeLayout.ALIGN_PARENT_LEFT,1);
+            params1.addRule(RelativeLayout.ALIGN_PARENT_RIGHT,0);
+            der.setLayoutParams(params1);
+        } else {
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)izq.getLayoutParams();
+            params.addRule(RelativeLayout.ALIGN_PARENT_LEFT,1);
+            params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, 0);
+            izq.setLayoutParams(params);
+            RelativeLayout.LayoutParams params1 = (RelativeLayout.LayoutParams)der.getLayoutParams();
+            params1.addRule(RelativeLayout.ALIGN_PARENT_RIGHT,1);
+            params1.addRule(RelativeLayout.ALIGN_PARENT_LEFT,0);
+            der.setLayoutParams(params1);
         }
     }
 }

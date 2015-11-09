@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.squareup.otto.Subscribe;
 
 import android.os.Handler;
 import android.widget.Button;
@@ -73,6 +74,7 @@ public class Principal extends Glup implements Footer.OnChangeTab,
         //setupUI(findViewById(R.id.drawer_layout));
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
         prueba = (Button) findViewById(R.id.clic);
         getSupportFragmentManager().beginTransaction()
@@ -81,7 +83,6 @@ public class Principal extends Glup implements Footer.OnChangeTab,
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.menu_rigth1, FMenuRigth.newInstance(), FMenuRigth.class.getSimpleName())
                 .commit();
-        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         prueba.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -368,6 +369,19 @@ public class Principal extends Glup implements Footer.OnChangeTab,
         }
     }
 
+
+    @Subscribe
+    public void fromProbadorVisibleFooter(FProbador.FooterVisible footerVisible){
+        footer.setVisibility(View.VISIBLE);
+        footer.invalidate();
+        framePrincipal.setPadding(0, 0, 0, (int) convertDpToPixel(60, this));
+    }
+    @Subscribe
+    public void fromProbadorGoneFooter(FProbador.FooterGone footerGone){
+        footer.setVisibility(View.GONE);
+        footer.invalidate();
+        framePrincipal.setPadding(0, 0, 0, 0);
+    }
     
 
 }

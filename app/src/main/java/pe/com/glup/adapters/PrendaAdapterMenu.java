@@ -195,7 +195,7 @@ public class PrendaAdapterMenu extends BaseAdapter implements View.OnLongClickLi
 					action=2;
 				}
 
-				DSProbador dsProbador = new DSProbador(finalConvertView.getContext());
+				DSProbador dsProbador = new DSProbador(context);
 				dsProbador.setIndProbador(finalprenda.getCod_prenda(),action);
 				BusHolder.getInstance().post(holder);
 			}
