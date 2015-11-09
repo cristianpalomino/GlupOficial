@@ -1,20 +1,57 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/container_principal"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent"
-    android:orientation="vertical"
-    android:weightSum="1">
+    android:fitsSystemWindows="true"
+    tools:context=".glup.Principal">
 
     <FrameLayout
+        android:tag="Superior"
+        android:id="@+id/menu_left1"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@color/rosado_glup"
+        android:layout_gravity="left"
+        android:fitsSystemWindows="true"/>
+
+    <FrameLayout
+        android:tag="medio"
+        android:id="@+id/menu_rigth1"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@color/celeste_claro"
+        android:layout_gravity="right"
+        android:fitsSystemWindows="true" />
+
+    <LinearLayout
+        android:id="@+id/container_principal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
-
-        <FrameLayout
-            android:id="@+id/frame_principal"
+        android:orientation="vertical"
+        >
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
+            <FrameLayout
+                android:id="@+id/frame_principal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <Button
+                android:id="@+id/clic"
+                android:text="clic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <view
+                android:layout_alignParentBottom="true"
+                android:id="@+id/glutab"
+                class="pe.com.glup.views.Footer"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="center_horizontal|bottom" />
+        </RelativeLayout>
+
 
         <view
             android:visibility="gone"
@@ -24,13 +61,8 @@
             android:layout_height="?attr/actionBarSize"
             android:orientation="horizontal" />
 
-        <view
-            android:id="@+id/glutab"
-            class="pe.com.glup.views.Footer"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_gravity="center_horizontal|bottom" />
 
-    </FrameLayout>
 
-</LinearLayout>
+    </LinearLayout>
+
+</android.support.v4.widget.DrawerLayout>

@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,6 +49,7 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
     private PagerBottomAdapter pagerBottomAdapter;
     private int posCurrentTop,posCurrentBottom;
     protected GlupDialogNew gd;
+    private DrawerLayout drawerLayout;
 
 
     public static FProbador newInstance() {
@@ -74,7 +78,8 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         BusHolder.getInstance().register(this);
-        menuright = new SlidingMenu(getActivity());
+        //drawerLayout = (DrawerLayout) getView().findViewById(R.id.drawer_layout);
+        /*menuright = new SlidingMenu(getActivity());
         menuright.setMode(SlidingMenu.LEFT_RIGHT);
         menuright.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
 //        menu.setShadowWidthRes(R.dimen.shadow_width);
@@ -83,15 +88,15 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
         menuright.setFadeDegree(0.35f);
         menuright.attachToActivity(getActivity(), SlidingMenu.SLIDING_CONTENT);
         menuright.setMenu(R.layout.menu_left);
-        menuright.setSecondaryMenu(R.layout.menu_right);
+        menuright.setSecondaryMenu(R.layout.menu_right);*/
 /*
         String name = getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount()-1).getName();
         Fragment fragment=getActivity().getSupportFragmentManager().findFragmentByTag(name);*/
         getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.menu_left, FMenuLeft.newInstance(), FMenuLeft.class.getSimpleName())
+                .replace(R.id.menu_left1, FMenuLeft.newInstance(), FMenuLeft.class.getSimpleName())
                 .commit();
         getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.menu_rigth, FMenuRigth.newInstance(), FMenuRigth.class.getSimpleName())
+                .replace(R.id.menu_rigth1, FMenuRigth.newInstance(), FMenuRigth.class.getSimpleName())
                 .commit();
 
         superior =(ImageButton) getView().findViewById(R.id.superior);
@@ -189,29 +194,12 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
         switch (v.getId()){
             case R.id.superior:
                 Log.e(null, "superior");
-                menuright.toggle();
-               /* menuright.clearAnimation();
-                menuright.setOnCloseListener(new SlidingMenu.OnCloseListener() {
-                    @Override
-                    public void onClose() {
-                        gd = new GlupDialogNew();
-                        android.support.v4.app.FragmentManager fragmentManager= getActivity().getSupportFragmentManager();
-                        gd.show(fragmentManager, GlupDialogNew.class.getSimpleName());
-                        Handler handler2 = new android.os.Handler();
-                        handler2.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                gd.dismiss();
-                            }
-                        }, 500);
-                    }
-                });*/
-
-
+                //menuright.toggle();
+                //drawerLayout.openDrawer(GravityCompat.START);
                 break;
             case R.id.medio:
                 Log.e(null, "medio");
-                menuright.showSecondaryMenu(true);
+                //menuright.showSecondaryMenu(true);
                 break;
             case R.id.button_previous_top:
                 Log.e(null, "previos_top");

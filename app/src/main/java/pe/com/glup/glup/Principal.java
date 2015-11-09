@@ -3,12 +3,15 @@ package pe.com.glup.glup;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import android.os.Handler;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -18,6 +21,8 @@ import pe.com.glup.fragments.FCamera;
 import pe.com.glup.fragments.FCatalogo;
 import pe.com.glup.fragments.FCatalogoNew;
 import pe.com.glup.fragments.FCloset;
+import pe.com.glup.fragments.FMenuLeft;
+import pe.com.glup.fragments.FMenuRigth;
 import pe.com.glup.fragments.FProbador;
 import pe.com.glup.fragments.FReserva;
 import pe.com.glup.fragments.Fragment_Home;
@@ -41,6 +46,7 @@ public class Principal extends Glup implements Footer.OnChangeTab,
     private static String CURRENT_FRAGMENT_TAG;
     private Fragment current;
     private FrameLayout framePrincipal;
+    private Button prueba;
 
     private Footer footer;
     private Header header;
@@ -48,6 +54,7 @@ public class Principal extends Glup implements Footer.OnChangeTab,
     private SlidingMenu menuright;
     private OnSuccessDetalleUsuario onSuccessDetalleUsuario;
     private int position;
+    private DrawerLayout drawerLayout;
 
     public void setOnSuccessDisableSliding(OnSuccessDisableSliding onSuccessDisableSliding) {
         this.onSuccessDisableSliding = onSuccessDisableSliding;
@@ -63,8 +70,51 @@ public class Principal extends Glup implements Footer.OnChangeTab,
         BusHolder.getInstance().register(this);
 
         setContentView(R.layout.principal);
-        setupUI(findViewById(R.id.container_principal));
+        //setupUI(findViewById(R.id.drawer_layout));
 
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        prueba = (Button) findViewById(R.id.clic);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.menu_left1, FMenuLeft.newInstance(), FMenuLeft.class.getSimpleName())
+                .commit();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.menu_rigth1, FMenuRigth.newInstance(), FMenuRigth.class.getSimpleName())
+                .commit();
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        prueba.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer(GravityCompat.START);
+
+            }
+        });
+        drawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                Log.e("slide",drawerView.getTag().toString()+" offset "+slideOffset);
+
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                Log.e("Drawerabierto", " " + drawerView.getTag());
+                ((FrameLayout)findViewById(R.id.menu_left1)).bringToFront();
+                drawerLayout.requestLayout();
+                //changePosButton("Drawerabierto", superior, medio);
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                Log.e("Drawercerrado", " " + drawerView.getTag());
+                //changePosButton("Drawercerrado", superior, medio);
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+                Log.e("state",newState+"");
+            }
+        });
         framePrincipal = (FrameLayout) findViewById(R.id.frame_principal);
         footer = (Footer) findViewById(R.id.glutab);
         header = (Header) findViewById(R.id.header);

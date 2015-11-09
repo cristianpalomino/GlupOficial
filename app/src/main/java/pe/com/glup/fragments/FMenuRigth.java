@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.squareup.otto.Subscribe;
@@ -20,7 +21,8 @@ import pe.com.glup.datasource.DSProbador;
 import pe.com.glup.interfaces.OnSuccessPrendas;
 
 
-public class FMenuRigth extends Fragment implements OnSuccessPrendas{
+public class FMenuRigth extends Fragment implements OnSuccessPrendas,
+        ListView.OnItemClickListener{
 
     private ListView listView;
     private ArrayList<Prenda> prendasBottom;
@@ -52,7 +54,7 @@ public class FMenuRigth extends Fragment implements OnSuccessPrendas{
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         listView = (ListView) getView().findViewById(R.id.listView);
-
+        listView.setOnItemClickListener(this);
         DSProbador dsProbadorA = new DSProbador(getActivity());
 
         try {
@@ -75,5 +77,10 @@ public class FMenuRigth extends Fragment implements OnSuccessPrendas{
     @Subscribe
     public void getIndProbador(String indProb) {
         prendaAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
     }
 }

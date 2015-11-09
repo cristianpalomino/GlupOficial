@@ -181,7 +181,7 @@ public class DSProbador {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response){
                 super.onSuccess(statusCode, headers, response);
                 gd.dismiss();
-                final Toast toast= Toast.makeText(context, msj2, SHORT_DELAY);
+                final Toast toast= Toast.makeText(context, msj2, Toast.LENGTH_SHORT);
                 toast.show();
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
@@ -205,7 +205,7 @@ public class DSProbador {
             public void onFailure(int statusCode,Header[] headers,String responseString,Throwable throwable){
                 super.onFailure(statusCode, headers, responseString, throwable);
                 gd.dismiss();
-                final Toast toast= Toast.makeText(context, msj2, SHORT_DELAY);
+                final Toast toast= Toast.makeText(context, msj2, Toast.LENGTH_SHORT);
                 toast.show();
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
