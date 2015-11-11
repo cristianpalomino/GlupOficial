@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.util.List;
+
 import pe.com.glup.R;
 import pe.com.glup.beans.Usuario;
 import pe.com.glup.bus.BusHolder;
@@ -33,6 +35,7 @@ public class FragmentIniciar extends Fragment implements OnSuccessLogin,View.OnC
 	private DSLogin dsLogin;
 	private GlupDialogNew dialog;
 	private Context context;
+	private List<String> pruebaLog;
 	@Override
 	public void onCreate(Bundle savedInstance){
 		super.onCreate(savedInstance);
@@ -48,6 +51,8 @@ public class FragmentIniciar extends Fragment implements OnSuccessLogin,View.OnC
 		super.onActivityCreated(savedInstance);
 		context=getActivity();
 		((ProgressBar)getView().findViewById(R.id.progressbar)).setVisibility(View.GONE);
+
+		//pruebaLog.add("Esto me va dar un error");
 
 		btnRecoveryPass = (Button) getView().findViewById(R.id.change_pass);
 		btnentrar = (Button) getView().findViewById(R.id.btnentrar);
