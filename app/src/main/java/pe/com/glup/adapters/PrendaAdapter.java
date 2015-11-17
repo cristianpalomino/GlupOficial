@@ -23,7 +23,6 @@ import pe.com.glup.R;
 import pe.com.glup.beans.Prenda;
 import pe.com.glup.bus.BusHolder;
 import pe.com.glup.datasource.DSProbador;
-import pe.com.glup.glup.Detalle;
 import pe.com.glup.glup.DetalleNew;
 import pe.com.glup.glup.Glup;
 import pe.com.glup.glup.Principal;

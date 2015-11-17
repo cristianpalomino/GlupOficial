@@ -53,7 +53,7 @@ public class DetalleNew extends AppCompatActivity implements
         info.setOnClickListener(this);
         btnInfo.setOnClickListener(this);
 
-        pagerDetalle.setOnPageChangeListener(this);
+        //pagerDetalle.setOnPageChangeListener(this);
         pagerDetalleAdapter = new PagerDetalleAdapter(
                 this, this.prendas
         );
@@ -95,6 +95,20 @@ public class DetalleNew extends AppCompatActivity implements
     }
     @Subscribe
     public void getIndProbador(String indProb) {
-        pagerDetalleAdapter.notifyDataSetChanged();
+        try{
+            Log.e("reloadPager", "contador");
+            pagerDetalleAdapter.notifyDataSetChanged();//no trabaja
+
+        }
+        catch(NullPointerException e)
+        {
+            Log.e(null,"prendaAdapter en detallenew null-recarga de corazones fail");
+        }
     }
+
+    @Subscribe
+    public void reloadItem(PagerDetalleAdapter.Holder holder){
+        pagerDetalleAdapter.notifyDataSetChanged();//no trabaja
+    }
+
 }

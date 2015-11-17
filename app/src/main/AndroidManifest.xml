@@ -47,10 +47,6 @@
             android:label="@string/title_activity_home"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".glup.Detalle"
-            android:label="@string/title_activity_home"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".glup.DetalleNew"
             android:label="@string/title_activity_home"
             android:screenOrientation="portrait" />

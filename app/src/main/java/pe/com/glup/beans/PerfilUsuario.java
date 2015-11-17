@@ -2,7 +2,6 @@ package pe.com.glup.beans;
 
 import java.util.ArrayList;
 
-import pe.com.glup.glup.Detalle;
 
 /**
  * Created by Glup on 10/09/15.

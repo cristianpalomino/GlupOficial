@@ -54,7 +54,7 @@ public class FCamera extends Fragment implements View.OnClickListener {
 
 	private ImageView imagea;
 	private ImageView imageb;
-	private ImageView flashAutomatic;
+	//private ImageView flashAutomatic;
 	private Context context;
 	private String codPrenda;
 	private String oldImageNameA,oldImageNameB;
@@ -99,7 +99,7 @@ public class FCamera extends Fragment implements View.OnClickListener {
 		imageb = (ImageView) getView().findViewById(R.id.imageb);
 		next = (ImageButton) getView().findViewById(R.id.next);
 		take = (ToggleButton) getView().findViewById(R.id.take);
-		flashAutomatic = (ImageView) getView().findViewById(R.id.flash_automatico);
+		//flashAutomatic = (ImageView) getView().findViewById(R.id.flash_automatico);
 		flash= (ToggleButton) getView().findViewById(R.id.flash);
 		grilla = (ToggleButton) getView().findViewById(R.id.grid);
 		title = (TextView) getView().findViewById(R.id.title_lado);
@@ -113,7 +113,7 @@ public class FCamera extends Fragment implements View.OnClickListener {
 		surface = new CameraSurface(context,(int)convertDpToPixel(getRelativeTop(superior),context));
 		isFlash = new Flash();
 
-		flashAutomatic.setOnClickListener(new View.OnClickListener() {
+		/*flashAutomatic.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				flashAutomatic.setVisibility(View.GONE);
@@ -138,7 +138,7 @@ public class FCamera extends Fragment implements View.OnClickListener {
 				DSCamera dsCamera = new DSCamera(context);
 				dsCamera.flashAutomatico(isFlash);
 			}
-		}
+		}*/
 		superior.setOnClickListener(this);
 		medio.setOnClickListener(this);
 		iconPreview.setEnabled(false);
@@ -240,7 +240,7 @@ public class FCamera extends Fragment implements View.OnClickListener {
 	public void onResume() {
 		super.onResume();
 		BusHolder.getInstance().register(this);
-		flashAutomatic.setVisibility(View.GONE);
+		//flashAutomatic.setVisibility(View.GONE);
 		flash.setVisibility(View.VISIBLE);
 		flash.setChecked(false);
 		filtro="superior";
@@ -255,7 +255,7 @@ public class FCamera extends Fragment implements View.OnClickListener {
 		BusHolder.getInstance().register(this);
 		if (!CameraUtils.isFlash(context)) {
 			//Utils.showMessage(CameraGlup.this, "Este dispositivo no tiene Flash");
-			flashAutomatic.setVisibility(View.GONE);
+			//flashAutomatic.setVisibility(View.GONE);
 			flash.setVisibility(View.VISIBLE);
 			flash.setChecked(false);
 			return;
@@ -266,7 +266,7 @@ public class FCamera extends Fragment implements View.OnClickListener {
 				dsCamera.flashAutomatico(isFlash);
 			}
 		}
-		flashAutomatic.setVisibility(View.GONE);
+		//flashAutomatic.setVisibility(View.GONE);
 		flash.setVisibility(View.VISIBLE);
 		flash.setChecked(false);
 		filtro="superior";

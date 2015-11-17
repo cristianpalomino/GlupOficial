@@ -31,7 +31,6 @@ import pe.com.glup.bus.BusHolder;
 import pe.com.glup.datasource.DSCloset;
 import pe.com.glup.dialog.GlupDialog;
 import pe.com.glup.dialog.GlupDialogNew;
-import pe.com.glup.glup.Detalle;
 import pe.com.glup.glup.Glup;
 import pe.com.glup.glup.Principal;
 import pe.com.glup.interfaces.OnSearchListener;
@@ -177,12 +176,7 @@ public class FClosetGrilla extends Fragment implements OnSuccessCatalogo,
 
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        ArrayList<Prenda> prendas = glup.getPrendas();
-        Log.e("prendas", prendas.size() + "");
-        Intent intent = new Intent(glup, Detalle.class);
-        intent.putExtra("prendas", prendas);
-        intent.putExtra("current", position);
-        startActivity(intent);
+
         return false;
     }
 

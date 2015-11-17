@@ -2819,8 +2819,7 @@ containing a value of this type.
         public static final int modelo=0x7f0c001c;
         public static final int precio=0x7f0c001e;
         public static final int status_bar_notification_info_overflow=0x7f0c0012;
-        /**  Detalle Prenda 
-         */
+
         public static final int tienda=0x7f0c0019;
         public static final int tipo=0x7f0c001b;
         public static final int title_activity_home=0x7f0c0016;

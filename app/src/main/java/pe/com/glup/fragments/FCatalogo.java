@@ -28,7 +28,6 @@ import pe.com.glup.bus.BusHolder;
 import pe.com.glup.datasource.DSCatalogo;
 import pe.com.glup.dialog.GlupDialog;
 import pe.com.glup.dialog.GlupDialogNew;
-import pe.com.glup.glup.Detalle;
 import pe.com.glup.glup.Glup;
 import pe.com.glup.glup.Principal;
 import pe.com.glup.interfaces.OnSearchListener;
@@ -132,7 +131,7 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
         android.support.v4.app.FragmentManager fragmentManager=getActivity().getSupportFragmentManager();
         gd = new GlupDialogNew();
         //gd.setCancelable(false);
-        gd.show(fragmentManager,GlupDialog.class.getSimpleName());
+        gd.show(fragmentManager,GlupDialogNew.class.getSimpleName());
     }
 
     @Override
@@ -235,11 +234,7 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
         Log.e("Prenda:", "posicion " + position + " codigo:" +
                 ((Prenda) parent.getItemAtPosition(position)).getCod_prenda() + " Tipo:" +
                 ((Prenda) parent.getItemAtPosition(position)).getTipo());
-       /* ArrayList<Prenda> prendas = glup.getPrendas();
-        Intent intent = new Intent(glup, Detalle.class);
-        intent.putExtra("prendas", prendas);
-        intent.putExtra("current", position);
-        startActivity(intent);*/
+
 
         return false;
     }
@@ -267,6 +262,7 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
     @Subscribe
     public void getIndProbador(String indProb) {
         try{
+            Log.e("reload","contador");
             prendaAdapter.notifyDataSetChanged();
         }
         catch(NullPointerException e)

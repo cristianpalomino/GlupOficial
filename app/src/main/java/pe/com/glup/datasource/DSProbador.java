@@ -165,7 +165,7 @@ public class DSProbador {
 
         android.support.v4.app.FragmentManager fragmentManager= ((AppCompatActivity)context).getSupportFragmentManager();
         gd = new GlupDialogNew(msj1,context);
-        //gd.setCancelable(false)
+        gd.setCancelable(false);
         gd.show(fragmentManager,GlupDialog.class.getSimpleName());
 
         String URL=WSGlup.ORQUESTADOR_NUEVO;

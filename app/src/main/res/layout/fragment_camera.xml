@@ -83,6 +83,7 @@
                 android:layout_width="60dp"
                 android:layout_height="180dp">
                 <ImageView
+                    android:visibility="gone"
                     android:elevation="10dp"
                     android:id="@+id/flash_automatico"
                     android:layout_margin="12dp"
@@ -92,7 +93,7 @@
                     android:layout_height="36dp"/>
                 <ToggleButton
                     android:id="@+id/flash"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:layout_margin="12dp"
                     android:textColor="@android:color/transparent"
                     android:background="@drawable/camara_flash"

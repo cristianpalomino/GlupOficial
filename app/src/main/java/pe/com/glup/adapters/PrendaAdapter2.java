@@ -23,7 +23,6 @@ import pe.com.glup.R;
 import pe.com.glup.beans.Prenda;
 import pe.com.glup.bus.BusHolder;
 import pe.com.glup.datasource.DSProbador;
-import pe.com.glup.glup.Detalle;
 import pe.com.glup.glup.DetalleNew;
 import pe.com.glup.glup.Glup;
 import pe.com.glup.glup.Principal;
@@ -172,7 +171,7 @@ public class PrendaAdapter2 extends BaseAdapter implements View.OnLongClickListe
         holder.corazon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("contador", String.valueOf(cont));
+                Log.e("contadorPrendaAdapter2", String.valueOf(cont));
                 int dis = cont - 1;
                 int au = cont + 1;
                 Log.e("disAu", String.valueOf(dis) + " " + String.valueOf(au));
@@ -182,13 +181,13 @@ public class PrendaAdapter2 extends BaseAdapter implements View.OnLongClickListe
                     mPrendas.get(position).setIndProbador("1");
                     holder.contado.setText("" + String.valueOf(au) + "");
                     holder.corazon.setChecked(true);
-                    Log.e("corazon:", prenda.getCod_prenda());
+                    Log.e("corazonPrendaAdap:", prenda.getCod_prenda());
                     //Toast.makeText(context, "Se agrego al Probador", SHORT_DELAY).show();
                     action=1;
                 } else {
                     mPrendas.get(position).setNumGusta(""+String.valueOf(dis) + "");
                     mPrendas.get(position).setIndProbador("0");
-                    Log.e("sincorazon:", prenda.getCod_prenda());
+                    Log.e("sincorazonPrendaAdap:", prenda.getCod_prenda());
                     holder.contado.setText("" + String.valueOf(dis) + "");
                     holder.corazon.setChecked(false);
                     //Toast.makeText(context, "Se elimino del Probador", SHORT_DELAY).show();

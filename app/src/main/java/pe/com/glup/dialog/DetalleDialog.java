@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import pe.com.glup.R;
 import pe.com.glup.beans.Prenda;
 import pe.com.glup.datasource.DSInfo;
-import pe.com.glup.glup.Detalle;
 import pe.com.glup.glup.Glup;
 import pe.com.glup.interfaces.OnSuccessInfo;
 import pe.com.glup.session.Session_Manager;
