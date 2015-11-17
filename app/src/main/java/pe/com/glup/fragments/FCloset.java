@@ -124,13 +124,13 @@ public class FCloset extends Fragment implements View.OnClickListener,OnSuccessD
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        BusHolder.getInstance().register(this);
         PAGE = 1;
         TAG = "todos";
         isLoading = false;
 
         updateProfile = (Button) getView().findViewById(R.id.update);
         updateProfile.setOnClickListener(this);
-        BusHolder.getInstance().register(this);
         updateProfile.setVisibility(View.GONE);
 
         fClosetGrilla = new FClosetGrilla(FCloset.this);
@@ -182,7 +182,7 @@ public class FCloset extends Fragment implements View.OnClickListener,OnSuccessD
                         .centerInside()
                         .noFade()
                         .into(fotoPerfil);
-                username.setText(dato.getNomUser() + " " + dato.getApeUser());
+                username.setText(dato.getNomUser());
                 cantPrendas.setText(dato.getNumPrend());
 
 
@@ -264,6 +264,11 @@ public class FCloset extends Fragment implements View.OnClickListener,OnSuccessD
         if (buttonUpdateProfile.flag==0){
             updateProfile.setVisibility(View.GONE);
         }
+    }
+
+    @Subscribe
+    public void setUpdateUsername(FClosetProfile.SignalChangeUsername2 signalChangeUsername2){
+        username.setText(signalChangeUsername2.username);
     }
 
 }

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.ToggleButton;
 
 import com.squareup.otto.Subscribe;
@@ -34,6 +35,7 @@ public class DetalleNew extends AppCompatActivity implements
     private PagerDetalleAdapter pagerDetalleAdapter;
     private ImageView atras;
     private ToggleButton info;
+    private RelativeLayout frameInfo;
     private Button btnInfo;
 
     @Override
@@ -45,6 +47,7 @@ public class DetalleNew extends AppCompatActivity implements
         atras = (ImageView) findViewById(R.id.cerrar_detalle);
         info = (ToggleButton) findViewById(R.id.info_detalle);
         btnInfo = (Button) findViewById(R.id.btn_info);
+        frameInfo = (RelativeLayout) findViewById(R.id.frame_info_detalle);
 
         current_position = getIntent().getIntExtra("current", 0);
         prendas = (ArrayList<Prenda>) getIntent().getSerializableExtra("prendas");
@@ -52,6 +55,7 @@ public class DetalleNew extends AppCompatActivity implements
         atras.setOnClickListener(this);
         info.setOnClickListener(this);
         btnInfo.setOnClickListener(this);
+        frameInfo.setOnClickListener(this);
 
         //pagerDetalle.setOnPageChangeListener(this);
         pagerDetalleAdapter = new PagerDetalleAdapter(
@@ -66,8 +70,8 @@ public class DetalleNew extends AppCompatActivity implements
     public void onClick(View v) {
         if (v.getId() == R.id.cerrar_detalle){
             this.onBackPressed();
-        } else if (v.getId() == R.id.info_detalle ||
-                v.getId() == R.id.btn_info){
+        } else if (v.getId()==R.id.frame_info_detalle || v.getId() == R.id.info_detalle ||
+                v.getId() == R.id.btn_info ){
             info.setChecked(false);
             Log.e("codever:", prendas.get(pagerDetalle.getCurrentItem()).getCod_prenda());
             Intent intent = new Intent(this,DetailActivity.class);

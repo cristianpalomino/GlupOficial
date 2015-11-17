@@ -1,6 +1,8 @@
 package pe.com.glup.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +24,8 @@ import pe.com.glup.R;
 import pe.com.glup.beans.Prenda;
 import pe.com.glup.bus.BusHolder;
 import pe.com.glup.datasource.DSProbador;
+import pe.com.glup.dialog.DetailActivity;
+import pe.com.glup.glup.DetalleNew;
 import pe.com.glup.glup.Glup;
 import pe.com.glup.utils.Util_Fonts;
 
@@ -94,6 +98,11 @@ public class PagerDetalleAdapter extends PagerAdapter {
             @Override
             public void onClick(View v) {
                 Log.e("code:",prenda.getCod_prenda());
+                Intent intent = new Intent(context,DetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("codigoPrenda", prenda.getCod_prenda());
+                intent.putExtras(bundle);
+                context.startActivity(intent);
             }
         });
 

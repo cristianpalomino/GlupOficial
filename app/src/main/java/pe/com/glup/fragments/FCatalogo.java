@@ -55,7 +55,7 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
     private PrendaAdapter2 prendaAdapter;
     protected GlupDialogNew gd;
 
-    private TextView emptyView;
+    private TextView emptyView,emptyViewSubtitle;
     private GridView grilla;
 
     private boolean isLoading = false;
@@ -104,7 +104,8 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
         principal.getHeader().setOnSearchListener(FCatalogo.this);
 
         emptyView = (TextView) getView().findViewById(R.id.empty_view);
-        emptyView.setTypeface(Util_Fonts.setRegular(getActivity()));
+        emptyViewSubtitle = (TextView) getView().findViewById(R.id.empty_view_subtitle);
+        emptyViewSubtitle.setTypeface(Util_Fonts.setRegular(getActivity()));
 
         grilla = (GridView) getView().findViewById(R.id.grilla_prendas);
 
@@ -200,9 +201,11 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
     private void displayMessage(int type) {
         if (type == EMPTY) {
             grilla.setVisibility(View.GONE);
+            emptyViewSubtitle.setVisibility(View.VISIBLE);
             emptyView.setVisibility(View.VISIBLE);
         } else if (type == FULL) {
             grilla.setVisibility(View.VISIBLE);
+            emptyViewSubtitle.setVisibility(View.GONE);
             emptyView.setVisibility(View.GONE);
         }
     }

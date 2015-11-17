@@ -5,12 +5,25 @@
     android:orientation="vertical">
 
     <TextView
+        android:layout_margin="6dp"
         android:id="@+id/empty_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:text="No hay datos"
+        android:textColor="@color/gris_glup_nuevo"
+        android:textSize="18sp"
+        android:text="Pronto descubrirás marcas exclusivas para caballeros."
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:visibility="gone" />
+    <TextView
+        android:id="@+id/empty_view_subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="\nStay Tuned..."
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:visibility="gone" />
+
 </LinearLayout>

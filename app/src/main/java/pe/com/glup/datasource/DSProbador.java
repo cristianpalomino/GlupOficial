@@ -237,15 +237,10 @@ public class DSProbador {
                 super.onSuccess(statusCode, headers, response);
                 Gson gson=new Gson();
 
-
-
                 ResponseDetallePrenda responseDetallePrenda = gson.fromJson(response.toString(),ResponseDetallePrenda.class);
                 prendas = responseDetallePrenda.getPrendas();
                 Log.e("success",responseDetallePrenda.getSuccess()+"");
                 Log.e("descripcion", prendas.get(0).getDescripcion());
-
-
-
 
                 BusHolder.getInstance().post(responseDetallePrenda);
 

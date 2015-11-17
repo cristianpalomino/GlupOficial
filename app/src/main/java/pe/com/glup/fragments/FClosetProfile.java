@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -19,6 +20,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
@@ -41,6 +43,7 @@ import pe.com.glup.interfaces.OnSuccessUpdateUser;
 import pe.com.glup.session.Session_Manager;
 import pe.com.glup.utils.DatePickerFragment;
 import pe.com.glup.utils.MessageUtil;
+import pe.com.glup.views.Message;
 
 
 public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
@@ -256,8 +259,12 @@ public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
     };
     private String detectedIndVerPass() {
         Log.e("newPassIndVerPass", nuevaPassword);
+        /*
         if (!(changeNombres.equals(nombres.getText().toString()) && changeApellidos.equals(apellidos.getText().toString())
                 && changeCorreo.equals(correo.getText().toString()) && changeTelefono.equals(telefono.getText().toString())
+        ) )
+        * */
+        if (!(changeCorreo.equals(correo.getText().toString()) && changeTelefono.equals(telefono.getText().toString())
         ) )
             return "true";
         else
@@ -336,8 +343,16 @@ public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
 
     @Override
     public void onSuccesUpdateUser(boolean status, int indOp, String msg) {
-        Log.e("mensajeSuccess", msg+ " indicador "+ indOp);
-        MessageUtil.showToast(getActivity(),msg);
+        Log.e("mensajeSuccess", msg + " indicador " + indOp);
+        final Message toast = new Message(getActivity(), msg, Toast.LENGTH_SHORT);
+        toast.show();
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                toast.cancel();
+            }
+        }, 750);
     }
 
 
@@ -379,11 +394,20 @@ public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
             }catch (ClassCastException e){
                 Log.e("error",e.toString());
             }
-
+            Log.e("UpdateNom",nombres.getText().toString());
             dsUsuario.updateUsuario(indVerPass, nuevaPassword, nombres.getText().toString(),
                     apellidos.getText().toString(), cumpleanos.getText().toString(),
                     correo.getText().toString(), telefono.getText().toString());
         }
     }
 
+
+    @Subscribe
+    public void setUpdateUsername(DSUsuario.SignalChangeUsername signalChangeUsername){
+        SignalChangeUsername2 signalChangeUsername2=new SignalChangeUsername2();
+        signalChangeUsername2.username=nombres.getText().toString();
+        BusHolder.getInstance().post(signalChangeUsername2);
+    }
+
+    public class SignalChangeUsername2{public String username;}
 }

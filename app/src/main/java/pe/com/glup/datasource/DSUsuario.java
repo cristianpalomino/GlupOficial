@@ -21,6 +21,7 @@ import java.util.Date;
 import pe.com.glup.beans.DatoUser;
 import pe.com.glup.beans.DetalleUser;
 import pe.com.glup.beans.PerfilUsuario;
+import pe.com.glup.bus.BusHolder;
 import pe.com.glup.interfaces.OnSuccessDetalleUsuario;
 import pe.com.glup.interfaces.OnSuccessUpdatePass;
 import pe.com.glup.interfaces.OnSuccessUpdateUser;
@@ -132,6 +133,8 @@ public class DSUsuario {
                 try {
                     if (response.getInt("success") == 1) {
                         onSuccessUpdateUser.onSuccesUpdateUser(true, response.getInt("success"), response.getString("success_msg"));
+                        SignalChangeUsername signalChangeUsername=new SignalChangeUsername();
+                        BusHolder.getInstance().post(signalChangeUsername);
                     } else {
                         onSuccessUpdateUser.onSuccesUpdateUser(true, response.getInt("success"), response.getString("error_msg"));
                     }
@@ -151,6 +154,7 @@ public class DSUsuario {
 
     }
 
+    public class SignalChangeUsername{}
 
 
     private String resetFormatFecha(String fecNac) {
