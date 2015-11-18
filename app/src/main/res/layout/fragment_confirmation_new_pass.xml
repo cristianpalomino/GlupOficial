@@ -40,14 +40,28 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <EditText
-            android:inputType="textPassword"
-            android:hint="Nueva Contraseña"
-            android:textColor="@color/negro"
-            android:id="@+id/new_pass"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_weight="4"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content" >
+            <EditText
+                android:inputType="textPassword"
+                android:hint="Nueva Contraseña"
+                android:textColor="@color/negro"
+                android:id="@+id/new_pass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textColor="@color/celeste_glup"
+                android:id="@+id/txt_help_new_pass_success"
+                android:visibility="visible"
+                android:textSize="10sp"
+                android:text="@string/help_change_new_pass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
         <Button
             android:visibility="invisible"
             android:id="@+id/btn_new_pass"
@@ -58,17 +72,11 @@
             android:layout_weight="1"
             android:layout_height="wrap_content" />
     </LinearLayout>
-    <TextView
-        android:layout_marginLeft="20dp"
-        android:id="@+id/validator_rep_pass"
-        android:visibility="invisible"
-        android:layout_gravity="left"
-        android:text="Contraseñas no coinciden"
-        android:textColor="@android:color/holo_red_dark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
     <LinearLayout
-        android:layout_margin="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
         android:layout_gravity="center"
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -92,6 +100,15 @@
             android:layout_weight="1"
             android:layout_height="wrap_content" />
     </LinearLayout>
+    <TextView
+        android:layout_marginLeft="25dp"
+        android:id="@+id/validator_rep_pass"
+        android:visibility="invisible"
+        android:layout_gravity="left"
+        android:text="Contraseñas no coinciden"
+        android:textColor="@android:color/holo_red_dark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 
 

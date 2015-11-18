@@ -43,6 +43,7 @@
     <string name="validacion_contrasena_registro">Tu contraseña debe contener una letra mayuscula,minuscula y un numero y debe estar entre 4 y 12 caracteres</string>
 
     <string name="validacion_pass_registro">Debe contener una mayúscula, un número y de 6 a 12 carácteres </string>
+    <string name="help_change_new_pass">Tu nueva contraseña debe contener una mayúscula, un número y de 6 a 12 carácteres </string>
     <string name="elija_hombre_mujer">Elija sexo Hombre o Mujer</string>
     <string name="btn_recovery_pass">¿Olvidastes tu contraseña?</string>
     <string name="btn_recovery_pass_pressed"><u>¿Olvidastes tu contraseña?</u></string>

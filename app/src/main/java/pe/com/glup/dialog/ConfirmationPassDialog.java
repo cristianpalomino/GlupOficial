@@ -6,6 +6,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +30,7 @@ public class ConfirmationPassDialog extends DialogFragment implements View.OnCli
     private FClosetProfile context;
     private Button btnOk;
     private String nombre,apellido,cumpleanos,correo,telefono,indOp;
+    private boolean range=false;
 
     public ConfirmationPassDialog(){}
 
@@ -54,7 +57,32 @@ public class ConfirmationPassDialog extends DialogFragment implements View.OnCli
         View v =  inflater.inflate(R.layout.fragment_confirmation_pass,null);
         builder.setView(v);
         inputPass = (EditText) v.findViewById(R.id.pass_confirmation);
+        inputPass.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                int size=s.toString().length();
+                if (size>=6 && size<=12){
+                    range=true;
+                }else{
+                    range=false;
+                }
+                if (range){
+                    btnOk.setEnabled(true);
+                }
+            }
+        });
         btnOk = (Button) v.findViewById(R.id.btn_confirmation);
+        //btnOk.setEnabled(false);
         btnOk.setOnClickListener(this);
         return builder.create();
     }
@@ -68,12 +96,12 @@ public class ConfirmationPassDialog extends DialogFragment implements View.OnCli
                 try{
                    dsUsuario.setOnSuccessUpdateUser((OnSuccessUpdateUser) context);
                    dsUsuario.updateUsuario(indOp, inputPass.getText().toString(), nombre, apellido, cumpleanos, correo, telefono);
-
+                    super.dismiss();
                 }catch (ClassCastException e){
                     Log.e(null,e.toString());
                 }
-
-                dismiss();
+               super.dismiss();
+                //dismiss();
                 break;
         }
     }

@@ -41,12 +41,22 @@
             android:layout_height="match_parent"
             android:layout_weight="1">
             <ImageView
+                android:layout_marginBottom="6dp"
                 android:background="@android:color/transparent"
                 android:layout_gravity="center"
                 android:id="@+id/tabhome"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/catalogo_off" />
+            <TextView
+                android:id="@+id/txt_catalogo"
+                android:layout_marginBottom="4dp"
+                android:text="Catálogo"
+                android:textColor="@color/celeste_glup"
+                android:textSize="11sp"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </FrameLayout>
         <FrameLayout
             android:id="@+id/frameCloset"
@@ -55,12 +65,22 @@
             android:layout_height="match_parent"
             android:layout_weight="1">
             <ImageView
+                android:layout_marginBottom="6dp"
                 android:layout_gravity="center"
                 android:id="@+id/tabcloset"
                 android:layout_width="34dp"
                 android:layout_height="34dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/closet_off" />
+            <TextView
+                android:id="@+id/txt_closet"
+                android:layout_marginBottom="4dp"
+                android:text="Clóset"
+                android:textColor="@color/gris_glup_nuevo"
+                android:textSize="11sp"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </FrameLayout>
         <FrameLayout
             android:id="@+id/frameCamara"
@@ -69,12 +89,22 @@
             android:layout_height="match_parent"
             android:layout_weight="1">
             <ImageView
+                android:layout_marginBottom="6dp"
                 android:layout_gravity="center"
                 android:id="@+id/tabcamera"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/camara_off" />
+            <TextView
+                android:id="@+id/txt_camara"
+                android:layout_marginBottom="4dp"
+                android:text="Cámara"
+                android:textColor="@color/gris_glup_nuevo"
+                android:textSize="11sp"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </FrameLayout>
         <FrameLayout
             android:id="@+id/frameProbador"
@@ -83,12 +113,22 @@
             android:layout_height="match_parent"
             android:layout_weight="1">
             <ImageView
+                android:layout_marginBottom="6dp"
                 android:layout_gravity="center"
                 android:id="@+id/tabprobador"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/probador_off" />
+            <TextView
+                android:id="@+id/txt_probador"
+                android:layout_marginBottom="4dp"
+                android:text="Probador"
+                android:textColor="@color/gris_glup_nuevo"
+                android:textSize="11sp"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </FrameLayout>
         <FrameLayout
             android:id="@+id/frameReserva"
@@ -97,12 +137,22 @@
             android:layout_height="match_parent"
             android:layout_weight="1">
             <ImageView
+                android:layout_marginBottom="6dp"
                 android:layout_gravity="center"
                 android:id="@+id/tabreserva"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/reserva_off" />
+            <TextView
+                android:id="@+id/txt_reserva"
+                android:layout_marginBottom="4dp"
+                android:text="Reserva"
+                android:textColor="@color/gris_glup_nuevo"
+                android:textSize="11sp"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </FrameLayout>
 
     </LinearLayout>

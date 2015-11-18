@@ -156,18 +156,20 @@ public class FullScreenDialog extends DialogFragment implements View.OnClickList
             codPrenda=prendaDetalle.get(0).getCod_prenda();
             Log.e("indReser",prendaDetalle.get(0).getIndReser());
             if (prendaDetalle.get(0).getIndReser().equals("1")){
-                addReserva.setText("Ya lo reservastes");
-                addReserva.setTextColor(Color.GRAY);
+                addReserva.setText("Esta reservado por usted");
+                addReserva.setTextColor(getResources().getColor(R.color.gris_glup_nuevo));
                 addReserva.setEnabled(false);
                 addReserva.postInvalidate();
                 tiendaSpinner.setEnabled(false);
             }else if (prendaDetalle.get(0).getIndReserGen().equals("1")){
+                    addReserva.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_selector_disable));
                     addReserva.setText("Reservado por otro usuario");
-                    addReserva.setTextColor(Color.RED);
+                    addReserva.setTextColor(getResources().getColor(R.color.rojo_glup));
                     addReserva.setEnabled(false);
                     addReserva.postInvalidate();
                     tiendaSpinner.setEnabled(false);
             }else{
+                    addReserva.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_selector));
                     addReserva.setText("Agregar a Reserva");
                     addReserva.setTextColor(context.getResources().getColor(R.color.celeste_glup));
                     addReserva.setEnabled(true);

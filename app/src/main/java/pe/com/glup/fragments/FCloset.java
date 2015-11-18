@@ -256,7 +256,12 @@ public class FCloset extends Fragment implements View.OnClickListener,OnSuccessD
         public void setSecondView() { firstView = false; }
     }
 
-    class SignalSaveProfile{}
+    class SignalSaveProfile{
+        public int cont=0;
+        public SignalSaveProfile(){
+            cont=cont+1;
+        }
+    }
 
     @Subscribe
     public void visibilityUpdateProfile(Principal.ButtonUpdateProfile buttonUpdateProfile){

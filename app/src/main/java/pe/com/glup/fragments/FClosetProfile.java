@@ -264,8 +264,7 @@ public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
                 && changeCorreo.equals(correo.getText().toString()) && changeTelefono.equals(telefono.getText().toString())
         ) )
         * */
-        if (!(changeCorreo.equals(correo.getText().toString()) && changeTelefono.equals(telefono.getText().toString())
-        ) )
+        if (!(changeCorreo.equals(correo.getText().toString()) && changeTelefono.equals(telefono.getText().toString())))
             return "true";
         else
             return "false";
@@ -296,7 +295,6 @@ public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
             }catch (Exception e){
                 Log.e(null,"se hizo la conexion, error en cargar la data");
             }
-
         }else {
             Log.e("coneccion","no hecha");
         }
@@ -308,7 +306,14 @@ public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
         changeCumpleanos=s2;
         changeCorreo=s3;
         changeTelefono=s4;
+    }
 
+    private void inverseSetChangeProfileElements() {
+        nombres.setText(changeNombres);
+        apellidos.setText(changeApellidos);
+        cumpleanos.setText(changeCumpleanos);
+        correo.setText(changeCorreo);
+        telefono.setText(changeTelefono);
     }
 
     @Override
@@ -338,6 +343,16 @@ public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
 
 
             Log.e("Se Guarda","todo el perfil");
+        }else {
+            final Message toast = new Message(getActivity(), msg, Toast.LENGTH_SHORT);
+            toast.show();
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    toast.cancel();
+                }
+            }, 700);
         }
     }
 
@@ -352,7 +367,16 @@ public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
             public void run() {
                 toast.cancel();
             }
-        }, 750);
+        }, 700);
+        if (indOp==1){
+            setChangeProfileElements(nombres.getText().toString(),
+                    apellidos.getText().toString(),
+                    cumpleanos.getText().toString(),
+                    correo.getText().toString(),
+                    telefono.getText().toString());
+        }else {
+            inverseSetChangeProfileElements();
+        }
     }
 
 
@@ -368,7 +392,7 @@ public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
 
     @Subscribe
     public void saveProfile(FCloset.SignalSaveProfile signalSaveProfile){
-        Log.e("clic","guardar cambios perfil");
+        Log.e("clic","guardar cambios perfil y contador"+signalSaveProfile.cont);
         fragmentManager = context.getActivity().getSupportFragmentManager();
         int count =fragmentManager.getBackStackEntryCount();
         if (count>0){

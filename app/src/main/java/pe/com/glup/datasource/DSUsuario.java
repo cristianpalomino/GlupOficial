@@ -111,6 +111,7 @@ public class DSUsuario {
 
         Log.e("NombreActual",nombre);
         Log.e("updateUsuarioPass",passUser);
+        Log.e("indicadorverpass",indVerPass);
 
         RequestParams params = new RequestParams();
         params.put("tag","modificarDatoUser");
@@ -206,7 +207,7 @@ public class DSUsuario {
                         currentPass=newPass;
                         onSuccessUpdatePass.onSuccesUpdatePass(true,response.getInt("success"),response.getString("success_msg"),currentPass);
                     }else{
-                        currentPass=oldPass;
+                        currentPass=oldPass;//inseguro
                         onSuccessUpdatePass.onSuccesUpdatePass(true,response.getInt("success"),response.getString("error_msg"),currentPass);
                     }
                     Log.e("passwordActual",currentPass);
