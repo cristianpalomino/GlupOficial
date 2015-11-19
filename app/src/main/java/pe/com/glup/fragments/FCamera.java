@@ -62,6 +62,7 @@ public class FCamera extends Fragment implements View.OnClickListener {
 
 	private ToggleButton flash,grilla;
 	private ImageView superior,medio,iconPreview;
+	private TextView tvSuperior,tvMedio,tvIconPreview;
 
 	private int contador = 1;
 	private boolean gridActivate;
@@ -95,6 +96,10 @@ public class FCamera extends Fragment implements View.OnClickListener {
 		/**
 		 * Imagenes
 		 */
+		tvSuperior = (TextView) getView().findViewById(R.id.text_superior);
+		tvMedio = (TextView) getView().findViewById(R.id.text_medio);
+		tvIconPreview = (TextView) getView().findViewById(R.id.text_icon_preview);
+
 		imagea = (ImageView) getView().findViewById(R.id.imagea);
 		imageb = (ImageView) getView().findViewById(R.id.imageb);
 		next = (ImageButton) getView().findViewById(R.id.next);
@@ -196,7 +201,8 @@ public class FCamera extends Fragment implements View.OnClickListener {
 				},1200);
 
 				iconPreview.setVisibility(View.VISIBLE);
-				title.setText("Lado A");
+				tvIconPreview.setVisibility(View.VISIBLE);
+				title.setText("Lado Frontal");
 			}
 		});
 
@@ -245,8 +251,9 @@ public class FCamera extends Fragment implements View.OnClickListener {
 		flash.setChecked(false);
 		filtro="superior";
 		medio.setVisibility(View.GONE);
+		tvMedio.setVisibility(View.GONE);
 		superior.setVisibility(View.VISIBLE);
-
+		tvSuperior.setVisibility(View.VISIBLE);
 	}
 
 	@Override
@@ -271,7 +278,9 @@ public class FCamera extends Fragment implements View.OnClickListener {
 		flash.setChecked(false);
 		filtro="superior";
 		medio.setVisibility(View.GONE);
+		tvMedio.setVisibility(View.GONE);
 		superior.setVisibility(View.VISIBLE);
+		tvSuperior.setVisibility(View.VISIBLE);
 	}
 
 
@@ -293,12 +302,16 @@ public class FCamera extends Fragment implements View.OnClickListener {
 			case R.id.superior:
 				filtro="medio";
 				superior.setVisibility(View.GONE);
+				tvSuperior.setVisibility(View.GONE);
 				medio.setVisibility(View.VISIBLE);
+				tvMedio.setVisibility(View.VISIBLE);
 				break;
 			case R.id.medio:
 				filtro="superior";
 				medio.setVisibility(View.GONE);
+				tvMedio.setVisibility(View.GONE);
 				superior.setVisibility(View.VISIBLE);
+				tvSuperior.setVisibility(View.VISIBLE);
 				break;
 			case R.id.atras_camara:
 				((Principal)context).onBackPressed();
@@ -317,10 +330,11 @@ public class FCamera extends Fragment implements View.OnClickListener {
 		switch (contador) {
 			case 1:
 				iconPreview.setVisibility(View.GONE);
+				tvIconPreview.setVisibility(View.GONE);
 				contador++;
 				refresh.setEnabled(true);
 				refresh.setChecked(false);
-				title.setText("Lado A");
+				title.setText("Lado Frontal");
 				Picasso.with(context).load("file:" + successSavePhoto.result).fit().into(imageb);
 				Log.e("fotoA", successSavePhoto.result);
 				oldImageNameA=successSavePhoto.result;
@@ -328,10 +342,10 @@ public class FCamera extends Fragment implements View.OnClickListener {
 				imageb.setVisibility(View.VISIBLE);
 				imageb.setTag(successSavePhoto.result);
 				take.setChecked(false);
-				title.setText("Lado B");
+				title.setText("Lado Posterior");
 				break;
 			case 2:
-				title.setText("Lado B");
+				title.setText("Lado Posterior");
 				Picasso.with(context).load("file:" + successSavePhoto.result).fit().into(imagea);
 				Log.e("fotoB", successSavePhoto.result);
 				oldImageNameB=successSavePhoto.result;
@@ -380,14 +394,14 @@ public class FCamera extends Fragment implements View.OnClickListener {
 				take.setEnabled(true);
 				take.setChecked(false);
 				iconPreview.setVisibility(View.VISIBLE);
-
+				tvIconPreview.setVisibility(View.VISIBLE);
 			}
 		}
 	}
 	@Subscribe
 	public void getResponseUploadPrenda(DSCamera.ResponseUploadPrenda responseUploadPrenda){
 		//Utils.showMessage(context,"Listo termino su carga");
-		 title.setText("Lado A");
+		 title.setText("Lado Frontal");
 		 refresh.setChecked(false);
 		 refresh.setEnabled(false);
 

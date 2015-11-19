@@ -83,7 +83,7 @@
                 android:layout_margin="16dp"
                 android:gravity="left"
                 android:id="@+id/descripcion_reserva"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 android:layout_below="@+id/descripcion_title_reserva"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

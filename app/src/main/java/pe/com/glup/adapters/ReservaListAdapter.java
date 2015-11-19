@@ -31,6 +31,7 @@ public class ReservaListAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private String tag;
     private float total=0;
+    private ArrayList<Integer> unicos=new ArrayList<Integer>();
 
     public ReservaListAdapter(Context context,ArrayList<HashMap> reservaItems,String tag){
         this.context=context;
@@ -47,11 +48,12 @@ public class ReservaListAdapter extends BaseAdapter {
         return total;
     }
 
-    private ArrayList<Integer> TiendasComunes(){
+    private void TiendasComunes(){
         int cont=0;
         String nomMarca="";
-        ArrayList<Integer> unicos=new ArrayList<Integer>();
+        Log.e("cant.",getCount()+" reservaItems "+reservaItems.size());
         for (HashMap hashMap:reservaItems){
+            Log.e("MiMarca","cont "+ cont+" nomMarca "+ nomMarca + "  compara "+ hashMap.get("marca").toString());
             if (cont==0){
                 nomMarca=hashMap.get("marca").toString();
                 unicos.add(cont);
@@ -60,13 +62,16 @@ public class ReservaListAdapter extends BaseAdapter {
                 if (nomMarca.equals(hashMap.get("marca").toString())){
                     //sigue invi
                 }else{
+                    Log.e("agrego",cont+"");
                     nomMarca=hashMap.get("marca").toString();
                     unicos.add(cont);
                 }
             }
             cont++;
         }
-        return unicos;
+        for (int i=0;i<unicos.size();i++){
+            Log.e("Unicos",unicos.get(i)+"");
+        }
     }
 
     @Override
@@ -86,72 +91,87 @@ public class ReservaListAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+        //TiendasComunes();
         Holder holder=null;
         HashMap hashMap = reservaItems.get(position);
         if (convertView==null){
             convertView=inflater.inflate(R.layout.item_prenda_reserva,parent,false);
-            holder = new Holder();
-
-            holder.nombreTienda = (TextView) convertView.findViewById(R.id.reserva_tienda);
-            holder.marcaPrenda = (TextView) convertView.findViewById(R.id.reserva_marca);
-            holder.tipo = (TextView) convertView.findViewById(R.id.reserva_tipo);
-            holder.precio = (TextView) convertView.findViewById(R.id.precio_parcial);
-            holder.eliminarReserva = (ImageView) convertView.findViewById(R.id.reserva_eliminar);
-            holder.layoutTotal = (RelativeLayout) convertView.findViewById(R.id.layout_total);
-            holder.total = (TextView) convertView.findViewById(R.id.total_reserva);
-            holder.contenedor = (RelativeLayout) convertView.findViewById(R.id.layout_item_prenda_reserva);
-            holder.contenedorBeforeLocal = (RelativeLayout) convertView.findViewById(R.id.layout_prenda_local);
-
-            if (position==getCount()-1){
-                holder.layoutTotal.setVisibility(View.VISIBLE);
-                Log.e("calculo","total");
-                holder.total.setText("S/."+calcularTotal());
-            }
-            for (Integer integer:TiendasComunes()){
-                if (position==integer){
-                    Log.e("positionReserva",position+"");
-                    holder.nombreTienda.setVisibility(View.VISIBLE);
-                    holder.marcaPrenda.setVisibility(View.VISIBLE);
-                }
-            }
-            if (tag.equals("FReservaInfo")){
-                holder.eliminarReserva.setVisibility(View.VISIBLE);
-            }else {
-                holder.contenedor.setPadding(10,0,0,0);
-                holder.contenedorBeforeLocal.setPadding(0, 8, 0, 0);
-                holder.eliminarReserva.setVisibility(View.INVISIBLE);
-                holder.eliminarReserva.setEnabled(false);
-                holder.eliminarReserva.setPadding(0, 0, 0, 0);
-                holder.nombreTienda.setTextSize(14);
-                //holder.marcaPrenda.setTextSize(14);
-                holder.tipo.setTextSize(14);
-                holder.precio.setTextSize(14);
-                holder.total.setVisibility(View.GONE);
-            }
-
-            holder.nombreTienda.setText(reservaItems.get(position).get("local").toString());
-            //holder.marcaPrenda.setText(((Prenda) reservaItems.get(position).get("prenda")).getMarca());
-            holder.marcaPrenda.setText(reservaItems.get(position).get("marca").toString());
-            holder.tipo.setText(((Prenda) reservaItems.get(position).get("prenda")).getTipo());
-            holder.precio.setText("S/."+((Prenda) reservaItems.get(position).get("prenda")).getPrecio());
-
-            holder.eliminarReserva.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String codPrenda = ((Prenda) reservaItems.get(position).get("prenda")).getCod_prenda();
-                    ConfirmationDeleteReserva confirmationPassDialog=
-                            new ConfirmationDeleteReserva(context,codPrenda,tag);
-                    confirmationPassDialog.show(((Glup) context).getSupportFragmentManager(), ConfirmationPassDialog.class.getSimpleName());
-                    Log.e("eliminar", position + "");
-                    //remove(reservaItems.get(position));
-
-
-                }
-            });
             convertView.setTag(holder);
         } else {
             holder = (Holder) convertView.getTag();
         }
+        holder = new Holder();
+
+        holder.nombreTienda = (TextView) convertView.findViewById(R.id.reserva_tienda);
+        holder.marcaPrenda = (TextView) convertView.findViewById(R.id.reserva_marca);
+        holder.tipo = (TextView) convertView.findViewById(R.id.reserva_tipo);
+        holder.precio = (TextView) convertView.findViewById(R.id.precio_parcial);
+        holder.eliminarReserva = (ImageView) convertView.findViewById(R.id.reserva_eliminar);
+        holder.layoutTotal = (RelativeLayout) convertView.findViewById(R.id.layout_total);
+        holder.total = (TextView) convertView.findViewById(R.id.total_reserva);
+        holder.contenedor = (RelativeLayout) convertView.findViewById(R.id.layout_item_prenda_reserva);
+        holder.contenedorBeforeLocal = (RelativeLayout) convertView.findViewById(R.id.layout_prenda_local);
+
+        holder.nombreTienda.setText(reservaItems.get(position).get("local").toString());
+        //holder.marcaPrenda.setText(((Prenda) reservaItems.get(position).get("prenda")).getMarca());
+        holder.marcaPrenda.setText(reservaItems.get(position).get("marca").toString());
+        holder.tipo.setText(((Prenda) reservaItems.get(position).get("prenda")).getTipo());
+        holder.precio.setText("S/."+((Prenda) reservaItems.get(position).get("prenda")).getPrecio());
+
+        if (position==getCount()-1){
+            holder.layoutTotal.setVisibility(View.VISIBLE);
+            Log.e("calculo","total");
+            //holder.total.setText("S/."+calcularTotal()); //pasar valor de calculo total fijo como reservaItems
+            holder.total.setText("S/387.0");
+        }else {
+                holder.layoutTotal.setVisibility(View.GONE);
+
+        }
+
+        if (tag.equals("FReservaInfo")){
+            holder.eliminarReserva.setVisibility(View.VISIBLE);
+        }else {
+            holder.contenedor.setPadding(10,0,0,0);
+            holder.contenedorBeforeLocal.setPadding(0, 8, 0, 0);
+            holder.eliminarReserva.setVisibility(View.INVISIBLE);
+            holder.eliminarReserva.setEnabled(false);
+            holder.eliminarReserva.setPadding(0, 0, 0, 0);
+            holder.nombreTienda.setTextSize(14);
+            //holder.marcaPrenda.setTextSize(14);
+            holder.tipo.setTextSize(14);
+            holder.precio.setTextSize(14);
+            holder.total.setVisibility(View.GONE);
+        }
+
+        Log.e("Unicos2","tamaño "+unicos.size());
+        for (int i=0;i<unicos.size();i++){
+            Log.e("Unicos2",unicos.get(i)+"");
+        }
+       // for (Integer integer:unicos){ //pasar valor fijo como map reservaItems
+
+            if (position==0 || position==5){
+                Log.e("positionReserva",position+"");
+                holder.nombreTienda.setVisibility(View.VISIBLE);
+                holder.marcaPrenda.setVisibility(View.VISIBLE);
+            }else {
+                    holder.nombreTienda.setVisibility(View.GONE);
+                    holder.marcaPrenda.setVisibility(View.GONE);
+                }
+        //}
+
+        holder.eliminarReserva.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String codPrenda = ((Prenda) reservaItems.get(position).get("prenda")).getCod_prenda();
+                ConfirmationDeleteReserva confirmationPassDialog=
+                        new ConfirmationDeleteReserva(context,codPrenda,tag);
+                confirmationPassDialog.show(((Glup) context).getSupportFragmentManager(), ConfirmationPassDialog.class.getSimpleName());
+                Log.e("eliminar", position + "");
+                //remove(reservaItems.get(position));
+
+
+            }
+        });
 
         return convertView;
     }

@@ -225,6 +225,7 @@ public class DSProbador {
     public void getPrendaDetalle(final String codigoPrenda){
         String URL=WSGlup.ORQUESTADOR_NUEVO;
 
+        Log.e("Detalle",codigoPrenda);
         RequestParams params = new RequestParams();
         params.put("tag","detallePrenda");
         params.put("codigo_prenda",codigoPrenda);
@@ -236,6 +237,8 @@ public class DSProbador {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response){
                 super.onSuccess(statusCode, headers, response);
                 Gson gson=new Gson();
+
+                Log.e("Detalle:",response.toString());
 
                 ResponseDetallePrenda responseDetallePrenda = gson.fromJson(response.toString(),ResponseDetallePrenda.class);
                 prendas = responseDetallePrenda.getPrendas();

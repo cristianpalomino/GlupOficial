@@ -4,7 +4,9 @@ package pe.com.glup.dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Layout;
@@ -25,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 
@@ -109,6 +112,7 @@ public class FullScreenDialog extends DialogFragment implements View.OnClickList
         tallasMax.add((ToggleButton)getView().findViewById(R.id.talla3));
         tallasMax.add((ToggleButton) getView().findViewById(R.id.talla4));
         addReserva=(Button) getView().findViewById(R.id.add_reserva);
+        addReserva.setEnabled(false);
         info = (ToggleButton) getView().findViewById(R.id.info_detalle);
         info.setChecked(true);
         int i=0;
@@ -156,24 +160,25 @@ public class FullScreenDialog extends DialogFragment implements View.OnClickList
             codPrenda=prendaDetalle.get(0).getCod_prenda();
             Log.e("indReser",prendaDetalle.get(0).getIndReser());
             if (prendaDetalle.get(0).getIndReser().equals("1")){
-                addReserva.setText("Esta reservado por usted");
-                addReserva.setTextColor(getResources().getColor(R.color.gris_glup_nuevo));
+                addReserva.setText("Ya esta reservado por usted");
+                //addReserva.setTextColor(getResources().getColor(R.color.gris_glup_nuevo));
                 addReserva.setEnabled(false);
-                addReserva.postInvalidate();
+                //addReserva.postInvalidate();
                 tiendaSpinner.setEnabled(false);
             }else if (prendaDetalle.get(0).getIndReserGen().equals("1")){
-                    addReserva.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_selector_disable));
-                    addReserva.setText("Reservado por otro usuario");
-                    addReserva.setTextColor(getResources().getColor(R.color.rojo_glup));
-                    addReserva.setEnabled(false);
-                    addReserva.postInvalidate();
+                    addReserva.setBackgroundResource(R.drawable.button_selector_disable);
+                    //addReserva.setTextColor(getResources().getColor(R.color.rojo_glup));
+                    addReserva.setTextColor(context.getResources().getColor(R.color.rojo_glup));
+                addReserva.setText("Reservado por otro usuario");
+
+                //addReserva.postInvalidate();
                     tiendaSpinner.setEnabled(false);
             }else{
-                    addReserva.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_selector));
+                    //addReserva.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_selector));
                     addReserva.setText("Agregar a Reserva");
-                    addReserva.setTextColor(context.getResources().getColor(R.color.celeste_glup));
+                addReserva.setTextColor(context.getResources().getColor(R.color.celeste_glup));
                     addReserva.setEnabled(true);
-                    addReserva.postInvalidate();
+                    //addReserva.postInvalidate();
                     tiendaSpinner.setEnabled(true);
             }
 
@@ -322,9 +327,11 @@ public class FullScreenDialog extends DialogFragment implements View.OnClickList
                     tallasMax.get(i).setTextOn(tallas1.get(i).getTalla());
                     Log.e("textoChan", String.valueOf(tallasMax.get(i).getTextOff()));
                     if (tallaStandar){
-                        tallasMax.get(i).setBackgroundDrawable(getResources().getDrawable(R.drawable.talla_prenda_standar));
+                        //tallasMax.get(i).setBackgroundDrawable(getResources().getDrawable(R.drawable.talla_prenda_standar));
+                        tallasMax.get(i).setBackgroundResource(R.drawable.talla_prenda_standar);
                         tallasMax.get(i).setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                         tallasMax.get(i).setTextSize(20);
+                        tallasMax.get(i).setAllCaps(false);
                     }
                     tallasMax.get(i).setVisibility(View.VISIBLE);
                     tallasMax.get(i).setChecked(tallasMax.get(i).isChecked());
@@ -337,11 +344,20 @@ public class FullScreenDialog extends DialogFragment implements View.OnClickList
     public void confirmacionReservarPrenda(DSProbador.ResponseReservarPrenda responseReservarPrenda){
         Log.e(null,"SE RESERVO "+responseReservarPrenda.getSuccess());
         if (responseReservarPrenda.getSuccess()==1) {
-            addReserva.setText("Ya esta en reserva");
+            addReserva.setText("Ya esta reservado por usted");
             addReserva.setTextColor(Color.GRAY);
             addReserva.setEnabled(false);
             addReserva.postInvalidate();
-            MessageUtil.showToast(context,"Reserva de Prenda Satisfactoria");
+            String msg="Reserva de Prenda Satisfactoria";
+            final Message toast = new Message(context, msg, Toast.LENGTH_SHORT);
+            toast.show();
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    toast.cancel();
+                }
+            }, 700);
         } else {
             addReserva.setText("Agregar a Reserva");
             addReserva.setTextColor(context.getResources().getColor(R.color.celeste_glup));
