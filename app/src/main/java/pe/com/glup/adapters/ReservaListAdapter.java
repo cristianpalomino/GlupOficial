@@ -2,6 +2,7 @@ package pe.com.glup.adapters;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,14 +32,24 @@ public class ReservaListAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private String tag;
     private float total=0;
-    private ArrayList<Integer> unicos=new ArrayList<Integer>();
+    private  ArrayList<Integer> unicos;
+    private int contador=0;
 
-    public ReservaListAdapter(Context context,ArrayList<HashMap> reservaItems,String tag){
+    public ReservaListAdapter(Context context, ArrayList<HashMap> reservaItems, String tag, ArrayList<Integer> unicos){
+        this.context=context;
+        this.reservaItems=reservaItems;
+        this.inflater=LayoutInflater.from(context);
+        this.tag=tag;
+        this.unicos=unicos;
+    }
+
+    public ReservaListAdapter(Context context, ArrayList<HashMap> reservaItems, String tag) {
         this.context=context;
         this.reservaItems=reservaItems;
         this.inflater=LayoutInflater.from(context);
         this.tag=tag;
     }
+
 
     private float calcularTotal() {
         for (HashMap hashMap:reservaItems){
@@ -94,13 +105,18 @@ public class ReservaListAdapter extends BaseAdapter {
         //TiendasComunes();
         Holder holder=null;
         HashMap hashMap = reservaItems.get(position);
+        holder = new Holder();
         if (convertView==null){
             convertView=inflater.inflate(R.layout.item_prenda_reserva,parent,false);
-            convertView.setTag(holder);
+
+            // convertView.setTag(holder);
+            Log.e("logrep0","0");
         } else {
-            holder = (Holder) convertView.getTag();
+           // holder = (Holder) convertView.getTag();
+           Log.e("logrep1","1");
         }
-        holder = new Holder();
+        Log.e("contador",contador+"");
+        contador++;
 
         holder.nombreTienda = (TextView) convertView.findViewById(R.id.reserva_tienda);
         holder.marcaPrenda = (TextView) convertView.findViewById(R.id.reserva_marca);
@@ -112,17 +128,29 @@ public class ReservaListAdapter extends BaseAdapter {
         holder.contenedor = (RelativeLayout) convertView.findViewById(R.id.layout_item_prenda_reserva);
         holder.contenedorBeforeLocal = (RelativeLayout) convertView.findViewById(R.id.layout_prenda_local);
 
+
         holder.nombreTienda.setText(reservaItems.get(position).get("local").toString());
         //holder.marcaPrenda.setText(((Prenda) reservaItems.get(position).get("prenda")).getMarca());
         holder.marcaPrenda.setText(reservaItems.get(position).get("marca").toString());
+        int visibilidad = (int) reservaItems.get(position).get("visible");
+        if (visibilidad==1){
+            Log.e("positionReserva", position + "");
+            holder.nombreTienda.setVisibility(View.VISIBLE);
+            holder.marcaPrenda.setVisibility(View.VISIBLE);
+        }else {
+            holder.nombreTienda.setVisibility(View.GONE);
+            holder.marcaPrenda.setVisibility(View.GONE);
+        }
+
         holder.tipo.setText(((Prenda) reservaItems.get(position).get("prenda")).getTipo());
         holder.precio.setText("S/."+((Prenda) reservaItems.get(position).get("prenda")).getPrecio());
 
         if (position==getCount()-1){
+
             holder.layoutTotal.setVisibility(View.VISIBLE);
             Log.e("calculo","total");
             //holder.total.setText("S/."+calcularTotal()); //pasar valor de calculo total fijo como reservaItems
-            holder.total.setText("S/387.0");
+            holder.total.setText("S/."+reservaItems.get(position).get("total").toString());
         }else {
                 holder.layoutTotal.setVisibility(View.GONE);
 
@@ -143,20 +171,9 @@ public class ReservaListAdapter extends BaseAdapter {
             holder.total.setVisibility(View.GONE);
         }
 
-        Log.e("Unicos2","tamaño "+unicos.size());
-        for (int i=0;i<unicos.size();i++){
-            Log.e("Unicos2",unicos.get(i)+"");
-        }
-       // for (Integer integer:unicos){ //pasar valor fijo como map reservaItems
 
-            if (position==0 || position==5){
-                Log.e("positionReserva",position+"");
-                holder.nombreTienda.setVisibility(View.VISIBLE);
-                holder.marcaPrenda.setVisibility(View.VISIBLE);
-            }else {
-                    holder.nombreTienda.setVisibility(View.GONE);
-                    holder.marcaPrenda.setVisibility(View.GONE);
-                }
+        //for (Integer integer:unicos){ //pasar valor fijo como map reservaItems
+
         //}
 
         holder.eliminarReserva.setOnClickListener(new View.OnClickListener() {

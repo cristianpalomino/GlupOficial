@@ -34,45 +34,7 @@ public class DSReserva {
         BusHolder.getInstance().register(this);
     }
 
-    public void listarReserva(){
-        String URL = WSGlup.ORQUESTADOR_NUEVO;
-        RequestParams params = new RequestParams();
-        params.put("codigo_usuario",new Session_Manager(context).getCurrentUserCode());
-        params.put("tag","listarReserva");
 
-        AsyncHttpClient httpClient = new AsyncHttpClient();
-        httpClient.post(context, URL, params, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
-
-                Gson gson = new Gson();
-                try {
-                    Log.e("dsReserva", response.getInt("success") + " Listando ...");
-                    ResponseReserva responseReserva = gson.fromJson(response.toString(),
-                            ResponseReserva.class);
-                    if (response.getInt("success") == 1) {
-
-                        for (ReservaList list : responseReserva.listaReserva) {
-                            Log.e(null, list.getLocal() + " tiene " +
-                                    list.getDatos().size() + " tiendas");
-                        }
-
-                    }
-                    BusHolder.getInstance().post(responseReserva);
-                } catch (JSONException e) {
-                    Log.e("dsReserva", e.toString());
-                }
-
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-
-            }
-        });
-    }
     public void eliminarDeReserva(final String codPrenda){
         String URL=WSGlup.ORQUESTADOR_NUEVO;
 
@@ -82,7 +44,7 @@ public class DSReserva {
         params.put("tag", "eliminarPrendaReserva");
 
         AsyncHttpClient httpClient = new AsyncHttpClient();
-        httpClient.post(context,URL,params,new JsonHttpResponseHandler(){
+        httpClient.post(context, URL, params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
@@ -91,12 +53,12 @@ public class DSReserva {
 
                 try {
                     Log.e("dsReserva", response.getInt("success") + " Se elimino prenda " + codPrenda);
-                        if (response.getInt("success")==1){
-                            ResponseReload responseReload= new ResponseReload();
-                            responseReload.fragment=((Glup)context).getSupportFragmentManager().findFragmentByTag("FReservaInfo");
-                            Log.e("fragment", responseReload.fragment.toString());
-                            BusHolder.getInstance().post(responseReload);
-                        }
+                    if (response.getInt("success") == 1) {
+                        ResponseReload responseReload = new ResponseReload();
+                        responseReload.fragment = ((Glup) context).getSupportFragmentManager().findFragmentByTag("FReservaInfo");
+                        Log.e("fragment", responseReload.fragment.toString());
+                        BusHolder.getInstance().post(responseReload);
+                    }
                 } catch (JSONException e) {
                     Log.e("dsReserva", e.toString());
                 }
@@ -192,6 +154,45 @@ public class DSReserva {
             }
         });
     }
+    public void listarReserva(){
+        String URL = WSGlup.ORQUESTADOR_NUEVO;
+        RequestParams params = new RequestParams();
+        params.put("codigo_usuario",new Session_Manager(context).getCurrentUserCode());
+        params.put("tag","listarReserva");
+
+        AsyncHttpClient httpClient = new AsyncHttpClient();
+        httpClient.post(context, URL, params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+
+                Gson gson = new Gson();
+                try {
+                    Log.e("dsReserva", response.getInt("success") + " Listando ...");
+                    ResponseReserva responseReserva = gson.fromJson(response.toString(),
+                            ResponseReserva.class);
+                    if (response.getInt("success") == 1) {
+
+                        for (ReservaList list : responseReserva.listaReserva) {
+                            Log.e(null, list.getLocal() + " tiene " +
+                                    list.getDatos().size() + " tiendas");
+                        }
+
+                    }
+                    BusHolder.getInstance().post(responseReserva);
+                } catch (JSONException e) {
+                    Log.e("dsReserva", e.toString());
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+
+            }
+        });
+    }
     public void listarDetalleTicket(final String codVenta){
         String URL=WSGlup.ORQUESTADOR_NUEVO;
 
@@ -212,7 +213,10 @@ public class DSReserva {
                     ResponseDetalleTicket responseDetalleTicket = gson.fromJson(response.toString(),
                             ResponseDetalleTicket.class);
                     if (response.getInt("success")==1){
-                        Log.e(null,"cant. de reservas del ticket "+responseDetalleTicket.detalleTicket.size());
+                        for (ReservaList list : responseDetalleTicket.detalleTicket) {
+                            Log.e(null, list.getLocal() + " tiene " +
+                                    list.getDatos().size() + " tiendas");
+                        }
                     }
                     BusHolder.getInstance().post(responseDetalleTicket);
                 } catch (JSONException e) {

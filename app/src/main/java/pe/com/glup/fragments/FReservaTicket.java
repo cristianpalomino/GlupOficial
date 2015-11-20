@@ -36,6 +36,7 @@ public class FReservaTicket extends Fragment implements ListView.OnItemClickList
     private TicketListAdapter ticketListAdapter;
     private String tag;
     private FragmentManager fragmentManager;
+    private float total;
     @Override
     public void onCreate(Bundle savedInstance){
         super.onCreate(savedInstance);

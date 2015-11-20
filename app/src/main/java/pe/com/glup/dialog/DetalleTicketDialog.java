@@ -33,6 +33,8 @@ public class DetalleTicketDialog extends DialogFragment {
     private ArrayList<HashMap> reservas= new ArrayList<HashMap>();
     private ReservaListAdapter reservaAdapter;
     private ProgressBar progressBar;
+    private float total;
+
     public DetalleTicketDialog() {
         tag=DetalleTicketDialog.class.getSimpleName();
         BusHolder.getInstance().register(this);
@@ -65,12 +67,37 @@ public class DetalleTicketDialog extends DialogFragment {
             if (responseDetalleTicket.detalleTicket.size()==0){
                 //nunca va ver tickets sin reservas
             }
+            int cont=0;
+            String nomMarca="";
+            total=0;
             reservas.removeAll(reservas);
             for (ReservaList list:responseDetalleTicket.detalleTicket){
                 for (Prenda prenda:list.getDatos()){
+                    Log.e("MiMarca", "cont " + cont + " nomMarca " + nomMarca + "  compara " + list.getMarca());
                     HashMap hashMap = new HashMap();
-                    hashMap.put("local",list.getLocal());
+                    hashMap.put("marca", list.getMarca());
+                    hashMap.put("local", list.getLocal());
                     hashMap.put("prenda", prenda);
+                    /*precio total*/
+                    float precio= Float.parseFloat(prenda.getPrecio());
+                    total+=precio;
+                    hashMap.put("total",total);
+                    /*unicos items en los que debe aparecer el nombre del local y la marca*/
+                    if (cont==0){
+                        nomMarca= hashMap.get("marca").toString();
+                        hashMap.put("visible",1);
+                    }
+                    if (cont>=1){
+                        if (nomMarca.equals(hashMap.get("marca").toString())){
+                            //sigue invi
+                            hashMap.put("visible",0);
+                        }else{
+                            Log.e("agrego",cont+"");
+                            nomMarca=hashMap.get("marca").toString();
+                            hashMap.put("visible",1);
+                        }
+                    }
+                    cont++;
                     reservas.add(hashMap);
 
 

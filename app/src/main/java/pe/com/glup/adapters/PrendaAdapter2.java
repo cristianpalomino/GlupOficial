@@ -82,7 +82,7 @@ public class PrendaAdapter2 extends BaseAdapter implements View.OnLongClickListe
                 "numMeGusta:" + prenda.getNumGusta());
 
         holder = new Holder();
-
+        Log.e("logrepcata","1");
         holder.marca = (TextView) convertView.findViewById(R.id.item_marca_prenda);
         holder.precio = (TextView) convertView.findViewById(R.id.precio_prenda);
         holder.contado = (TextView) convertView.findViewById(R.id.contador_corazon);

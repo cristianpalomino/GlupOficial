@@ -45,6 +45,9 @@ public class FReservaInfo extends Fragment implements View.OnClickListener{
     private ArrayList<HashMap> reservas = new ArrayList<HashMap>();
     private int contReservas=0;
     private ProgressBar progressBar;
+    private float total;
+    private ArrayList<Integer> unicos=new ArrayList<Integer>();
+
 
     @Override
     public void onCreate(Bundle savedInstance){
@@ -56,7 +59,7 @@ public class FReservaInfo extends Fragment implements View.OnClickListener{
                              Bundle savedInstance){
         DSReserva dsReserva = new DSReserva(getActivity());
         dsReserva.listarReserva();
-        Log.e(null,"on create view reserva info");
+        Log.e(null, "on create view reserva info");
         View view = inflater.inflate(R.layout.fragment_clic_reserva,container,false);
         return view;
     }
@@ -89,18 +92,43 @@ public class FReservaInfo extends Fragment implements View.OnClickListener{
             Log.e("entro", "a listar reservas");
             contReservas=0;
             reservas.removeAll(reservas);
+            int cont=0;
+            String nomMarca="";
+            total=0;
             for (ReservaList list:responseReserva.listaReserva){
                 for (Prenda prenda:list.getDatos()){
+                    Log.e("MiMarca", "cont " + cont + " nomMarca " + nomMarca + "  compara " + list.getMarca().toString());
                     HashMap hashMap = new HashMap();
-                    hashMap.put("marca",list.getMarca());
-                    Log.e("Marca",list.getMarca());
-                    hashMap.put("local",list.getLocal());
+                    hashMap.put("marca", list.getMarca());
+                    hashMap.put("local", list.getLocal());
                     hashMap.put("prenda", prenda);
+                    /*precio total*/
+                    float precio= Float.parseFloat(prenda.getPrecio());
+                    total+=precio;
+                    hashMap.put("total",total);
+                    /*unicos items en los que debe aparecer el nombre del local y la marca*/
+                    if (cont==0){
+                        nomMarca=hashMap.get("marca").toString();
+                        unicos.add(cont);
+                        hashMap.put("visible",1);
+                    }
+                    if (cont>=1){
+                        if (nomMarca.equals(hashMap.get("marca").toString())){
+                            //sigue invi
+                            hashMap.put("visible",0);
+                        }else{
+                            Log.e("agrego",cont+"");
+                            nomMarca=hashMap.get("marca").toString();
+                            unicos.add(cont);
+                            hashMap.put("visible",1);
+                        }
+                    }
+                    cont++;
                     reservas.add(hashMap);
                     contReservas++;
                 }
-
             }
+
             reservaAdapter.notifyDataSetChanged();
             if(contReservas==1){
                 cantReserva.setText(contReservas + " Reserva");
@@ -137,5 +165,6 @@ public class FReservaInfo extends Fragment implements View.OnClickListener{
                 break;
         }
     }
+
 
 }
