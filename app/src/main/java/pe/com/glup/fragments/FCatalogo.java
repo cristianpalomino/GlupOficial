@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -34,6 +35,8 @@ import pe.com.glup.interfaces.OnSearchListener;
 import pe.com.glup.interfaces.OnSuccessUpdate;
 import pe.com.glup.interfaces.OnSuccessCatalogo;
 import pe.com.glup.utils.Util_Fonts;
+import pe.com.glup.views.MessageV2;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,6 +63,7 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
 
     private boolean isLoading = false;
     private Context context;
+    private Button prueba;
 
     public static FCatalogo newInstance() {
         FCatalogo fragment = new FCatalogo();
@@ -105,6 +109,7 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
 
         emptyView = (TextView) getView().findViewById(R.id.empty_view);
         emptyViewSubtitle = (TextView) getView().findViewById(R.id.empty_view_subtitle);
+
         emptyViewSubtitle.setTypeface(Util_Fonts.setRegular(getActivity()));
 
         grilla = (GridView) getView().findViewById(R.id.grilla_prendas);

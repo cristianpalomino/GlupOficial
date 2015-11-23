@@ -187,14 +187,14 @@ public class Footer extends LinearLayout implements View.OnClickListener {
             reserva.setEnabled(true);
             home.setImageResource(R.drawable.catalogo_off);
             closet.setImageResource(R.drawable.closet_off);
-            camara.setImageResource(R.drawable.camara_on);
+            camara.setImageResource(R.drawable.camara_off);
             probador.setImageResource(R.drawable.probador_off);
             reserva.setImageResource(R.drawable.reserva_off);
             //this.setVisibility(GONE);
 
             titleHome.setTextColor(getResources().getColor(R.color.gris_glup_nuevo));
             titleCloset.setTextColor(getResources().getColor(R.color.gris_glup_nuevo));
-            titleCamara.setTextColor(getResources().getColor(R.color.celeste_glup));
+            titleCamara.setTextColor(getResources().getColor(R.color.gris_glup_nuevo));
             titleProbador.setTextColor(getResources().getColor(R.color.gris_glup_nuevo));
             titleReserva.setTextColor(getResources().getColor(R.color.gris_glup_nuevo));
 

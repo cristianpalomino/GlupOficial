@@ -21,6 +21,7 @@ import pe.com.glup.bus.BusHolder;
 import pe.com.glup.events.Flash;
 import pe.com.glup.interfaces.INotification;
 import pe.com.glup.notifications.CargaFotoAB;
+import pe.com.glup.session.Session_Manager;
 import pe.com.glup.utils.Utils;
 import pe.com.glup.ws.WSGlup;
 
@@ -40,7 +41,7 @@ public class DSCamera {
 		//dialog = ProgressDialog.show(context, null, "Generando codigo de Prenda", true, true);
 		String URL= WSGlup.ORQUESTADOR_PROCESOS;
 		RequestParams params= new RequestParams();
-		params.put("codigo_usuario", "000000000010");
+		params.put("codigo_usuario", new Session_Manager(context).getCurrentUserCode());
 		params.put("tag", "reservarCodPrenda");
 		AsyncHttpClient httpClient= new AsyncHttpClient();
 		httpClient.post(context, URL, params, new JsonHttpResponseHandler() {
@@ -73,6 +74,7 @@ public class DSCamera {
 	public void uploadPrenda(String filtro, File dir, String nomFrente, String nomEspalda, String codPrenda){
 		try{
 		Log.e(null, "entro a uploadPrenda");
+		Log.e("logupload","filtro:"+filtro+" dir:"+dir.toString()+" nombreFrente:"+nomFrente+" nomEspalda:"+nomEspalda+" codPrenda:"+codPrenda);
 		/*dialog = ProgressDialog.show(context, null, "Enviando Prenda ...", true, true);*/
 		interface_notification.createNotification(context);
 		interface_notification.getBuilder().setContentTitle("Subiendo Imagenes a Glup");
@@ -90,7 +92,7 @@ public class DSCamera {
 				e.printStackTrace();
 			}
 			params.put("wear_code",codPrenda);
-			params.put("user_code", "000000000010");
+			params.put("user_code", new Session_Manager(context).getCurrentUserCode());
 		}else {
 			URL=WSGlup.ORQUESTADOR_IMAGENES_CAMERA_INFERIOR;
 			params.put("tag", "procesarImagen");

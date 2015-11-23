@@ -28,6 +28,7 @@ import pe.com.glup.glup.Principal;
 import pe.com.glup.interfaces.OnSuccessPrendas;
 import pe.com.glup.interfaces.OnSuccessProbador;
 import pe.com.glup.session.Session_Manager;
+import pe.com.glup.views.MessageV2;
 import pe.com.glup.ws.WSGlup;
 
 /**
@@ -181,15 +182,23 @@ public class DSProbador {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response){
                 super.onSuccess(statusCode, headers, response);
                 gd.dismiss();
-                final Toast toast= Toast.makeText(context, msj2, Toast.LENGTH_SHORT);
-                toast.show();
+                //final Toast toast= Toast.makeText(context, msj2, Toast.LENGTH_SHORT);
+                //toast.show();
+
+                final MessageV2 msg= new MessageV2(msj2);
+                msg.setCancelable(false);
+                msg.show(((AppCompatActivity) context).getSupportFragmentManager(),
+                        MessageV2.class.getSimpleName());
+
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        toast.cancel();
+                        //toast.cancel();
+                        msg.dismiss();
                     }
-                }, 1000);
+                }, 2000);
+
                 try {
 
                     String indProb= response.getString("indProb");
@@ -205,7 +214,7 @@ public class DSProbador {
             public void onFailure(int statusCode,Header[] headers,String responseString,Throwable throwable){
                 super.onFailure(statusCode, headers, responseString, throwable);
                 gd.dismiss();
-                final Toast toast= Toast.makeText(context, msj2, Toast.LENGTH_SHORT);
+                final Toast toast= Toast.makeText(context, responseString, Toast.LENGTH_SHORT);
                 toast.show();
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {

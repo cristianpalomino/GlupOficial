@@ -21,7 +21,7 @@
             android:right="1dp"
             android:bottom="1dp"
             />
-        <size android:height="159dip"
+        <size android:height="200dip"
             android:width="200dip"/>
 
         <corners android:bottomRightRadius="12dp" android:bottomLeftRadius="12dp"

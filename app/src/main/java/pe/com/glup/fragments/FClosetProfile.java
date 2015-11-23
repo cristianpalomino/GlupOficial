@@ -44,6 +44,7 @@ import pe.com.glup.session.Session_Manager;
 import pe.com.glup.utils.DatePickerFragment;
 import pe.com.glup.utils.MessageUtil;
 import pe.com.glup.views.Message;
+import pe.com.glup.views.MessageV2;
 
 
 public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
@@ -279,12 +280,34 @@ public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
                 DatoUser dato = datouser.get(0);
                 DetalleUser detalle = detalleuser.get(0);
 
+                if (detalle.getNomUser().equals("")){
+                    nombres.setHint("Nombres");
+                }else {
+                    nombres.setText(detalle.getNomUser());
+                }
+                if (detalle.getApeUser().equals("")){
+                    apellidos.setHint("Apellidos");
+                }else{
+                    apellidos.setText(detalle.getApeUser());
+                }
+                if (detalle.getFecNac().equals("")){
+                    cumpleanos.setHint("Cumpleaños");
+                }else{
+                    cumpleanos.setText(detalle.getFecNac());
+                }
+                if (detalle.getCorreoUser().equals("")){
+                    correo.setHint("Correo");
+                }else {
+                    correo.setText(detalle.getCorreoUser());
+                }
+                if (detalle.getNumTelef().equals("")){
+                    telefono.setHint("Teléfono");
+                }else {
+                    telefono.setText(detalle.getNumTelef());
+                }
 
-                nombres.setText(detalle.getNomUser());
-                apellidos.setText(detalle.getApeUser());
-                cumpleanos.setText(detalle.getFecNac());
-                correo.setText(detalle.getCorreoUser());
-                telefono.setText(detalle.getNumTelef());
+
+
 
                 setChangeProfileElements(nombres.getText().toString(),
                         apellidos.getText().toString(),
@@ -297,6 +320,11 @@ public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
             }
         }else {
             Log.e("coneccion","no hecha");
+            nombres.setHint("Nombres");
+            apellidos.setHint("Apellidos");
+            cumpleanos.setHint("Cumpleaños");
+            correo.setHint("Correo");
+            telefono.setHint("Teléfono");
         }
     }
 
@@ -344,15 +372,18 @@ public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
 
             Log.e("Se Guarda","todo el perfil");
         }else {
-            final Message toast = new Message(getActivity(), msg, Toast.LENGTH_SHORT);
-            toast.show();
+            //final Message toast = new Message(getActivity(), msg, Toast.LENGTH_SHORT);
+            //toast.show();
+            final MessageV2 toast=new MessageV2(msg);
+            toast.setCancelable(false);
+            toast.show(context.getActivity().getSupportFragmentManager(),MessageV2.class.getSimpleName());
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    toast.cancel();
+                    toast.dismiss();
                 }
-            }, 700);
+            }, 2000);
         }
     }
 
@@ -361,19 +392,35 @@ public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
         Log.e("mensajeSuccess", msg + " indicador " + indOp);
         final Message toast = new Message(getActivity(), msg, Toast.LENGTH_SHORT);
         toast.show();
+        /*final MessageV2 toast=new MessageV2(msg);
+        toast.setCancelable(false);
+        toast.show(context.getActivity().getSupportFragmentManager(),MessageV2.class.getSimpleName());
+        *//*
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 toast.cancel();
             }
-        }, 700);
+        }, 2000);*/
         if (indOp==1){
             setChangeProfileElements(nombres.getText().toString(),
                     apellidos.getText().toString(),
                     cumpleanos.getText().toString(),
                     correo.getText().toString(),
                     telefono.getText().toString());
+            /**if (indVerPass.equals("false")){
+                final MessageV2 toast=new MessageV2(msg);
+                toast.setCancelable(false);
+                toast.show(context.getActivity().getSupportFragmentManager(),MessageV2.class.getSimpleName());
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        toast.dismiss();
+                    }
+                }, 2000);
+            }*/
         }else {
             inverseSetChangeProfileElements();
         }

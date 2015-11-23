@@ -29,6 +29,7 @@
                 android:textColor="@color/negro"
                 android:id="@+id/pass_confirmation" />
             <TextView
+                android:id="@+id/txt_help_confirm_pass"
                 android:textSize="12sp"
                 android:text="Debe ser de 6 a 12 carácteres"
                 android:layout_width="match_parent"

@@ -132,14 +132,17 @@ public class DSUsuario {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 try {
+                    SignalChangeUsername signalChangeUsername=new SignalChangeUsername();
                     if (response.getInt("success") == 1) {
                         onSuccessUpdateUser.onSuccesUpdateUser(true, response.getInt("success"), response.getString("success_msg"));
-                        SignalChangeUsername signalChangeUsername=new SignalChangeUsername();
-                        BusHolder.getInstance().post(signalChangeUsername);
+                        signalChangeUsername.success=response.getInt("success");
+                        signalChangeUsername.msg=response.getString("success_msg");
                     } else {
                         onSuccessUpdateUser.onSuccesUpdateUser(true, response.getInt("success"), response.getString("error_msg"));
+                        signalChangeUsername.success=response.getInt("success");
+                        signalChangeUsername.msg=response.getString("error_msg");
                     }
-
+                    BusHolder.getInstance().post(signalChangeUsername);
                     Log.e("json", response.toString());
                 } catch (JSONException e) {
                     onSuccessUpdateUser.onSuccesUpdateUser(false, -1, "");
@@ -155,7 +158,7 @@ public class DSUsuario {
 
     }
 
-    public class SignalChangeUsername{}
+    public class SignalChangeUsername{public int success;public String msg;}
 
 
     private String resetFormatFecha(String fecNac) {

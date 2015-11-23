@@ -165,7 +165,7 @@ public class ReservaListAdapter extends BaseAdapter {
             holder.eliminarReserva.setEnabled(false);
             holder.eliminarReserva.setPadding(0, 0, 0, 0);
             holder.nombreTienda.setTextSize(14);
-            //holder.marcaPrenda.setTextSize(14);
+            holder.marcaPrenda.setTextSize(14);
             holder.tipo.setTextSize(14);
             holder.precio.setTextSize(14);
             holder.total.setVisibility(View.GONE);

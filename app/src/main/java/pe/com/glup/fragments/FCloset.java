@@ -12,7 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -47,14 +49,9 @@ public class FCloset extends Fragment implements View.OnClickListener,OnSuccessD
     private TextView username,cantPrendas;
     private FragmentIterationListener mCallback = null;
 
-
-
-
     public interface FragmentIterationListener{
         public void onFragmentIteration(Bundle parameters);
     }
-
-
 
     private static final int EMPTY = 0;
     private static final int FULL = 1;
@@ -83,6 +80,8 @@ public class FCloset extends Fragment implements View.OnClickListener,OnSuccessD
     private boolean changeToNewPass=false;
     private FClosetGrilla fClosetGrilla;
     private FClosetProfile fClosetProfile;
+    private FrameLayout frameBack;
+    private ImageView back;
 
 
     private boolean isLoading = false;
@@ -129,6 +128,13 @@ public class FCloset extends Fragment implements View.OnClickListener,OnSuccessD
         TAG = "todos";
         isLoading = false;
 
+        frameBack = (FrameLayout) getView().findViewById(R.id.frame_back);
+        back=(ImageView) getView().findViewById(R.id.back);
+        frameBack.setOnClickListener(this);
+        back.setOnClickListener(this);
+        frameBack.setVisibility(View.GONE);
+        back.setVisibility(View.GONE);
+
         updateProfile = (Button) getView().findViewById(R.id.update);
         updateProfile.setOnClickListener(this);
         updateProfile.setVisibility(View.GONE);
@@ -137,6 +143,7 @@ public class FCloset extends Fragment implements View.OnClickListener,OnSuccessD
         fragmentManager= getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.grilla_o_perfil,fClosetGrilla);
+        //fragmentTransaction.addToBackStack(FClosetGrilla.class.getSimpleName());
         fragmentTransaction.commit();
 
 
@@ -208,7 +215,6 @@ public class FCloset extends Fragment implements View.OnClickListener,OnSuccessD
         changeCumpleanos=s2;
         changeCorreo=s3;
         changeTelefono=s4;
-
     }
 
 
@@ -227,6 +233,8 @@ public class FCloset extends Fragment implements View.OnClickListener,OnSuccessD
                     fragmentTransaction.addToBackStack(FClosetProfile.class.getSimpleName());
                     fragmentTransaction.commit();
                     updateProfile.setVisibility(View.VISIBLE);
+                    frameBack.setVisibility(View.VISIBLE);
+                    back.setVisibility(View.VISIBLE);
                 }
 
                 break;
@@ -237,7 +245,9 @@ public class FCloset extends Fragment implements View.OnClickListener,OnSuccessD
                 break;
 
         }
-
+        if (v.getId()==R.id.frame_back || v.getId()==R.id.back){
+            getActivity().onBackPressed();
+        }
         /*Bundle bundle = new Bundle();
         bundle.putString("datos", "datos que necesito");
         mCallback.onFragmentIteration(bundle);*/
@@ -268,6 +278,8 @@ public class FCloset extends Fragment implements View.OnClickListener,OnSuccessD
         Log.e("flag",buttonUpdateProfile.flag+"");
         if (buttonUpdateProfile.flag==0){
             updateProfile.setVisibility(View.GONE);
+            frameBack.setVisibility(View.GONE);
+            back.setVisibility(View.GONE);
         }
     }
 

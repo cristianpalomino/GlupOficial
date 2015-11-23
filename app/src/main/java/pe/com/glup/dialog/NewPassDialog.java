@@ -58,7 +58,7 @@ public class NewPassDialog extends DialogFragment implements View.OnClickListene
         activarBoton=false;
         passw= (EditText) view.findViewById(R.id.pass_current);
         newPass =(EditText) view.findViewById(R.id.new_pass);
-        txtPassSuccess = (TextView) getView().findViewById(R.id.txt_help_new_pass_success);
+        txtPassSuccess = (TextView) view.findViewById(R.id.txt_help_new_pass_success);
         repeatNewPass=(EditText)view.findViewById(R.id.new_pass_confirmation);
         repeatNewPass.setEnabled(false);
         validator = (TextView) view.findViewById(R.id.validator_rep_pass);

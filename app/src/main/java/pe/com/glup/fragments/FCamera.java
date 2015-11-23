@@ -334,10 +334,11 @@ public class FCamera extends Fragment implements View.OnClickListener {
 				contador++;
 				refresh.setEnabled(true);
 				refresh.setChecked(false);
-				title.setText("Lado Frontal");
 				Picasso.with(context).load("file:" + successSavePhoto.result).fit().into(imageb);
-				Log.e("fotoA", successSavePhoto.result);
+				Log.e("fotoA", successSavePhoto.result + " iconPreviewvisible:" + iconPreview.getVisibility());
 				oldImageNameA=successSavePhoto.result;
+				iconPreview.setVisibility(View.GONE);
+				tvIconPreview.setVisibility(View.GONE);
 				imageb.setBackgroundColor(Color.WHITE);
 				imageb.setVisibility(View.VISIBLE);
 				imageb.setTag(successSavePhoto.result);
@@ -395,6 +396,7 @@ public class FCamera extends Fragment implements View.OnClickListener {
 				take.setChecked(false);
 				iconPreview.setVisibility(View.VISIBLE);
 				tvIconPreview.setVisibility(View.VISIBLE);
+				Log.e("fotoA",iconPreview.getVisibility()+"");
 			}
 		}
 	}

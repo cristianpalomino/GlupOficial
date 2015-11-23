@@ -336,8 +336,6 @@ public class FullScreenDialog extends DialogFragment implements View.OnClickList
                     tallasMax.get(i).setVisibility(View.VISIBLE);
                     tallasMax.get(i).setChecked(tallasMax.get(i).isChecked());
                 }
-
-
         }
     }
     @Subscribe
