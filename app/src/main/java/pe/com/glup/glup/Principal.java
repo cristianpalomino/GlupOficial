@@ -8,27 +8,22 @@ import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
 
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.squareup.otto.Subscribe;
 
-import android.os.Handler;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
 import pe.com.glup.R;
-import pe.com.glup.bus.BusHolder;
+import pe.com.glup.managers.bus.BusHolder;
 import pe.com.glup.fragments.FCamera;
-import pe.com.glup.fragments.FCatalogo;
 import pe.com.glup.fragments.FCatalogoNew;
 import pe.com.glup.fragments.FCloset;
 import pe.com.glup.fragments.FMenuLeft;
 import pe.com.glup.fragments.FMenuRigth;
 import pe.com.glup.fragments.FProbador;
 import pe.com.glup.fragments.FReserva;
-import pe.com.glup.fragments.Fragment_Home;
-import pe.com.glup.interfaces.OnSuccessDetalleUsuario;
-import pe.com.glup.interfaces.OnSuccessDisableSliding;
+import pe.com.glup.models.interfaces.OnSuccessDetalleUsuario;
+import pe.com.glup.models.interfaces.OnSuccessDisableSliding;
 import pe.com.glup.views.Footer;
 import pe.com.glup.views.Header;
 
@@ -52,7 +47,6 @@ public class Principal extends Glup implements Footer.OnChangeTab,
     private Footer footer;
     private Header header;
     private OnChangeTab onChangeTab;
-    private SlidingMenu menuright;
     private OnSuccessDetalleUsuario onSuccessDetalleUsuario;
     private int position;
     private DrawerLayout drawerLayout;

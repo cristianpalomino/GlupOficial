@@ -6,22 +6,14 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
@@ -33,16 +25,14 @@ import android.widget.ToggleButton;
 
 import com.squareup.otto.Subscribe;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import pe.com.glup.R;
-import pe.com.glup.beans.Prenda;
-import pe.com.glup.beans.TallaDisponible;
-import pe.com.glup.beans.Tienda;
-import pe.com.glup.bus.BusHolder;
-import pe.com.glup.datasource.DSProbador;
+import pe.com.glup.models.Prenda;
+import pe.com.glup.models.TallaDisponible;
+import pe.com.glup.models.Tienda;
+import pe.com.glup.managers.bus.BusHolder;
+import pe.com.glup.network.DSProbador;
 import pe.com.glup.utils.MessageUtil;
 import pe.com.glup.views.Message;
 

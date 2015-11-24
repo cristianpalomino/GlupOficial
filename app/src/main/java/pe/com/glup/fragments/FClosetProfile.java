@@ -1,6 +1,5 @@
 package pe.com.glup.fragments;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -20,30 +19,26 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import pe.com.glup.R;
-import pe.com.glup.beans.DatoUser;
-import pe.com.glup.beans.DetalleUser;
-import pe.com.glup.bus.BusHolder;
-import pe.com.glup.datasource.DSUsuario;
+import pe.com.glup.models.DatoUser;
+import pe.com.glup.models.DetalleUser;
+import pe.com.glup.managers.bus.BusHolder;
+import pe.com.glup.network.DSUsuario;
 import pe.com.glup.dialog.ConfirmationPassDialog;
 import pe.com.glup.dialog.NewPassDialog;
 import pe.com.glup.glup.Entrar;
 import pe.com.glup.glup.Glup;
-import pe.com.glup.interfaces.OnSuccessDetalleUsuario;
-import pe.com.glup.interfaces.OnSuccessUpdatePass;
-import pe.com.glup.interfaces.OnSuccessUpdateUser;
-import pe.com.glup.session.Session_Manager;
+import pe.com.glup.models.interfaces.OnSuccessDetalleUsuario;
+import pe.com.glup.models.interfaces.OnSuccessUpdatePass;
+import pe.com.glup.models.interfaces.OnSuccessUpdateUser;
+import pe.com.glup.managers.session.Session_Manager;
 import pe.com.glup.utils.DatePickerFragment;
-import pe.com.glup.utils.MessageUtil;
-import pe.com.glup.views.Message;
 import pe.com.glup.views.MessageV2;
 
 

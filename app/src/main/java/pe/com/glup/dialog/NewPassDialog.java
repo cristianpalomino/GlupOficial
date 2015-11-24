@@ -9,7 +9,6 @@ import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -17,11 +16,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import pe.com.glup.R;
-import pe.com.glup.datasource.DSUsuario;
-import pe.com.glup.fragments.FCloset;
+import pe.com.glup.network.DSUsuario;
 import pe.com.glup.fragments.FClosetProfile;
-import pe.com.glup.interfaces.OnSuccessUpdatePass;
-import pe.com.glup.interfaces.OnSuccessUpdateUser;
+import pe.com.glup.models.interfaces.OnSuccessUpdatePass;
 
 /**
  * Created by Glup on 14/09/15.
@@ -53,7 +50,7 @@ public class NewPassDialog extends DialogFragment implements View.OnClickListene
     private AlertDialog createDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater= getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.fragment_confirmation_new_pass,null);
+        View view = inflater.inflate(R.layout.change_new_pass,null);
         builder.setView(view);
         activarBoton=false;
         passw= (EditText) view.findViewById(R.id.pass_current);

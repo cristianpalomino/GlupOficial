@@ -14,10 +14,8 @@ import android.widget.ToggleButton;
 import com.squareup.otto.Subscribe;
 
 import pe.com.glup.R;
-import pe.com.glup.adapters.ReservaListAdapter;
-import pe.com.glup.bus.BusHolder;
-import pe.com.glup.datasource.DSReserva;
-import pe.com.glup.dialog.ConfirmationDeleteReserva;
+import pe.com.glup.managers.bus.BusHolder;
+import pe.com.glup.network.DSReserva;
 import pe.com.glup.glup.Glup;
 
 /**

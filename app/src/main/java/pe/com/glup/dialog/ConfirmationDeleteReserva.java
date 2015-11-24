@@ -9,13 +9,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import pe.com.glup.R;
-import pe.com.glup.bus.BusHolder;
-import pe.com.glup.datasource.DSReserva;
-import pe.com.glup.glup.Glup;
+import pe.com.glup.network.DSReserva;
 
 public class ConfirmationDeleteReserva extends DialogFragment {
     private Context context;

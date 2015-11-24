@@ -2,18 +2,10 @@ package pe.com.glup.views;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
-import android.media.Image;
 import android.os.Build;
-import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,10 +14,8 @@ import android.widget.TextView;
 import com.squareup.otto.Subscribe;
 
 import pe.com.glup.R;
-import pe.com.glup.bus.BusHolder;
-import pe.com.glup.fragments.FCatalogoNew;
+import pe.com.glup.managers.bus.BusHolder;
 import pe.com.glup.glup.Principal;
-import pe.com.glup.utils.FastBlur;
 
 /**
  * Created by Glup on 23/06/15.

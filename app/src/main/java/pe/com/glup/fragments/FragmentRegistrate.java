@@ -13,21 +13,18 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import pe.com.glup.R;
-import pe.com.glup.beans.Usuario;
-import pe.com.glup.datasource.DSRegistro;
+import pe.com.glup.models.Usuario;
+import pe.com.glup.network.DSRegistro;
 import pe.com.glup.dialog.GlupDialog;
 import pe.com.glup.glup.Principal;
-import pe.com.glup.interfaces.OnSuccessRegistro;
-import pe.com.glup.session.Session_Manager;
-import pe.com.glup.utils.MessageUtil;
+import pe.com.glup.models.interfaces.OnSuccessRegistro;
+import pe.com.glup.managers.session.Session_Manager;
 
 /**
  * Created by Glup on 9/10/15.

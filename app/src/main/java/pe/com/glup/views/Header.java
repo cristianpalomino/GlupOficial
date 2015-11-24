@@ -3,9 +3,7 @@ package pe.com.glup.views;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -18,11 +16,9 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import pe.com.glup.R;
-import pe.com.glup.glup.Entrar;
 import pe.com.glup.glup.Glup;
 import pe.com.glup.glup.Principal;
-import pe.com.glup.interfaces.OnSearchListener;
-import pe.com.glup.session.Session_Manager;
+import pe.com.glup.models.interfaces.OnSearchListener;
 
 /**
  * Created by Glup on 23/06/15.

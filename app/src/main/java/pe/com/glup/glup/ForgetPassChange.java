@@ -12,8 +12,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import pe.com.glup.R;
-import pe.com.glup.bus.BusHolder;
-import pe.com.glup.datasource.DSLogin;
+import pe.com.glup.managers.bus.BusHolder;
+import pe.com.glup.network.DSLogin;
 
 /**
  * Created by Glup on 12/10/15.

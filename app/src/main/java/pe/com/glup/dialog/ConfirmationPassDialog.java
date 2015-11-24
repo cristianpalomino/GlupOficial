@@ -2,12 +2,10 @@ package pe.com.glup.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -20,13 +18,10 @@ import android.widget.TextView;
 import com.squareup.otto.Subscribe;
 
 import pe.com.glup.R;
-import pe.com.glup.bus.BusHolder;
-import pe.com.glup.datasource.DSUsuario;
-import pe.com.glup.fragments.FCloset;
+import pe.com.glup.managers.bus.BusHolder;
+import pe.com.glup.network.DSUsuario;
 import pe.com.glup.fragments.FClosetProfile;
-import pe.com.glup.interfaces.OnPassProfileElements;
-import pe.com.glup.interfaces.OnSuccessUpdateUser;
-import pe.com.glup.views.MessageV2;
+import pe.com.glup.models.interfaces.OnSuccessUpdateUser;
 
 /**
  * Created by Glup on 14/09/15.

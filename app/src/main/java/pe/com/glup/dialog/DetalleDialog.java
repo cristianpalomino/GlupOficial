@@ -1,26 +1,16 @@
 package pe.com.glup.dialog;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 
 import pe.com.glup.R;
-import pe.com.glup.beans.Prenda;
-import pe.com.glup.datasource.DSInfo;
-import pe.com.glup.glup.Glup;
-import pe.com.glup.interfaces.OnSuccessInfo;
-import pe.com.glup.session.Session_Manager;
+import pe.com.glup.models.Prenda;
+import pe.com.glup.network.DSInfo;
+import pe.com.glup.models.interfaces.OnSuccessInfo;
 import pe.com.glup.utils.Util_Fonts;
 
 /**

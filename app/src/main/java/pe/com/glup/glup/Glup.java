@@ -1,9 +1,7 @@
 package pe.com.glup.glup;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -15,9 +13,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import pe.com.glup.R;
-import pe.com.glup.beans.Prenda;
-import pe.com.glup.session.Session_Manager;
+import pe.com.glup.models.Prenda;
 
 /**
  * Created by Glup on 18/06/15.

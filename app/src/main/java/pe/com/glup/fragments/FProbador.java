@@ -1,12 +1,9 @@
 package pe.com.glup.fragments;
 
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -17,7 +14,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -26,16 +22,16 @@ import pe.com.glup.R;
 import pe.com.glup.adapters.PagerBottomAdapter;
 import pe.com.glup.adapters.PagerTopAdapter;
 import pe.com.glup.adapters.PrendaAdapterMenu;
-import pe.com.glup.beans.Prenda;
-import pe.com.glup.bus.BusHolder;
-import pe.com.glup.datasource.DSProbador;
+import pe.com.glup.models.Prenda;
+import pe.com.glup.managers.bus.BusHolder;
+import pe.com.glup.network.DSProbador;
 import pe.com.glup.dialog.DetailActivity;
 import pe.com.glup.dialog.GlupDialog;
 import pe.com.glup.dialog.GlupDialogNew;
-import pe.com.glup.interfaces.OnClickProbador;
-import pe.com.glup.interfaces.OnSuccessPrendas;
-import pe.com.glup.interfaces.OnSuccessProbador;
-import pe.com.glup.session.Session_Manager;
+import pe.com.glup.models.interfaces.OnClickProbador;
+import pe.com.glup.models.interfaces.OnSuccessPrendas;
+import pe.com.glup.models.interfaces.OnSuccessProbador;
+import pe.com.glup.managers.session.Session_Manager;
 
 
 public class FProbador extends Fragment implements View.OnClickListener,OnSuccessPrendas,OnSuccessProbador{
@@ -45,7 +41,6 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
     private ViewPager pagerBotton;
     private ArrayList<Prenda> prendasTop;
     private ArrayList<Prenda> prendasBottom;
-    private SlidingMenu menuright;
     private OnClickProbador onClickProbador;
     private PagerTopAdapter pagerTopAdapter;
     private PagerBottomAdapter pagerBottomAdapter;

@@ -28,15 +28,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import pe.com.glup.R;
 import pe.com.glup.adapters.DetalleUserAdapter;
 import pe.com.glup.adapters.PrendaAdapter;
-import pe.com.glup.beans.DatoUser;
-import pe.com.glup.beans.DetalleUser;
-import pe.com.glup.bus.BusHolder;
-import pe.com.glup.datasource.DSCloset;
-import pe.com.glup.datasource.DSUsuario;
+import pe.com.glup.models.DatoUser;
+import pe.com.glup.models.DetalleUser;
+import pe.com.glup.managers.bus.BusHolder;
+import pe.com.glup.network.DSCloset;
+import pe.com.glup.network.DSUsuario;
 import pe.com.glup.dialog.GlupDialog;
 import pe.com.glup.glup.Glup;
 import pe.com.glup.glup.Principal;
-import pe.com.glup.interfaces.OnSuccessDetalleUsuario;
+import pe.com.glup.models.interfaces.OnSuccessDetalleUsuario;
 
 /**
  * A simple {@link Fragment} subclass.

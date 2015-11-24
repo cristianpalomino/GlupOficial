@@ -1,9 +1,7 @@
 package pe.com.glup.fragments;
 
 
-import android.app.FragmentManager;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -13,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -22,20 +19,16 @@ import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 
 import pe.com.glup.R;
-import pe.com.glup.adapters.PrendaAdapter;
 import pe.com.glup.adapters.PrendaAdapter2;
-import pe.com.glup.beans.Prenda;
-import pe.com.glup.bus.BusHolder;
-import pe.com.glup.datasource.DSCatalogo;
-import pe.com.glup.dialog.GlupDialog;
+import pe.com.glup.models.Prenda;
+import pe.com.glup.managers.bus.BusHolder;
+import pe.com.glup.network.DSCatalogo;
 import pe.com.glup.dialog.GlupDialogNew;
 import pe.com.glup.glup.Glup;
 import pe.com.glup.glup.Principal;
-import pe.com.glup.interfaces.OnSearchListener;
-import pe.com.glup.interfaces.OnSuccessUpdate;
-import pe.com.glup.interfaces.OnSuccessCatalogo;
+import pe.com.glup.models.interfaces.OnSearchListener;
+import pe.com.glup.models.interfaces.OnSuccessCatalogo;
 import pe.com.glup.utils.Util_Fonts;
-import pe.com.glup.views.MessageV2;
 
 
 /**

@@ -2,19 +2,17 @@ package pe.com.glup.glup;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import pe.com.glup.R;
-import pe.com.glup.beans.Usuario;
-import pe.com.glup.datasource.DSRegistro;
+import pe.com.glup.models.Usuario;
+import pe.com.glup.network.DSRegistro;
 import pe.com.glup.dialog.GlupDialog;
-import pe.com.glup.interfaces.OnSuccessRegistro;
-import pe.com.glup.session.Session_Manager;
+import pe.com.glup.models.interfaces.OnSuccessRegistro;
+import pe.com.glup.managers.session.Session_Manager;
 import pe.com.glup.utils.Util_Fonts;
 
 

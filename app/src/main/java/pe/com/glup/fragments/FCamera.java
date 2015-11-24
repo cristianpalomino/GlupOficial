@@ -23,13 +23,12 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import android.os.Handler;
-import android.os.Looper;
 
 import pe.com.glup.R;
-import pe.com.glup.bus.BusHolder;
-import pe.com.glup.datasource.DSCamera;
-import pe.com.glup.events.Flash;
-import pe.com.glup.events.TakePhoto;
+import pe.com.glup.managers.bus.BusHolder;
+import pe.com.glup.network.DSCamera;
+import pe.com.glup.models.events.Flash;
+import pe.com.glup.models.events.TakePhoto;
 import pe.com.glup.glup.Principal;
 import pe.com.glup.utils.CameraUtils;
 import pe.com.glup.views.CameraSurface;
@@ -113,6 +112,7 @@ public class FCamera extends Fragment implements View.OnClickListener {
 		iconPreview = (ImageView) getView().findViewById(R.id.icon_preview);
 		atrasCamara = (ImageView) getView().findViewById(R.id.atras_camara);
 		atrasCamara.setOnClickListener(this);
+
 
 		Log.e("superior",getRelativeTop(superior)+"dp en pixeles "+(int)convertDpToPixel(getRelativeTop(superior),context));
 		surface = new CameraSurface(context,(int)convertDpToPixel(getRelativeTop(superior),context));
@@ -198,7 +198,7 @@ public class FCamera extends Fragment implements View.OnClickListener {
 						refresh.setChecked(false);
 						//refresh.invalidate();
 					}
-				},1200);
+				}, 1200);
 
 				iconPreview.setVisibility(View.VISIBLE);
 				tvIconPreview.setVisibility(View.VISIBLE);
@@ -314,6 +314,8 @@ public class FCamera extends Fragment implements View.OnClickListener {
 				tvSuperior.setVisibility(View.VISIBLE);
 				break;
 			case R.id.atras_camara:
+
+				contador=1;
 				((Principal)context).onBackPressed();
 				break;
 		}
@@ -331,6 +333,7 @@ public class FCamera extends Fragment implements View.OnClickListener {
 			case 1:
 				iconPreview.setVisibility(View.GONE);
 				tvIconPreview.setVisibility(View.GONE);
+				Log.e("ver",iconPreview.getVisibility()+"");
 				contador++;
 				refresh.setEnabled(true);
 				refresh.setChecked(false);

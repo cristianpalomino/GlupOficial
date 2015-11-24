@@ -4,34 +4,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ToggleButton;
-
-import com.viewpagerindicator.CirclePageIndicator;
 
 import pe.com.glup.R;
-import pe.com.glup.adapters.Adapter_Incio;
-import pe.com.glup.beans.Usuario;
-import pe.com.glup.datasource.DSCatalogo;
-import pe.com.glup.datasource.DSLogin;
-import pe.com.glup.dialog.GlupDialog;
 import pe.com.glup.fragments.FragmentEntrarDefault;
 import pe.com.glup.fragments.FragmentIniciar;
 import pe.com.glup.fragments.FragmentRegistrate;
-import pe.com.glup.interfaces.OnSuccessLogin;
-import pe.com.glup.session.Session_Manager;
-import pe.com.glup.utils.Util_Fonts;
-import pe.com.glup.views.GifView;
+import pe.com.glup.managers.session.Session_Manager;
 
 
 public class Entrar extends AppCompatActivity implements  View.OnClickListener {

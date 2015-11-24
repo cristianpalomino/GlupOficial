@@ -1,7 +1,6 @@
 package pe.com.glup.adapters;
 
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,13 +13,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import pe.com.glup.R;
-import pe.com.glup.beans.Prenda;
-import pe.com.glup.beans.ReservaItem;
-import pe.com.glup.beans.ReservaList;
-import pe.com.glup.beans.Tienda;
-import pe.com.glup.bus.BusHolder;
-import pe.com.glup.datasource.DSProbador;
-import pe.com.glup.datasource.DSReserva;
+import pe.com.glup.models.Prenda;
+import pe.com.glup.managers.bus.BusHolder;
+import pe.com.glup.network.DSReserva;
 
 /**
  * Created by Glup on 28/09/15.

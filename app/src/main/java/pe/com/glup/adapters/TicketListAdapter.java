@@ -6,13 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import pe.com.glup.R;
-import pe.com.glup.beans.TicketList;
+import pe.com.glup.models.TicketList;
 
 /**
  * Created by Glup on 2/10/15.

@@ -1,27 +1,20 @@
 package pe.com.glup.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ToggleButton;
 
-import com.squareup.otto.Subscribe;
-
 
 import pe.com.glup.R;
-import pe.com.glup.bus.BusHolder;
-import pe.com.glup.glup.Principal;
-import pe.com.glup.session.Session_Manager;
+import pe.com.glup.managers.bus.BusHolder;
+import pe.com.glup.managers.session.Session_Manager;
 
 /**
  * Created by Glup on 5/10/15.

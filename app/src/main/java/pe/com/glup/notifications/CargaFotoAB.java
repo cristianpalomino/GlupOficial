@@ -5,7 +5,7 @@ import android.content.Context;
 import android.support.v4.app.NotificationCompat;
 
 import pe.com.glup.R;
-import pe.com.glup.interfaces.INotification;
+import pe.com.glup.models.interfaces.INotification;
 
 /**
  * Created by Glup on 21/10/15.

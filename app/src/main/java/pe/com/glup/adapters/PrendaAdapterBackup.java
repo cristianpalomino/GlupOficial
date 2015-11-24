@@ -4,7 +4,6 @@ package pe.com.glup.adapters;
  * Created by Glup on 5/10/15.
  */
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +17,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import pe.com.glup.R;
-import pe.com.glup.beans.Prenda;
-import pe.com.glup.glup.Principal;
+import pe.com.glup.models.Prenda;
 import pe.com.glup.utils.Util_Fonts;
 /**
  * Created by Glup on 18/09/15.

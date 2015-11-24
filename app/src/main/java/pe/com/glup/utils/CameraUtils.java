@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 
-import pe.com.glup.bus.BusHolder;
-import pe.com.glup.events.Enfocar;
+import pe.com.glup.managers.bus.BusHolder;
+import pe.com.glup.models.events.Enfocar;
 
 ////
 

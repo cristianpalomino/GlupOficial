@@ -15,10 +15,10 @@ import java.util.ArrayList;
 
 import pe.com.glup.R;
 import pe.com.glup.adapters.PrendaAdapterMenu;
-import pe.com.glup.beans.Prenda;
-import pe.com.glup.bus.BusHolder;
-import pe.com.glup.datasource.DSProbador;
-import pe.com.glup.interfaces.OnSuccessPrendas;
+import pe.com.glup.models.Prenda;
+import pe.com.glup.managers.bus.BusHolder;
+import pe.com.glup.network.DSProbador;
+import pe.com.glup.models.interfaces.OnSuccessPrendas;
 
 
 public class FMenuRigth extends Fragment implements OnSuccessPrendas,

@@ -2,17 +2,14 @@ package pe.com.glup.adapters;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.squareup.picasso.Picasso;
@@ -20,12 +17,10 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import pe.com.glup.R;
-import pe.com.glup.beans.Prenda;
-import pe.com.glup.bus.BusHolder;
-import pe.com.glup.datasource.DSProbador;
-import pe.com.glup.glup.DetalleNew;
+import pe.com.glup.models.Prenda;
+import pe.com.glup.managers.bus.BusHolder;
+import pe.com.glup.network.DSProbador;
 import pe.com.glup.glup.Glup;
-import pe.com.glup.glup.Principal;
 import pe.com.glup.utils.Util_Fonts;
 /**
  * Created by Glup on 18/09/15.

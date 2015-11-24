@@ -30,10 +30,10 @@ import java.util.List;
 
 
 import pe.com.glup.R;
-import pe.com.glup.bus.BusHolder;
-import pe.com.glup.events.Enfocar;
-import pe.com.glup.events.Flash;
-import pe.com.glup.events.TakePhoto;
+import pe.com.glup.managers.bus.BusHolder;
+import pe.com.glup.models.events.Enfocar;
+import pe.com.glup.models.events.Flash;
+import pe.com.glup.models.events.TakePhoto;
 import pe.com.glup.glup.Principal;
 import pe.com.glup.utils.CameraUtils;
 import pe.com.glup.utils.ImageUtils;

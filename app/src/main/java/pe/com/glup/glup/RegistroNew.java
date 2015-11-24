@@ -4,11 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.ToggleButton;
 
@@ -16,7 +13,7 @@ import pe.com.glup.R;
 import pe.com.glup.fragments.FragmentEntrarDefault;
 import pe.com.glup.fragments.FragmentIniciar;
 import pe.com.glup.fragments.FragmentRegistrate;
-import pe.com.glup.session.Session_Manager;
+import pe.com.glup.managers.session.Session_Manager;
 
 /**
  * Created by Glup on 12/10/15.

@@ -19,9 +19,9 @@ import java.util.ArrayList;
 
 import pe.com.glup.R;
 import pe.com.glup.adapters.TicketListAdapter;
-import pe.com.glup.beans.TicketList;
-import pe.com.glup.bus.BusHolder;
-import pe.com.glup.datasource.DSReserva;
+import pe.com.glup.models.TicketList;
+import pe.com.glup.managers.bus.BusHolder;
+import pe.com.glup.network.DSReserva;
 import pe.com.glup.dialog.DetalleTicketDialog;
 
 /**

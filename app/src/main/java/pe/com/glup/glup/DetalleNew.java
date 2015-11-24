@@ -6,7 +6,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -18,8 +17,8 @@ import java.util.ArrayList;
 
 import pe.com.glup.R;
 import pe.com.glup.adapters.PagerDetalleAdapter;
-import pe.com.glup.beans.Prenda;
-import pe.com.glup.bus.BusHolder;
+import pe.com.glup.models.Prenda;
+import pe.com.glup.managers.bus.BusHolder;
 import pe.com.glup.dialog.DetailActivity;
 
 /**

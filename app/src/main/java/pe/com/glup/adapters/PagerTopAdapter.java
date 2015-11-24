@@ -15,9 +15,9 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import pe.com.glup.R;
-import pe.com.glup.beans.Prenda;
-import pe.com.glup.bus.BusHolder;
-import pe.com.glup.interfaces.OnClickTopProbador;
+import pe.com.glup.models.Prenda;
+import pe.com.glup.managers.bus.BusHolder;
+import pe.com.glup.models.interfaces.OnClickTopProbador;
 import pe.com.glup.utils.Util_Fonts;
 
 /**

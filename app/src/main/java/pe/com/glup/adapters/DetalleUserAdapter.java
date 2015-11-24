@@ -5,10 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -17,8 +14,8 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import pe.com.glup.R;
-import pe.com.glup.beans.DatoUser;
-import pe.com.glup.beans.DetalleUser;
+import pe.com.glup.models.DatoUser;
+import pe.com.glup.models.DetalleUser;
 
 /**
  * Created by Glup on 10/09/15.

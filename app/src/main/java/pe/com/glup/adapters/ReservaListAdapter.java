@@ -1,8 +1,6 @@
 package pe.com.glup.adapters;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import pe.com.glup.R;
-import pe.com.glup.beans.Prenda;
-import pe.com.glup.bus.BusHolder;
-import pe.com.glup.datasource.DSReserva;
+import pe.com.glup.models.Prenda;
 import pe.com.glup.dialog.ConfirmationDeleteReserva;
 import pe.com.glup.dialog.ConfirmationPassDialog;
 import pe.com.glup.glup.Glup;

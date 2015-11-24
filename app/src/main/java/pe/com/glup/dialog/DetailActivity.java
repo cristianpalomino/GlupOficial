@@ -1,19 +1,15 @@
 package pe.com.glup.dialog;
 
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.DatePicker;
-import android.widget.TimePicker;
 
 import pe.com.glup.R;
-import pe.com.glup.bus.BusHolder;
-import pe.com.glup.datasource.DSProbador;
+import pe.com.glup.managers.bus.BusHolder;
+import pe.com.glup.network.DSProbador;
 
 
 public class DetailActivity extends AppCompatActivity {

@@ -15,15 +15,14 @@ import android.widget.Toast;
 import java.util.List;
 
 import pe.com.glup.R;
-import pe.com.glup.beans.Usuario;
-import pe.com.glup.bus.BusHolder;
-import pe.com.glup.datasource.DSLogin;
-import pe.com.glup.dialog.GlupDialog;
+import pe.com.glup.models.Usuario;
+import pe.com.glup.managers.bus.BusHolder;
+import pe.com.glup.network.DSLogin;
 import pe.com.glup.dialog.GlupDialogNew;
 import pe.com.glup.glup.ForgetPassCode;
 import pe.com.glup.glup.Principal;
-import pe.com.glup.interfaces.OnSuccessLogin;
-import pe.com.glup.session.Session_Manager;
+import pe.com.glup.models.interfaces.OnSuccessLogin;
+import pe.com.glup.managers.session.Session_Manager;
 import pe.com.glup.utils.Util_Fonts;
 
 /**
