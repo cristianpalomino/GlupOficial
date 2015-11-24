@@ -73,6 +73,8 @@ public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
     private String nuevaPassword="";
     private boolean changeToNewPass=false;
     private RelativeLayout frameChangePass,frameCloseSession;
+    private boolean detectSomeChange;
+    private boolean flagDirect;
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -181,6 +183,7 @@ public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
                 showDatePicker();
                 break;
             case R.id.changePass:
+                flagDirect=false;
                 Log.e("clic", "cambiar password");
                 indVerPass = "false";
                 fragmentManager = context.getActivity().getSupportFragmentManager();
@@ -198,6 +201,7 @@ public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
                 ((Glup)context).finish();
                 break;
             case R.id.frame_changePass:
+                flagDirect=false;
                 Log.e("clic", "cambiar password");
                 indVerPass = "false";
                 fragmentManager = this.context.getActivity().getSupportFragmentManager();
@@ -390,8 +394,8 @@ public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
     @Override
     public void onSuccesUpdateUser(boolean status, int indOp, String msg) {
         Log.e("mensajeSuccess", msg + " indicador " + indOp);
-        final Message toast = new Message(getActivity(), msg, Toast.LENGTH_SHORT);
-        toast.show();
+        //final Message toast = new Message(getActivity(), msg, Toast.LENGTH_SHORT);
+        //toast.show();
         /*final MessageV2 toast=new MessageV2(msg);
         toast.setCancelable(false);
         toast.show(context.getActivity().getSupportFragmentManager(),MessageV2.class.getSimpleName());
@@ -409,21 +413,23 @@ public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
                     cumpleanos.getText().toString(),
                     correo.getText().toString(),
                     telefono.getText().toString());
-            /**if (indVerPass.equals("false")){
-                final MessageV2 toast=new MessageV2(msg);
-                toast.setCancelable(false);
-                toast.show(context.getActivity().getSupportFragmentManager(),MessageV2.class.getSimpleName());
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        toast.dismiss();
-                    }
-                }, 2000);
-            }*/
         }else {
             inverseSetChangeProfileElements();
         }
+        if (flagDirect){
+            flagDirect=false;
+            final MessageV2 message=new MessageV2(msg);
+            message.setCancelable(false);
+            message.show(context.getActivity().getSupportFragmentManager(),MessageV2.class.getSimpleName());
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    message.dismiss();
+                }
+            }, 2500);
+        }
+
     }
 
 
@@ -445,36 +451,64 @@ public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
         if (count>0){
             Log.e("ultimoFrag",fragmentManager.getBackStackEntryAt(count-1).getName());
         }
+
         ////dsUsuario = new DSUsuario(getActivity());
         ////dsUsuario.setOnSuccessUpdateUser(FCloset.this);
         //Log.e("antes del indVerPass", indVerPass);
         //if (!changeToNewPass){
-        indVerPass = detectedIndVerPass();
-        //}
-
-        Log.e("antes indVerPass", indVerPass);
-        if (indVerPass.equals("true")){
-            new ConfirmationPassDialog(indVerPass,nombres.getText().toString(),
-                    apellidos.getText().toString(),
-                    cumpleanos.getText().toString(),
-                    correo.getText().toString(),
-                    telefono.getText().toString(),FClosetProfile.this).show(fragmentManager, "ConfirmationPassDialog");
-        }else{
-            try{
-                dsUsuario.setOnSuccessUpdateUser(FClosetProfile.this);
-            }catch (ClassCastException e){
-                Log.e("error",e.toString());
+        detectSomeChange= detectChanges();
+        if (detectSomeChange){
+            indVerPass = detectedIndVerPass();
+            //}
+            Log.e("antes indVerPass", indVerPass);
+            if (indVerPass.equals("true")){
+                flagDirect=false;
+                new ConfirmationPassDialog(indVerPass,nombres.getText().toString(),
+                        apellidos.getText().toString(),
+                        cumpleanos.getText().toString(),
+                        correo.getText().toString(),
+                        telefono.getText().toString(),FClosetProfile.this).show(fragmentManager, "ConfirmationPassDialog");
+            }else{
+                flagDirect=true;
+                try{
+                    dsUsuario.setOnSuccessUpdateUser(FClosetProfile.this);
+                }catch (ClassCastException e){
+                    Log.e("error",e.toString());
+                }
+                Log.e("UpdateNom",nombres.getText().toString());
+                dsUsuario.updateUsuario(indVerPass, nuevaPassword, nombres.getText().toString(),
+                        apellidos.getText().toString(), cumpleanos.getText().toString(),
+                        correo.getText().toString(), telefono.getText().toString());
             }
-            Log.e("UpdateNom",nombres.getText().toString());
-            dsUsuario.updateUsuario(indVerPass, nuevaPassword, nombres.getText().toString(),
-                    apellidos.getText().toString(), cumpleanos.getText().toString(),
-                    correo.getText().toString(), telefono.getText().toString());
+        }else {
+            final MessageV2 message=new MessageV2("No realizo ningun cambio");
+            message.setCancelable(false);
+            message.show(context.getActivity().getSupportFragmentManager(),MessageV2.class.getSimpleName());
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    message.dismiss();
+                }
+            }, 2000);
+        }
+
+    }
+
+    private boolean detectChanges() {
+        if (changeNombres.equals(nombres.getText().toString()) && changeApellidos.equals(apellidos.getText().toString())
+                && changeCorreo.equals(correo.getText().toString()) && changeTelefono.equals(telefono.getText().toString())
+        ){
+            return false;
+        }else {
+            return true;
         }
     }
 
 
     @Subscribe
     public void setUpdateUsername(DSUsuario.SignalChangeUsername signalChangeUsername){
+        Log.e("nullindverpass2",signalChangeUsername.indVerPass);
         SignalChangeUsername2 signalChangeUsername2=new SignalChangeUsername2();
         signalChangeUsername2.username=nombres.getText().toString();
         BusHolder.getInstance().post(signalChangeUsername2);

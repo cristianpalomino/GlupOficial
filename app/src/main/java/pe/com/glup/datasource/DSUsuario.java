@@ -106,7 +106,7 @@ public class DSUsuario {
             }
         });
     }
-    public void updateUsuario(String indVerPass,String passUser,String nombre, String apellido, String fecNac, String correo, String telef){
+    public void updateUsuario(final String indVerPass,String passUser,String nombre, String apellido, String fecNac, String correo, String telef){
         String URL = WSGlup.ORQUESTADOR_NUEVO;
 
         Log.e("NombreActual",nombre);
@@ -137,11 +137,13 @@ public class DSUsuario {
                         onSuccessUpdateUser.onSuccesUpdateUser(true, response.getInt("success"), response.getString("success_msg"));
                         signalChangeUsername.success=response.getInt("success");
                         signalChangeUsername.msg=response.getString("success_msg");
+
                     } else {
                         onSuccessUpdateUser.onSuccesUpdateUser(true, response.getInt("success"), response.getString("error_msg"));
                         signalChangeUsername.success=response.getInt("success");
                         signalChangeUsername.msg=response.getString("error_msg");
                     }
+                    signalChangeUsername.indVerPass=indVerPass;
                     BusHolder.getInstance().post(signalChangeUsername);
                     Log.e("json", response.toString());
                 } catch (JSONException e) {
@@ -158,7 +160,7 @@ public class DSUsuario {
 
     }
 
-    public class SignalChangeUsername{public int success;public String msg;}
+    public class SignalChangeUsername{public int success;public String msg;public String indVerPass;}
 
 
     private String resetFormatFecha(String fecNac) {

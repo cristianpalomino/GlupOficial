@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -129,9 +130,9 @@ public class ConfirmationPassDialog extends DialogFragment implements View.OnCli
             tvHelp.setText(msg);
             inputPass.setEnabled(false);
             if (indOp==0){
-                tvHelp.setTextColor(context.getResources().getColor(R.color.rojo_glup));
+                tvHelp.setTextColor(context.getActivity().getResources().getColor(R.color.rojo_glup));
             }else {
-                tvHelp.setTextColor(context.getResources().getColor(R.color.celeste_glup));
+                tvHelp.setTextColor(context.getActivity().getResources().getColor(R.color.celeste_glup));
             }
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
@@ -148,7 +149,7 @@ public class ConfirmationPassDialog extends DialogFragment implements View.OnCli
 
                     }
                 }
-            }, 3500);
+            }, 3000);
 
         }
     }
