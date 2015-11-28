@@ -1,128 +1,117 @@
 package pe.com.glup.fragments;
 
-import android.net.Uri;
 import android.os.Bundle;
-
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import pe.com.glup.R;
 import pe.com.glup.adapters.PrendaAdapter;
-import pe.com.glup.models.Prenda;
-import pe.com.glup.managers.bus.BusHolder;
-import pe.com.glup.network.DSCloset;
 import pe.com.glup.dialog.GlupDialog;
 import pe.com.glup.dialog.GlupDialogNew;
 import pe.com.glup.glup.Glup;
 import pe.com.glup.glup.Principal;
+import pe.com.glup.managers.bus.BusHolder;
+import pe.com.glup.models.PerfilUsuario;
+import pe.com.glup.models.Prenda;
 import pe.com.glup.models.interfaces.OnSearchListener;
 import pe.com.glup.models.interfaces.OnSuccessCatalogo;
 import pe.com.glup.models.interfaces.OnSuccessUpdate;
+import pe.com.glup.network.DSCloset;
+import pe.com.glup.network.DSUsuario;
+import pe.com.glup.network.DSUsuarioNew;
 import pe.com.glup.utils.Util_Fonts;
 
-
-public class FClosetGrilla extends Fragment implements OnSuccessCatalogo,
+/**
+ * Created by Glup on 25/11/15.
+ */
+public class FClosetNew extends Fragment implements View.OnClickListener,OnSuccessCatalogo,
         OnSearchListener,
         AbsListView.OnScrollListener,
-        AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener{
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+        AdapterView.OnItemClickListener{
+    private CircleImageView foto;
+    private TextView username;
+    private DSUsuario dsUsuario;
+    private Button updateProfile;
+    private FragmentManager fragmentManager;
+    private FrameLayout frameBack,frameUpdate;
 
-    private FCloset context;
     protected GlupDialogNew gd;
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     private static final int EMPTY = 0;
     private static final int FULL = 1;
     private TextView emptyView;
     private GridView grilla;
     private PrendaAdapter adapter;
     private DSCloset dsCloset;
-
     private Glup glup;
-
     private static int PAGE = 1;
     private static String TAG = "todos";
     private boolean isLoading = false;
 
-    private OnFragmentInteractionListener mListener;
-
-    // TODO: Rename and change types and number of parameters
-    public static FClosetGrilla newInstance(String param1, String param2) {
-        FClosetGrilla fragment = new FClosetGrilla();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+    public static FClosetNew newInstance(){
+        FClosetNew fragment=new FClosetNew();
         return fragment;
     }
-    public FClosetGrilla(FCloset context){
-        this.context=context;
-    }
-    public FClosetGrilla() {
-        // Required empty public constructor
-    }
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onCreate(Bundle savedInstance){super.onCreate(savedInstance);}
+    @Override
+    public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstance){
+        return inflater.inflate(R.layout.fragment_closet_grid,container,false);
+    }
+    @Override
+    public void onActivityCreated(Bundle savedInstance){
+        super.onActivityCreated(savedInstance);
         BusHolder.getInstance().register(this);
-        glup = (Glup) context.getActivity();
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+        frameBack = (FrameLayout)getView().findViewById(R.id.frame_back);
+        frameUpdate = (FrameLayout)getView().findViewById(R.id.frame_update);
+        frameBack.setVisibility(View.GONE);
+        frameUpdate.setVisibility(View.GONE);
+        foto = (CircleImageView) getView().findViewById(R.id.photo);
+        username = (TextView)getView().findViewById(R.id.username);
+        foto.setOnClickListener(this);
+        DSUsuarioNew dsUsuarioNew=new DSUsuarioNew(getActivity());
+        dsUsuarioNew.loadUsuario();
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_fcatalogo, container, false);
-        return view;
-    }
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         PAGE = 1;
         TAG = "todos";
         isLoading = false;
 
         Principal principal = ((Principal) getActivity());
         try{
-            principal.getHeader().setOnSearchListener(FClosetGrilla.this);
+            principal.getHeader().setOnSearchListener(FClosetNew.this);
         }catch (ClassCastException e){
             Log.e("error",e.toString());
         }
 
         emptyView = (TextView) getView().findViewById(R.id.empty_view);
+        getView().findViewById(R.id.empty_view_subtitle).setVisibility(View.GONE);
         emptyView.setTypeface(Util_Fonts.setRegular(getActivity()));
 
         grilla = (GridView) getView().findViewById(R.id.grilla_prendas);
-        grilla.setOnItemLongClickListener(this);
         grilla.setOnItemClickListener(this);
         grilla.setOnScrollListener(this);
 
         dsCloset = new DSCloset(getActivity());
         dsCloset.getUsuarioPrendas(TAG, String.valueOf(PAGE), "10");
         try{
-            dsCloset.setOnSuccessCatalogo(FClosetGrilla.this);//context FCloset
+            dsCloset.setOnSuccessCatalogo(FClosetNew.this);//context FCloset
         }catch (ClassCastException e){
             Log.e("error",e.toString());
         }
@@ -132,24 +121,46 @@ public class FClosetGrilla extends Fragment implements OnSuccessCatalogo,
         SHOW LOAD DIALOG
          */
         //dec1
-        android.support.v4.app.FragmentManager fragmentManager= getActivity().getSupportFragmentManager();
+        fragmentManager= getActivity().getSupportFragmentManager();
         gd = new GlupDialogNew();
-        //gd.setCancelable(false);
+        gd.setCancelable(false);
         gd.show(fragmentManager,GlupDialog.class.getSimpleName());
-        //gd.getWindow().setAttributes(lp);
+
 
 
 
     }
-
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.photo:
+                OpenProfile openProfile = new OpenProfile();
+                BusHolder.getInstance().post(openProfile);
+                break;
+        }
+        //if (v.getId()==R.id.frame_back || v.getId()==R.id.back){getActivity().onBackPressed();}
+
+    }
+    @Subscribe
+    public void SuccesLoadProfile(PerfilUsuario perfilUsuario){
+        Log.e("LoadUser", perfilUsuario.getSuccess()+"");
+        if (perfilUsuario.getSuccess()==1){
+            try {
+                Picasso.with(getActivity().getApplicationContext())
+                .load(perfilUsuario.getDatouser().get(0).getRutaFoto())
+                .fit().centerInside().noFade()
+                .into(foto);
+                username.setText(perfilUsuario.getDatouser().get(0).getNomUser());
+            }catch (Exception e){
+                Log.e("LoadUserError",e.getMessage());
+            }
+        }else{
+
+        }
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Prenda prenda = (Prenda) parent.getItemAtPosition(position);
         dsCloset = new DSCloset(getActivity());
         dsCloset.updateProbador(glup.getPrendas().get(position).getCod_prenda());
@@ -158,21 +169,15 @@ public class FClosetGrilla extends Fragment implements OnSuccessCatalogo,
             public void onSuccesUpdate(boolean status, int indProb) {
                 if (status) {
                     if (indProb == 0) {
-                        ((CheckBox) view.findViewById(R.id.check)).setChecked(false);
+                        //((CheckBox) view.findViewById(R.id.check)).setChecked(false);
                     } else if (indProb == 1) {
-                        ((CheckBox) view.findViewById(R.id.check)).setChecked(true);
+                        //((CheckBox) view.findViewById(R.id.check)).setChecked(true);
                     }
                 } else {
                     Log.e(FCloset.class.getName(), "Ocurrio un error");
                 }
             }
         });
-    }
-
-    @Override
-    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
-        return false;
     }
 
     @Override
@@ -189,7 +194,7 @@ public class FClosetGrilla extends Fragment implements OnSuccessCatalogo,
                 PAGE++;
                 dsCloset.getUsuarioPrendas(TAG, String.valueOf(PAGE), "10");
                 try{
-                    dsCloset.setOnSuccessCatalogo(FClosetGrilla.this);//context FCloset
+                    dsCloset.setOnSuccessCatalogo(FClosetNew.this);//context FCloset
                 }catch (ClassCastException e){
                     Log.e("error",e.toString());
                 }
@@ -209,11 +214,10 @@ public class FClosetGrilla extends Fragment implements OnSuccessCatalogo,
 
         dsCloset.getUsuarioPrendas(TAG, String.valueOf(PAGE), "10");
         try{
-            dsCloset.setOnSuccessCatalogo(FClosetGrilla.this);//context FCloset
+            dsCloset.setOnSuccessCatalogo(FClosetNew.this);//context FCloset
         }catch (ClassCastException e){
             Log.e("error",e.toString());
         }
-
     }
 
     @Override
@@ -223,7 +227,7 @@ public class FClosetGrilla extends Fragment implements OnSuccessCatalogo,
             if (PAGE == 1) {
                 if (prendas != null) {
                     displayMessage(FULL);
-                    adapter = new PrendaAdapter(FClosetGrilla.this.getActivity(), prendas);
+                    adapter = new PrendaAdapter(FClosetNew.this.getActivity(), prendas);
                     grilla.setAdapter(adapter);
                     glup.setPrendas(adapter.getmPrendas());
                     isLoading = false;
@@ -252,7 +256,6 @@ public class FClosetGrilla extends Fragment implements OnSuccessCatalogo,
         gd.dismiss();
         displayMessage(EMPTY);
     }
-
     private void displayMessage(int type) {
         if (type == EMPTY) {
             grilla.setVisibility(View.GONE);
@@ -262,16 +265,5 @@ public class FClosetGrilla extends Fragment implements OnSuccessCatalogo,
             emptyView.setVisibility(View.GONE);
         }
     }
-
-
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
-    }
-    @Subscribe
-    public void getIndProbador(String indProb) {
-        adapter.notifyDataSetChanged();
-    }
-
+    public class OpenProfile{}
 }

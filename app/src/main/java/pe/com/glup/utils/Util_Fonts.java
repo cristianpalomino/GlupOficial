@@ -15,4 +15,7 @@ public class Util_Fonts {
     public static Typeface setLight(Context paramContext) {
         return Typeface.createFromAsset(paramContext.getAssets(), "fonts/geosanslight.ttf");
     }
+    public static Typeface setLatoRegular(Context paramContext){
+        return Typeface.createFromAsset(paramContext.getAssets(),"fonts/LatoRegular.ttf");
+    }
 }

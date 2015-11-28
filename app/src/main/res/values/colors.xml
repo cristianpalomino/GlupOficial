@@ -34,4 +34,7 @@
     <color name="text_gris_glup">#8f8f8f</color>
     <color name="gris_glup_nuevo">#b1b1b1</color>
 
+    <color name="fondo_slide_probador">#eaeaea</color>
+    <color name="text_marca">#4d4d4d</color>
+    <color name="text_modelo">#858585</color>
 </resources>

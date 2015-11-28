@@ -104,6 +104,8 @@ public class PrendaAdapterMenu extends BaseAdapter implements View.OnLongClickLi
 
 
 		holder.marca.setText(prenda.getMarca());
+		holder.marca.setAllCaps(true);
+		holder.marca.setTextSize(14);
 		holder.modelo.setText(prenda.getTipo());
 
 		//Log.e("fragmento",this.context.getApplicationContext().);

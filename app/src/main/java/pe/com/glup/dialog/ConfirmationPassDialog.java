@@ -18,10 +18,12 @@ import android.widget.TextView;
 import com.squareup.otto.Subscribe;
 
 import pe.com.glup.R;
+import pe.com.glup.fragments.FClosetProfileNew;
 import pe.com.glup.managers.bus.BusHolder;
 import pe.com.glup.network.DSUsuario;
 import pe.com.glup.fragments.FClosetProfile;
 import pe.com.glup.models.interfaces.OnSuccessUpdateUser;
+import pe.com.glup.network.DSUsuarioNew;
 
 /**
  * Created by Glup on 14/09/15.
@@ -29,7 +31,7 @@ import pe.com.glup.models.interfaces.OnSuccessUpdateUser;
 public class ConfirmationPassDialog extends DialogFragment implements View.OnClickListener{
     private  static  final String TAG = ConfirmationPassDialog.class.getSimpleName();
     private EditText inputPass;
-    private FClosetProfile context;
+    private FClosetProfileNew context;
     private Button btnOk;
     private String nombre,apellido,cumpleanos,correo,telefono,indOp;
     private boolean range=false;
@@ -37,7 +39,7 @@ public class ConfirmationPassDialog extends DialogFragment implements View.OnCli
 
     public ConfirmationPassDialog(){}
 
-    public ConfirmationPassDialog(String indOp,String nombre, String apellido, String cumpleanos, String correo, String telefono, FClosetProfile context) {
+    public ConfirmationPassDialog(String indOp,String nombre, String apellido, String cumpleanos, String correo, String telefono, FClosetProfileNew context) {
         this.indOp=indOp;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -99,17 +101,9 @@ public class ConfirmationPassDialog extends DialogFragment implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_confirmation:
-                DSUsuario dsUsuario = new DSUsuario(getActivity());
-
-                try{
-                   dsUsuario.setOnSuccessUpdateUser((OnSuccessUpdateUser) context);
-                   dsUsuario.updateUsuario(indOp, inputPass.getText().toString(), nombre, apellido, cumpleanos, correo, telefono);
-                    //super.dismiss();
-                }catch (ClassCastException e){
-                    Log.e(null,e.toString());
-                }
-               //super.dismiss();
-                //dismiss();
+                DSUsuarioNew dsUsuario = new DSUsuarioNew(getActivity());
+                dsUsuario.updateUsuario(indOp, inputPass.getText().toString(), nombre, apellido, cumpleanos, correo, telefono);
+                //super.dismiss();
                 break;
         }
     }
@@ -117,10 +111,10 @@ public class ConfirmationPassDialog extends DialogFragment implements View.OnCli
 
 
     @Subscribe
-    public void setUpdateUsername(DSUsuario.SignalChangeUsername signalChangeUsername){
+    public void SuccessUpdateProfile(DSUsuarioNew.SignalUpdateProfile signalUpdateProfile){
         Log.e("entro:","onsuccesupdateuser");
-        final int indOp=signalChangeUsername.success;
-        String msg=signalChangeUsername.msg;
+        final int indOp=signalUpdateProfile.success;
+        String msg=signalUpdateProfile.msg;
         if (this!=null){
             tvHelp.setText(msg);
             inputPass.setEnabled(false);

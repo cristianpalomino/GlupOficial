@@ -51,22 +51,24 @@ public class FCatalogoNew extends Fragment implements View.OnClickListener {
 
     public void inicializarCatalogoSexo() {
        if (new Session_Manager(getActivity()).getCurrentUserSexo().equals("H")){
-            Log.e(null,"es hombre");
+            Log.e("nullGen", "es hombre");
             mujer.setChecked(false);
             hombre.setChecked(true);
             fCatalogo = FCatalogo.newInstance("genH");
             String tagFragment = FCatalogo.class.getSimpleName()+"Hombre";
             fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fragment_catalogo,fCatalogo,tagFragment);
+            //fragmentTransaction.addToBackStack(tagFragment);
             fragmentTransaction.commit();
         }else {
-           Log.e(null,"no es hombre");
+           Log.e("nullGen", "no es hombre");
            hombre.setChecked(false);
             mujer.setChecked(true);
             fCatalogo = FCatalogo.newInstance("genM");
             String tagFragment2 = FCatalogo.class.getSimpleName()+"Mujer";
             fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fragment_catalogo, fCatalogo, tagFragment2);
+            //fragmentTransaction.addToBackStack(tagFragment2);
             fragmentTransaction.commit();
        }
     }
@@ -81,6 +83,7 @@ public class FCatalogoNew extends Fragment implements View.OnClickListener {
                 String tagFragment = FCatalogo.class.getSimpleName()+"Hombre";
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fragment_catalogo,fCatalogo,tagFragment);
+                //fragmentTransaction.addToBackStack(tagFragment);
                 fragmentTransaction.commit();
                 Handler handler2 = new android.os.Handler();
                 handler2.postDelayed(new Runnable() {
@@ -98,6 +101,7 @@ public class FCatalogoNew extends Fragment implements View.OnClickListener {
                 String tagFragment2 = FCatalogo.class.getSimpleName()+"Mujer";
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fragment_catalogo, fCatalogo, tagFragment2);
+                //fragmentTransaction.addToBackStack(tagFragment2);
                 fragmentTransaction.commit();
                 Handler handler = new android.os.Handler();
                 handler.postDelayed(new Runnable() {

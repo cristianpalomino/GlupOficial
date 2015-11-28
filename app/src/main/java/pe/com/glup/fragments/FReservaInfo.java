@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
@@ -47,6 +48,9 @@ public class FReservaInfo extends Fragment implements View.OnClickListener{
     private ProgressBar progressBar;
     private float total;
     private ArrayList<Integer> unicos=new ArrayList<Integer>();
+    private RelativeLayout viewEmpty;
+    private TextView empty;
+
 
 
     @Override
@@ -77,6 +81,8 @@ public class FReservaInfo extends Fragment implements View.OnClickListener{
         reservaAdapter = new ReservaListAdapter(context,reservas,this.getTag());
         listView.setAdapter(reservaAdapter);
         reservaAdapter.notifyDataSetChanged();
+        empty = (TextView) getView().findViewById(R.id.txt_empty);
+        viewEmpty = (RelativeLayout) getView().findViewById(R.id.empty_view_reserva);
         confirmar = (Button) getView().findViewById(R.id.confirmar_reserva);
         progressBar = (ProgressBar) getView().findViewById(R.id.temp_progress);
         progressBar.setVisibility(View.VISIBLE);
@@ -130,19 +136,35 @@ public class FReservaInfo extends Fragment implements View.OnClickListener{
             }
 
             reservaAdapter.notifyDataSetChanged();
-            if(contReservas==1){
+            progressBar.setVisibility(View.GONE);
+
+
+
+            if (contReservas==0){
+                cantReserva.setVisibility(View.GONE);
+                confirmar.setVisibility(View.GONE);
+                empty.setText("Aún no tienes prendas reservadas");
+                viewEmpty.setVisibility(View.VISIBLE);
+            }else if(contReservas==1){
                 cantReserva.setText(contReservas + " Reserva");
+                cantReserva.setVisibility(View.VISIBLE);
+                confirmar.setVisibility(View.VISIBLE);
+                viewEmpty.setVisibility(View.GONE);
             }else{
                 cantReserva.setText(contReservas + " Reservas");
+                cantReserva.setVisibility(View.VISIBLE);
+                confirmar.setVisibility(View.VISIBLE);
+                viewEmpty.setVisibility(View.GONE);
             }
-            progressBar.setVisibility(View.GONE);
-            confirmar.setVisibility(View.VISIBLE);
+
 
 
         }else {
             Log.e(null,"success get reservas "+responseReserva.success);
             progressBar.setVisibility(View.GONE);
-            cantReserva.setText("No hay reservas");
+            cantReserva.setVisibility(View.GONE);
+            empty.setText("Aún no tienes prendas reservadas");
+            viewEmpty.setVisibility(View.VISIBLE);
             confirmar.setVisibility(View.GONE);
         }
     }

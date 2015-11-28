@@ -254,10 +254,6 @@ public class FCloset extends Fragment implements View.OnClickListener,OnSuccessD
 
     }
 
-
-
-
-
     class FragmentViewController{
         private boolean firstView = true;
 

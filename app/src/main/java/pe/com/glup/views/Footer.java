@@ -253,7 +253,7 @@ public class Footer extends LinearLayout implements View.OnClickListener {
                 titleProbador.setTextColor(getResources().getColor(R.color.gris_glup_nuevo));
                 titleReserva.setTextColor(getResources().getColor(R.color.gris_glup_nuevo));
                 break;
-            case "FCloset":
+            case "FClosetNew":
                 closet.setEnabled(false);
                 home.setImageResource(R.drawable.catalogo_off);
                 closet.setImageResource(R.drawable.closet_on);
@@ -306,7 +306,7 @@ public class Footer extends LinearLayout implements View.OnClickListener {
             case "FCatalogoNew":
                 home.setEnabled(true);
                 break;
-            case "FCloset":
+            case "FClosetNew":
                 closet.setEnabled(true);
                 break;
             case "FProbador":

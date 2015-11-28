@@ -10,6 +10,7 @@
         android:layout_height="0dp"
         android:layout_weight="0.5">
         <TextView
+            android:visibility="gone"
             android:layout_marginLeft="30dp"
             android:id="@+id/contReserva"
             android:textStyle="bold"
@@ -22,6 +23,14 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5">
+        <include
+            android:id="@+id/empty_view_reserva"
+            android:visibility="gone"
+            android:layout_marginBottom="20dp"
+            layout="@layout/empty_view_reserva"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            ></include>
         <ProgressBar
             android:id="@+id/temp_progress"
             android:layout_width="wrap_content"
@@ -42,6 +51,7 @@
         android:layout_height="0dp"
         android:layout_weight="1.5">
         <Button
+            android:visibility="gone"
             android:layout_marginTop="24dp"
             android:layout_marginLeft="48dp"
             android:layout_marginRight="48dp"

@@ -12,7 +12,7 @@
         android:id="@+id/menu_left2"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="@color/rosado_glup"
+        android:background="@color/fondo_slide_probador"
         android:layout_gravity="left"
         android:fitsSystemWindows="true"/>
 
@@ -21,7 +21,7 @@
         android:id="@+id/menu_rigth2"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="@color/celeste_claro"
+        android:background="@color/fondo_slide_probador"
         android:layout_gravity="right"
         android:fitsSystemWindows="true" />
 
@@ -44,6 +44,15 @@
             android:src="@drawable/superior_on"
             android:id="@+id/superior"
             android:text="Superior"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/title_probador"
+            android:text="COMBINA"
+            android:textColor="@color/celeste_glup"
+            android:textSize="18sp"
+            android:layout_marginTop="30dp"
+            android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <ImageButton

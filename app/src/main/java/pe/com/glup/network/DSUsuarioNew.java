@@ -7,7 +7,6 @@ import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import com.squareup.otto.Bus;
 
 import org.apache.http.Header;
 import org.json.JSONException;
@@ -25,7 +24,6 @@ import pe.com.glup.models.DatoUser;
 import pe.com.glup.models.DetalleUser;
 import pe.com.glup.models.ErrorConection;
 import pe.com.glup.models.PerfilUsuario;
-import pe.com.glup.notifications.logging.GMailSender;
 import pe.com.glup.ws.WSGlup;
 
 /**
@@ -38,6 +36,7 @@ public class DSUsuarioNew {
 
     public DSUsuarioNew(Context context) {
         this.context = context;
+        BusHolder.getInstance().register(this);
     }
 
     public void loadUsuario(){
@@ -106,23 +105,23 @@ public class DSUsuarioNew {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 try {
-                    SignalChangeUsername signalChangeUsername=new SignalChangeUsername();
+                    SignalUpdateProfile signalUpdateProfile =new SignalUpdateProfile();
                     if (response.getInt("success") == 1) {
-                        signalChangeUsername.success=response.getInt("success");//1
-                        signalChangeUsername.msg=response.getString("success_msg");
+                        signalUpdateProfile.success=response.getInt("success");//1
+                        signalUpdateProfile.msg=response.getString("success_msg");
 
                     } else {
-                        signalChangeUsername.success=response.getInt("success");//0
-                        signalChangeUsername.msg=response.getString("error_msg");
+                        signalUpdateProfile.success=response.getInt("success");//0
+                        signalUpdateProfile.msg=response.getString("error_msg");
                     }
-                    signalChangeUsername.indVerPass=indVerPass;
-                    BusHolder.getInstance().post(signalChangeUsername);
+                    signalUpdateProfile.indVerPass=indVerPass;
+                    BusHolder.getInstance().post(signalUpdateProfile);
                     Log.e("json", response.toString());
                 } catch (JSONException e) {
-                    SignalChangeUsername signalChangeUsernameError=new SignalChangeUsername();
-                    signalChangeUsernameError.success=-1;//-1
-                    signalChangeUsernameError.msg="";
-                    BusHolder.getInstance().post(signalChangeUsernameError);
+                    SignalUpdateProfile signalUpdateProfileError =new SignalUpdateProfile();
+                    signalUpdateProfileError.success=-1;//-1
+                    signalUpdateProfileError.msg="";
+                    BusHolder.getInstance().post(signalUpdateProfileError);
                 }
             }
 
@@ -184,9 +183,6 @@ public class DSUsuarioNew {
 
     }
 
-
-
-
     private String resetFormatFecha(String fecNac) {
         try {
             DateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -216,7 +212,7 @@ public class DSUsuarioNew {
         return "";
     }
 
-    public class SignalChangeUsername{public int success;public String msg;public String indVerPass;}
+    public class SignalUpdateProfile {public int success;public String msg;public String indVerPass;}
     public class SignalChangeNewPass{public int success;public String msg;public String indVerPass;public String password;}
 
 }

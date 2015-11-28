@@ -16,9 +16,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import pe.com.glup.R;
+import pe.com.glup.fragments.FClosetProfileNew;
 import pe.com.glup.network.DSUsuario;
 import pe.com.glup.fragments.FClosetProfile;
 import pe.com.glup.models.interfaces.OnSuccessUpdatePass;
+import pe.com.glup.network.DSUsuarioNew;
 
 /**
  * Created by Glup on 14/09/15.
@@ -26,7 +28,7 @@ import pe.com.glup.models.interfaces.OnSuccessUpdatePass;
 public class NewPassDialog extends DialogFragment implements View.OnClickListener,
     TextWatcher{
     private static final String TAG = NewPassDialog.class.getSimpleName();
-    private FClosetProfile context;
+    private FClosetProfileNew context;
     private EditText passw,newPass,repeatNewPass;
     private TextView validator;
     private Button confirmation_new_pass;
@@ -34,7 +36,10 @@ public class NewPassDialog extends DialogFragment implements View.OnClickListene
     private boolean upper=false,lower=false,number=false,range=false;
     private TextView txtPassSuccess;
 
-    public NewPassDialog(FClosetProfile context) {
+    public NewPassDialog() {
+    }
+
+    public NewPassDialog(FClosetProfileNew context) {
         this.context=context;
 
     }
@@ -119,14 +124,9 @@ public class NewPassDialog extends DialogFragment implements View.OnClickListene
                 if (verificarRepeticion){
                     ///
                     Log.e("verificarRep",String.valueOf(verificarRepeticion));
-                    DSUsuario dsUsuario = new DSUsuario(getActivity());
-                    try {
-                        dsUsuario.setOnSuccessUpdatePass((OnSuccessUpdatePass) context);
-                        dsUsuario.updatePassUsuario(newPass.getText().toString(), passw.getText().toString());
+                    DSUsuarioNew dsUsuario = new DSUsuarioNew(getActivity());
+                    dsUsuario.updatePassUsuario(newPass.getText().toString(), passw.getText().toString());
 
-                    }catch (ClassCastException e){
-                        Log.e(null,e.toString());
-                    }
                     ///
                 }
                 validator.setVisibility(View.INVISIBLE);

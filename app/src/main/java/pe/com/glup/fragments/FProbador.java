@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
@@ -32,6 +33,7 @@ import pe.com.glup.models.interfaces.OnClickProbador;
 import pe.com.glup.models.interfaces.OnSuccessPrendas;
 import pe.com.glup.models.interfaces.OnSuccessProbador;
 import pe.com.glup.managers.session.Session_Manager;
+import pe.com.glup.utils.Util_Fonts;
 
 
 public class FProbador extends Fragment implements View.OnClickListener,OnSuccessPrendas,OnSuccessProbador{
@@ -47,7 +49,7 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
     private int posCurrentTop,posCurrentBottom;
     protected GlupDialogNew gd;
     private DrawerLayout drawerLayout;
-
+    private TextView titleProbador;
 
     public static FProbador newInstance() {
         FProbador fragment = new FProbador();
@@ -75,6 +77,8 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         BusHolder.getInstance().register(this);
+        titleProbador = (TextView) getView().findViewById(R.id.title_probador);
+        titleProbador.setTypeface(Util_Fonts.setLatoRegular(getActivity()));
         drawerLayout = (DrawerLayout) getView().findViewById(R.id.drawer_layout);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         drawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {

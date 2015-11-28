@@ -192,8 +192,8 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
             TAG = cadena;
         }
 
-        dsCatalogo.getGlobalPrendas(TAG, String.valueOf(PAGE), "10");
-        dsCatalogo.setOnSuccessCatalogo(FCatalogo.this);
+        //dsCatalogo.getGlobalPrendas(TAG, String.valueOf(PAGE), "10");
+        //dsCatalogo.setOnSuccessCatalogo(FCatalogo.this);
     }
 
     private void displayMessage(int type) {

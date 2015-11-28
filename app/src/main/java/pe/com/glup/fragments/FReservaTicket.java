@@ -9,8 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
@@ -31,6 +33,8 @@ public class FReservaTicket extends Fragment implements ListView.OnItemClickList
     private ListView listView;
     private ProgressBar progressBar;
     private TextView empty;
+    private ImageView imgEmpty;
+    private RelativeLayout viewEmpty;
     private ArrayList<TicketList> tickets;
     private Context context;
     private TicketListAdapter ticketListAdapter;
@@ -56,7 +60,9 @@ public class FReservaTicket extends Fragment implements ListView.OnItemClickList
         fragmentManager=getActivity().getSupportFragmentManager();
         listView = (ListView) getView().findViewById(R.id.list_ticket);
         progressBar = (ProgressBar) getView().findViewById(R.id.progress_ticket);
-        empty = (TextView) getView().findViewById(R.id.empty_tickets);
+        //imgEmpty = (ImageView) getView().findViewById(R.id.image_empty);
+        //empty = (TextView) getView().findViewById(R.id.txt_empty);
+        viewEmpty = (RelativeLayout) getView().findViewById(R.id.empty_view_ticket);
         progressBar.setVisibility(View.VISIBLE);
 
         tickets = new ArrayList<TicketList>();
@@ -71,8 +77,8 @@ public class FReservaTicket extends Fragment implements ListView.OnItemClickList
         if (responseTicket.success==1){
 
             listView.setVisibility(View.VISIBLE);
-            empty.setVisibility(View.GONE);
-
+            //empty.setVisibility(View.GONE);
+            viewEmpty.setVisibility(View.GONE);
             for (TicketList list:responseTicket.listaTicket){
                 Log.e("ticket", list.getCodVenta());
                 tickets.add(list);
@@ -85,7 +91,8 @@ public class FReservaTicket extends Fragment implements ListView.OnItemClickList
 
             listView.setVisibility(View.GONE);
             progressBar.setVisibility(View.GONE);
-            empty.setVisibility(View.VISIBLE);
+            //empty.setVisibility(View.VISIBLE);
+            viewEmpty.setVisibility(View.VISIBLE);
         }
     }
 

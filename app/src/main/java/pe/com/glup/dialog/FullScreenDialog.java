@@ -35,6 +35,7 @@ import pe.com.glup.managers.bus.BusHolder;
 import pe.com.glup.network.DSProbador;
 import pe.com.glup.utils.MessageUtil;
 import pe.com.glup.views.Message;
+import pe.com.glup.views.MessageV2;
 
 
 public class FullScreenDialog extends DialogFragment implements View.OnClickListener,
@@ -258,7 +259,17 @@ public class FullScreenDialog extends DialogFragment implements View.OnClickList
                     i++;
                 }
                 if (idTalla.equals("")){
-                    MessageUtil.showToast(context,"Falta seleccionar la talla");
+                    //MessageUtil.showToast(context,"Falta seleccionar la talla");
+                    final MessageV2 message=new MessageV2("Falta seleccionar la talla");
+                    message.setCancelable(false);
+                    message.show(getActivity().getSupportFragmentManager(),MessageV2.class.getSimpleName());
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            message.dismiss();
+                        }
+                    }, 2000);
                 }else{
                     Log.e(null, "mandar al servicio addReserva " + codPrenda + " id_talla " + idTalla);
                     //dsProbador= new DSProbador(context.getApplicationContext());
@@ -336,7 +347,7 @@ public class FullScreenDialog extends DialogFragment implements View.OnClickList
             addReserva.setTextColor(Color.GRAY);
             addReserva.setEnabled(false);
             addReserva.postInvalidate();
-            String msg="Reserva de Prenda Satisfactoria";
+            /*String msg="Reserva de Prenda Satisfactoria";
             final Message toast = new Message(context, msg, Toast.LENGTH_SHORT);
             toast.show();
             Handler handler = new Handler();
@@ -345,7 +356,7 @@ public class FullScreenDialog extends DialogFragment implements View.OnClickList
                 public void run() {
                     toast.cancel();
                 }
-            }, 700);
+            }, 700);*/
         } else {
             addReserva.setText("Agregar a Reserva");
             addReserva.setTextColor(context.getResources().getColor(R.color.celeste_glup));

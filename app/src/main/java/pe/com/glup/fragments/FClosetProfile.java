@@ -182,7 +182,7 @@ public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
                 Log.e("clic", "cambiar password");
                 indVerPass = "false";
                 fragmentManager = context.getActivity().getSupportFragmentManager();
-                new NewPassDialog(FClosetProfile.this).show(fragmentManager,"NewPassDialog");
+                new NewPassDialog().show(fragmentManager,"NewPassDialog");
 
                 break;
             case R.id.cerrar_sesion:
@@ -200,7 +200,8 @@ public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
                 Log.e("clic", "cambiar password");
                 indVerPass = "false";
                 fragmentManager = this.context.getActivity().getSupportFragmentManager();
-                new NewPassDialog(FClosetProfile.this).show(fragmentManager,"NewPassDialog");
+                //cambio line 204 params
+                new NewPassDialog().show(fragmentManager,"NewPassDialog");
                 break;
             case R.id.frame_cerrarSesion:
                 Log.e("clic", "cerrar sesion");
@@ -458,11 +459,8 @@ public class FClosetProfile extends Fragment implements OnSuccessDetalleUsuario,
             Log.e("antes indVerPass", indVerPass);
             if (indVerPass.equals("true")){
                 flagDirect=false;
-                new ConfirmationPassDialog(indVerPass,nombres.getText().toString(),
-                        apellidos.getText().toString(),
-                        cumpleanos.getText().toString(),
-                        correo.getText().toString(),
-                        telefono.getText().toString(),FClosetProfile.this).show(fragmentManager, "ConfirmationPassDialog");
+                //cambio line 462
+                new ConfirmationPassDialog().show(fragmentManager, "ConfirmationPassDialog");
             }else{
                 flagDirect=true;
                 try{
