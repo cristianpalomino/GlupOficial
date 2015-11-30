@@ -20,12 +20,14 @@ import pe.com.glup.adapters.PagerDetalleAdapter;
 import pe.com.glup.models.Prenda;
 import pe.com.glup.managers.bus.BusHolder;
 import pe.com.glup.dialog.DetailActivity;
+import pe.com.glup.models.interfaces.OnSuccessCatalogo;
+import pe.com.glup.network.DSCatalogo;
 
 /**
  * Created by Glup on 6/10/15.
  */
 public class DetalleNew extends AppCompatActivity implements
-        View.OnClickListener, ViewPager.OnPageChangeListener {
+        View.OnClickListener, ViewPager.OnPageChangeListener,OnSuccessCatalogo {
 
     private ArrayList<Prenda> prendas;
     private int current_position;
@@ -36,6 +38,10 @@ public class DetalleNew extends AppCompatActivity implements
     private ToggleButton info;
     private RelativeLayout frameInfo;
     private Button btnInfo;
+    private int numPag;
+    private static String TAG = "todos";
+    private DSCatalogo dsCatalogo;
+
 
     @Override
     protected  void onCreate(Bundle savedInstanceState){
@@ -63,6 +69,8 @@ public class DetalleNew extends AppCompatActivity implements
 
         pagerDetalle.setAdapter(pagerDetalleAdapter);
         pagerDetalle.setCurrentItem(current_position);
+        numPag=current_position/10+1;
+        pagerDetalle.addOnPageChangeListener(this);
     }
 
     @Override
@@ -83,18 +91,30 @@ public class DetalleNew extends AppCompatActivity implements
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+        //Log.e("positionView",position+"");
     }
 
     @Override
     public void onPageSelected(int position) {
         this.current_position=position;
-        Log.e(null,current_position+"");
+        Log.e("CurrentPosition",current_position+"");
+        if (current_position%10==9 && prendas.get(current_position).getFlagCarga()==false){
+            this.prendas.get(current_position).setFlagCarga(true);
+            Log.e("elemento","multiplo de 10");
+            numPag++;
+            dsCatalogo=new DSCatalogo(this);
+            dsCatalogo.getGlobalPrendas(TAG, String.valueOf(numPag), "10");
+            try{
+                dsCatalogo.setOnSuccessCatalogo(this);
+            }catch (ClassCastException e){
+                Log.e("errorClass",e.getMessage());
+            }
+        }
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
-
+        //Log.e("estado",state+"");
     }
     @Subscribe
     public void getIndProbador(String indProb) {
@@ -114,4 +134,28 @@ public class DetalleNew extends AppCompatActivity implements
         pagerDetalleAdapter.notifyDataSetChanged();//no trabaja
     }
 
+    @Override
+    public void onSuccess(String success_msg, ArrayList<Prenda> prendas) {
+        Log.e("cargo", "10+");
+        if (prendas != null) {
+            if (!prendas.isEmpty()) {
+                for (int i = 0; i < prendas.size(); i++) {
+                    this.prendas.add(prendas.get(i));
+                }
+            }
+        }
+        pagerDetalleAdapter.notifyDataSetChanged();
+        UploadPrendas uploadPrendas = new UploadPrendas();
+        uploadPrendas.listPrendas=this.prendas;
+        uploadPrendas.numberPag=this.numPag;
+        uploadPrendas.flag=false;
+        BusHolder.getInstance().post(uploadPrendas);
+    }
+
+    @Override
+    public void onFailed(String error_msg) {
+
+    }
+
+    public class UploadPrendas{public ArrayList<Prenda> listPrendas;public int numberPag;public boolean flag;}
 }

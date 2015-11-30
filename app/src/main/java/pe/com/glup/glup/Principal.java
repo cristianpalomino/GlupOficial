@@ -20,7 +20,6 @@ import pe.com.glup.fragments.FClosetProfileNew;
 import pe.com.glup.managers.bus.BusHolder;
 import pe.com.glup.fragments.FCamera;
 import pe.com.glup.fragments.FCatalogoNew;
-import pe.com.glup.fragments.FCloset;
 import pe.com.glup.fragments.FMenuLeft;
 import pe.com.glup.fragments.FMenuRigth;
 import pe.com.glup.fragments.FProbador;

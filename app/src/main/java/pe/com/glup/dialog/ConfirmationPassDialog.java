@@ -20,9 +20,6 @@ import com.squareup.otto.Subscribe;
 import pe.com.glup.R;
 import pe.com.glup.fragments.FClosetProfileNew;
 import pe.com.glup.managers.bus.BusHolder;
-import pe.com.glup.network.DSUsuario;
-import pe.com.glup.fragments.FClosetProfile;
-import pe.com.glup.models.interfaces.OnSuccessUpdateUser;
 import pe.com.glup.network.DSUsuarioNew;
 
 /**

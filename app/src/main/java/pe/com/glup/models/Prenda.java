@@ -27,6 +27,15 @@ public class Prenda implements Serializable {
     private String indReser;
     private String local;
     private String indReserGen;
+    private Boolean flagCarga=false;
+
+    public Boolean getFlagCarga() {
+        return flagCarga;
+    }
+
+    public void setFlagCarga(Boolean flagCarga) {
+        this.flagCarga = flagCarga;
+    }
 
     public String getIndReserGen() {
         return indReserGen;

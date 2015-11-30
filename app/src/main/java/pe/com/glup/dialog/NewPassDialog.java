@@ -17,9 +17,6 @@ import android.widget.TextView;
 
 import pe.com.glup.R;
 import pe.com.glup.fragments.FClosetProfileNew;
-import pe.com.glup.network.DSUsuario;
-import pe.com.glup.fragments.FClosetProfile;
-import pe.com.glup.models.interfaces.OnSuccessUpdatePass;
 import pe.com.glup.network.DSUsuarioNew;
 
 /**

@@ -174,7 +174,7 @@ public class FClosetNew extends Fragment implements View.OnClickListener,OnSucce
                         //((CheckBox) view.findViewById(R.id.check)).setChecked(true);
                     }
                 } else {
-                    Log.e(FCloset.class.getName(), "Ocurrio un error");
+
                 }
             }
         });
