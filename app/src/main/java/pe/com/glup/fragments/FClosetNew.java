@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.GridView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
@@ -51,7 +52,7 @@ public class FClosetNew extends Fragment implements View.OnClickListener,OnSucce
     private DSUsuario dsUsuario;
     private Button updateProfile;
     private FragmentManager fragmentManager;
-    private FrameLayout frameBack,frameUpdate;
+    private FrameLayout frameBack,frameUpdate,frameGrilla;
 
     protected GlupDialogNew gd;
     private static final int EMPTY = 0;
@@ -64,6 +65,7 @@ public class FClosetNew extends Fragment implements View.OnClickListener,OnSucce
     private static int PAGE = 1;
     private static String TAG = "todos";
     private boolean isLoading = false;
+    private RelativeLayout emptyViewCloset;
 
     public static FClosetNew newInstance(){
         FClosetNew fragment=new FClosetNew();
@@ -79,6 +81,8 @@ public class FClosetNew extends Fragment implements View.OnClickListener,OnSucce
     public void onActivityCreated(Bundle savedInstance){
         super.onActivityCreated(savedInstance);
         BusHolder.getInstance().register(this);
+        emptyViewCloset = (RelativeLayout)getView().findViewById(R.id.empty_view_closet);
+        frameGrilla = (FrameLayout) getView().findViewById(R.id.grilla_closet);
         frameBack = (FrameLayout)getView().findViewById(R.id.frame_back);
         frameUpdate = (FrameLayout)getView().findViewById(R.id.frame_update);
         frameBack.setVisibility(View.GONE);
@@ -143,6 +147,7 @@ public class FClosetNew extends Fragment implements View.OnClickListener,OnSucce
     }
     @Subscribe
     public void SuccesLoadProfile(PerfilUsuario perfilUsuario){
+        gd.dismiss();
         Log.e("LoadUser", perfilUsuario.getSuccess()+"");
         if (perfilUsuario.getSuccess()==1){
             try {
@@ -152,10 +157,17 @@ public class FClosetNew extends Fragment implements View.OnClickListener,OnSucce
                 .into(foto);
                 username.setText(perfilUsuario.getDatouser().get(0).getNomUser());
             }catch (Exception e){
-                Log.e("LoadUserError",e.getMessage());
+                //Log.e("LoadUserError",e.getMessage());
             }
         }else{
 
+        }
+        if (perfilUsuario.getDatouser().get(0).getNumPrend().toString().equals("0")){
+            frameGrilla.setVisibility(View.GONE);
+            emptyViewCloset.setVisibility(View.VISIBLE);
+        }else{
+            frameGrilla.setVisibility(View.VISIBLE);
+            emptyViewCloset.setVisibility(View.GONE);
         }
     }
 
@@ -222,6 +234,7 @@ public class FClosetNew extends Fragment implements View.OnClickListener,OnSucce
 
     @Override
     public void onSuccess(String success_msg, ArrayList<Prenda> prendas) {
+
         gd.dismiss();
         try {
             if (PAGE == 1) {
@@ -253,8 +266,10 @@ public class FClosetNew extends Fragment implements View.OnClickListener,OnSucce
 
     @Override
     public void onFailed(String error_msg) {
+        frameGrilla.setVisibility(View.GONE);
+        emptyViewCloset.setVisibility(View.VISIBLE);
         gd.dismiss();
-        displayMessage(EMPTY);
+        //displayMessage(EMPTY);
     }
     private void displayMessage(int type) {
         if (type == EMPTY) {

@@ -17,6 +17,8 @@ import java.util.ArrayList;
 
 import pe.com.glup.R;
 import pe.com.glup.adapters.PagerDetalleAdapter;
+import pe.com.glup.adapters.PrendaAdapter2;
+import pe.com.glup.managers.session.Session_Manager;
 import pe.com.glup.models.Prenda;
 import pe.com.glup.managers.bus.BusHolder;
 import pe.com.glup.dialog.DetailActivity;
@@ -26,7 +28,7 @@ import pe.com.glup.network.DSCatalogo;
 /**
  * Created by Glup on 6/10/15.
  */
-public class DetalleNew extends AppCompatActivity implements
+public class DetalleNew  extends Glup implements
         View.OnClickListener, ViewPager.OnPageChangeListener,OnSuccessCatalogo {
 
     private ArrayList<Prenda> prendas;
@@ -41,6 +43,8 @@ public class DetalleNew extends AppCompatActivity implements
     private int numPag;
     private static String TAG = "todos";
     private DSCatalogo dsCatalogo;
+    private Glup glup;
+    private Session_Manager session_manager;
 
 
     @Override
@@ -48,6 +52,9 @@ public class DetalleNew extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         BusHolder.getInstance().register(this);
         setContentView(R.layout.fragment_detalle_new);
+        glup= this;
+        session_manager= new Session_Manager(this);
+
         pagerDetalle = (ViewPager) findViewById(R.id.scroll_detalle);
         atras = (ImageView) findViewById(R.id.cerrar_detalle);
         info = (ToggleButton) findViewById(R.id.info_detalle);
@@ -69,14 +76,16 @@ public class DetalleNew extends AppCompatActivity implements
 
         pagerDetalle.setAdapter(pagerDetalleAdapter);
         pagerDetalle.setCurrentItem(current_position);
-        numPag=current_position/10+1;
+        //numPag=current_position/10+1;
+        numPag=session_manager.getCurrentNumPages();
         pagerDetalle.addOnPageChangeListener(this);
     }
 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.cerrar_detalle){
-            this.onBackPressed();
+            onBackPressed();
+            //this.onBackPressed();
         } else if (v.getId()==R.id.frame_info_detalle || v.getId() == R.id.info_detalle ||
                 v.getId() == R.id.btn_info ){
             info.setChecked(false);
@@ -144,12 +153,20 @@ public class DetalleNew extends AppCompatActivity implements
                 }
             }
         }
+        session_manager.setFlagReload(false);
+        session_manager.setNumPages(numPag);
         pagerDetalleAdapter.notifyDataSetChanged();
-        UploadPrendas uploadPrendas = new UploadPrendas();
+        PrendaAdapter2 prendaAdapter = new PrendaAdapter2(this,this.prendas);
+        glup.setPrendas(prendaAdapter.getmPrendas());
+        Log.e("tamaño",glup.getPrendas().size()+"");
+
+        /*UploadPrendas uploadPrendas = new UploadPrendas();
         uploadPrendas.listPrendas=this.prendas;
         uploadPrendas.numberPag=this.numPag;
         uploadPrendas.flag=false;
         BusHolder.getInstance().post(uploadPrendas);
+        Log.e("tamañO",uploadPrendas.listPrendas.size()+"");*/
+
     }
 
     @Override
@@ -158,4 +175,29 @@ public class DetalleNew extends AppCompatActivity implements
     }
 
     public class UploadPrendas{public ArrayList<Prenda> listPrendas;public int numberPag;public boolean flag;}
+
+    @Subscribe
+    public void loaderPrendas(Principal.SignalUploadPrendas signalUploadPrendas){
+        /*UploadPrendas uploadPrendas = new UploadPrendas();
+        uploadPrendas.listPrendas=this.prendas;
+        uploadPrendas.numberPag=this.numPag;
+        uploadPrendas.flag=false;
+        BusHolder.getInstance().post(uploadPrendas);
+        Log.e("tamañO",uploadPrendas.listPrendas.size()+"");*/
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra("listPrendas", prendas);
+        intent.putExtra("numberPage", numPag);
+        if (getParent() == null){
+            setResult(RESULT_OK,intent);
+        }else {
+            getParent().setResult(RESULT_OK,intent);
+        }
+        this.finish();
+    }
+
+
 }

@@ -1,6 +1,7 @@
 package pe.com.glup.glup;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -14,6 +15,8 @@ import com.squareup.otto.Subscribe;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
+import java.util.ArrayList;
+
 import pe.com.glup.R;
 import pe.com.glup.fragments.FClosetNew;
 import pe.com.glup.fragments.FClosetProfileNew;
@@ -24,16 +27,17 @@ import pe.com.glup.fragments.FMenuLeft;
 import pe.com.glup.fragments.FMenuRigth;
 import pe.com.glup.fragments.FProbador;
 import pe.com.glup.fragments.FReserva;
+import pe.com.glup.models.Prenda;
 import pe.com.glup.models.interfaces.OnSuccessDetalleUsuario;
 import pe.com.glup.models.interfaces.OnSuccessDisableSliding;
 import pe.com.glup.views.Footer;
 import pe.com.glup.views.Header;
 
-public class Principal extends Glup implements Footer.OnChangeTab{
+public class Principal extends Glup implements Footer.OnChangeTab {
 
     private OnSuccessDisableSliding onSuccessDisableSliding;
     private boolean flagChangeTab = false;
-    private final String[] MESSAGES = {"HOME", "CLOSET", "PROBADOR", "CAMERA","RESERVA"};
+    private final String[] MESSAGES = {"HOME", "CLOSET", "PROBADOR", "CAMERA", "RESERVA"};
     private final Fragment[] FRAGMENTS = {
             FCatalogoNew.newInstance(),
             FClosetNew.newInstance(),
@@ -51,6 +55,7 @@ public class Principal extends Glup implements Footer.OnChangeTab{
     private OnSuccessDetalleUsuario onSuccessDetalleUsuario;
     private int position;
     private DrawerLayout drawerLayout;
+    private ArrayList<Prenda> aPrendas;
 
     public void setOnSuccessDisableSliding(OnSuccessDisableSliding onSuccessDisableSliding) {
         this.onSuccessDisableSliding = onSuccessDisableSliding;
@@ -88,14 +93,14 @@ public class Principal extends Glup implements Footer.OnChangeTab{
         drawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
-                Log.e("slide",drawerView.getTag().toString()+" offset "+slideOffset);
+                Log.e("slide", drawerView.getTag().toString() + " offset " + slideOffset);
 
             }
 
             @Override
             public void onDrawerOpened(View drawerView) {
                 Log.e("Drawerabierto", " " + drawerView.getTag());
-                ((FrameLayout)findViewById(R.id.menu_left1)).bringToFront();
+                ((FrameLayout) findViewById(R.id.menu_left1)).bringToFront();
                 drawerLayout.requestLayout();
                 //changePosButton("Drawerabierto", superior, medio);
             }
@@ -108,7 +113,7 @@ public class Principal extends Glup implements Footer.OnChangeTab{
 
             @Override
             public void onDrawerStateChanged(int newState) {
-                Log.e("state",newState+"");
+                Log.e("state", newState + "");
             }
         });
         framePrincipal = (FrameLayout) findViewById(R.id.frame_principal);
@@ -120,7 +125,7 @@ public class Principal extends Glup implements Footer.OnChangeTab{
         footer.initView();
 
         CURRENT_FRAGMENT_TAG = FCatalogoNew.class.getSimpleName();
-        current= FCatalogoNew.newInstance();
+        current = FCatalogoNew.newInstance();
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.frame_principal, current, CURRENT_FRAGMENT_TAG)
                 .addToBackStack(CURRENT_FRAGMENT_TAG)
@@ -143,18 +148,18 @@ public class Principal extends Glup implements Footer.OnChangeTab{
     public void onChangeTab(int position) {
         onChangeTab.onChangeTab(position);
         Log.e("position", position + "");
-        this.position=position;
+        this.position = position;
         Log.e("FRAGMENTS", getSupportFragmentManager().getBackStackEntryCount() + "");
         CURRENT_FRAGMENT_TAG = FRAGMENTS[position].getClass().getSimpleName();
         current = getSupportFragmentManager().findFragmentByTag(CURRENT_FRAGMENT_TAG);
         if (current != null) {
-            Log.e(null,"currenT not null"+current.toString());
+            Log.e(null, "currenT not null" + current.toString());
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.frame_principal, FRAGMENTS[position], CURRENT_FRAGMENT_TAG)
                     .addToBackStack(CURRENT_FRAGMENT_TAG)
                     .commit();
         } else {
-            Log.e(null,"current null");
+            Log.e(null, "current null");
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.frame_principal, FRAGMENTS[position], CURRENT_FRAGMENT_TAG)
                     .addToBackStack(CURRENT_FRAGMENT_TAG)
@@ -164,7 +169,7 @@ public class Principal extends Glup implements Footer.OnChangeTab{
         Log.e("FRAGMENTS", getSupportFragmentManager().getBackStackEntryCount() + "");
         Log.e("FRAGMENTS", CURRENT_FRAGMENT_TAG + "");
         //((ViewGroup) namebar.getParent()).removeView(namebar);
-        if (!CURRENT_FRAGMENT_TAG.equals("FProbador")){
+        if (!CURRENT_FRAGMENT_TAG.equals("FProbador")) {
             Log.e("!Probador", "deberia cerrarsel los sliders");
             //menuright.setSlidingEnabled(false);
             //onSuccessDisableSliding.onSuccessDisableSliding(true);
@@ -173,12 +178,12 @@ public class Principal extends Glup implements Footer.OnChangeTab{
 
             //menuright.setSlidingEnabled(true);
         }
-        if (CURRENT_FRAGMENT_TAG.equals("FCamera")){
+        if (CURRENT_FRAGMENT_TAG.equals("FCamera")) {
             footer.setVisibility(View.GONE);
-            framePrincipal.setPadding(0,0,0,0);
+            framePrincipal.setPadding(0, 0, 0, 0);
             /*LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
             framePrincipal.setLayoutParams(lp);*/
-        }else {
+        } else {
             footer.setVisibility(View.VISIBLE);
             framePrincipal.setPadding(0, 0, 0, (int) convertDpToPixel(60, this));
             Log.e("Margin", (int) convertDpToPixel(60, this) + "");
@@ -188,8 +193,8 @@ public class Principal extends Glup implements Footer.OnChangeTab{
             framePrincipal.setLayoutParams(lp);*/
         }
 
-        if (CURRENT_FRAGMENT_TAG.equals("FCatalogoNew")){
-            Log.e(null,"entro Catalogo nuevo");
+        if (CURRENT_FRAGMENT_TAG.equals("FCatalogoNew")) {
+            Log.e(null, "entro Catalogo nuevo");
             //ResponseUpdateGeneroCatalogo responseUpdateGeneroCatalogo = new ResponseUpdateGeneroCatalogo();
             //responseUpdateGeneroCatalogo.success=1;
             //BusHolder.getInstance().post(responseUpdateGeneroCatalogo);
@@ -198,7 +203,6 @@ public class Principal extends Glup implements Footer.OnChangeTab{
         flagChangeTab = true;
 
     }
-
 
 
     @Override
@@ -211,6 +215,7 @@ public class Principal extends Glup implements Footer.OnChangeTab{
 
     public interface OnChangeTab {
         void onChangeTab(int position);
+
         void currentTab(int current);
     }
 
@@ -221,17 +226,17 @@ public class Principal extends Glup implements Footer.OnChangeTab{
     @Override
     public void onBackPressed() {
 
-        int count=getSupportFragmentManager().getBackStackEntryCount();
-        if(count> 0){
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+        if (count > 0) {
             Log.e("null", "entro a back pila");
             getSupportFragmentManager().popBackStack();
             //getSupportFragmentManager().popBackStackImmediate();
-            Log.e("ULTIMO",getSupportFragmentManager().getBackStackEntryAt(count-1).getName());
-            String ULTI_FRAGMENT_TAG = getSupportFragmentManager().getBackStackEntryAt(count-1).getName();
-            if (count-2>=0){
-                Log.e("PENULTIMO",getSupportFragmentManager().getBackStackEntryAt(count-2).getName());
-                String LAST_FRAGMENT_TAG = getSupportFragmentManager().getBackStackEntryAt(count-2).getName();
-                int flag=1;
+            Log.e("ULTIMO", getSupportFragmentManager().getBackStackEntryAt(count - 1).getName());
+            String ULTI_FRAGMENT_TAG = getSupportFragmentManager().getBackStackEntryAt(count - 1).getName();
+            if (count - 2 >= 0) {
+                Log.e("PENULTIMO", getSupportFragmentManager().getBackStackEntryAt(count - 2).getName());
+                String LAST_FRAGMENT_TAG = getSupportFragmentManager().getBackStackEntryAt(count - 2).getName();
+                int flag = 1;
                 /*switch(ULTI_FRAGMENT_TAG){
                     case "FCatalogoNew":
                         ReloadUnLockFooter reloadUnLockFooter = new ReloadUnLockFooter();
@@ -260,12 +265,12 @@ public class Principal extends Glup implements Footer.OnChangeTab{
                     default:Log.e("Entro","defaul");chekLastFragment(LAST_FRAGMENT_TAG);break;
                 }*/
                 ReloadUnLockFooter reloadUnLockFooter = new ReloadUnLockFooter();
-                reloadUnLockFooter.tag=ULTI_FRAGMENT_TAG;
+                reloadUnLockFooter.tag = ULTI_FRAGMENT_TAG;
                 BusHolder.getInstance().post(reloadUnLockFooter);
                 chekLastFragment(LAST_FRAGMENT_TAG);
 
                 Log.e("name", LAST_FRAGMENT_TAG);
-                if (!LAST_FRAGMENT_TAG.equals("FCamera")){
+                if (!LAST_FRAGMENT_TAG.equals("FCamera")) {
                     footer.setVisibility(View.VISIBLE);
                     footer.invalidate();
                     framePrincipal.setPadding(0, 0, 0, (int) convertDpToPixel(60, this));
@@ -273,7 +278,7 @@ public class Principal extends Glup implements Footer.OnChangeTab{
                     lp.setMargins(0, 0, 0,(int) convertDpToPixel(60,this));
                     Log.e("Margin", (int) convertDpToPixel(60, this) + "");
                     framePrincipal.setLayoutParams(lp);*/
-                }else {
+                } else {
                     footer.setVisibility(View.GONE);
                     footer.invalidate();
                     framePrincipal.setPadding(0, 0, 0, 0);
@@ -286,14 +291,19 @@ public class Principal extends Glup implements Footer.OnChangeTab{
                     buttonUpdateProfile.flag=flag;
                     BusHolder.getInstance().post(buttonUpdateProfile);
                 }*/
+                if (LAST_FRAGMENT_TAG.equals("FCatalogoNew")) {
+                    /*SignalUploadPrendas signalUploadPrendas = new SignalUploadPrendas();
+                    BusHolder.getInstance().post(signalUploadPrendas);*/
+                    Log.e("TamañoAR", aPrendas.size() + "");
+                }
 
             }
-            if (count==1 && ULTI_FRAGMENT_TAG.equals("FCatalogoNew")){
+            if (count == 1 && ULTI_FRAGMENT_TAG.equals("FCatalogoNew")) {
                 this.finish();
             }
 
 
-        }else{
+        } else {
             /*Cuando navega por el menu footer muy rapido y no carga algunos componentes*/
            /*Fragment current = getSupportFragmentManager().findFragmentByTag(CURRENT_FRAGMENT_TAG);
 
@@ -320,47 +330,48 @@ public class Principal extends Glup implements Footer.OnChangeTab{
         //super.onBackPressed();
     }
 
-    public class ResponseUpdateGeneroCatalogo{
-        public int success=0;
+    public class ResponseUpdateGeneroCatalogo {
+        public int success = 0;
     }
 
-    public class ButtonUpdateProfile{
-        public int flag=1;
+    public class ButtonUpdateProfile {
+        public int flag = 1;
     }
 
-    public  float convertDpToPixel(float dp, Context context){
-        float px = dp * (context.getResources().getDisplayMetrics().densityDpi/160);
+    public float convertDpToPixel(float dp, Context context) {
+        float px = dp * (context.getResources().getDisplayMetrics().densityDpi / 160);
         return px;
     }
 
-    public  class ReloadBlockFooter{
-        public String tag;
-    }
-    public  class ReloadUnLockFooter{
+    public class ReloadBlockFooter {
         public String tag;
     }
 
-    public void chekLastFragment(String tag){
-        switch (tag){
+    public class ReloadUnLockFooter {
+        public String tag;
+    }
+
+    public void chekLastFragment(String tag) {
+        switch (tag) {
             case "FCatalogoNew":
                 ReloadBlockFooter reloadBlockFooter = new ReloadBlockFooter();
-                reloadBlockFooter.tag=tag;
+                reloadBlockFooter.tag = tag;
                 BusHolder.getInstance().post(reloadBlockFooter);
                 break;
             case "FClosetNew":
-                Log.e("entro","FClosetNew");
+                Log.e("entro", "FClosetNew");
                 ReloadBlockFooter reloadBlockFooter1 = new ReloadBlockFooter();
-                reloadBlockFooter1.tag =tag;
+                reloadBlockFooter1.tag = tag;
                 BusHolder.getInstance().post(reloadBlockFooter1);
                 break;
             case "FProbador":
-                ReloadBlockFooter reloadBlockFooter2= new ReloadBlockFooter();
-                reloadBlockFooter2.tag=tag;
+                ReloadBlockFooter reloadBlockFooter2 = new ReloadBlockFooter();
+                reloadBlockFooter2.tag = tag;
                 BusHolder.getInstance().post(reloadBlockFooter2);
                 break;
             case "FReserva":
                 ReloadBlockFooter reloadBlockFooter3 = new ReloadBlockFooter();
-                reloadBlockFooter3.tag=tag;
+                reloadBlockFooter3.tag = tag;
                 BusHolder.getInstance().post(reloadBlockFooter3);
                 break;
         }
@@ -368,24 +379,49 @@ public class Principal extends Glup implements Footer.OnChangeTab{
 
 
     @Subscribe
-    public void fromProbadorVisibleFooter(FProbador.FooterVisible footerVisible){
+    public void fromProbadorVisibleFooter(FProbador.FooterVisible footerVisible) {
         footer.setVisibility(View.VISIBLE);
         footer.invalidate();
         framePrincipal.setPadding(0, 0, 0, (int) convertDpToPixel(60, this));
     }
+
     @Subscribe
-    public void fromProbadorGoneFooter(FProbador.FooterGone footerGone){
+    public void fromProbadorGoneFooter(FProbador.FooterGone footerGone) {
         footer.setVisibility(View.GONE);
         footer.invalidate();
         framePrincipal.setPadding(0, 0, 0, 0);
     }
+
     @Subscribe
-    public  void openProfile(FClosetNew.OpenProfile openProfile){
+    public void openProfile(FClosetNew.OpenProfile openProfile) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.frame_principal, FClosetProfileNew.newInstance(),FClosetProfileNew.class.getSimpleName());
+        fragmentTransaction.replace(R.id.frame_principal, FClosetProfileNew.newInstance(), FClosetProfileNew.class.getSimpleName());
         fragmentTransaction.addToBackStack(FClosetProfileNew.class.getSimpleName());
         fragmentTransaction.commit();
     }
-    
 
+    @Subscribe
+    public void setListPrendas(DetalleNew.UploadPrendas uploadPrendas) {
+        //NO FUNCIONA AL RETROCEDE SE VUELVE NULL
+        aPrendas = uploadPrendas.listPrendas;
+        Log.e("TamañoA", aPrendas.size() + "");
+    }
+
+    public class SignalUploadPrendas {
+        public ArrayList<Prenda> listPrendas;public int numberPag;
+    }
+
+    ;
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+            if (resultCode == RESULT_OK) {
+                ArrayList<Prenda> stredittext = (ArrayList<Prenda>) data.getExtras().get("listPrendas");
+                Log.e("updateLisPren", stredittext.size() + "");
+                SignalUploadPrendas signalUploadPrendas=new SignalUploadPrendas();
+                signalUploadPrendas.listPrendas=stredittext;
+                signalUploadPrendas.numberPag= (int) data.getExtras().get("numberPage");
+                BusHolder.getInstance().post(signalUploadPrendas);
+            }
+    }
 }

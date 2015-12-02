@@ -78,4 +78,5 @@ public class Glup extends AppCompatActivity {
     public void setPrendas(ArrayList<Prenda> prendas) {
         this.prendas = prendas;
     }
+
 }

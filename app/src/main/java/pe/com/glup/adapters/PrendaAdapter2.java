@@ -133,7 +133,7 @@ public class PrendaAdapter2 extends BaseAdapter implements View.OnLongClickListe
                 Intent intent = new Intent(glup, DetalleNew.class);
                 intent.putExtra("prendas", prendas);
                 intent.putExtra("current", position);
-                glup.startActivity(intent);
+                glup.startActivityForResult(intent,1);
                 return false;
             }
         });

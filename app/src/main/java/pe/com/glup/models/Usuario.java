@@ -12,6 +12,7 @@ public class Usuario {
     private String codUser;
     private int error;
     private int success;
+    private boolean flagReload;
 
     public Usuario() {
     }
@@ -51,4 +52,8 @@ public class Usuario {
     public int getSuccess() {
         return success;
     }
+
+    public boolean isFlagReload() {return flagReload;}
+
+    public void setFlagReload(boolean flagReload) {this.flagReload = flagReload;}
 }

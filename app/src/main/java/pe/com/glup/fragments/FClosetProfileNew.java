@@ -201,34 +201,37 @@ public class FClosetProfileNew extends Fragment
     @Subscribe
     public void SuccesLoadProfile(PerfilUsuario perfilUsuario){
         Log.e("LoadUser", perfilUsuario.getSuccess()+"");
-        if (flagLoadProfile){
-            if (perfilUsuario.getSuccess()==1){
-                try {
-                    Picasso.with(getActivity().getApplicationContext())
-                            .load(perfilUsuario.getDatouser().get(0).getRutaFoto())
-                            .fit().centerInside().noFade()
-                            .into(foto);
-                    username.setText(perfilUsuario.getDatouser().get(0).getNomUser());
-                    Log.e("Detalle",perfilUsuario.getDetalleuser().get(0).toString());
-                    YesOrNoHint(perfilUsuario.getDetalleuser().get(0));
-                    setChangeProfileElements(
-                            nombres.getText().toString(),
-                            apellidos.getText().toString(),
-                            cumpleanos.getText().toString(),
-                            correo.getText().toString(),
-                            telefono.getText().toString());
-                }catch (Exception e){
-                    Log.e("LoadUserError",e.getMessage());
+        if (this!=null){
+            if (flagLoadProfile){
+                if (perfilUsuario.getSuccess()==1){
+                    try {
+                        Picasso.with(getActivity().getApplicationContext())
+                                .load(perfilUsuario.getDatouser().get(0).getRutaFoto())
+                                .fit().centerInside().noFade()
+                                .into(foto);
+                        username.setText(perfilUsuario.getDatouser().get(0).getNomUser());
+                        Log.e("Detalle",perfilUsuario.getDetalleuser().get(0).toString());
+                        YesOrNoHint(perfilUsuario.getDetalleuser().get(0));
+                        setChangeProfileElements(
+                                nombres.getText().toString(),
+                                apellidos.getText().toString(),
+                                cumpleanos.getText().toString(),
+                                correo.getText().toString(),
+                                telefono.getText().toString());
+                    }catch (Exception e){
+                        //Log.e("LoadUserError",e.getMessage());
+                    }
+                }else{
+                    Log.e("coneccion","no hecha");
+                    nombres.setHint("Nombres");
+                    apellidos.setHint("Apellidos");
+                    cumpleanos.setHint("Cumpleaños");
+                    correo.setHint("Correo");
+                    telefono.setHint("Teléfono");
                 }
-            }else{
-                Log.e("coneccion","no hecha");
-                nombres.setHint("Nombres");
-                apellidos.setHint("Apellidos");
-                cumpleanos.setHint("Cumpleaños");
-                correo.setHint("Correo");
-                telefono.setHint("Teléfono");
             }
         }
+
     }
 
     private void YesOrNoHint(DetalleUser detalle) {

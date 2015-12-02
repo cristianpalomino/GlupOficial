@@ -1,9 +1,13 @@
 package pe.com.glup.fragments;
 
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +23,10 @@ import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 
 import pe.com.glup.R;
+import pe.com.glup.adapters.PrendaAdapter;
 import pe.com.glup.adapters.PrendaAdapter2;
+import pe.com.glup.glup.DetalleNew;
+import pe.com.glup.managers.session.Session_Manager;
 import pe.com.glup.models.Prenda;
 import pe.com.glup.managers.bus.BusHolder;
 import pe.com.glup.network.DSCatalogo;
@@ -57,6 +64,9 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
     private boolean isLoading = false;
     private Context context;
     private Button prueba;
+    private boolean flagCargaPrimeraVez=true;
+    private ArrayList<Prenda> listFromPreview;
+    private Session_Manager session_manager;
 
     public static FCatalogo newInstance() {
         FCatalogo fragment = new FCatalogo();
@@ -76,11 +86,22 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        glup = (Glup) getActivity();
+        LocalBroadcastManager.getInstance(getActivity())
+                .registerReceiver(mUpdateUIReceiver,new IntentFilter());
         if (getArguments() != null) {
 
         }
     }
+
+    private BroadcastReceiver mUpdateUIReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //do Stuff
+            ArrayList<Prenda> stredittext = (ArrayList<Prenda>) getActivity().getIntent().getExtras().get("listPrendas");
+            Log.e("updateLisFrag2",stredittext.size()+"");
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -92,8 +113,14 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         BusHolder.getInstance().register(this);
+        glup = (Glup) getActivity();
         context=getActivity();
-        PAGE = 1;
+        session_manager=new Session_Manager(getActivity());
+        Log.e("SettingFlag", session_manager.isLoad() + "");
+
+        PAGE = session_manager.getCurrentNumPages();
+        Log.e("SettingFlag",PAGE+"");
+
         //TAG = "todos";
         isLoading = false;
 
@@ -117,20 +144,29 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
         //grilla.setOnItemClickListener(this);
         grilla.setOnScrollListener(this);
 
-        /*
-        CALL REST API
-         */
-        dsCatalogo = new DSCatalogo(getActivity());
-        dsCatalogo.getGlobalPrendas(TAG, String.valueOf(PAGE), "10");
-        dsCatalogo.setOnSuccessCatalogo(FCatalogo.this);
+        Log.e("flag",flagCargaPrimeraVez+"");
+        if (session_manager.isLoad()){
+            flagCargaPrimeraVez=false;
 
-        /*
-        SHOW LOAD DIALOG
-         */
-        android.support.v4.app.FragmentManager fragmentManager=getActivity().getSupportFragmentManager();
-        gd = new GlupDialogNew();
-        //gd.setCancelable(false);
-        gd.show(fragmentManager,GlupDialogNew.class.getSimpleName());
+            /*
+            CALL REST API
+            */
+            dsCatalogo = new DSCatalogo(getActivity());
+            dsCatalogo.getGlobalPrendas(TAG, String.valueOf(PAGE), "10");
+            dsCatalogo.setOnSuccessCatalogo(FCatalogo.this);
+            /*
+            SHOW LOAD DIALOG
+            */
+            android.support.v4.app.FragmentManager fragmentManager=getActivity().getSupportFragmentManager();
+            gd = new GlupDialogNew();
+            //gd.setCancelable(false);
+            gd.show(fragmentManager,GlupDialogNew.class.getSimpleName());
+        }else {
+            prendaAdapter = new PrendaAdapter2(context, glup.getPrendas());
+            grilla.setAdapter(prendaAdapter);
+            Log.e("tamaño2", glup.getPrendas().size() + "");
+        }
+
     }
 
     @Override
@@ -215,16 +251,28 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        Log.e("cargando","onscroll");
+        /*if (listFromPreview!=null) {
+            totalItemCount=listFromPreview.size();
+        }*/
+        Log.e("cargando","onscroll firstvisible:"+firstVisibleItem+" visibleCount:"+visibleItemCount+" totalItem:"+totalItemCount);
+
         if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount != 0) {
             if (!isLoading) {
                 isLoading = true;
 
                 PAGE++;
-
+                session_manager.setNumPages(PAGE);
+                dsCatalogo = new DSCatalogo(getActivity());
                 dsCatalogo.getGlobalPrendas(TAG, String.valueOf(PAGE), "10");
 
                 dsCatalogo.setOnSuccessCatalogo(FCatalogo.this);
+                /*
+                SHOW LOAD DIALOG
+                */
+                android.support.v4.app.FragmentManager fragmentManager=getActivity().getSupportFragmentManager();
+                gd = new GlupDialogNew();
+                //gd.setCancelable(false);
+                gd.show(fragmentManager, GlupDialogNew.class.getSimpleName());
             }
         }
     }
@@ -272,4 +320,36 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
         }
 
     }
+    @Subscribe
+    public void loadPrendasFromPreview(DetalleNew.UploadPrendas uploadPrendas){
+        flagCargaPrimeraVez=uploadPrendas.flag;
+        PAGE=uploadPrendas.numberPag;
+        listFromPreview=uploadPrendas.listPrendas;
+        Log.e("flag",uploadPrendas.numberPag+" "+flagCargaPrimeraVez);
+        Log.e("SettingFlag",listFromPreview.size()+"");
+        /*prendaAdapter = new PrendaAdapter2(context, listFromPreview);
+        grilla.setAdapter(prendaAdapter);
+        prendaAdapter = new PrendaAdapter2(context, glup.getPrendas());
+            grilla.setAdapter(prendaAdapter);
+            Log.e("tamaño", glup.getPrendas().size() + "");
+
+        isLoading=true;*/
+    }
+    @Subscribe
+    public void uploadPrendas(Principal.SignalUploadPrendas signalUploadPrendas){
+       /* if (getActivity().getIntent().getExtras().get("listPrendas")!=null) {
+            listFromPreview = (ArrayList<Prenda>) getActivity().getIntent().getExtras().get("listPrendas");
+            prendaAdapter = new PrendaAdapter2(context, listFromPreview);
+            grilla.setAdapter(prendaAdapter);
+            Log.e("tamaño", glup.getPrendas().size() + "");
+        }*/
+        Log.e("listUpload",signalUploadPrendas.listPrendas.size()+" numPagesx2:"+session_manager.getCurrentNumPages()+" "+signalUploadPrendas.numberPag);
+        prendaAdapter = new PrendaAdapter2(context,signalUploadPrendas.listPrendas);
+        grilla.setAdapter(prendaAdapter);
+        glup.setPrendas(prendaAdapter.getmPrendas());
+        Log.e("tamaño", glup.getPrendas().size() + "");
+        isLoading=false;
+    }
+
+
 }
