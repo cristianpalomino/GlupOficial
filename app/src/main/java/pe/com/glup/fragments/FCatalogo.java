@@ -44,7 +44,6 @@ import pe.com.glup.utils.Util_Fonts;
  * create an instance of this fragment.
  */
 public class FCatalogo extends Fragment implements OnSuccessCatalogo,
-        OnSearchListener,
         AbsListView.OnScrollListener, AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener{
 
     private static final int EMPTY = 0;
@@ -67,6 +66,7 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
     private boolean flagCargaPrimeraVez=true;
     private ArrayList<Prenda> listFromPreview;
     private Session_Manager session_manager;
+    private int totalPrendasCatalogo;
 
     public static FCatalogo newInstance() {
         FCatalogo fragment = new FCatalogo();
@@ -87,7 +87,7 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LocalBroadcastManager.getInstance(getActivity())
-                .registerReceiver(mUpdateUIReceiver,new IntentFilter());
+                .registerReceiver(mUpdateUIReceiver, new IntentFilter());
         if (getArguments() != null) {
 
         }
@@ -116,16 +116,15 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
         glup = (Glup) getActivity();
         context=getActivity();
         session_manager=new Session_Manager(getActivity());
-        Log.e("SettingFlag", session_manager.isLoad() + "");
 
-        PAGE = session_manager.getCurrentNumPages();
-        Log.e("SettingFlag",PAGE+"");
+
+
 
         //TAG = "todos";
         isLoading = false;
 
         Principal principal = ((Principal) getActivity());
-        principal.getHeader().setOnSearchListener(FCatalogo.this);
+        //principal.getHeader().setOnSearchListener(FCatalogo.this);
 
         emptyView = (TextView) getView().findViewById(R.id.empty_view);
         emptyViewSubtitle = (TextView) getView().findViewById(R.id.empty_view_subtitle);
@@ -145,9 +144,29 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
         grilla.setOnScrollListener(this);
 
         Log.e("flag",flagCargaPrimeraVez+"");
-        if (session_manager.isLoad()){
-            flagCargaPrimeraVez=false;
 
+
+        ArrayList<Prenda> listaYaCargada= new ArrayList<Prenda>();
+        if (TAG.equals("genm") || TAG.equals("genM")){
+            listaYaCargada=glup.getPrendasMujer();
+            PAGE = session_manager.getCurrentNumPagesMujer();
+            Log.e("SettingFlag",PAGE+"");
+        }else if (TAG.equals("genH")|| TAG.equals("genh")){
+            listaYaCargada=glup.getPrendasHombre();
+            PAGE = session_manager.getCurrentNumPagesHombre();
+            Log.e("SettingFlag",PAGE+"");
+        }else{
+            Log.e("todos","cargo H y M");
+            listaYaCargada=glup.getPrendas();
+            PAGE = session_manager.getCurrentNumPages();
+            Log.e("SettingFlag",PAGE+"");
+        }
+        int size=listaYaCargada.size();
+        Log.e("SettingFlag", session_manager.isLoad() + " tamaño lista:"+size+" tag:"+TAG);
+
+        if (session_manager.isLoad() && size==0){
+            flagCargaPrimeraVez=false;
+            totalPrendasCatalogo=0;
             /*
             CALL REST API
             */
@@ -162,9 +181,18 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
             //gd.setCancelable(false);
             gd.show(fragmentManager,GlupDialogNew.class.getSimpleName());
         }else {
-            prendaAdapter = new PrendaAdapter2(context, glup.getPrendas());
+            ArrayList<Prenda> listPrendasUpdate=new ArrayList<Prenda>();
+            if (TAG.equals("genm") || TAG.equals("genM")){
+                listPrendasUpdate=glup.getPrendasMujer();
+            }else if (TAG.equals("genH")|| TAG.equals("genh")){
+                listPrendasUpdate=glup.getPrendasHombre();
+            }else{
+                Log.e("todos","cargo H y M");
+                listPrendasUpdate=glup.getPrendas();
+            }
+            Log.e("tamaño2", listPrendasUpdate.size() + "");
+            prendaAdapter = new PrendaAdapter2(context, listPrendasUpdate);
             grilla.setAdapter(prendaAdapter);
-            Log.e("tamaño2", glup.getPrendas().size() + "");
         }
 
     }
@@ -175,8 +203,9 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
         try {
             if (PAGE == 1) {
                 if (prendas != null) {
+                    Log.e("tamaño:", "prendas size" + prendas.size());
+
                     displayMessage(FULL);
-                    Log.e("tamaño:","prendas size"+prendas.size());
                     try{
                         prendaAdapter.notifyDataSetChanged();
                     }
@@ -184,9 +213,19 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
                     {
                         prendaAdapter = new PrendaAdapter2(context, prendas);
                     }
-
+                    totalPrendasCatalogo=prendas.get(0).getNumPrend();
                     grilla.setAdapter(prendaAdapter);
-                    glup.setPrendas(prendaAdapter.getmPrendas());
+                    if (TAG.equals("genm") || TAG.equals("genM")){
+                        session_manager.setTotalPrendGenm(prendas.get(0).getNumPrend());
+                        glup.setPrendasMujer(prendaAdapter.getmPrendas());
+                    }else if (TAG.equals("genH")|| TAG.equals("genh")){
+                        glup.setPrendasHombre(prendaAdapter.getmPrendas());
+                        session_manager.setTotalPrendGenh(prendas.get(0).getNumPrend());
+                    }else{
+                        Log.e("todos","cargo H y M");
+                        glup.setPrendas(prendaAdapter.getmPrendas());
+                        session_manager.setTotalPrendTodos(prendas.get(0).getNumPrend());
+                    }
                     for (Prenda pp:prendaAdapter.getmPrendas()){
                         //Log.e("FCatalogo",pp.toString());
                     }
@@ -202,7 +241,14 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
                             prendaAdapter.add(prendas.get(i));
                         }
                     }
-                    glup.setPrendas(prendaAdapter.getmPrendas());
+                    if (TAG.equals("genm") || TAG.equals("genM")){
+                        glup.setPrendasMujer(prendaAdapter.getmPrendas());
+                    }else if (TAG.equals("genH")|| TAG.equals("genh")){
+                        glup.setPrendasHombre(prendaAdapter.getmPrendas());
+                    }else{
+                        Log.e("todos","cargo H y M");
+                        glup.setPrendas(prendaAdapter.getmPrendas());
+                    }
                     isLoading = false;
                 }
             }
@@ -218,6 +264,7 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
         displayMessage(EMPTY);
     }
 
+    /*
     @Override
     public void onSearchListener(String cadena) {
         Log.e("null", "se ejecuta onSearchListner en Catalogo");
@@ -230,7 +277,7 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
 
         //dsCatalogo.getGlobalPrendas(TAG, String.valueOf(PAGE), "10");
         //dsCatalogo.setOnSuccessCatalogo(FCatalogo.this);
-    }
+    }*/
 
     private void displayMessage(int type) {
         if (type == EMPTY) {
@@ -254,27 +301,48 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
         /*if (listFromPreview!=null) {
             totalItemCount=listFromPreview.size();
         }*/
+        int totalPrendas=0;
+        if (TAG.equals("genm") || TAG.equals("genM")){
+            totalPrendas=session_manager.getTotalPrendasMujer();
+        }else if (TAG.equals("genH")|| TAG.equals("genh")){
+            totalPrendas=session_manager.getTotalPrendasHombre();
+        }else{
+            Log.e("todos","cargo H y M");
+            totalPrendas=session_manager.getTotalPrendas();
+        }
         Log.e("cargando","onscroll firstvisible:"+firstVisibleItem+" visibleCount:"+visibleItemCount+" totalItem:"+totalItemCount);
+        Log.e("totalprendas",totalPrendas+" ");
+        if (totalItemCount!=0 && totalItemCount!=totalPrendas){
+            if (firstVisibleItem + visibleItemCount == totalItemCount) {
+                if (!isLoading) {
+                    isLoading = true;
 
-        if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount != 0) {
-            if (!isLoading) {
-                isLoading = true;
+                    PAGE++;
 
-                PAGE++;
-                session_manager.setNumPages(PAGE);
-                dsCatalogo = new DSCatalogo(getActivity());
-                dsCatalogo.getGlobalPrendas(TAG, String.valueOf(PAGE), "10");
+                    if (TAG.equals("genm") || TAG.equals("genM")){
+                        session_manager.setNumPagesMujer(PAGE);
+                    }else if (TAG.equals("genH")|| TAG.equals("genh")){
+                        session_manager.setNumPagesHombre(PAGE);
+                    }else{
+                        Log.e("todos","cargo H y M");
+                        session_manager.setNumPages(PAGE);
+                    }
 
-                dsCatalogo.setOnSuccessCatalogo(FCatalogo.this);
+                    dsCatalogo = new DSCatalogo(getActivity());
+                    dsCatalogo.getGlobalPrendas(TAG, String.valueOf(PAGE), "10");
+
+                    dsCatalogo.setOnSuccessCatalogo(FCatalogo.this);
                 /*
                 SHOW LOAD DIALOG
                 */
-                android.support.v4.app.FragmentManager fragmentManager=getActivity().getSupportFragmentManager();
-                gd = new GlupDialogNew();
-                //gd.setCancelable(false);
-                gd.show(fragmentManager, GlupDialogNew.class.getSimpleName());
+                    android.support.v4.app.FragmentManager fragmentManager=getActivity().getSupportFragmentManager();
+                    gd = new GlupDialogNew();
+                    //gd.setCancelable(false);
+                    gd.show(fragmentManager, GlupDialogNew.class.getSimpleName());
+                }
             }
         }
+
     }
 
     @Override
@@ -343,11 +411,30 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
             grilla.setAdapter(prendaAdapter);
             Log.e("tamaño", glup.getPrendas().size() + "");
         }*/
-        Log.e("listUpload",signalUploadPrendas.listPrendas.size()+" numPagesx2:"+session_manager.getCurrentNumPages()+" "+signalUploadPrendas.numberPag);
+        int pages=0;
+        if (TAG.equals("genm") || TAG.equals("genM")){
+            session_manager.getCurrentNumPagesMujer();
+        }else if (TAG.equals("genH")|| TAG.equals("genh")){
+            session_manager.getCurrentNumPagesHombre();
+        }else{
+            Log.e("todos","cargo H y M");
+            session_manager.getCurrentNumPages();
+        }
+
+        Log.e("listUpload",signalUploadPrendas.listPrendas.size()+" numPagesx2:"+pages+" "+signalUploadPrendas.numberPag);
         prendaAdapter = new PrendaAdapter2(context,signalUploadPrendas.listPrendas);
         grilla.setAdapter(prendaAdapter);
-        glup.setPrendas(prendaAdapter.getmPrendas());
-        Log.e("tamaño", glup.getPrendas().size() + "");
+        if (TAG.equals("genm") || TAG.equals("genM")){
+            glup.setPrendasMujer(prendaAdapter.getmPrendas());
+            Log.e("tamaño", glup.getPrendasMujer().size() + "");
+        }else if (TAG.equals("genH")|| TAG.equals("genh")){
+            glup.setPrendasHombre(prendaAdapter.getmPrendas());
+            Log.e("tamaño", glup.getPrendasHombre().size() + "");
+        }else{
+            Log.e("todos","cargo H y M");
+            glup.setPrendas(prendaAdapter.getmPrendas());
+            Log.e("tamaño", glup.getPrendas().size() + "");
+        }
         isLoading=false;
     }
 

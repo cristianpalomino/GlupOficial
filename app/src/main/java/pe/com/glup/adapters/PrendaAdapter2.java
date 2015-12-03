@@ -129,10 +129,11 @@ public class PrendaAdapter2 extends BaseAdapter implements View.OnLongClickListe
             @Override
             public boolean onLongClick(View v) {
                 Log.e("click:", position + " codPrenda:" + codPrenda);
-                ArrayList<Prenda> prendas = glup.getPrendas();
+                ArrayList<Prenda> prendas = mPrendas;
                 Intent intent = new Intent(glup, DetalleNew.class);
                 intent.putExtra("prendas", prendas);
                 intent.putExtra("current", position);
+                intent.putExtra("buscar",prendas.get(position).getBuscar());
                 glup.startActivityForResult(intent,1);
                 return false;
             }

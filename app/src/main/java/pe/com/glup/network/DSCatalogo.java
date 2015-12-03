@@ -66,6 +66,7 @@ public class DSCatalogo {
                 //for (Prenda p:prendas){
                     //Log.e(null,p.toString());
                 //}
+                //Log.e("totalPrendas",prendas.get(0).getNumPrend()+"");
                 onSuccessCatalogo.onSuccess(catalogo.getTag(), prendas);
             }
 

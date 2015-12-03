@@ -37,8 +37,6 @@ public class Entrar extends AppCompatActivity implements  View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.entrar_new);
 
-
-
         Session_Manager manager = new Session_Manager(Entrar.this);
         if (manager.isLogin()) {
             Intent intent = new Intent(Entrar.this, Principal.class);
@@ -54,7 +52,6 @@ public class Entrar extends AppCompatActivity implements  View.OnClickListener {
             fragmentTransaction.replace(R.id.fragment_entrar, new FragmentEntrarDefault(), TAG[0]);
             fragmentTransaction.commit();
             */
-
             btnIniciar = (Button) findViewById(R.id.btnIniciar);
             btnRegistrar = (Button) findViewById(R.id.btnRegistrar);
 

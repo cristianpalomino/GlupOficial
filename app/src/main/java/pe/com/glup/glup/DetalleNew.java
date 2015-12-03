@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import pe.com.glup.R;
 import pe.com.glup.adapters.PagerDetalleAdapter;
 import pe.com.glup.adapters.PrendaAdapter2;
+import pe.com.glup.dialog.GlupDialogNew;
 import pe.com.glup.managers.session.Session_Manager;
 import pe.com.glup.models.Prenda;
 import pe.com.glup.managers.bus.BusHolder;
@@ -41,11 +42,11 @@ public class DetalleNew  extends Glup implements
     private RelativeLayout frameInfo;
     private Button btnInfo;
     private int numPag;
-    private static String TAG = "todos";
+    private static String TAG;
     private DSCatalogo dsCatalogo;
     private Glup glup;
     private Session_Manager session_manager;
-
+    private GlupDialogNew gd;
 
     @Override
     protected  void onCreate(Bundle savedInstanceState){
@@ -61,8 +62,11 @@ public class DetalleNew  extends Glup implements
         btnInfo = (Button) findViewById(R.id.btn_info);
         frameInfo = (RelativeLayout) findViewById(R.id.frame_info_detalle);
 
+        TAG=getIntent().getStringExtra("buscar");
+        Log.e("TAGdetalle",TAG);
         current_position = getIntent().getIntExtra("current", 0);
         prendas = (ArrayList<Prenda>) getIntent().getSerializableExtra("prendas");
+
 
         atras.setOnClickListener(this);
         info.setOnClickListener(this);
@@ -77,7 +81,14 @@ public class DetalleNew  extends Glup implements
         pagerDetalle.setAdapter(pagerDetalleAdapter);
         pagerDetalle.setCurrentItem(current_position);
         //numPag=current_position/10+1;
-        numPag=session_manager.getCurrentNumPages();
+        if (TAG.equals("genm") || TAG.equals("genM")){
+            numPag=session_manager.getCurrentNumPagesMujer();
+        }else if (TAG.equals("genH")|| TAG.equals("genh")){
+            numPag=session_manager.getCurrentNumPagesHombre();
+        }else{
+            Log.e("todos","cargo H y M");
+            numPag=session_manager.getCurrentNumPages();
+        }
         pagerDetalle.addOnPageChangeListener(this);
     }
 
@@ -106,13 +117,30 @@ public class DetalleNew  extends Glup implements
     @Override
     public void onPageSelected(int position) {
         this.current_position=position;
+        Log.e("detalleCanPren",prendas.size()+"");
+        Log.e("numPag",numPag+"");
         Log.e("CurrentPosition",current_position+"");
-        if (current_position%10==9 && prendas.get(current_position).getFlagCarga()==false){
+        int rangoInf=((10*numPag)-1);
+        int rangoSup=0;
+        if (TAG.equals("genm") || TAG.equals("genM")){
+            rangoSup=session_manager.getTotalPrendasMujer();
+        }else if (TAG.equals("genH")|| TAG.equals("genh")){
+            rangoSup=session_manager.getTotalPrendasHombre();
+        }else{
+            Log.e("todos","cargo H y M");
+            rangoSup=session_manager.getTotalPrendas();
+        }
+        Log.e("rangosup",rangoSup+" rangoinf:"+rangoInf);
+        if (current_position==rangoInf && prendas.get(current_position).getFlagCarga()==false && current_position!=rangoSup-1){
             this.prendas.get(current_position).setFlagCarga(true);
-            Log.e("elemento","multiplo de 10");
+            Log.e("elemento", "multiplo de 10");
             numPag++;
             dsCatalogo=new DSCatalogo(this);
             dsCatalogo.getGlobalPrendas(TAG, String.valueOf(numPag), "10");
+
+            gd = new GlupDialogNew();
+            gd.setCancelable(false);
+            gd.show(getSupportFragmentManager(), GlupDialogNew.class.getSimpleName());
             try{
                 dsCatalogo.setOnSuccessCatalogo(this);
             }catch (ClassCastException e){
@@ -145,6 +173,7 @@ public class DetalleNew  extends Glup implements
 
     @Override
     public void onSuccess(String success_msg, ArrayList<Prenda> prendas) {
+        gd.dismiss();
         Log.e("cargo", "10+");
         if (prendas != null) {
             if (!prendas.isEmpty()) {
@@ -154,7 +183,14 @@ public class DetalleNew  extends Glup implements
             }
         }
         session_manager.setFlagReload(false);
-        session_manager.setNumPages(numPag);
+        if (TAG.equals("genm") || TAG.equals("genM")){
+            session_manager.setNumPagesMujer(numPag);
+        }else if (TAG.equals("genH")|| TAG.equals("genh")){
+            session_manager.setNumPagesHombre(numPag);
+        }else{
+            Log.e("todos","cargo H y M");
+            session_manager.setNumPages(numPag);
+        }
         pagerDetalleAdapter.notifyDataSetChanged();
         PrendaAdapter2 prendaAdapter = new PrendaAdapter2(this,this.prendas);
         glup.setPrendas(prendaAdapter.getmPrendas());

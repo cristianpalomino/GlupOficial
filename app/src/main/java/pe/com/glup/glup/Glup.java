@@ -21,6 +21,8 @@ import pe.com.glup.models.Prenda;
 public class Glup extends AppCompatActivity {
 
     private ArrayList<Prenda> prendas = new ArrayList<>();
+    private ArrayList<Prenda> prendasHombre = new ArrayList<>();
+    private ArrayList<Prenda> prendasMujer = new ArrayList<>();
     private Prenda prenda = new Prenda();
 
 
@@ -78,5 +80,13 @@ public class Glup extends AppCompatActivity {
     public void setPrendas(ArrayList<Prenda> prendas) {
         this.prendas = prendas;
     }
+
+    public ArrayList<Prenda> getPrendasHombre() {return prendasHombre;}
+
+    public void setPrendasHombre(ArrayList<Prenda> prendasHombre) {this.prendasHombre = prendasHombre;}
+
+    public ArrayList<Prenda> getPrendasMujer() {return prendasMujer;}
+
+    public void setPrendasMujer(ArrayList<Prenda> prendasMujer) {this.prendasMujer = prendasMujer;}
 
 }

@@ -24,6 +24,7 @@ public class FCatalogoNew extends Fragment implements View.OnClickListener {
     private FragmentTransaction fragmentTransaction;
     private FCatalogo fCatalogo;
     private ToggleButton hombre,mujer;
+    private Session_Manager session_manager;
     public  static FCatalogoNew newInstance(){
         FCatalogoNew fragment = new FCatalogoNew();
         return fragment;
@@ -41,6 +42,7 @@ public class FCatalogoNew extends Fragment implements View.OnClickListener {
     @Override
     public void onActivityCreated(Bundle savedInstance){
         super.onActivityCreated(savedInstance);
+        session_manager = new Session_Manager(getActivity());
         fragmentManager=getActivity().getSupportFragmentManager();
         hombre = (ToggleButton) getView().findViewById(R.id.catalogo_hombre);
         mujer = (ToggleButton) getView().findViewById(R.id.catalogo_mujer);
@@ -77,6 +79,7 @@ public class FCatalogoNew extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.catalogo_hombre:
+                session_manager.setFlagReload(true);
                 mujer.setChecked(false);
                 mujer.setEnabled(false);
                 fCatalogo = FCatalogo.newInstance("genH");
@@ -95,6 +98,7 @@ public class FCatalogoNew extends Fragment implements View.OnClickListener {
                 }, 1500);
                 break;
             case R.id.catalogo_mujer:
+                session_manager.setFlagReload(true);
                 hombre.setChecked(false);
                 hombre.setEnabled(false);
                 fCatalogo = FCatalogo.newInstance("genM");

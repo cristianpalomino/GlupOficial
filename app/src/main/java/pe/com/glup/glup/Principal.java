@@ -132,6 +132,7 @@ public class Principal extends Glup implements Footer.OnChangeTab {
                 .commit();
         framePrincipal.setPadding(0, 0, 0, (int) convertDpToPixel(60, this));
         Log.e("FRAGMENTS", CURRENT_FRAGMENT_TAG + "");
+        //getIntent().putExtra("numberPage", 1);
         /*
         Temporal
          */
