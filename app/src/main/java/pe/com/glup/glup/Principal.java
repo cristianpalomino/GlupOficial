@@ -27,6 +27,7 @@ import pe.com.glup.fragments.FMenuLeft;
 import pe.com.glup.fragments.FMenuRigth;
 import pe.com.glup.fragments.FProbador;
 import pe.com.glup.fragments.FReserva;
+import pe.com.glup.managers.session.Session_Manager;
 import pe.com.glup.models.Prenda;
 import pe.com.glup.models.interfaces.OnSuccessDetalleUsuario;
 import pe.com.glup.models.interfaces.OnSuccessDisableSliding;
@@ -56,6 +57,8 @@ public class Principal extends Glup implements Footer.OnChangeTab {
     private int position;
     private DrawerLayout drawerLayout;
     private ArrayList<Prenda> aPrendas;
+    private Session_Manager session_manager;
+    private Glup glup;
 
     public void setOnSuccessDisableSliding(OnSuccessDisableSliding onSuccessDisableSliding) {
         this.onSuccessDisableSliding = onSuccessDisableSliding;
@@ -69,10 +72,10 @@ public class Principal extends Glup implements Footer.OnChangeTab {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         BusHolder.getInstance().register(this);
-
+        glup=(Glup)this;
         setContentView(R.layout.principal);
         //setupUI(findViewById(R.id.drawer_layout));
-
+        session_manager= new Session_Manager(this);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
@@ -195,10 +198,22 @@ public class Principal extends Glup implements Footer.OnChangeTab {
         }
 
         if (CURRENT_FRAGMENT_TAG.equals("FCatalogoNew")) {
-            Log.e(null, "entro Catalogo nuevo");
+            ArrayList<Prenda> inicializacion = new ArrayList<Prenda>();
+            glup.setPrendas(inicializacion);
+            glup.setPrendasHombre(inicializacion);
+            glup.setPrendasMujer(inicializacion);
             //ResponseUpdateGeneroCatalogo responseUpdateGeneroCatalogo = new ResponseUpdateGeneroCatalogo();
             //responseUpdateGeneroCatalogo.success=1;
             //BusHolder.getInstance().post(responseUpdateGeneroCatalogo);
+            session_manager.setFlagReload(true);
+            session_manager.setTotalPrendTodos(0);
+            session_manager.setTotalPrendGenm(0);
+            session_manager.setTotalPrendGenh(0);
+            session_manager.setNumPages(1);
+            session_manager.setNumPagesHombre(1);
+            session_manager.setNumPagesMujer(1);
+        }else {
+            session_manager.setFlagReload(false);
 
         }
         flagChangeTab = true;
@@ -293,13 +308,35 @@ public class Principal extends Glup implements Footer.OnChangeTab {
                     BusHolder.getInstance().post(buttonUpdateProfile);
                 }*/
                 if (LAST_FRAGMENT_TAG.equals("FCatalogoNew")) {
+                    ArrayList<Prenda> inicializacion = new ArrayList<Prenda>();
+                    glup.setPrendas(inicializacion);
+                    glup.setPrendasHombre(inicializacion);
+                    glup.setPrendasMujer(inicializacion);
                     /*SignalUploadPrendas signalUploadPrendas = new SignalUploadPrendas();
                     BusHolder.getInstance().post(signalUploadPrendas);*/
-                    Log.e("TamañoAR", aPrendas.size() + "");
+                    session_manager.setFlagReload(true);
+                    session_manager.setTotalPrendTodos(0);
+                    session_manager.setTotalPrendGenm(0);
+                    session_manager.setTotalPrendGenh(0);
+                    session_manager.setNumPages(1);
+                    session_manager.setNumPagesHombre(1);
+                    session_manager.setNumPagesMujer(1);
                 }
 
             }
             if (count == 1 && ULTI_FRAGMENT_TAG.equals("FCatalogoNew")) {
+                ArrayList<Prenda> inicializacion = new ArrayList<Prenda>();
+                glup.setPrendas(inicializacion);
+                glup.setPrendasHombre(inicializacion);
+                glup.setPrendasMujer(inicializacion);
+
+                session_manager.setFlagReload(true);
+                session_manager.setTotalPrendTodos(0);
+                session_manager.setTotalPrendGenm(0);
+                session_manager.setTotalPrendGenh(0);
+                session_manager.setNumPages(1);
+                session_manager.setNumPagesHombre(1);
+                session_manager.setNumPagesMujer(1);
                 this.finish();
             }
 
@@ -404,8 +441,8 @@ public class Principal extends Glup implements Footer.OnChangeTab {
     @Subscribe
     public void setListPrendas(DetalleNew.UploadPrendas uploadPrendas) {
         //NO FUNCIONA AL RETROCEDE SE VUELVE NULL
-        aPrendas = uploadPrendas.listPrendas;
-        Log.e("TamañoA", aPrendas.size() + "");
+        //aPrendas = uploadPrendas.listPrendas;
+        //Log.e("TamañoA", aPrendas.size() + "");
     }
 
     public class SignalUploadPrendas {
@@ -424,5 +461,23 @@ public class Principal extends Glup implements Footer.OnChangeTab {
                 signalUploadPrendas.numberPag= (int) data.getExtras().get("numberPage");
                 BusHolder.getInstance().post(signalUploadPrendas);
             }
+    }
+
+    @Override
+    public void onPause(){
+        ArrayList<Prenda> inicializacion = new ArrayList<Prenda>();
+        glup.setPrendas(inicializacion);
+        glup.setPrendasHombre(inicializacion);
+        glup.setPrendasMujer(inicializacion);
+
+        session_manager.setFlagReload(true);
+        session_manager.setTotalPrendTodos(0);
+        session_manager.setTotalPrendGenm(0);
+        session_manager.setTotalPrendGenh(0);
+        session_manager.setNumPages(1);
+        session_manager.setNumPagesHombre(1);
+        session_manager.setNumPagesMujer(1);
+
+        super.onPause();
     }
 }

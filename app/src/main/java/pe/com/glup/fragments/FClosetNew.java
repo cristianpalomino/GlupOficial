@@ -1,5 +1,8 @@
 package pe.com.glup.fragments;
 
+import android.annotation.TargetApi;
+import android.media.Image;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,6 +17,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -30,6 +34,7 @@ import pe.com.glup.dialog.GlupDialogNew;
 import pe.com.glup.glup.Glup;
 import pe.com.glup.glup.Principal;
 import pe.com.glup.managers.bus.BusHolder;
+import pe.com.glup.managers.session.Session_Manager;
 import pe.com.glup.models.PerfilUsuario;
 import pe.com.glup.models.Prenda;
 import pe.com.glup.models.interfaces.OnSearchListener;
@@ -57,7 +62,6 @@ public class FClosetNew extends Fragment implements View.OnClickListener,OnSucce
     protected GlupDialogNew gd;
     private static final int EMPTY = 0;
     private static final int FULL = 1;
-    private TextView emptyView;
     private GridView grilla;
     private PrendaAdapter adapter;
     private DSCloset dsCloset;
@@ -66,6 +70,7 @@ public class FClosetNew extends Fragment implements View.OnClickListener,OnSucce
     private static String TAG = "todos";
     private boolean isLoading = false;
     private RelativeLayout emptyViewCloset;
+    private ImageView imageView;
 
     public static FClosetNew newInstance(){
         FClosetNew fragment=new FClosetNew();
@@ -82,6 +87,8 @@ public class FClosetNew extends Fragment implements View.OnClickListener,OnSucce
         super.onActivityCreated(savedInstance);
         BusHolder.getInstance().register(this);
         emptyViewCloset = (RelativeLayout)getView().findViewById(R.id.empty_view_closet);
+        imageView=(ImageView)getView().findViewById(R.id.image_empty);
+
         frameGrilla = (FrameLayout) getView().findViewById(R.id.grilla_closet);
         frameBack = (FrameLayout)getView().findViewById(R.id.frame_back);
         frameUpdate = (FrameLayout)getView().findViewById(R.id.frame_update);
@@ -97,6 +104,13 @@ public class FClosetNew extends Fragment implements View.OnClickListener,OnSucce
         TAG = "todos";
         isLoading = false;
 
+        if (new Session_Manager(getActivity()).getCurrentUserSexo().equals("H")){
+            imageView.setImageDrawable(getResources().getDrawable(R.drawable.bg_closet_men));
+        }else {
+            Log.e("closet","mujer");
+            imageView.setImageDrawable(getResources().getDrawable(R.drawable.bg_closet_woman));
+        }
+
         Principal principal = ((Principal) getActivity());
         try{
             principal.getHeader().setOnSearchListener(FClosetNew.this);
@@ -104,9 +118,7 @@ public class FClosetNew extends Fragment implements View.OnClickListener,OnSucce
             Log.e("error",e.toString());
         }
 
-        emptyView = (TextView) getView().findViewById(R.id.empty_view);
-        getView().findViewById(R.id.empty_view_subtitle).setVisibility(View.GONE);
-        emptyView.setTypeface(Util_Fonts.setRegular(getActivity()));
+        getView().findViewById(R.id.empty_view_grilla_).setVisibility(View.GONE);
 
         grilla = (GridView) getView().findViewById(R.id.grilla_prendas);
         grilla.setOnItemClickListener(this);
@@ -120,7 +132,6 @@ public class FClosetNew extends Fragment implements View.OnClickListener,OnSucce
             Log.e("error",e.toString());
         }
 
-
         /*
         SHOW LOAD DIALOG
          */
@@ -129,9 +140,6 @@ public class FClosetNew extends Fragment implements View.OnClickListener,OnSucce
         gd = new GlupDialogNew();
         gd.setCancelable(false);
         gd.show(fragmentManager,GlupDialog.class.getSimpleName());
-
-
-
 
     }
     @Override
@@ -266,18 +274,21 @@ public class FClosetNew extends Fragment implements View.OnClickListener,OnSucce
 
     @Override
     public void onFailed(String error_msg) {
-        frameGrilla.setVisibility(View.GONE);
-        emptyViewCloset.setVisibility(View.VISIBLE);
+        displayMessage(EMPTY);
         gd.dismiss();
-        //displayMessage(EMPTY);
+
     }
     private void displayMessage(int type) {
         if (type == EMPTY) {
+            frameGrilla.setVisibility(View.GONE);
             grilla.setVisibility(View.GONE);
-            emptyView.setVisibility(View.VISIBLE);
+            emptyViewCloset.setVisibility(View.VISIBLE);
+            //emptyView.setVisibility(View.VISIBLE);
         } else if (type == FULL) {
+            frameGrilla.setVisibility(View.VISIBLE);
             grilla.setVisibility(View.VISIBLE);
-            emptyView.setVisibility(View.GONE);
+            emptyViewCloset.setVisibility(View.GONE);
+            //emptyView.setVisibility(View.GONE);
         }
     }
     public class OpenProfile{}

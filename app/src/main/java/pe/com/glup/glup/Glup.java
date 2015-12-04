@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import pe.com.glup.managers.session.Session_Manager;
 import pe.com.glup.models.Prenda;
 
 /**
@@ -88,5 +89,6 @@ public class Glup extends AppCompatActivity {
     public ArrayList<Prenda> getPrendasMujer() {return prendasMujer;}
 
     public void setPrendasMujer(ArrayList<Prenda> prendasMujer) {this.prendasMujer = prendasMujer;}
+
 
 }

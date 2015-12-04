@@ -63,10 +63,8 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
     private boolean isLoading = false;
     private Context context;
     private Button prueba;
-    private boolean flagCargaPrimeraVez=true;
     private ArrayList<Prenda> listFromPreview;
     private Session_Manager session_manager;
-    private int totalPrendasCatalogo;
 
     public static FCatalogo newInstance() {
         FCatalogo fragment = new FCatalogo();
@@ -143,9 +141,6 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
         //grilla.setOnItemClickListener(this);
         grilla.setOnScrollListener(this);
 
-        Log.e("flag",flagCargaPrimeraVez+"");
-
-
         ArrayList<Prenda> listaYaCargada= new ArrayList<Prenda>();
         if (TAG.equals("genm") || TAG.equals("genM")){
             listaYaCargada=glup.getPrendasMujer();
@@ -162,11 +157,9 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
             Log.e("SettingFlag",PAGE+"");
         }
         int size=listaYaCargada.size();
-        Log.e("SettingFlag", session_manager.isLoad() + " tamaño lista:"+size+" tag:"+TAG);
+        Log.e("SettingFlag", session_manager.isLoad() + " tamaño lista:"+size+" tag:"+TAG+" PAGE:"+PAGE);
+        if (size==0 || session_manager.isLoad()){
 
-        if (session_manager.isLoad() && size==0){
-            flagCargaPrimeraVez=false;
-            totalPrendasCatalogo=0;
             /*
             CALL REST API
             */
@@ -200,6 +193,7 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
     @Override
     public void onSuccess(String success_msg, ArrayList<Prenda> prendas) {
         gd.dismiss();
+
         try {
             if (PAGE == 1) {
                 if (prendas != null) {
@@ -213,7 +207,6 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
                     {
                         prendaAdapter = new PrendaAdapter2(context, prendas);
                     }
-                    totalPrendasCatalogo=prendas.get(0).getNumPrend();
                     grilla.setAdapter(prendaAdapter);
                     if (TAG.equals("genm") || TAG.equals("genM")){
                         session_manager.setTotalPrendGenm(prendas.get(0).getNumPrend());
@@ -390,10 +383,9 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
     }
     @Subscribe
     public void loadPrendasFromPreview(DetalleNew.UploadPrendas uploadPrendas){
-        flagCargaPrimeraVez=uploadPrendas.flag;
         PAGE=uploadPrendas.numberPag;
         listFromPreview=uploadPrendas.listPrendas;
-        Log.e("flag",uploadPrendas.numberPag+" "+flagCargaPrimeraVez);
+        Log.e("flag",uploadPrendas.numberPag+"");
         Log.e("SettingFlag",listFromPreview.size()+"");
         /*prendaAdapter = new PrendaAdapter2(context, listFromPreview);
         grilla.setAdapter(prendaAdapter);

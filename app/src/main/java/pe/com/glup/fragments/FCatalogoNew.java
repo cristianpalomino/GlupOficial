@@ -79,7 +79,7 @@ public class FCatalogoNew extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.catalogo_hombre:
-                session_manager.setFlagReload(true);
+                session_manager.setFlagReload(false);
                 mujer.setChecked(false);
                 mujer.setEnabled(false);
                 fCatalogo = FCatalogo.newInstance("genH");
@@ -98,7 +98,7 @@ public class FCatalogoNew extends Fragment implements View.OnClickListener {
                 }, 1500);
                 break;
             case R.id.catalogo_mujer:
-                session_manager.setFlagReload(true);
+                session_manager.setFlagReload(false);
                 hombre.setChecked(false);
                 hombre.setEnabled(false);
                 fCatalogo = FCatalogo.newInstance("genM");
