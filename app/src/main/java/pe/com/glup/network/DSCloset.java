@@ -1,6 +1,7 @@
 package pe.com.glup.network;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
@@ -8,6 +9,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.apache.http.Header;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -50,16 +52,24 @@ public class DSCloset {
         RequestParams params = new RequestParams();
         params.put("tag", "prendaCloset");
         params.put("codigo_usuario",new Session_Manager(context).getCurrentUserCode());
-
+        Log.e("codigoUser",new Session_Manager(context).getCurrentUserCode());
         AsyncHttpClient httpClient = new AsyncHttpClient();
         httpClient.post(context, URL, params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
-                Gson gson = new Gson();
 
+                Log.e("dataGrilla",response.toString());
+                Gson gson = new Gson();
                 Catalogo catalogo = gson.fromJson(response.toString(), Catalogo.class);
-                prendas = catalogo.getPrendas();
+
+                if (catalogo.getDatoUser().get(0).getNumPrend().equals("0")){
+                    Log.e("cant",catalogo.getDatoUser().get(0).getNumPrend());
+                    prendas = null;
+                }else {
+                    prendas = catalogo.getPrendas();
+                }
+
 
                 onSuccessCatalogo.onSuccess(catalogo.getTag(), prendas);
             }

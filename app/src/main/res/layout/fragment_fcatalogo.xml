@@ -24,4 +24,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center" />
 
+    <include
+        android:id="@+id/empty_view_catalogo"
+        android:visibility="gone"
+        layout="@layout/empty_view_closet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        ></include>
+
 </FrameLayout>

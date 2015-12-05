@@ -86,6 +86,9 @@ public class FClosetNew extends Fragment implements View.OnClickListener,OnSucce
     public void onActivityCreated(Bundle savedInstance){
         super.onActivityCreated(savedInstance);
         BusHolder.getInstance().register(this);
+        getView().findViewById(R.id.empty_view_grilla_).setVisibility(View.GONE);
+        getView().findViewById(R.id.empty_view_catalogo).setVisibility(View.GONE);
+
         emptyViewCloset = (RelativeLayout)getView().findViewById(R.id.empty_view_closet);
         imageView=(ImageView)getView().findViewById(R.id.image_empty);
 
@@ -105,10 +108,11 @@ public class FClosetNew extends Fragment implements View.OnClickListener,OnSucce
         isLoading = false;
 
         if (new Session_Manager(getActivity()).getCurrentUserSexo().equals("H")){
-            imageView.setImageDrawable(getResources().getDrawable(R.drawable.bg_closet_men));
+            Log.e("closet","hombre");
+            imageView.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.bg_closet_men));
         }else {
             Log.e("closet","mujer");
-            imageView.setImageDrawable(getResources().getDrawable(R.drawable.bg_closet_woman));
+            imageView.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.bg_closet_woman));
         }
 
         Principal principal = ((Principal) getActivity());
@@ -118,7 +122,6 @@ public class FClosetNew extends Fragment implements View.OnClickListener,OnSucce
             Log.e("error",e.toString());
         }
 
-        getView().findViewById(R.id.empty_view_grilla_).setVisibility(View.GONE);
 
         grilla = (GridView) getView().findViewById(R.id.grilla_prendas);
         grilla.setOnItemClickListener(this);
@@ -131,7 +134,6 @@ public class FClosetNew extends Fragment implements View.OnClickListener,OnSucce
         }catch (ClassCastException e){
             Log.e("error",e.toString());
         }
-
         /*
         SHOW LOAD DIALOG
          */
@@ -156,7 +158,7 @@ public class FClosetNew extends Fragment implements View.OnClickListener,OnSucce
     @Subscribe
     public void SuccesLoadProfile(PerfilUsuario perfilUsuario){
         gd.dismiss();
-        Log.e("LoadUser", perfilUsuario.getSuccess()+"");
+        Log.e("LoadUser", perfilUsuario.getSuccess() + "");
         if (perfilUsuario.getSuccess()==1){
             try {
                 Picasso.with(getActivity().getApplicationContext())
@@ -236,7 +238,7 @@ public class FClosetNew extends Fragment implements View.OnClickListener,OnSucce
         try{
             dsCloset.setOnSuccessCatalogo(FClosetNew.this);//context FCloset
         }catch (ClassCastException e){
-            Log.e("error",e.toString());
+            Log.e("error", e.toString());
         }
     }
 
@@ -244,6 +246,7 @@ public class FClosetNew extends Fragment implements View.OnClickListener,OnSucce
     public void onSuccess(String success_msg, ArrayList<Prenda> prendas) {
 
         gd.dismiss();
+        if (prendas!=null){
         try {
             if (PAGE == 1) {
                 if (prendas != null) {
@@ -270,6 +273,10 @@ public class FClosetNew extends Fragment implements View.OnClickListener,OnSucce
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        }else {
+            displayMessage(EMPTY);
+        }
     }
 
     @Override
@@ -292,4 +299,6 @@ public class FClosetNew extends Fragment implements View.OnClickListener,OnSucce
         }
     }
     public class OpenProfile{}
+
+
 }

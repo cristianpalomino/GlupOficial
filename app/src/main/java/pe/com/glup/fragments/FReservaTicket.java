@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import pe.com.glup.R;
 import pe.com.glup.adapters.TicketListAdapter;
+import pe.com.glup.managers.session.Session_Manager;
 import pe.com.glup.models.TicketList;
 import pe.com.glup.managers.bus.BusHolder;
 import pe.com.glup.network.DSReserva;
@@ -32,8 +33,7 @@ import pe.com.glup.dialog.DetalleTicketDialog;
 public class FReservaTicket extends Fragment implements ListView.OnItemClickListener{
     private ListView listView;
     private ProgressBar progressBar;
-    private TextView empty;
-    private ImageView imgEmpty;
+    private ImageView imageEmpty;
     private RelativeLayout viewEmpty;
     private ArrayList<TicketList> tickets;
     private Context context;
@@ -41,6 +41,7 @@ public class FReservaTicket extends Fragment implements ListView.OnItemClickList
     private String tag;
     private FragmentManager fragmentManager;
     private float total;
+
     @Override
     public void onCreate(Bundle savedInstance){
         super.onCreate(savedInstance);
@@ -60,8 +61,7 @@ public class FReservaTicket extends Fragment implements ListView.OnItemClickList
         fragmentManager=getActivity().getSupportFragmentManager();
         listView = (ListView) getView().findViewById(R.id.list_ticket);
         progressBar = (ProgressBar) getView().findViewById(R.id.progress_ticket);
-        //imgEmpty = (ImageView) getView().findViewById(R.id.image_empty);
-        //empty = (TextView) getView().findViewById(R.id.txt_empty);
+        imageEmpty = (ImageView) getView().findViewById(R.id.image_empty);
         viewEmpty = (RelativeLayout) getView().findViewById(R.id.empty_view_ticket);
         progressBar.setVisibility(View.VISIBLE);
 
@@ -70,6 +70,13 @@ public class FReservaTicket extends Fragment implements ListView.OnItemClickList
         listView.setAdapter(ticketListAdapter);
         ticketListAdapter.notifyDataSetChanged();
         listView.setOnItemClickListener(this);
+        if (new Session_Manager(getActivity()).getCurrentUserSexo().equals("H")){
+            Log.e("closet","hombre");
+            imageEmpty.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.bg_ticket_vacio_hombre));
+        }else {
+            Log.e("closet","mujer");
+            imageEmpty.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.bg_ticket_vacio_mujer));
+        }
 
     }
     @Subscribe

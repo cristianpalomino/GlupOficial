@@ -11,6 +11,15 @@ public class Catalogo {
     private int success;
     private int error;
     private ArrayList<Prenda> prendas;
+    private ArrayList<DatoUser> datouser=new ArrayList<DatoUser>();
+
+    public ArrayList<DatoUser> getDatoUser() {
+        return datouser;
+    }
+
+    public void setDatoUser(ArrayList<DatoUser> datoUser) {
+        this.datouser = datoUser;
+    }
 
     public Catalogo(String tag, int success, int error, ArrayList<Prenda> prendas) {
         this.tag = tag;

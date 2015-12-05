@@ -75,7 +75,8 @@ public class DSUsuario {
                 PerfilUsuario perfilUsuario = gson.fromJson(response.toString(), PerfilUsuario.class);
                 Log.e("Success", String.valueOf(perfilUsuario.getSuccess()));
                 String cumple="";
-                if (perfilUsuario.getDetalleuser().get(0).getFecNac().equals(null)){
+                if (perfilUsuario.getDetalleuser().get(0).getFecNac().equals(null) || perfilUsuario.getDetalleuser().get(0).getFecNac().equals("") ){
+                    Log.e("cumple","vacio");
                     cumple="";
                 }else {
                     cumple= inverseResetFormatFecha(perfilUsuario.getDetalleuser().get(0).getFecNac().toString());
@@ -111,7 +112,7 @@ public class DSUsuario {
 
         Log.e("NombreActual",nombre);
         Log.e("updateUsuarioPass",passUser);
-        Log.e("indicadorverpass",indVerPass);
+        Log.e("indicadorverpass", indVerPass);
 
         RequestParams params = new RequestParams();
         params.put("tag","modificarDatoUser");
@@ -120,11 +121,13 @@ public class DSUsuario {
         params.put("ind_verpass",indVerPass);
         params.put("nom_usuario",nombre);
         params.put("ape_usuario",apellido);
-        params.put("fecnac_usuario",resetFormatFecha(fecNac));
+        if (fecNac.equals("") || fecNac.equals(null)){
+            params.put("fecnac_usuario","");
+        }else{
+            params.put("fecnac_usuario",resetFormatFecha(fecNac));
+        }
         params.put("correo_usuario",correo);
         params.put("numtelef_usuario", telef);
-
-
 
         AsyncHttpClient httpClient = new AsyncHttpClient();
         httpClient.post(context, URL, params, new JsonHttpResponseHandler() {

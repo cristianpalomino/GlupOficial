@@ -322,6 +322,9 @@ public class Principal extends Glup implements Footer.OnChangeTab {
                     session_manager.setNumPagesHombre(1);
                     session_manager.setNumPagesMujer(1);
                 }
+                if (LAST_FRAGMENT_TAG.equals("FClosetNew")) {
+
+                }
 
             }
             if (count == 1 && ULTI_FRAGMENT_TAG.equals("FCatalogoNew")) {
@@ -448,6 +451,7 @@ public class Principal extends Glup implements Footer.OnChangeTab {
     public class SignalUploadPrendas {
         public ArrayList<Prenda> listPrendas;public int numberPag;
     }
+
 
     ;
     @Override

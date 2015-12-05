@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -22,6 +23,7 @@ import java.util.HashMap;
 
 import pe.com.glup.R;
 import pe.com.glup.adapters.ReservaListAdapter;
+import pe.com.glup.managers.session.Session_Manager;
 import pe.com.glup.models.Prenda;
 import pe.com.glup.models.ReservaItem;
 import pe.com.glup.models.ReservaList;
@@ -49,7 +51,7 @@ public class FReservaInfo extends Fragment implements View.OnClickListener{
     private float total;
     private ArrayList<Integer> unicos=new ArrayList<Integer>();
     private RelativeLayout viewEmpty;
-    private TextView empty;
+    private ImageView imageEmpty;
 
 
 
@@ -81,12 +83,19 @@ public class FReservaInfo extends Fragment implements View.OnClickListener{
         reservaAdapter = new ReservaListAdapter(context,reservas,this.getTag());
         listView.setAdapter(reservaAdapter);
         reservaAdapter.notifyDataSetChanged();
-        empty = (TextView) getView().findViewById(R.id.txt_empty);
         viewEmpty = (RelativeLayout) getView().findViewById(R.id.empty_view_reserva);
+        imageEmpty = (ImageView) getView().findViewById(R.id.image_empty);
         confirmar = (Button) getView().findViewById(R.id.confirmar_reserva);
         progressBar = (ProgressBar) getView().findViewById(R.id.temp_progress);
         progressBar.setVisibility(View.VISIBLE);
         confirmar.setOnClickListener(this);
+        if (new Session_Manager(getActivity()).getCurrentUserSexo().equals("H")){
+            Log.e("closet","hombre");
+            imageEmpty.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.bg_reserva_vacio_hombre));
+        }else {
+            Log.e("closet","mujer");
+            imageEmpty.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.bg_reserva_vacio_mujer));
+        }
 
     }
 
@@ -143,7 +152,6 @@ public class FReservaInfo extends Fragment implements View.OnClickListener{
             if (contReservas==0){
                 cantReserva.setVisibility(View.GONE);
                 confirmar.setVisibility(View.GONE);
-                empty.setText("Aún no tienes prendas reservadas");
                 viewEmpty.setVisibility(View.VISIBLE);
             }else if(contReservas==1){
                 cantReserva.setText(contReservas + " Reserva");
@@ -160,10 +168,10 @@ public class FReservaInfo extends Fragment implements View.OnClickListener{
 
 
         }else {
-            Log.e(null,"success get reservas "+responseReserva.success);
+            Log.e(null, "success get reservas " + responseReserva.success);
             progressBar.setVisibility(View.GONE);
             cantReserva.setVisibility(View.GONE);
-            empty.setText("Aún no tienes prendas reservadas");
+
             viewEmpty.setVisibility(View.VISIBLE);
             confirmar.setVisibility(View.GONE);
         }

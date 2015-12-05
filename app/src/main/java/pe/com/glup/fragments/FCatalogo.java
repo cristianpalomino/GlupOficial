@@ -16,6 +16,8 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
@@ -57,7 +59,6 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
     private PrendaAdapter2 prendaAdapter;
     protected GlupDialogNew gd;
 
-    private TextView emptyView,emptyViewSubtitle;
     private GridView grilla;
 
     private boolean isLoading = false;
@@ -65,6 +66,9 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
     private Button prueba;
     private ArrayList<Prenda> listFromPreview;
     private Session_Manager session_manager;
+    private RelativeLayout emptyViewCatalogo;
+    private ImageView imageView;
+
 
     public static FCatalogo newInstance() {
         FCatalogo fragment = new FCatalogo();
@@ -111,6 +115,11 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         BusHolder.getInstance().register(this);
+        getView().findViewById(R.id.empty_view_grilla_).setVisibility(View.GONE);
+
+        emptyViewCatalogo = (RelativeLayout)getView().findViewById(R.id.empty_view_catalogo);
+        imageView=(ImageView)getView().findViewById(R.id.image_empty);
+
         glup = (Glup) getActivity();
         context=getActivity();
         session_manager=new Session_Manager(getActivity());
@@ -124,10 +133,8 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
         Principal principal = ((Principal) getActivity());
         //principal.getHeader().setOnSearchListener(FCatalogo.this);
 
-        emptyView = (TextView) getView().findViewById(R.id.empty_view);
-        emptyViewSubtitle = (TextView) getView().findViewById(R.id.empty_view_subtitle);
 
-        emptyViewSubtitle.setTypeface(Util_Fonts.setRegular(getActivity()));
+
 
         grilla = (GridView) getView().findViewById(R.id.grilla_prendas);
 
@@ -147,6 +154,7 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
             PAGE = session_manager.getCurrentNumPagesMujer();
             Log.e("SettingFlag",PAGE+"");
         }else if (TAG.equals("genH")|| TAG.equals("genh")){
+            imageView.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.bg_catalogo_vacio_hombre));
             listaYaCargada=glup.getPrendasHombre();
             PAGE = session_manager.getCurrentNumPagesHombre();
             Log.e("SettingFlag",PAGE+"");
@@ -193,7 +201,7 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
     @Override
     public void onSuccess(String success_msg, ArrayList<Prenda> prendas) {
         gd.dismiss();
-
+        if (prendas!=null){
         try {
             if (PAGE == 1) {
                 if (prendas != null) {
@@ -248,7 +256,9 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        }else {
+            displayMessage(EMPTY);
+        }
     }
 
     @Override
@@ -275,12 +285,10 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
     private void displayMessage(int type) {
         if (type == EMPTY) {
             grilla.setVisibility(View.GONE);
-            emptyViewSubtitle.setVisibility(View.VISIBLE);
-            emptyView.setVisibility(View.VISIBLE);
+            emptyViewCatalogo.setVisibility(View.VISIBLE);
         } else if (type == FULL) {
             grilla.setVisibility(View.VISIBLE);
-            emptyViewSubtitle.setVisibility(View.GONE);
-            emptyView.setVisibility(View.GONE);
+            emptyViewCatalogo.setVisibility(View.GONE);
         }
     }
 

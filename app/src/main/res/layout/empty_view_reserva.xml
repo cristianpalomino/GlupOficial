@@ -5,16 +5,6 @@
     <ImageView
         android:id="@+id/image_empty"
         android:layout_centerInParent="true"
-        android:src="@drawable/carita"
-        android:layout_width="56dp"
-        android:layout_height="56dp" />
-    <TextView
-        android:layout_below="@+id/image_empty"
-        android:id="@+id/txt_empty"
-        android:text="Aún no tienes tickets"
-        android:visibility="visible"
-        android:layout_margin="24dp"
-        android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="450dp"
+        android:layout_height="600dp" />
 </RelativeLayout>
