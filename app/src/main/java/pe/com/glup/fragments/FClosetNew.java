@@ -86,10 +86,10 @@ public class FClosetNew extends Fragment implements View.OnClickListener,OnSucce
     public void onActivityCreated(Bundle savedInstance){
         super.onActivityCreated(savedInstance);
         BusHolder.getInstance().register(this);
-        getView().findViewById(R.id.empty_view_grilla_).setVisibility(View.GONE);
-        getView().findViewById(R.id.empty_view_catalogo).setVisibility(View.GONE);
+        //getView().findViewById(R.id.empty_view_grilla_).setVisibility(View.GONE);
+        //getView().findViewById(R.id.empty_view_catalogo).setVisibility(View.GONE);
 
-        emptyViewCloset = (RelativeLayout)getView().findViewById(R.id.empty_view_closet);
+        emptyViewCloset = (RelativeLayout)getView().findViewById(R.id.empty_view_catalogo);
         imageView=(ImageView)getView().findViewById(R.id.image_empty);
 
         frameGrilla = (FrameLayout) getView().findViewById(R.id.grilla_closet);
@@ -109,10 +109,10 @@ public class FClosetNew extends Fragment implements View.OnClickListener,OnSucce
 
         if (new Session_Manager(getActivity()).getCurrentUserSexo().equals("H")){
             Log.e("closet","hombre");
-            imageView.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.bg_closet_men));
+            imageView.setImageResource(R.drawable.bg_closet_men);
         }else {
             Log.e("closet","mujer");
-            imageView.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.bg_closet_woman));
+            imageView.setImageResource(R.drawable.bg_closet_woman);
         }
 
         Principal principal = ((Principal) getActivity());
@@ -172,13 +172,14 @@ public class FClosetNew extends Fragment implements View.OnClickListener,OnSucce
         }else{
 
         }
-        if (perfilUsuario.getDatouser().get(0).getNumPrend().toString().equals("0")){
-            frameGrilla.setVisibility(View.GONE);
+        /*if (perfilUsuario.getDatouser().get(0).getNumPrend().toString().equals("0")){
+            frameGrilla.setVisibility(View.VISIBLE);
             emptyViewCloset.setVisibility(View.VISIBLE);
+            Log.e("visible","emptyCloset");
         }else{
             frameGrilla.setVisibility(View.VISIBLE);
             emptyViewCloset.setVisibility(View.GONE);
-        }
+        }*/
     }
 
     @Override
@@ -250,6 +251,7 @@ public class FClosetNew extends Fragment implements View.OnClickListener,OnSucce
         try {
             if (PAGE == 1) {
                 if (prendas != null) {
+                    Log.e("Prendas","not null");
                     displayMessage(FULL);
                     adapter = new PrendaAdapter(FClosetNew.this.getActivity(), prendas);
                     grilla.setAdapter(adapter);
@@ -287,10 +289,13 @@ public class FClosetNew extends Fragment implements View.OnClickListener,OnSucce
     }
     private void displayMessage(int type) {
         if (type == EMPTY) {
-            frameGrilla.setVisibility(View.GONE);
+            Log.e("Prendas", "null");
+            frameGrilla.setVisibility(View.VISIBLE);
             grilla.setVisibility(View.GONE);
             emptyViewCloset.setVisibility(View.VISIBLE);
             //emptyView.setVisibility(View.VISIBLE);
+            OnAlphaButtonCamera onAlphaButtonCamera= new OnAlphaButtonCamera();
+            BusHolder.getInstance().post(onAlphaButtonCamera);
         } else if (type == FULL) {
             frameGrilla.setVisibility(View.VISIBLE);
             grilla.setVisibility(View.VISIBLE);
@@ -300,5 +305,6 @@ public class FClosetNew extends Fragment implements View.OnClickListener,OnSucce
     }
     public class OpenProfile{}
 
+    public class OnAlphaButtonCamera{}
 
 }

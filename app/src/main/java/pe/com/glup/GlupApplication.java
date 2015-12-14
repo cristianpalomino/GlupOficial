@@ -4,10 +4,15 @@ package pe.com.glup;
  * Created by Glup on 30/09/15.
  */
 import android.app.Application;
+import android.util.Log;
 
 import org.acra.ACRA;
 import org.acra.annotation.ReportsCrashes;
 
+import java.util.ArrayList;
+
+import pe.com.glup.managers.session.Session_Manager;
+import pe.com.glup.models.Prenda;
 import pe.com.glup.notifications.logging.ACRAReportSender;
 
 
@@ -26,4 +31,5 @@ public class GlupApplication extends Application {
         // register it with ACRA.
         ACRA.getErrorReporter().setReportSender(reportSender);
     }
+
 }

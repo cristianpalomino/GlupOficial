@@ -17,53 +17,38 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import pe.com.glup.dialog.GlupDialog;
+import pe.com.glup.dialog.GlupDialogNew;
+import pe.com.glup.managers.bus.BusHolder;
+import pe.com.glup.managers.session.Session_Manager;
 import pe.com.glup.models.Catalogo;
 import pe.com.glup.models.Prenda;
 import pe.com.glup.models.TallaDisponible;
 import pe.com.glup.models.Tienda;
-import pe.com.glup.managers.bus.BusHolder;
-import pe.com.glup.dialog.GlupDialog;
-import pe.com.glup.dialog.GlupDialogNew;
-import pe.com.glup.models.interfaces.OnSuccessPrendas;
-import pe.com.glup.models.interfaces.OnSuccessProbador;
-import pe.com.glup.managers.session.Session_Manager;
 import pe.com.glup.views.MessageV2;
 import pe.com.glup.ws.WSGlup;
 
-/**
- * Created by Glup on 24/06/15.
- */
-public class DSProbador {
 
+/**
+ * Created by Glup on 10/12/15.
+ */
+public class DSProbadorNew {
     private Context context;
     private ArrayList<Prenda> prendas = new ArrayList<Prenda>();
     ArrayList<Tienda> tiendas = new ArrayList<Tienda>();
     ArrayList<TallaDisponible> tallas= new ArrayList<TallaDisponible>();
-    private OnSuccessPrendas onSuccessPrendas;
-    private OnSuccessProbador onSuccessProbador;
     GlupDialogNew gd;
-    static final int SHORT_DELAY = 100;
 
-
-
-    public DSProbador(Context context) {
+    public DSProbadorNew(Context context) {
         this.context = context;
         BusHolder.getInstance().register(this);
     }
 
-    public void setOnSuccessPrendas(OnSuccessPrendas onSuccessPrendas) {
-        this.onSuccessPrendas = onSuccessPrendas;
-    }
-
-    public void setOnSuccessProbador(OnSuccessProbador onSuccessProbador) {
-        this.onSuccessProbador = onSuccessProbador;
-    }
-
     public void getGlobalPrendasCatalogo(final String filtro_posicion, String pagina, String registros) {
-            String URL = WSGlup.ORQUESTADOR_NUEVO_PROBADOR.
-                    replace(WSGlup.NUMERO_PAGINA, pagina).
-                    replace(WSGlup.NUMERO_REGISTROS, registros).
-                    replace(WSGlup.FILTRO_POSICION, filtro_posicion);
+        String URL = WSGlup.ORQUESTADOR_NUEVO_PROBADOR.
+                replace(WSGlup.NUMERO_PAGINA, pagina).
+                replace(WSGlup.NUMERO_REGISTROS, registros).
+                replace(WSGlup.FILTRO_POSICION, filtro_posicion);
 
         RequestParams params = new RequestParams();
         params.put("tag", "prendaCatalogoPosicion");
@@ -75,34 +60,39 @@ public class DSProbador {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 Gson gson = new Gson();
-
                 Catalogo catalogo = gson.fromJson(response.toString(), Catalogo.class);
                 prendas = catalogo.getPrendas();
-                for (int i=0;i<prendas.size();i++){
+                for (int i = 0; i < prendas.size(); i++) {
                     prendas.get(i).setFiltroPosicion(filtro_posicion);
                 }
                 ResponseCatalogo responseCatalogo = new ResponseCatalogo();
                 responseCatalogo.message = catalogo.getTag();
                 responseCatalogo.prendas = prendas;
                 responseCatalogo.tipo = filtro_posicion;
-                onSuccessPrendas.succesPrendas(responseCatalogo);//bug retroceso probador-catalog-probador
+                BusHolder.getInstance().post(responseCatalogo);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
-
                 ResponseCatalogo responseCatalogo = new ResponseCatalogo();
                 responseCatalogo.message = responseString;
                 responseCatalogo.prendas = null;
                 responseCatalogo.tipo = filtro_posicion;
-                onSuccessPrendas.succesPrendas(responseCatalogo);
+                BusHolder.getInstance().post(responseCatalogo);
             }
         });
     }
-    public void getGlobalPrendasProbador(final String filtro_posicion, String pagina, String registros) {
+    public class ResponseCatalogo {
+        public int success;
+        public String tipo;
+        public String message;
+        public ArrayList<Prenda> prendas;
+    }
+
+    public void getGlobalPrendasProbador(final String filtro_posicion,final int pagina, String registros) {
         String URL = WSGlup.ORQUESTADOR_NUEVO_PROBADOR.
-                replace(WSGlup.NUMERO_PAGINA, pagina).
+                replace(WSGlup.NUMERO_PAGINA, String.valueOf(pagina)).
                 replace(WSGlup.NUMERO_REGISTROS, registros).
                 replace(WSGlup.FILTRO_POSICION, filtro_posicion);
 
@@ -117,53 +107,86 @@ public class DSProbador {
                 super.onSuccess(statusCode, headers, response);
                 Gson gson = new Gson();
                 Log.e("enProbadorResponse", response.toString());
-
-                        Catalogo catalogo = gson.fromJson(response.toString(), Catalogo.class);
-                        prendas = catalogo.getPrendas();
-                        if (prendas!=null){
-                            for (int i = 0; i < prendas.size(); i++) {
-                                prendas.get(i).setFiltroPosicion(filtro_posicion);
-                            }
-                        }
-                        ResponseProbador responseProbador = new ResponseProbador();
-                        responseProbador.success=catalogo.getSuccess();
-                        responseProbador.message = catalogo.getTag();
-                        responseProbador.prendas = prendas;
-                        responseProbador.tipo = filtro_posicion;
-                        onSuccessProbador.succesPrendas(responseProbador);//bug retroceso probador-catalog-probador
-
+                Catalogo catalogo = gson.fromJson(response.toString(), Catalogo.class);
+                prendas = catalogo.getPrendas();
+                if (!prendas.isEmpty()){
+                    for (int i = 0; i < prendas.size(); i++) {
+                        prendas.get(i).setFiltroPosicion(filtro_posicion);
+                    }
+                }
+                //separo para tener un mejor orden en FProbadorNew
+                if (filtro_posicion.equals("A")){
+                    ResponseProbadorTop responseProbadorTop = new ResponseProbadorTop();
+                    responseProbadorTop.success=catalogo.getSuccess();
+                    responseProbadorTop.message = catalogo.getTag();
+                    responseProbadorTop.prendas = prendas;
+                    responseProbadorTop.tipo = filtro_posicion;
+                    responseProbadorTop.numPagTop=pagina;
+                    BusHolder.getInstance().post(responseProbadorTop);
+                }else{
+                    ResponseProbadorBottom responseProbadorBottom= new ResponseProbadorBottom();
+                    responseProbadorBottom.success=catalogo.getSuccess();
+                    responseProbadorBottom.message=catalogo.getTag();
+                    responseProbadorBottom.prendas=prendas;
+                    responseProbadorBottom.tipo=filtro_posicion;
+                    responseProbadorBottom.numPagBottom=pagina;
+                    BusHolder.getInstance().post(responseProbadorBottom);
+                }
             }
-
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
-                Log.e("enProbadorError",responseString);
-                ResponseProbador responseProbador = new ResponseProbador();
-                responseProbador.message = responseString;
-                responseProbador.prendas = null;
-                responseProbador.tipo = filtro_posicion;
-                onSuccessProbador.succesPrendas(responseProbador);
+                Log.e("enProbadorError", responseString);
+                if (filtro_posicion.equals("A")){
+                    ResponseProbadorTop responseProbadorTop = new ResponseProbadorTop();
+                    responseProbadorTop.success=0;
+                    responseProbadorTop.message = responseString;
+                    responseProbadorTop.prendas = null;
+                    responseProbadorTop.tipo = filtro_posicion;
+                    responseProbadorTop.numPagTop=pagina;
+                    BusHolder.getInstance().post(responseProbadorTop);
+                }else{
+                    ResponseProbadorBottom responseProbadorBottom = new ResponseProbadorBottom();
+                    responseProbadorBottom.success=0;
+                    responseProbadorBottom.message = responseString;
+                    responseProbadorBottom.prendas = null;
+                    responseProbadorBottom.tipo = filtro_posicion;
+                    responseProbadorBottom.numPagBottom=pagina;
+                    BusHolder.getInstance().post(responseProbadorBottom);
+                }
             }
         });
+    }
+    public class ResponseProbadorTop {
+        public int success;
+        public String tipo;
+        public String message;
+        public ArrayList<Prenda> prendas=null;
+        public int numPagTop;
+    }
+    public class ResponseProbadorBottom {
+        public int success;
+        public String tipo;
+        public String message;
+        public ArrayList<Prenda> prendas=null;
+        public int numPagBottom;
     }
 
     public void setIndProbador(String codPrenda,int action){
         final String msj1,msj2;
         if (action==1){
-             msj1="Se esta enviando a Probador...";
-             msj2="Se agrego al Probador";
+            msj1="Se esta enviando a Probador...";
+            msj2="Se agrego al Probador";
         }else {
             msj1="Se esta eliminando del Probador...";
             msj2="Se elimino del Probador";
         }
-
         android.support.v4.app.FragmentManager fragmentManager= ((AppCompatActivity)context).getSupportFragmentManager();
         gd = new GlupDialogNew(msj1,context);
         gd.setCancelable(false);
         gd.show(fragmentManager,GlupDialog.class.getSimpleName());
 
         String URL=WSGlup.ORQUESTADOR_NUEVO;
-
         RequestParams params = new RequestParams();
         params.put("tag","enviarProbador");
         params.put("codigo_usuario", new Session_Manager(context).getCurrentUserCode());
@@ -175,9 +198,6 @@ public class DSProbador {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response){
                 super.onSuccess(statusCode, headers, response);
                 gd.dismiss();
-                //final Toast toast= Toast.makeText(context, msj2, Toast.LENGTH_SHORT);
-                //toast.show();
-
                 final MessageV2 msg= new MessageV2(msj2);
                 msg.setCancelable(false);
                 msg.show(((AppCompatActivity) context).getSupportFragmentManager(),
@@ -187,13 +207,10 @@ public class DSProbador {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        //toast.cancel();
                         msg.dismiss();
                     }
                 }, 2000);
-
                 try {
-
                     String indProb= response.getString("indProb");
                     Log.e("dsProbador", indProb);
                     Gson gson=new Gson();
@@ -219,9 +236,11 @@ public class DSProbador {
                 String indProb=responseString;
                 BusHolder.getInstance().post(indProb);
             }
-
         });
-
+    }
+    public class ResponseSetIndProbador{
+        public String tag,indProb;
+        public int success;
     }
 
     public void getPrendaDetalle(final String codigoPrenda){
@@ -244,7 +263,6 @@ public class DSProbador {
                 Log.e("success",responseDetallePrenda.getSuccess()+"");
                 Log.e("descripcion", prendas.get(0).getDescripcion());
                 BusHolder.getInstance().post(responseDetallePrenda);
-
             }
             @Override
             public  void onFailure(int statusCode, Header[] headers,String responseString,Throwable throwable){
@@ -252,9 +270,27 @@ public class DSProbador {
             }
         });
     }
+    public class ResponseDetallePrenda {
+        private String tag;
+        private int success;
+        public String indReserGen;
+        private ArrayList<Prenda> prendas;
+
+        public String getTag() {
+            return tag;
+        }
+
+        public int getSuccess() {
+            return success;
+        }
+
+        public ArrayList<Prenda> getPrendas() {
+            return prendas;
+        }
+    }
+
     public void getTiendasDisponibles(String codigoPrenda){
         String URL=WSGlup.ORQUESTADOR_NUEVO;
-
         RequestParams params = new RequestParams();
         params.put("tag","listarTiendaPrenda");
         params.put("codigo_prenda",codigoPrenda);
@@ -266,17 +302,11 @@ public class DSProbador {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response){
                 super.onSuccess(statusCode, headers, response);
                 Gson gson=new Gson();
-
-
                 ResponseTiendasDisponibles responseTiendasDisponibles = gson.fromJson(response.toString(),ResponseTiendasDisponibles.class);
                 tiendas = responseTiendasDisponibles.getTiendas();
                 Log.e("success",responseTiendasDisponibles.getSuccess() + "");
                 Log.e("descripcion", tiendas.get(0).getLocal());
-
-
-
                 BusHolder.getInstance().post(responseTiendasDisponibles);
-
             }
             @Override
             public  void onFailure(int statusCode, Header[] headers,String responseString,Throwable throwable){
@@ -284,10 +314,17 @@ public class DSProbador {
             }
         });
     }
+    public class ResponseTiendasDisponibles{
+        private String tag;
+        private int success;
+        private ArrayList<Tienda> tiendas;
+        public String getTag() {return tag;}
+        public int getSuccess() {return success;}
+        public ArrayList<Tienda> getTiendas() {return tiendas;}
+    }
 
     public void getTallasDisponibles(String codPrenda, String nomLocal){
         String URL=WSGlup.ORQUESTADOR_NUEVO;
-
         RequestParams params = new RequestParams();
         params.put("codigo_prenda",codPrenda);
         params.put("codigo_usuario",new Session_Manager(context).getCurrentUserCode());
@@ -300,7 +337,6 @@ public class DSProbador {
             public void onSuccess(int statusCode,Header[] headers, JSONObject response){
                 super.onSuccess(statusCode, headers, response);
                 Gson gson=new Gson();
-
                 try {
                     ResponseTallasDisponibles responseTallasDisponibles=
                             gson.fromJson(response.toString(),ResponseTallasDisponibles.class);
@@ -325,9 +361,18 @@ public class DSProbador {
             }
         });
     }
+    public class ResponseTallasDisponibles{
+        private String tag;
+        private int success;
+        private ArrayList<TallaDisponible> tallas;
+
+        public String getTag() {return tag;}
+        public int getSuccess() {return success;}
+        public ArrayList<TallaDisponible> getTallas() {return tallas;}
+    }
+
     public void reservarPrenda(String codPrenda, String idTalla){
         String URL = WSGlup.ORQUESTADOR_NUEVO;
-
         RequestParams params=new RequestParams();
         params.put("codigo_prenda",codPrenda);
         params.put("codigo_usuario",new Session_Manager(context).getCurrentUserCode());
@@ -349,8 +394,6 @@ public class DSProbador {
                 }catch (JSONException e){
                     e.printStackTrace();
                 }
-
-
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
@@ -358,55 +401,6 @@ public class DSProbador {
                 Log.e("ERROR",responseString);
             }
         });
-
-    }
-    public class ResponseSetIndProbador{
-        public String tag,indProb;
-        public int success;
-    }
-
-    public class ResponseCatalogo
-    {   public int success;
-        public String tipo;
-        public String message;
-        public ArrayList<Prenda> prendas;
-    }
-
-    public class ResponseProbador
-    {   public int success;
-        public String tipo;
-        public String message;
-        public ArrayList<Prenda> prendas=null;
-    }
-
-    public class ResponseDetallePrenda{
-        private String tag;
-        private int success;
-        public String indReserGen;
-        private ArrayList<Prenda> prendas;
-
-        public String getTag() {return tag;}
-        public int getSuccess() {return success;}
-        public ArrayList<Prenda> getPrendas() {return prendas;}
-
-    }
-    public class ResponseTiendasDisponibles{
-        private String tag;
-        private int success;
-        private ArrayList<Tienda> tiendas;
-
-        public String getTag() {return tag;}
-        public int getSuccess() {return success;}
-        public ArrayList<Tienda> getTiendas() {return tiendas;}
-    }
-    public class ResponseTallasDisponibles{
-        private String tag;
-        private int success;
-        private ArrayList<TallaDisponible> tallas;
-
-        public String getTag() {return tag;}
-        public int getSuccess() {return success;}
-        public ArrayList<TallaDisponible> getTallas() {return tallas;}
     }
     public class  ResponseReservarPrenda{
         private String tag;
@@ -419,4 +413,5 @@ public class DSProbador {
         public int getError() {return error;}
         public String getIndReserva() {return indReserva;}
     }
+
 }

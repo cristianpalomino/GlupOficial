@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import pe.com.glup.R;
 import pe.com.glup.fragments.FClosetNew;
 import pe.com.glup.fragments.FClosetProfileNew;
+import pe.com.glup.fragments.FProbadorNew;
 import pe.com.glup.managers.bus.BusHolder;
 import pe.com.glup.fragments.FCamera;
 import pe.com.glup.fragments.FCatalogoNew;
@@ -42,7 +43,7 @@ public class Principal extends Glup implements Footer.OnChangeTab {
     private final Fragment[] FRAGMENTS = {
             FCatalogoNew.newInstance(),
             FClosetNew.newInstance(),
-            FProbador.newInstance(),
+            FProbadorNew.newInstance(),
             FCamera.newInstance(), FReserva.newInstance()
     };
     private static String CURRENT_FRAGMENT_TAG;
@@ -173,11 +174,12 @@ public class Principal extends Glup implements Footer.OnChangeTab {
         Log.e("FRAGMENTS", getSupportFragmentManager().getBackStackEntryCount() + "");
         Log.e("FRAGMENTS", CURRENT_FRAGMENT_TAG + "");
         //((ViewGroup) namebar.getParent()).removeView(namebar);
-        if (!CURRENT_FRAGMENT_TAG.equals("FProbador")) {
+        if (!CURRENT_FRAGMENT_TAG.equals("FProbadorNew")) {
             Log.e("!Probador", "deberia cerrarsel los sliders");
             //menuright.setSlidingEnabled(false);
             //onSuccessDisableSliding.onSuccessDisableSliding(true);
-
+            ResetInitProbador resetInitProbador=new ResetInitProbador();
+            BusHolder.getInstance().post(resetInitProbador);
         } else {
 
             //menuright.setSlidingEnabled(true);
@@ -219,6 +221,7 @@ public class Principal extends Glup implements Footer.OnChangeTab {
         flagChangeTab = true;
 
     }
+    public class ResetInitProbador{}
 
 
     @Override
@@ -266,7 +269,7 @@ public class Principal extends Glup implements Footer.OnChangeTab {
                         BusHolder.getInstance().post(reloadUnLockFooter1);
                         chekLastFragment(LAST_FRAGMENT_TAG);
                         break;
-                    case "FProbador":
+                    case "FProbadorNew":
                         ReloadUnLockFooter reloadUnLockFooter2= new ReloadUnLockFooter();
                         reloadUnLockFooter2.tag=ULTI_FRAGMENT_TAG;
                         BusHolder.getInstance().post(reloadUnLockFooter2);
@@ -405,7 +408,7 @@ public class Principal extends Glup implements Footer.OnChangeTab {
                 reloadBlockFooter1.tag = tag;
                 BusHolder.getInstance().post(reloadBlockFooter1);
                 break;
-            case "FProbador":
+            case "FProbadorNew":
                 ReloadBlockFooter reloadBlockFooter2 = new ReloadBlockFooter();
                 reloadBlockFooter2.tag = tag;
                 BusHolder.getInstance().post(reloadBlockFooter2);
@@ -420,21 +423,21 @@ public class Principal extends Glup implements Footer.OnChangeTab {
 
 
     @Subscribe
-    public void fromProbadorVisibleFooter(FProbador.FooterVisible footerVisible) {
+    public void fromProbadorVisibleFooter(FProbadorNew.FooterVisible footerVisible) {
         footer.setVisibility(View.VISIBLE);
         footer.invalidate();
         framePrincipal.setPadding(0, 0, 0, (int) convertDpToPixel(60, this));
     }
 
     @Subscribe
-    public void fromProbadorGoneFooter(FProbador.FooterGone footerGone) {
+    public void fromProbadorGoneFooter(FProbadorNew.FooterGone footerGone) {
         footer.setVisibility(View.GONE);
         footer.invalidate();
         framePrincipal.setPadding(0, 0, 0, 0);
     }
 
     @Subscribe
-    public void openProfile(FClosetNew.OpenProfile openProfile) {
+    public void newOpenProfile(FClosetNew.OpenProfile openProfile) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame_principal, FClosetProfileNew.newInstance(), FClosetProfileNew.class.getSimpleName());
         fragmentTransaction.addToBackStack(FClosetProfileNew.class.getSimpleName());
@@ -468,7 +471,8 @@ public class Principal extends Glup implements Footer.OnChangeTab {
     }
 
     @Override
-    public void onPause(){
+    public void onDestroy(){
+
         ArrayList<Prenda> inicializacion = new ArrayList<Prenda>();
         glup.setPrendas(inicializacion);
         glup.setPrendasHombre(inicializacion);
@@ -481,7 +485,8 @@ public class Principal extends Glup implements Footer.OnChangeTab {
         session_manager.setNumPages(1);
         session_manager.setNumPagesHombre(1);
         session_manager.setNumPagesMujer(1);
-
-        super.onPause();
+        Log.e("onDestroy","activate");
+        super.onDestroy();
     }
+
 }

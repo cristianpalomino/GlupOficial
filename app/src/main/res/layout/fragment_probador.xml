@@ -25,123 +25,147 @@
         android:layout_gravity="right"
         android:fitsSystemWindows="true" />
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="pe.com.glup.fragments.FProbador"
-    android:layout_marginBottom="10dp">
-
-
-    <RelativeLayout
-        android:id="@+id/main_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageButton
-            android:padding="30dp"
-            android:background="@null"
-            android:src="@drawable/superior_on"
-            android:id="@+id/superior"
-            android:text="Superior"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/title_probador"
-            android:text="COMBINA"
-            android:textColor="@color/celeste_glup"
-            android:textSize="18sp"
-            android:layout_marginTop="30dp"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <ImageButton
-            android:padding="30dp"
-            android:background="@null"
-            android:src="@drawable/medio_on"
-            android:id="@+id/medio"
-            android:layout_alignParentRight="true"
-            android:text="Medio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </RelativeLayout>
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/frame_probador"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1" >
+        android:orientation="vertical"
+        tools:context="pe.com.glup.fragments.FProbador"
+        android:layout_marginBottom="10dp">
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/scroll_top"
+        <RelativeLayout
+            android:id="@+id/frame_head"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:visibility="invisible"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_alignParentLeft="true"
+                android:src="@drawable/superior_woman"
+                android:id="@+id/superior"
+                android:layout_width="68dp"
+                android:layout_height="68dp" />
+            <TextView
+                android:visibility="invisible"
+                android:id="@+id/title_probador"
+                android:text="COMBINA"
+                android:textColor="@color/celeste_glup"
+                android:textSize="18sp"
+                android:layout_marginTop="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:visibility="invisible"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/medio_woman"
+                android:id="@+id/medio"
+                android:layout_width="68dp"
+                android:layout_height="68dp" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/frame_top"
+            xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:animateLayoutChanges="true"
-            />
+            android:layout_weight="1" >
+            <android.support.v4.view.ViewPager
+                android:id="@+id/scroll_top"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:animateLayoutChanges="true" />
+            <RelativeLayout
+                android:visibility="gone"
+                android:layout_alignParentLeft="true"
+                android:id="@+id/button_previous_top"
+                android:paddingLeft="20dp"
+                android:paddingRight="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:background="@null"
+                    android:src="@drawable/anterior"
+                    android:layout_width="20dp"
+                    android:layout_height="16dp"
+                    android:layout_centerVertical="true"
+                    />
+            </RelativeLayout>
+            <RelativeLayout
+                android:visibility="gone"
+                android:layout_alignParentRight="true"
+                android:id="@+id/button_next_top"
+                android:paddingLeft="50dp"
+                android:paddingRight="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:background="@null"
+                    android:src="@drawable/siguiente"
+                    android:layout_width="20dp"
+                    android:layout_height="16dp"
+                    android:layout_centerVertical="true"
+                    android:text="Next" />
+            </RelativeLayout>
 
-        <ImageButton
-            android:background="@null"
-            android:src="@drawable/anterior"
-            android:padding="30dp"
-            android:id="@+id/button_previous_top"
-            android:layout_width="wrap_content"
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/frame_bottom"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="10dp"
-            />
+            android:layout_weight="1">
+            <android.support.v4.view.ViewPager
+                android:id="@+id/scroll_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:animateLayoutChanges="true" />
+            <RelativeLayout
+                android:visibility="gone"
+                android:layout_alignParentLeft="true"
+                android:id="@+id/button_previous_bottom"
+                android:paddingLeft="20dp"
+                android:paddingRight="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:background="@null"
+                    android:src="@drawable/anterior"
+                    android:layout_width="20dp"
+                    android:layout_height="16dp"
+                    android:layout_centerVertical="true"
+                    />
+            </RelativeLayout>
+            <RelativeLayout
+                android:visibility="gone"
+                android:layout_alignParentRight="true"
+                android:id="@+id/button_next_bottom"
+                android:paddingLeft="50dp"
+                android:paddingRight="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:background="@null"
+                    android:src="@drawable/siguiente"
+                    android:layout_width="20dp"
+                    android:layout_height="16dp"
+                    android:layout_centerVertical="true"
+                    android:text="Next" />
+            </RelativeLayout>
+        </RelativeLayout>
 
-        <ImageButton
-
-            android:background="@null"
-            android:src="@drawable/siguiente"
-            android:padding="30dp"
-            android:id="@+id/button_next_top"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="10dp"
-            android:text="Next" />
-    </RelativeLayout>
-    <RelativeLayout
+    </LinearLayout>
+    <include
+        android:id="@+id/empty_view_probador"
+        android:visibility="gone"
+        layout="@layout/empty_view_closet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/scroll_bottom"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:animateLayoutChanges="true"
-            />
-
-        <ImageButton
-            android:background="@null"
-            android:padding="30dp"
-            android:src="@drawable/anterior"
-            android:id="@+id/button_previous_bottom"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="10dp"
-            android:text="Previous" />
-
-        <ImageButton
-            android:background="@null"
-            android:padding="30dp"
-            android:src="@drawable/siguiente"
-            android:paddingTop="30dp"
-            android:paddingBottom="30dp"
-            android:id="@+id/button_next_bottom"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="10dp"
-            android:text="Next" />
-    </RelativeLayout>
-
-
-</LinearLayout>
+        ></include>
 </android.support.v4.widget.DrawerLayout>

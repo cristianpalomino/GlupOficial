@@ -3,6 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
+
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/empty_view_reserva"
+        android:visibility="gone"
+        layout="@layout/empty_view_reserva"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        ></include>
+<RelativeLayout
+    android:weightSum="7"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
     <RelativeLayout
         android:id="@+id/cantReservas"
@@ -23,14 +36,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5">
-        <include
-            android:id="@+id/empty_view_reserva"
-            android:visibility="gone"
-            android:layout_marginBottom="20dp"
-            layout="@layout/empty_view_reserva"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            ></include>
         <ProgressBar
             android:id="@+id/temp_progress"
             android:layout_width="wrap_content"
@@ -65,4 +70,6 @@
             android:layout_height="30dp"
             android:layout_gravity="center_horizontal"/>
     </RelativeLayout>
+</RelativeLayout>
+
 </LinearLayout>

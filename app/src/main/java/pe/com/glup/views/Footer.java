@@ -3,9 +3,15 @@ package pe.com.glup.views;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
+import android.os.Handler;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -14,6 +20,7 @@ import android.widget.TextView;
 import com.squareup.otto.Subscribe;
 
 import pe.com.glup.R;
+import pe.com.glup.fragments.FClosetNew;
 import pe.com.glup.managers.bus.BusHolder;
 import pe.com.glup.glup.Principal;
 
@@ -31,6 +38,8 @@ public class Footer extends LinearLayout implements View.OnClickListener {
     private View view;
     private OnChangeTab onChangeTab;
     private Context context;
+    private Animation animation;
+    private Animation animAlpha,animScale,animTras,animTrasScale;
 
     public void setOnChangeTab(OnChangeTab onChangeTab) {
         this.onChangeTab = onChangeTab;
@@ -39,6 +48,7 @@ public class Footer extends LinearLayout implements View.OnClickListener {
     public Footer(Context context) {
         super(context);
         this.context=context;
+
     }
 
     public Footer(Context context, AttributeSet attrs) {
@@ -56,6 +66,18 @@ public class Footer extends LinearLayout implements View.OnClickListener {
 
     public void initView() {
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        float value= 0.1f;
+        animation= new AlphaAnimation(1,value);
+        animation.setDuration(750); // duration - half a second
+        animation.setInterpolator(new LinearInterpolator()); // do not alter animation rate
+        animation.setRepeatCount(Animation.INFINITE); // Repeat animation infinitely
+        animation.setRepeatMode(Animation.REVERSE);  // Reverse animation at the end so the button will fade back in
+
+        animAlpha = AnimationUtils.loadAnimation(getContext(), R.anim.anim_alpha);
+        animScale = AnimationUtils.loadAnimation(getContext(),R.anim.anim_scale);
+        animTras = AnimationUtils.loadAnimation(getContext(),R.anim.anim_translate);
+        animTrasScale = AnimationUtils.loadAnimation(getContext(),R.anim.anim_translate);
+
         view = layoutInflater.inflate(R.layout.footer, this, true);
 
         home = (ImageView) findViewById(R.id.tabhome);
@@ -68,6 +90,7 @@ public class Footer extends LinearLayout implements View.OnClickListener {
         titleCloset= (TextView) findViewById(R.id.txt_closet);
         titleProbador = (TextView) findViewById(R.id.txt_probador);
         titleCamara = (TextView) findViewById(R.id.txt_camara);
+
         titleReserva = (TextView) findViewById(R.id.txt_reserva);
 
         frameHome = (FrameLayout) findViewById(R.id.frameHome);
@@ -129,6 +152,8 @@ public class Footer extends LinearLayout implements View.OnClickListener {
             titleProbador.setTextColor(getResources().getColor(R.color.gris_glup_nuevo));
             titleReserva.setTextColor(getResources().getColor(R.color.gris_glup_nuevo));
 
+            frameCamara.clearAnimation();
+
         } else if (v.equals(closet) || v.equals(frameCloset)) {
             onChangeTab.onChangeTab(1);
             home.setEnabled(true);
@@ -167,9 +192,10 @@ public class Footer extends LinearLayout implements View.OnClickListener {
             titleProbador.setTextColor(getResources().getColor(R.color.celeste_glup));
             titleReserva.setTextColor(getResources().getColor(R.color.gris_glup_nuevo));
 
-
+            frameCamara.clearAnimation();
         } else if (v.equals(camara) || v.equals(frameCamara)){
             onChangeTab.onChangeTab(3);
+            //v.clearAnimation();
             home.setEnabled(true);
             closet.setEnabled(true);
             probador.setEnabled(true);
@@ -188,6 +214,8 @@ public class Footer extends LinearLayout implements View.OnClickListener {
             titleProbador.setTextColor(getResources().getColor(R.color.gris_glup_nuevo));
             titleReserva.setTextColor(getResources().getColor(R.color.gris_glup_nuevo));
 
+
+            frameCamara.clearAnimation();
         } else if (v.equals(reserva) || v.equals(frameReserva)) {
             onChangeTab.onChangeTab(4);
             home.setEnabled(true);
@@ -211,6 +239,7 @@ public class Footer extends LinearLayout implements View.OnClickListener {
             closet.setImageResource(R.drawable.glup_tab_off);
             probador.setImageResource(R.drawable.glup_tab_off);
             reserva.setImageResource(R.drawable.glup_tab_on);*/
+            frameCamara.clearAnimation();
         }
         //activeDefaultTab();
     }
@@ -241,6 +270,7 @@ public class Footer extends LinearLayout implements View.OnClickListener {
         switch (reloadBlockFooter.tag){
             case "FCatalogoNew":
                 home.setEnabled(false);
+                frameCamara.clearAnimation();
                 home.setImageResource(R.drawable.catalogo_on);
                 closet.setImageResource(R.drawable.closet_off);
                 camara.setImageResource(R.drawable.camara_off);
@@ -267,7 +297,7 @@ public class Footer extends LinearLayout implements View.OnClickListener {
                 titleProbador.setTextColor(getResources().getColor(R.color.gris_glup_nuevo));
                 titleReserva.setTextColor(getResources().getColor(R.color.gris_glup_nuevo));
                 break;
-            case "FProbador":
+            case "FProbadorNew":
                 probador.setEnabled(false);
                 home.setImageResource(R.drawable.catalogo_off);
                 closet.setImageResource(R.drawable.closet_off);
@@ -280,6 +310,8 @@ public class Footer extends LinearLayout implements View.OnClickListener {
                 titleCamara.setTextColor(getResources().getColor(R.color.gris_glup_nuevo));
                 titleProbador.setTextColor(getResources().getColor(R.color.celeste_glup));
                 titleReserva.setTextColor(getResources().getColor(R.color.gris_glup_nuevo));
+
+                frameCamara.clearAnimation();
                 break;
             case "FReserva":
                 reserva.setEnabled(false);
@@ -295,6 +327,7 @@ public class Footer extends LinearLayout implements View.OnClickListener {
                 titleProbador.setTextColor(getResources().getColor(R.color.gris_glup_nuevo));
                 titleReserva.setTextColor(getResources().getColor(R.color.celeste_glup));
 
+                frameCamara.clearAnimation();
                 break;
         }
 
@@ -309,12 +342,21 @@ public class Footer extends LinearLayout implements View.OnClickListener {
             case "FClosetNew":
                 closet.setEnabled(true);
                 break;
-            case "FProbador":
+            case "FProbadorNew":
                 probador.setEnabled(true);
                 break;
             case "FReserva":
                 reserva.setEnabled(true);
                 break;
         }
+    }
+    @Subscribe
+    public void activateAnimationCamera(FClosetNew.OnAlphaButtonCamera onAlphaButtonCamera){
+        Log.e("EfectoAlpha", "activate");
+
+        frameCamara.startAnimation(animScale);
+        //frameCamara.startAnimation(animation);
+
+        //titleCamara.setAnimation(animation);
     }
 }

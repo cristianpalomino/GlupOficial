@@ -115,7 +115,6 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         BusHolder.getInstance().register(this);
-        getView().findViewById(R.id.empty_view_grilla_).setVisibility(View.GONE);
 
         emptyViewCatalogo = (RelativeLayout)getView().findViewById(R.id.empty_view_catalogo);
         imageView=(ImageView)getView().findViewById(R.id.image_empty);
@@ -124,6 +123,8 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
         context=getActivity();
         session_manager=new Session_Manager(getActivity());
 
+        Log.e("Session","prendasMujer:"+glup.getPrendasMujer()+" flagReload:"+session_manager.isLoad()+" totalPrendMuj:"+
+        session_manager.getTotalPrendasMujer()+" numPagesMuj:"+ session_manager.getCurrentNumPagesMujer());
 
 
 
@@ -322,11 +323,14 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
 
                     if (TAG.equals("genm") || TAG.equals("genM")){
                         session_manager.setNumPagesMujer(PAGE);
+                        Log.e("numPageMujer:",session_manager.getCurrentNumPagesMujer()+"");
                     }else if (TAG.equals("genH")|| TAG.equals("genh")){
                         session_manager.setNumPagesHombre(PAGE);
+                        Log.e("numPageHombre",session_manager.getCurrentNumPagesHombre()+"");
                     }else{
                         Log.e("todos","cargo H y M");
                         session_manager.setNumPages(PAGE);
+                        Log.e("numPageMujer",session_manager.getCurrentNumPages()+"");
                     }
 
                     dsCatalogo = new DSCatalogo(getActivity());
@@ -438,5 +442,22 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
         isLoading=false;
     }
 
+    @Override
+    public void onDetach(){
 
+        ArrayList<Prenda> inicializacion = new ArrayList<Prenda>();
+        glup.setPrendas(inicializacion);
+        glup.setPrendasHombre(inicializacion);
+        glup.setPrendasMujer(inicializacion);
+
+        session_manager.setFlagReload(true);
+        session_manager.setTotalPrendTodos(0);
+        session_manager.setTotalPrendGenm(0);
+        session_manager.setTotalPrendGenh(0);
+        session_manager.setNumPages(1);
+        session_manager.setNumPagesHombre(1);
+        session_manager.setNumPagesMujer(1);
+        Log.e("onDestroy", "activate");
+        super.onDetach();
+    }
 }

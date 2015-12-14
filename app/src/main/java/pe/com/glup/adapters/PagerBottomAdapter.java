@@ -28,6 +28,9 @@ public class PagerBottomAdapter extends PagerAdapter {
     private LayoutInflater layoutInflater;
     private ArrayList<Prenda> prendas;
 
+    public PagerBottomAdapter() {
+    }
+
     public PagerBottomAdapter(Context context, ArrayList<Prenda> prendas) {
         this.context = context;
         this.prendas = prendas;

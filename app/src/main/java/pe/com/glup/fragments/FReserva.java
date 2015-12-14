@@ -67,11 +67,21 @@ public class FReserva extends Fragment implements View.OnClickListener{
         ticket.setOnClickListener(this);
         inicilizarTicketReservaInfo();
 
+
     }
 
     private void inicilizarTicketReservaInfo() {
-        ticket.setChecked(false);
-        reserva.setChecked(true);
+        Log.e("inicializoReservaInfo", "true");
+        ticket.setEnabled(false);
+        Handler handler2 = new android.os.Handler();
+        handler2.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ticket.setChecked(false);
+                reserva.setChecked(true);
+                ticket.setEnabled(true);
+            }
+        }, 250);
         fReservaInfo = new FReservaInfo();
         String tag=fReservaInfo.getClass().getSimpleName().toString();
         fragmentTransaction = fragmentManager.beginTransaction();

@@ -91,4 +91,5 @@ public class Glup extends AppCompatActivity {
     public void setPrendasMujer(ArrayList<Prenda> prendasMujer) {this.prendasMujer = prendasMujer;}
 
 
+
 }

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -15,19 +16,26 @@ import java.util.ArrayList;
 
 import pe.com.glup.R;
 import pe.com.glup.adapters.PrendaAdapterMenu;
+import pe.com.glup.dialog.GlupDialogNew;
 import pe.com.glup.models.Prenda;
 import pe.com.glup.managers.bus.BusHolder;
 import pe.com.glup.network.DSProbador;
 import pe.com.glup.models.interfaces.OnSuccessPrendas;
+import pe.com.glup.network.DSProbadorNew;
 
 
-public class FMenuLeft extends Fragment implements OnSuccessPrendas,
-        ListView.OnItemClickListener{
+public class FMenuLeft extends Fragment implements
+        ListView.OnItemClickListener,ListView.OnScrollListener{
 
     private ListView listView;
     private ArrayList<Prenda> prendasTop;
     private DSProbador dsProbador;
     private PrendaAdapterMenu prendaAdapter;
+    private DSProbadorNew dsProbadorNew;
+    private int numPagTopMenu;
+    private GlupDialogNew gd;
+    private boolean flagscroll=false;
+    private int totalPrendas;
 
     public static FMenuLeft newInstance() {
         FMenuLeft fragment = new FMenuLeft();
@@ -41,8 +49,7 @@ public class FMenuLeft extends Fragment implements OnSuccessPrendas,
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         BusHolder.getInstance().register(this);
-        if (getArguments() != null) {
-        }
+        dsProbadorNew=new DSProbadorNew(getActivity());
     }
 
     @Override
@@ -54,36 +61,58 @@ public class FMenuLeft extends Fragment implements OnSuccessPrendas,
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        numPagTopMenu=0;totalPrendas=0;
+        flagscroll=false;
         listView = (ListView) getView().findViewById(R.id.listView);
         listView.setOnItemClickListener(this);
-
-        DSProbador dsProbadorA = new DSProbador(getActivity());
-        try {
-            dsProbadorA.setOnSuccessPrendas(FMenuLeft.this);
-        }catch (ClassCastException c){
-            Log.e(null,c.toString());
-        }
-
-        dsProbadorA.getGlobalPrendasCatalogo("A", "1", "20");
+        listView.setOnScrollListener(this);
+        dsProbadorNew.getGlobalPrendasCatalogo("A",String.valueOf(numPagTopMenu+1),"10");
     }
 
-
-    @Override
-    public void succesPrendas(DSProbador.ResponseCatalogo responseCatalogo) {
+    @Subscribe
+    public void successPrendasTop(DSProbadorNew.ResponseCatalogo responseCatalogo){
         if (responseCatalogo.tipo.equals("A"))
-        {
-            this.prendasTop = responseCatalogo.prendas;
+        {   numPagTopMenu++;
+            flagscroll=true;
+            if (numPagTopMenu==1){
+            prendasTop = responseCatalogo.prendas;
+            totalPrendas=responseCatalogo.prendas.get(0).getNumPrendCP();
+            Log.e("totalLeft",responseCatalogo.prendas.get(0).getNumPrendCP()+"");
             prendaAdapter = new PrendaAdapterMenu(getActivity(),this.prendasTop);
-            listView.setAdapter(prendaAdapter);
+            listView.setAdapter(prendaAdapter);}else{
+               prendasTop.addAll(responseCatalogo.prendas);
+               prendaAdapter.notifyDataSetChanged();
+            }
         }
+        //gd.dismiss();
     }
+
     @Subscribe
     public void getIndProbador(String indProb) {
-        prendaAdapter.notifyDataSetChanged();
+        //comentado para nuevos cambios en FProbadorNew
+        //prendaAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        Log.e("listleft","firstvisible "+firstVisibleItem+" visibleitemcount "+visibleItemCount+" numPag:"+numPagTopMenu);
+        if (firstVisibleItem+visibleItemCount==10*(numPagTopMenu) && flagscroll && firstVisibleItem+visibleItemCount!=totalPrendas){
+            flagscroll=false;
+            Log.e("reloadTop",numPagTopMenu+"");
+            dsProbadorNew.getGlobalPrendasCatalogo("A",String.valueOf(numPagTopMenu+1),"10");
+            /*gd = new GlupDialogNew();
+            gd.setCancelable(false);
+            gd.show(getActivity().getSupportFragmentManager(), GlupDialogNew.class.getSimpleName());*/
+        }
     }
 }

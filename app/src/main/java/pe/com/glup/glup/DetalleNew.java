@@ -80,15 +80,16 @@ public class DetalleNew  extends Glup implements
 
         pagerDetalle.setAdapter(pagerDetalleAdapter);
         pagerDetalle.setCurrentItem(current_position);
-        //numPag=current_position/10+1;
-        if (TAG.equals("genm") || TAG.equals("genM")){
+        numPag=current_position/10+1;
+        /*if (TAG.equals("genm") || TAG.equals("genM")){
             numPag=session_manager.getCurrentNumPagesMujer();
+            Log.e("numPageMujer:",session_manager.getCurrentNumPagesMujer()+"");
         }else if (TAG.equals("genH")|| TAG.equals("genh")){
             numPag=session_manager.getCurrentNumPagesHombre();
         }else{
             Log.e("todos","cargo H y M");
             numPag=session_manager.getCurrentNumPages();
-        }
+        }*/
         pagerDetalle.addOnPageChangeListener(this);
     }
 
@@ -175,7 +176,7 @@ public class DetalleNew  extends Glup implements
     public void onSuccess(String success_msg, ArrayList<Prenda> prendas) {
         gd.dismiss();
         Log.e("cargo", "10+");
-        if (prendas != null) {
+        if(prendas != null) {
             if (!prendas.isEmpty()) {
                 for (int i = 0; i < prendas.size(); i++) {
                     this.prendas.add(prendas.get(i));

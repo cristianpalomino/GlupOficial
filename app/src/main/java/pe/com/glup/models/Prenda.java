@@ -29,7 +29,26 @@ public class Prenda implements Serializable {
     private String indReserGen;
     private Boolean flagCarga=false;
     private int numPrend;
+    private int numPrendProb;
+    private int numPrendCP;
+
+    public int getNumPrendCP() {
+        return numPrendCP;
+    }
+
+    public void setNumPrendCP(int numPrendCP) {
+        this.numPrendCP = numPrendCP;
+    }
+
     private String buscar;
+
+    public int getNumPrendProb() {
+        return numPrendProb;
+    }
+
+    public void setNumPrendProb(int numPrendProb) {
+        this.numPrendProb = numPrendProb;
+    }
 
     public String getBuscar() {
         return buscar;

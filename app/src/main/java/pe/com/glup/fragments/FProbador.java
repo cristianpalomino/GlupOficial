@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -38,18 +39,20 @@ import pe.com.glup.utils.Util_Fonts;
 
 public class FProbador extends Fragment implements View.OnClickListener,OnSuccessPrendas,OnSuccessProbador{
 
-    private ImageButton superior,medio;
+    private ImageView superior,medio;
     private ViewPager pagerTop;
     private ViewPager pagerBotton;
     private ArrayList<Prenda> prendasTop;
     private ArrayList<Prenda> prendasBottom;
     private OnClickProbador onClickProbador;
-    private PagerTopAdapter pagerTopAdapter;
-    private PagerBottomAdapter pagerBottomAdapter;
+    private PagerTopAdapter pagerTopAdapter=new PagerTopAdapter();
+    private PagerBottomAdapter pagerBottomAdapter=new PagerBottomAdapter();
     private int posCurrentTop,posCurrentBottom;
     protected GlupDialogNew gd;
     private DrawerLayout drawerLayout;
     private TextView titleProbador;
+    private RelativeLayout frameSup,frameMid;
+    private boolean flagProb=true;
 
     public static FProbador newInstance() {
         FProbador fragment = new FProbador();
@@ -79,6 +82,24 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
         BusHolder.getInstance().register(this);
         titleProbador = (TextView) getView().findViewById(R.id.title_probador);
         titleProbador.setTypeface(Util_Fonts.setLatoRegular(getActivity()));
+
+        /*frameSup=(RelativeLayout)getView().findViewById(R.id.frame_superior);
+        frameMid=(RelativeLayout)getView().findViewById(R.id.frame_medio);
+        frameSup.setOnClickListener(this);
+        frameMid.setOnClickListener(this);*/
+
+        superior =(ImageView) getView().findViewById(R.id.superior);
+        medio = (ImageView) getView().findViewById(R.id.medio);
+        if (new Session_Manager(getActivity()).getCurrentUserSexo().equals("H")){
+            superior.setImageResource(R.drawable.superior_man);
+            medio.setImageResource(R.drawable.medio_man);
+        }else {
+            superior.setImageResource(R.drawable.superior_woman);
+            medio.setImageResource(R.drawable.medio_woman);
+        }
+        superior.setOnClickListener(this);
+        medio.setOnClickListener(this);
+
         drawerLayout = (DrawerLayout) getView().findViewById(R.id.drawer_layout);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         drawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
@@ -135,17 +156,7 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
                 .replace(R.id.menu_rigth2, FMenuRigth.newInstance(), FMenuRigth.class.getSimpleName())
                 .commit();
 
-        superior =(ImageButton) getView().findViewById(R.id.superior);
-        medio = (ImageButton) getView().findViewById(R.id.medio);
-        if (new Session_Manager(getActivity()).getCurrentUserSexo().equals("H")){
-            superior.setImageResource(R.drawable.superiorh_on);
-            medio.setImageResource(R.drawable.medioh_on);
-        }else {
-            superior.setImageResource(R.drawable.superior_on);
-            superior.setImageResource(R.drawable.medio_on);
-        }
-        superior.setOnClickListener(this);
-        medio.setOnClickListener(this);
+
 
 
         pagerTop = (ViewPager) getView().findViewById(R.id.scroll_top);
@@ -223,13 +234,11 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
 
     }
 
-
-
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.superior:
-                Log.e(null, "superior");
+                Log.e("clic", "superior");
                 FooterGone footerGone=new FooterGone();
                 BusHolder.getInstance().post(footerGone);
                 drawerLayout.openDrawer(GravityCompat.START);
@@ -237,33 +246,45 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
                 //drawerLayout.openDrawer(GravityCompat.START);
                 break;
             case R.id.medio:
-                Log.e(null, "medio");
+                Log.e("clic", "medio");
                 FooterGone footerGone1=new FooterGone();
                 BusHolder.getInstance().post(footerGone1);
                 drawerLayout.openDrawer(GravityCompat.END);
                 //menuright.showSecondaryMenu(true);
                 break;
             case R.id.button_previous_top:
-                Log.e(null, "previos_top");
+                Log.e("clic", "previos_top");
                 if (pagerTop!=null && pagerTop.getAdapter()!=null)
                     previousPageTop();
                 break;
             case R.id.button_next_top:
-                Log.e(null, "next_top");
+                Log.e("clic", "next_top");
                 if (pagerTop!=null && pagerTop.getAdapter()!=null)
                     nextPageTop();
                 break;
             case R.id.button_previous_bottom:
-                Log.e(null, "previos_bottom");
+                Log.e("clic", "previos_bottom");
                 if (pagerBotton!=null && pagerBotton.getAdapter()!=null)
                     previousPageBottom();
                 break;
             case R.id.button_next_bottom:
-                Log.e(null,"next_bottom");
+                Log.e("clic","next_bottom");
                 if (pagerBotton!=null)
                     nextPageBottom();
                 break;
         }
+        /*if (v.getId()==R.id.frame_superior){
+            Log.e(null, "superior");
+            FooterGone footerGone=new FooterGone();
+            BusHolder.getInstance().post(footerGone);
+            drawerLayout.openDrawer(GravityCompat.START);
+        }
+        if (v.getId()==R.id.frame_medio){
+            Log.e(null, "medio");
+            FooterGone footerGone1=new FooterGone();
+            BusHolder.getInstance().post(footerGone1);
+            drawerLayout.openDrawer(GravityCompat.END);
+        }*/
     }
 
     private void nextPageTop() {
@@ -390,50 +411,63 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
 
     @Override
     public void succesPrendas(DSProbador.ResponseProbador responseCatalogo) {
+        Log.e("PrendasProb",responseCatalogo.prendas+" ");
         Log.e(null,"Recargando prendas para probador ..."+ responseCatalogo.success);
+        getView().findViewById(R.id.frame_probador).setVisibility(View.VISIBLE);
+        getView().findViewById(R.id.empty_view_probador).setVisibility(View.GONE);
         gd.dismiss();
-        if (responseCatalogo.tipo.equals("A"))
-        {   Log.e(null, responseCatalogo.toString());
-            this.prendasTop = new ArrayList<Prenda>();
-            for (int i=0;i< responseCatalogo.prendas.size();i++){
-                if (responseCatalogo.prendas.get(i).getIndProbador().equals("1")){
-                    this.prendasTop.add(responseCatalogo.prendas.get(i));
+        if (responseCatalogo.success==1){
+            if (responseCatalogo.tipo.equals("A"))
+            {   Log.e(null, responseCatalogo.toString());
+                this.prendasTop = new ArrayList<Prenda>();
+                for (int i=0;i< responseCatalogo.prendas.size();i++){
+                    if (responseCatalogo.prendas.get(i).getIndProbador().equals("1")){
+                        this.prendasTop.add(responseCatalogo.prendas.get(i));
+                    }
                 }
-            }
-            pagerTopAdapter = new PagerTopAdapter(getActivity(), this.prendasTop);
-            pagerTop.setAdapter(pagerTopAdapter);
+                pagerTopAdapter = new PagerTopAdapter(getActivity(), this.prendasTop);
+                pagerTop.setAdapter(pagerTopAdapter);
 
 
-        } else if (responseCatalogo.tipo.equals("B"))
-        {
-            this.prendasBottom = new ArrayList<Prenda>();
-            for (int i=0;i< responseCatalogo.prendas.size();i++){
-                if (responseCatalogo.prendas.get(i).getIndProbador().equals("1")){
-                    this.prendasBottom.add(responseCatalogo.prendas.get(i));
+            } else if (responseCatalogo.tipo.equals("B"))
+            {
+                this.prendasBottom = new ArrayList<Prenda>();
+                for (int i=0;i< responseCatalogo.prendas.size();i++){
+                    if (responseCatalogo.prendas.get(i).getIndProbador().equals("1")){
+                        this.prendasBottom.add(responseCatalogo.prendas.get(i));
+                    }
+                }
+                pagerBottomAdapter = new PagerBottomAdapter(getActivity(), this.prendasBottom);
+                pagerBotton.setAdapter(pagerBottomAdapter);
+            }
+            if (responseCatalogo.success==1 && prendasTop!=null){
+                for (int position=0;position<prendasTop.size();position++){
+                    if (prendasTop.get(position).getTipo().toUpperCase().equals("VESTIDO")) {
+                        Log.e("TOP", ((Prenda) pagerTopAdapter.getItem(position)).getCod_prenda() + " " +
+                                ((Prenda) pagerTopAdapter.getItem(position)).getIndProbador());
+                        pagerBotton.setVisibility(View.GONE);
+                        posCurrentTop = position;
+                    } else {
+                        pagerBotton.setVisibility(View.VISIBLE);
+                        posCurrentBottom = position;
+                    }
                 }
             }
-            pagerBottomAdapter = new PagerBottomAdapter(getActivity(), this.prendasBottom);
-            pagerBotton.setAdapter(pagerBottomAdapter);
-        }
-        if (responseCatalogo.success==1 && prendasTop!=null){
-            for (int position=0;position<prendasTop.size();position++){
-                if (prendasTop.get(position).getTipo().toUpperCase().equals("VESTIDO")) {
-                    Log.e("TOP", ((Prenda) pagerTopAdapter.getItem(position)).getCod_prenda() + " " +
-                            ((Prenda) pagerTopAdapter.getItem(position)).getIndProbador());
-                    pagerBotton.setVisibility(View.GONE);
-                    posCurrentTop = position;
-                } else {
-                    pagerBotton.setVisibility(View.VISIBLE);
-                    posCurrentBottom = position;
-                }
-            }
+        }else {
+            /*if (pagerBottomAdapter==null && pagerTopAdapter==null){
+                ((ImageView)getView().findViewById(R.id.image_empty)).setImageResource(R.drawable.vista_probador);
+                getView().findViewById(R.id.frame_probador).setVisibility(View.GONE);
+                getView().findViewById(R.id.empty_view_probador).setVisibility(View.VISIBLE);
+            }*/
+                Log.e("PrendasProb",responseCatalogo.prendas+" ");
+
         }
     }
 
     public class FooterVisible{}
     public class FooterGone{}
 
-    private void changePosButton(String s, ImageButton izq, ImageButton der) {
+    private void changePosButton(String s, ImageView izq, ImageView der) {
         if (s.equals("Drawerabierto")) {
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)izq.getLayoutParams();
             params.addRule(RelativeLayout.ALIGN_PARENT_LEFT, 0);

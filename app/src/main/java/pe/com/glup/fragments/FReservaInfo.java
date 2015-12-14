@@ -91,10 +91,10 @@ public class FReservaInfo extends Fragment implements View.OnClickListener{
         confirmar.setOnClickListener(this);
         if (new Session_Manager(getActivity()).getCurrentUserSexo().equals("H")){
             Log.e("closet","hombre");
-            imageEmpty.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.bg_reserva_vacio_hombre));
+            imageEmpty.setImageResource(R.drawable.reserva_man);
         }else {
             Log.e("closet","mujer");
-            imageEmpty.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.bg_reserva_vacio_mujer));
+            imageEmpty.setImageResource(R.drawable.reserva_woman);
         }
 
     }
@@ -103,6 +103,7 @@ public class FReservaInfo extends Fragment implements View.OnClickListener{
 
     @Subscribe
     public void getReservas(DSReserva.ResponseReserva responseReserva){
+        progressBar.setVisibility(View.GONE);
         if (responseReserva.success==1){
             Log.e("entro", "a listar reservas");
             contReservas=0;
@@ -145,7 +146,6 @@ public class FReservaInfo extends Fragment implements View.OnClickListener{
             }
 
             reservaAdapter.notifyDataSetChanged();
-            progressBar.setVisibility(View.GONE);
 
 
 
@@ -169,7 +169,6 @@ public class FReservaInfo extends Fragment implements View.OnClickListener{
 
         }else {
             Log.e(null, "success get reservas " + responseReserva.success);
-            progressBar.setVisibility(View.GONE);
             cantReserva.setVisibility(View.GONE);
 
             viewEmpty.setVisibility(View.VISIBLE);

@@ -77,7 +77,7 @@ public class Header extends LinearLayout implements Principal.OnChangeTab {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                onSearchListener.onSearchListener(s.toString());
+                //onSearchListener.onSearchListener(s.toString());
             }
 
             @Override

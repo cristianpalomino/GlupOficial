@@ -72,10 +72,10 @@ public class FReservaTicket extends Fragment implements ListView.OnItemClickList
         listView.setOnItemClickListener(this);
         if (new Session_Manager(getActivity()).getCurrentUserSexo().equals("H")){
             Log.e("closet","hombre");
-            imageEmpty.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.bg_ticket_vacio_hombre));
+            imageEmpty.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ticket_man));
         }else {
             Log.e("closet","mujer");
-            imageEmpty.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.bg_ticket_vacio_mujer));
+            imageEmpty.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ticket_woman));
         }
 
     }

@@ -86,22 +86,19 @@ public class PrendaAdapterMenu extends BaseAdapter implements View.OnLongClickLi
 		holder.check = (CheckBox) convertView.findViewById(R.id.check);
 		holder.corazon = (ToggleButton) convertView.findViewById(R.id.corazon_prenda);
 
-
-
+		holder.filtro=prenda.getFiltroPosicion();
+		holder.prenda=prenda;
 		holder.contado.setText(prenda.getNumGusta());
 		//notifyDataSetChanged();
 		boolean checked = prenda.getIndProbador().equals("1");
 		holder.corazon.setChecked(checked);
 		//notifyDataSetChanged();
-
-
 		glup = (Glup) context;
 
 		this.position=position;
 		this.viewGroup=parent;
 		this.codPrenda=prenda.getCod_prenda();
 		this.tipo=prenda.getTipo();
-
 
 		holder.marca.setText(prenda.getMarca());
 		holder.marca.setAllCaps(true);
@@ -181,6 +178,7 @@ public class PrendaAdapterMenu extends BaseAdapter implements View.OnLongClickLi
 					Log.e("corazon:", prenda.getCod_prenda());
 					//Toast.makeText(context, "Se agrego al Probador", SHORT_DELAY).show();
 					action=1;
+					holder.operacion=1;
 				} else {
 					mPrendas.get(position).setNumGusta("" + String.valueOf(dis) + "");
 					mPrendas.get(position).setIndProbador("0");
@@ -189,6 +187,7 @@ public class PrendaAdapterMenu extends BaseAdapter implements View.OnLongClickLi
 					holder.corazon.setChecked(false);
 					//Toast.makeText(context, "Se elimino del Probador", SHORT_DELAY).show();
 					action=2;
+					holder.operacion=2;
 				}
 
 				DSProbador dsProbador = new DSProbador(context);
@@ -215,6 +214,9 @@ public class PrendaAdapterMenu extends BaseAdapter implements View.OnLongClickLi
 		public ImageView imagen;
 		public CheckBox check;
 		public ToggleButton corazon;
+		public String filtro;
+		public Prenda prenda;
+		public int operacion;
 	}
 
 	public ArrayList<Prenda> getmPrendas() {

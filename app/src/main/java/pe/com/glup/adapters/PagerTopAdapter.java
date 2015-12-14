@@ -30,6 +30,8 @@ public class PagerTopAdapter extends PagerAdapter {
     private ArrayList<Prenda> prendas;
     OnClickTopProbador onClickTopProbador;
 
+    public PagerTopAdapter() {
+    }
 
     public PagerTopAdapter(Context context,ArrayList<Prenda> prendas) {
         this.context = context;
