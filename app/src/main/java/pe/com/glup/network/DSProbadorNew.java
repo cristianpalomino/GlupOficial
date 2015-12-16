@@ -62,9 +62,12 @@ public class DSProbadorNew {
                 Gson gson = new Gson();
                 Catalogo catalogo = gson.fromJson(response.toString(), Catalogo.class);
                 prendas = catalogo.getPrendas();
-                for (int i = 0; i < prendas.size(); i++) {
-                    prendas.get(i).setFiltroPosicion(filtro_posicion);
+                if (prendas!=null && !prendas.isEmpty()){
+                    for (int i = 0; i < prendas.size(); i++) {
+                        prendas.get(i).setFiltroPosicion(filtro_posicion);
+                    }
                 }
+
                 ResponseCatalogo responseCatalogo = new ResponseCatalogo();
                 responseCatalogo.message = catalogo.getTag();
                 responseCatalogo.prendas = prendas;
@@ -109,7 +112,7 @@ public class DSProbadorNew {
                 Log.e("enProbadorResponse", response.toString());
                 Catalogo catalogo = gson.fromJson(response.toString(), Catalogo.class);
                 prendas = catalogo.getPrendas();
-                if (!prendas.isEmpty()){
+                if (prendas!=null && !prendas.isEmpty()){
                     for (int i = 0; i < prendas.size(); i++) {
                         prendas.get(i).setFiltroPosicion(filtro_posicion);
                     }

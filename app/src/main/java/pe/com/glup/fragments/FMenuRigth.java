@@ -70,14 +70,16 @@ public class FMenuRigth extends Fragment implements
         if (responseCatalogo.tipo.equals("B"))
         {   numPagBotMenu++;
             flagscroll=true;
-            if (numPagBotMenu ==1){
+            if (numPagBotMenu ==1 && responseCatalogo.prendas!=null && !responseCatalogo.prendas.isEmpty()){
                 prendasBottom = responseCatalogo.prendas;
                 totalPrendas=responseCatalogo.prendas.get(0).getNumPrendCP();
                 Log.e("totalright",responseCatalogo.prendas.get(0).getNumPrendCP()+"");
                 prendaAdapter = new PrendaAdapterMenu(getActivity(),this.prendasBottom);
                 listView.setAdapter(prendaAdapter);}else{
-                prendasBottom.addAll(responseCatalogo.prendas);
-                prendaAdapter.notifyDataSetChanged();
+                if (responseCatalogo.prendas!=null && !responseCatalogo.prendas.isEmpty()){
+                    prendasBottom.addAll(responseCatalogo.prendas);
+                    prendaAdapter.notifyDataSetChanged();
+                }
             }
         }
         //gd.dismiss();

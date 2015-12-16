@@ -3,6 +3,7 @@ package pe.com.glup.fragments;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -201,12 +202,20 @@ public class FClosetProfileNew extends Fragment
     @Subscribe
     public void SuccesLoadProfile(PerfilUsuario perfilUsuario){
         Log.e("LoadUser", perfilUsuario.getSuccess()+"");
+        Drawable placeHolder=null;
+        if (new Session_Manager(getActivity()).getCurrentUserSexo().equals("H")){
+            placeHolder= getResources().getDrawable(R.drawable.man_profile);
+        }else{
+            placeHolder = getResources().getDrawable(R.drawable.woman_profile);
+        }
         if (this!=null){
             if (flagLoadProfile){
                 if (perfilUsuario.getSuccess()==1){
                     try {
                         Picasso.with(getActivity().getApplicationContext())
                                 .load(perfilUsuario.getDatouser().get(0).getRutaFoto())
+                                .placeholder(placeHolder)
+                                .error(placeHolder)
                                 .fit().centerInside().noFade()
                                 .into(foto);
                         username.setText(perfilUsuario.getDatouser().get(0).getNomUser());

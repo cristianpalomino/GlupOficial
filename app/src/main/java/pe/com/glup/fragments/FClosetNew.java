@@ -1,6 +1,7 @@
 package pe.com.glup.fragments;
 
 import android.annotation.TargetApi;
+import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
@@ -158,11 +159,19 @@ public class FClosetNew extends Fragment implements View.OnClickListener,OnSucce
     @Subscribe
     public void SuccesLoadProfile(PerfilUsuario perfilUsuario){
         gd.dismiss();
+        Drawable placeHolder=null;
+        if (new Session_Manager(getActivity()).getCurrentUserSexo().equals("H")){
+            placeHolder= getResources().getDrawable(R.drawable.man_profile);
+        }else{
+            placeHolder = getResources().getDrawable(R.drawable.woman_profile);
+        }
         Log.e("LoadUser", perfilUsuario.getSuccess() + "");
         if (perfilUsuario.getSuccess()==1){
             try {
                 Picasso.with(getActivity().getApplicationContext())
                 .load(perfilUsuario.getDatouser().get(0).getRutaFoto())
+                .placeholder(placeHolder)
+                .error(placeHolder)
                 .fit().centerInside().noFade()
                 .into(foto);
                 username.setText(perfilUsuario.getDatouser().get(0).getNomUser());

@@ -74,14 +74,16 @@ public class FMenuLeft extends Fragment implements
         if (responseCatalogo.tipo.equals("A"))
         {   numPagTopMenu++;
             flagscroll=true;
-            if (numPagTopMenu==1){
+            if (numPagTopMenu==1 && responseCatalogo.prendas!=null && !responseCatalogo.prendas.isEmpty()){
             prendasTop = responseCatalogo.prendas;
             totalPrendas=responseCatalogo.prendas.get(0).getNumPrendCP();
             Log.e("totalLeft",responseCatalogo.prendas.get(0).getNumPrendCP()+"");
             prendaAdapter = new PrendaAdapterMenu(getActivity(),this.prendasTop);
             listView.setAdapter(prendaAdapter);}else{
-               prendasTop.addAll(responseCatalogo.prendas);
-               prendaAdapter.notifyDataSetChanged();
+               if (responseCatalogo.prendas!=null && !responseCatalogo.prendas.isEmpty()){
+                   prendasTop.addAll(responseCatalogo.prendas);
+                   prendaAdapter.notifyDataSetChanged();
+               }
             }
         }
         //gd.dismiss();

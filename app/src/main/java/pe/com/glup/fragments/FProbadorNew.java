@@ -1,6 +1,8 @@
 package pe.com.glup.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -19,11 +21,14 @@ import android.widget.TextView;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
+import java.util.IllegalFormatCodePointException;
+import java.util.Iterator;
 
 import pe.com.glup.R;
 import pe.com.glup.adapters.PagerBottomAdapter;
 import pe.com.glup.adapters.PagerTopAdapter;
 import pe.com.glup.adapters.PrendaAdapterMenu;
+import pe.com.glup.dialog.DetailActivity;
 import pe.com.glup.dialog.GlupDialogNew;
 import pe.com.glup.glup.Principal;
 import pe.com.glup.managers.bus.BusHolder;
@@ -44,14 +49,14 @@ public class FProbadorNew extends Fragment implements View.OnClickListener,
     private RelativeLayout frameHead,frameTop,frameBottom,framePreviousTop,frameNextTop,framePreviousBottom,frameNextBottom,emptyView;
     private LinearLayout frameProbador;
     private DrawerLayout drawerLayout;
-    private boolean conexionTop,conexionBottom,hayPrendaTop,hayPrendaBottom,vestido,reloadTop,reloadBot;
+    private boolean conexionTop,conexionBottom,hayPrendaTop,hayPrendaBottom,vestido,reloadTop,reloadBot,addTop,delTop,addBot,delBot;
     private DSProbadorNew dsProbadorNew;
-    private PagerTopAdapter pagerTopAdapter;
-    private PagerBottomAdapter pagerBottomAdapter;
+    private PagerTopAdapter pagerTopAdapter=null;
+    private PagerBottomAdapter pagerBottomAdapter=null;
     private ArrayList<Prenda> prendasTop=null,prendasBottom=null;
     private GlupDialogNew gd;
     private int numPagTop,numPageBottom=9,rangInfTop=9,rangSupTop,rangInfBottom,rangSupBottom;
-
+    private  int positionTop;
     public static FProbadorNew newInstance(){
         FProbadorNew fragment = new FProbadorNew();
         return fragment;
@@ -106,14 +111,8 @@ public class FProbadorNew extends Fragment implements View.OnClickListener,
         reloadBot=false;reloadTop=false;
         hayPrendaTop=false;hayPrendaBottom=false;vestido=false;
         numPagTop=0;numPageBottom=0;rangSupTop=0;rangSupBottom=0;
-        Log.e("numPagBotInit:",numPageBottom+"");
-        if (prendasTop!=null){
-            Log.e("esto", "secu");
-            //pagerTop.setCurrentItem(0);
-        }else{
-            Log.e("esto", "secu " + String.valueOf(prendasTop));
-
-        }
+        addTop=false;addBot=false;delBot=false;delTop=false;
+        positionTop=0;
         dsProbadorNew = new DSProbadorNew(getActivity());
         dsProbadorNew.getGlobalPrendasProbador("A",numPagTop+1,"10");
         //empty view
@@ -129,6 +128,9 @@ public class FProbadorNew extends Fragment implements View.OnClickListener,
                 }
                 @Override
                 public void onPageSelected(int position) {
+                    for (int i=0;i<prendasTop.size();i++){
+                        Log.e("CodPrendas:",prendasTop.get(i).getCod_prenda());
+                    }
                     //verificar si llego a la prenda 10
                         if (reloadTop && position==rangInfTop && prendasTop!=null && position!=rangSupTop){//calcular el maximo de probador para no cargar
                             Log.e("position9:", position + "");
@@ -179,7 +181,7 @@ public class FProbadorNew extends Fragment implements View.OnClickListener,
 
             @Override
             public void onPageSelected(int position) {
-
+                positionTop=position;
                 Log.e("position",position+" rangoinftop:"+rangInfBottom+" rangoSuptop:"+ rangSupBottom+" numPagBot:"+numPageBottom);
                 //verificar si llego a la prenda 10 bottom
                 if (reloadBot && position==rangInfBottom && prendasBottom!=null && position!=rangSupBottom){
@@ -188,7 +190,6 @@ public class FProbadorNew extends Fragment implements View.OnClickListener,
                     gd.setCancelable(false);
                     gd.show(getActivity().getSupportFragmentManager(), GlupDialogNew.class.getSimpleName());
                 }
-
                 //if (conexionBottom && hayPrendaBottom){
                 if (prendasBottom!=null){
                     //visibilidad navegacion hacia atras
@@ -202,7 +203,6 @@ public class FProbadorNew extends Fragment implements View.OnClickListener,
                     }else if(prendasBottom.size()>=2){
                         frameNextBottom.setVisibility(View.VISIBLE);
                     }
-
                 }
                 //}
             }
@@ -242,18 +242,35 @@ public class FProbadorNew extends Fragment implements View.OnClickListener,
                     prendasTop=responseProbadorTop.prendas;
                     pagerTopAdapter= new PagerTopAdapter(getActivity(),prendasTop);
                     pagerTop.setAdapter(pagerTopAdapter);
-                    if (prendasTop.size()>=2){
-                        frameNextTop.setVisibility(View.VISIBLE);
-                    }
+
                 }else{//numPagTop>1 no puede tomar valor 0 y prendasTop=ya tomo el valor de carga inicial
-                    rangInfTop+=10;
-                    prendasTop.addAll(responseProbadorTop.prendas);
+                    //reloadtop true
+                    boolean siEsta=false;
+                    for (Prenda prendLlegan:responseProbadorTop.prendas){
+                        for (Prenda prendActual:prendasTop){
+                            siEsta=false;
+                            if(prendLlegan.getCod_prenda().equals(prendActual.getCod_prenda())){
+                                siEsta=true;
+                                break;
+                            }
+                        }
+                        if (siEsta){
+                            Log.e("encontro","mismo codigo");
+                        }else{
+                            prendasTop.add(prendLlegan);
+                        }
+                    }
+                    rangInfTop=prendasTop.size()-1;
+                    //prendasTop.addAll(responseProbadorTop.prendas);
                     pagerTopAdapter.notifyDataSetChanged();
                     //pagerTopAdapter= new PagerTopAdapter(getActivity(),prendasTop);
                     //pagerTop.setAdapter(pagerTopAdapter);
                 }
                 if (rangInfTop==9){
                     pagerTop.setCurrentItem(0);
+                }
+                if (prendasTop.size()>=2){
+                    frameNextTop.setVisibility(View.VISIBLE);
                 }
             }else{
                 Log.e("Top","no hay prendas");
@@ -311,19 +328,35 @@ public class FProbadorNew extends Fragment implements View.OnClickListener,
                     superior.setVisibility(View.VISIBLE);
                     medio.setVisibility(View.VISIBLE);
                     titleProbador.setVisibility(View.VISIBLE);
-                    if (prendasBottom.size()>=2){
-                        frameNextBottom.setVisibility(View.VISIBLE);
-                    }
+
                 }else{
                     //reload bot sigue en true
-                    rangInfBottom+=10;
-                    prendasBottom.addAll(responseProbadorBottom.prendas);
+                    boolean siEsta=false;
+                    for (Prenda prendLlegan:responseProbadorBottom.prendas){
+                        for (Prenda prendActual:prendasBottom){
+                            siEsta=false;
+                            if(prendLlegan.getCod_prenda().equals(prendActual.getCod_prenda())){
+                                siEsta=true;
+                                break;
+                            }
+                        }
+                        if (siEsta){
+                            Log.e("encontro","mismo codigo");
+                        }else{
+                            prendasBottom.add(prendLlegan);
+                        }
+                    }
+                    rangInfBottom=prendasBottom.size()-1;
+                    //prendasBottom.addAll(responseProbadorBottom.prendas);
                     pagerBottomAdapter.notifyDataSetChanged();
                     //pagerBottomAdapter= new PagerBottomAdapter(getActivity(),prendasBottom);
                     //pagerBotton.setAdapter(pagerBottomAdapter);
                 }
                 if (rangInfBottom==9){
                     pagerBotton.setCurrentItem(0);
+                }
+                if (prendasBottom.size()>=2){
+                    frameNextBottom.setVisibility(View.VISIBLE);
                 }
             }else{
                 //falta gestionar cuando en la siguiente carga ya no hay mas prendas
@@ -347,7 +380,7 @@ public class FProbadorNew extends Fragment implements View.OnClickListener,
                             frameBottom.setVisibility(View.INVISIBLE);
                         }
                     }else{
-                        if (numPagTop==0 && prendasBottom==null){
+                        if (numPagTop==0 && (prendasBottom==null || prendasBottom.size()==0)){
                             frameProbador.setVisibility(View.GONE);
                             emptyView.setVisibility(View.VISIBLE);
                         }else{
@@ -364,7 +397,7 @@ public class FProbadorNew extends Fragment implements View.OnClickListener,
                     titleProbador.setVisibility(View.VISIBLE);
                 }
             }
-            Log.e("numPagBot:",numPageBottom+"");
+            Log.e("numPagBot:", numPageBottom + "");
         }else{
             conexionBottom=false;
             //falta manejar que saldra cuando la conexion falle
@@ -403,7 +436,7 @@ public class FProbadorNew extends Fragment implements View.OnClickListener,
 
     @Override
     public void onDrawerSlide(View drawerView, float slideOffset) {
-        Log.e("slide", drawerView.getTag().toString() + " offset " + slideOffset);
+        //Log.e("slide", drawerView.getTag().toString() + " offset " + slideOffset);
     }
 
     @Override
@@ -532,59 +565,183 @@ public class FProbadorNew extends Fragment implements View.OnClickListener,
 
     @Subscribe
     public  void getReloadPrendas(PrendaAdapterMenu.Holder holder ){
-        Log.e("check", String.valueOf(holder.corazon.isChecked())+" filtro:"+holder.filtro+" operacion:"+holder.operacion);
+        Log.e("check", String.valueOf(holder.corazon.isChecked())+" filtro:"+holder.filtro+" operacion:"+holder.operacion+" prendaCod:"+holder.prenda.getCod_prenda()+" numPagTop:"+numPagTop+" numPagBot:"+numPageBottom);
+        Log.e("rangSupTop:",rangSupTop+" rangInfTop:"+ rangInfTop+ " rangSupBot:"+rangSupBottom+" rangInfBot:"+rangInfBottom);
         if (holder.filtro.equals("A")){
             if (holder.corazon.isChecked()){
-                if (pagerTopAdapter.getCount()%10==0 && numPagTop!=0){
-                    if (pagerTopAdapter.getCount()!=0){
-                        rangInfTop+=10;
-                    }
-                    numPagTop++;
+                if (prendasTop==null){
+                    prendasTop=new ArrayList<Prenda>();
+                    Log.e("prendTopNull",prendasTop.size()+"");
+                    rangSupTop=-1;
                 }
+                Prenda prendAdd = holder.prenda;
+                prendasTop.add(prendAdd);
+
+                pagerTopAdapter=new PagerTopAdapter(getActivity(),prendasTop);
+                pagerTop.setAdapter(pagerTopAdapter);
+                //pagerTopAdapter.notifyDataSetChanged();
+
+                    if (prendasTop.size()!=0){
+                        rangInfTop+=1;
+                        addTop=true;//
+                        frameTop.setVisibility(View.VISIBLE);
+                    }
+                    //numPagTop++;
+
                 rangSupTop+=1;
-                prendasTop.add(holder.prenda);
-                pagerTopAdapter.notifyDataSetChanged();
+                if (prendasTop.size()>=2){
+                    frameNextTop.setVisibility(View.VISIBLE);
+                }
             }else {
-                if ((pagerTopAdapter.getCount()%10==1) && numPagTop!=0){
-                    if (pagerTopAdapter.getCount()==1){
-                        numPagTop=0;
-                        rangInfTop=9;
-                    }else{
-                        numPagTop--;
-                        rangInfTop-=10;
+                Log.e("PrevPrenTop:", prendasTop.size() + "");
+                Iterator<Prenda> iterator= prendasTop.iterator();
+                while (iterator.hasNext()){
+                    Prenda prendDel = iterator.next();
+                    if (prendDel.getCod_prenda().equals(holder.prenda.getCod_prenda())) {
+                        prendasTop.remove(prendDel);
+                        Log.e("PostPrenTop:", prendasTop.size() + "");
+                        break;
                     }
                 }
+                pagerTopAdapter=new PagerTopAdapter(getActivity(),prendasTop);
+                pagerTop.setAdapter(pagerTopAdapter);
+                //pagerTopAdapter.notifyDataSetChanged();
+                if (numPagTop!=0 && prendasTop.size()==1){
+                    numPagTop=0;
+                    rangInfTop=9;
+                }
+                if (numPagTop!=0){
+                    if (prendasTop.size()!=0){
+                        rangInfTop-=1;
+                        delTop=true;//
+                        if (prendasTop.size()%10==0){
+                            numPagTop--;
+                        }
+                    }
+                }
+                if(prendasTop.size()==0){
+                    if (prendasBottom==null || prendasBottom.size()==0){
+                        frameProbador.setVisibility(View.GONE);
+                        emptyView.setVisibility(View.VISIBLE);
+                        prendasTop=null;prendasBottom=null;
+                        numPagTop=0;numPageBottom=0;
+                        rangInfTop=9;rangInfBottom=9;
+                    }else{
+                        frameProbador.setVisibility(View.VISIBLE);
+                        emptyView.setVisibility(View.GONE);
+                        frameTop.setVisibility(View.INVISIBLE);
+                    }
+                }else if (prendasTop.size()==1){
+                    frameTop.setVisibility(View.VISIBLE);
+                    frameNextTop.setVisibility(View.GONE);
+                    framePreviousTop.setVisibility(View.GONE);
+                    //si es vestido ocupa todo sin next y previus y si hay bottom aun
+                }else{
+                    if (isVestido(prendasTop.get(0))){
+                        frameTop.setVisibility(View.VISIBLE);
+                        frameBottom.setVisibility(View.GONE);
+                    }else{
+                        frameTop.setVisibility(View.VISIBLE);
+                        frameBottom.setVisibility(View.VISIBLE);
+                    }
+                }
+                framePreviousTop.setVisibility(View.GONE);//siempre comienza de position 0
                 rangSupTop-=1;
-                prendasTop.remove(holder.prenda);
-                pagerTopAdapter.notifyDataSetChanged();
             }
             Log.e("reloadA"," rangoinftop:"+rangInfTop+" rangoSupTop:"+ rangSupTop+" numPagTop:"+numPagTop);
         }else{
             if (holder.corazon.isChecked()){
-                if (pagerBottomAdapter.getCount()%10==0 && numPageBottom!=0){
-                    if (pagerBottomAdapter.getCount()!=0){
-                        rangInfBottom+=10;
-                    }
-                    numPageBottom++;
+                if (prendasBottom==null){
+                    prendasBottom=new ArrayList<Prenda>();
+                    rangSupBottom=-1;
                 }
-                rangSupBottom+=1;
                 prendasBottom.add(holder.prenda);
-                pagerBottomAdapter.notifyDataSetChanged();
+                pagerBottomAdapter=new PagerBottomAdapter(getActivity(),prendasBottom);
+                pagerBotton.setAdapter(pagerBottomAdapter);
+                //pagerBottomAdapter.notifyDataSetChanged();
+                if (prendasBottom.size()!=0){
+                    rangInfBottom+=1;
+                    addBot=true;//
+                    frameBottom.setVisibility(View.VISIBLE);
+                }
+                    //numPageBottom++;
+
+                rangSupBottom+=1;
+                if (prendasBottom.size()>=2){
+                    frameNextBottom.setVisibility(View.VISIBLE);
+                }
             }else {
-                if ((pagerBottomAdapter.getCount()%10==1) && numPageBottom!=0){
-                    if (pagerBottomAdapter.getCount()==1){
-                        numPageBottom=0;
-                        rangInfBottom=9;
-                    }else{
-                        numPageBottom--;
-                        rangInfBottom-=10;
+
+                Log.e("PrevPrenBot:", prendasBottom.size() + "");
+                Iterator<Prenda> iterator= prendasBottom.iterator();
+                while (iterator.hasNext()){
+                    Prenda prendDel = iterator.next();
+                    if (prendDel.getCod_prenda().equals(holder.prenda.getCod_prenda())) {
+                        prendasBottom.remove(prendDel);
+                        Log.e("PostPrenBot:", prendasBottom.size() + "");
+                        break;
                     }
                 }
-                rangSupBottom-=1;
-                prendasBottom.remove(holder.prenda);
-                pagerBottomAdapter.notifyDataSetChanged();
+                pagerBottomAdapter=new PagerBottomAdapter(getActivity(),prendasBottom);
+                pagerBotton.setAdapter(pagerBottomAdapter);
+                //pagerBottomAdapter.notifyDataSetChanged();
+                //prendasBottom.remove(holder.prenda);
+                //pagerBottomAdapter.notifyDataSetChanged();
+                if (numPageBottom!=0 && prendasBottom.size()==1){
+                    numPageBottom=0;
+                    rangInfBottom=9;
+                }
+                if (numPageBottom!=0){
+                    if (prendasBottom.size()!=0){
+                        rangInfBottom-=1;
+                        delBot=true;//
+                        if (prendasBottom.size()%10==0){
+                            numPageBottom--;
+                        }
+                    }
+                }
+                if(prendasBottom.size()==0){
+                    if (prendasTop==null || prendasTop.size()==0){
+                        frameProbador.setVisibility(View.GONE);
+                        emptyView.setVisibility(View.VISIBLE);
+                        prendasTop=null;prendasBottom=null;
+                        numPagTop=0;numPageBottom=0;
+                        rangInfTop=9;rangInfBottom=9;
+                    }else{
+                        frameProbador.setVisibility(View.VISIBLE);
+                        emptyView.setVisibility(View.GONE);
+                        //estado frameBottom depende de la prenda top
+                    }
+                }else if (prendasBottom.size()==1){
+                    //frameBottom.setVisibility(View.VISIBLE);
+                    frameNextBottom.setVisibility(View.GONE);
+                    framePreviousBottom.setVisibility(View.GONE);
+                    //si es vestido ocupa todo sin next y previus y si hay bottom aun
+                }
+                framePreviousBottom.setVisibility(View.GONE);
+                rangSupBottom -= 1;
             }
-            Log.e("reloadB"," rangoinftop:"+rangInfBottom+" rangoSuptop:"+ rangSupBottom+" numPagBot:"+numPageBottom);
+            Log.e("reloadB"," rangoinfbot:"+rangInfBottom+" rangoSupbot:"+ rangSupBottom+" numPagBot:"+numPageBottom);
         }
+    }
+    @Subscribe
+    public void addReservaTop(PagerTopAdapter.SuccessTopLongClick successLongClick){
+        Log.e(null, successLongClick.tag + " " + successLongClick.succcess+ " "+successLongClick.codigo_prenda);
+        Intent intent = new Intent(getActivity().getApplicationContext(),DetailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("codigoPrenda", successLongClick.codigo_prenda);
+        intent.putExtras(bundle);
+        startActivity(intent);
+
+    }
+
+    @Subscribe
+    public void addReservaBottom(PagerBottomAdapter.SuccessBottomLongClick successLongClick){
+        Log.e(null, successLongClick.tag + " " + successLongClick.succcess+ " "+successLongClick.codigo_prenda);
+        Intent intent = new Intent(getActivity().getApplicationContext(),DetailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("codigoPrenda", successLongClick.codigo_prenda);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 }
