@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -29,6 +30,8 @@ import java.util.Calendar;
 import de.hdodenhof.circleimageview.CircleImageView;
 import pe.com.glup.R;
 import pe.com.glup.dialog.ConfirmationPassDialog;
+import pe.com.glup.dialog.GlupDialog;
+import pe.com.glup.dialog.GlupDialogNew;
 import pe.com.glup.dialog.NewPassDialog;
 import pe.com.glup.glup.Entrar;
 import pe.com.glup.glup.Glup;
@@ -61,7 +64,7 @@ public class FClosetProfileNew extends Fragment
     private boolean flagDirect;
     private String nuevaPassword="";
     private boolean flagLoadProfile=false;
-
+    private GlupDialogNew gd;
 
     public static FClosetProfileNew newInstance(){
         FClosetProfileNew fragment=new FClosetProfileNew();
@@ -71,7 +74,7 @@ public class FClosetProfileNew extends Fragment
     public void onCreate(Bundle savedInstance){super.onCreate(savedInstance);}
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstance){
-        return  inflater.inflate(R.layout.fragment_closet_profile,container,false);
+        return inflater.inflate(R.layout.fragment_closet_profile,container,false);
     }
     @Override
     public void onActivityCreated(Bundle savedInstance){
@@ -129,6 +132,7 @@ public class FClosetProfileNew extends Fragment
             getActivity().onBackPressed();
         }
         if (v.getId()==R.id.update || v.getId()==R.id.frame_update){
+            closeKeyboard();
             boolean detectSomeChange = detectChanges();
             if (detectSomeChange){
                 indVerPass = detectedIndVerPass();
@@ -144,10 +148,13 @@ public class FClosetProfileNew extends Fragment
                 }else{
                     flagDirect=true;
                     DSUsuarioNew dsUsuarioNew = new DSUsuarioNew(getActivity());
-                    Log.e("UpdateNom",nombres.getText().toString());
+                    Log.e("UpdateNom", nombres.getText().toString());
                     dsUsuarioNew.updateUsuario(indVerPass, nuevaPassword, nombres.getText().toString(),
                             apellidos.getText().toString(), cumpleanos.getText().toString(),
                             correo.getText().toString(), telefono.getText().toString());
+                    gd = new GlupDialogNew();
+                    gd.setCancelable(false);
+                    gd.show(getActivity().getSupportFragmentManager(), GlupDialogNew.class.getSimpleName());
                 }
             }else {
                 final MessageV2 message=new MessageV2("No realizo ningun cambio");
@@ -203,19 +210,18 @@ public class FClosetProfileNew extends Fragment
     public void SuccesLoadProfile(PerfilUsuario perfilUsuario){
         Log.e("LoadUser", perfilUsuario.getSuccess()+"");
         Drawable placeHolder=null;
-        if (new Session_Manager(getActivity()).getCurrentUserSexo().equals("H")){
+        /* Session_Manager session_manager=new Session_Manager(getActivity());
+        if (session_manager!=null && session_manager.getCurrentUserSexo().equals("H")){
             placeHolder= getResources().getDrawable(R.drawable.man_profile);
         }else{
             placeHolder = getResources().getDrawable(R.drawable.woman_profile);
-        }
+        }*/
         if (this!=null){
             if (flagLoadProfile){
                 if (perfilUsuario.getSuccess()==1){
                     try {
                         Picasso.with(getActivity().getApplicationContext())
                                 .load(perfilUsuario.getDatouser().get(0).getRutaFoto())
-                                .placeholder(placeHolder)
-                                .error(placeHolder)
                                 .fit().centerInside().noFade()
                                 .into(foto);
                         username.setText(perfilUsuario.getDatouser().get(0).getNomUser());
@@ -287,6 +293,9 @@ public class FClosetProfileNew extends Fragment
 
     @Subscribe
     public void SuccessUpdateProfile(DSUsuarioNew.SignalUpdateProfile signalUpdateProfile){
+        if (gd!=null){
+            gd.dismiss();
+        }
         Log.e("mensajeSuccess", signalUpdateProfile.msg + " indicador " + signalUpdateProfile.success);
         if (signalUpdateProfile.success==1){
             username.setText(nombres.getText().toString());
@@ -302,7 +311,7 @@ public class FClosetProfileNew extends Fragment
             flagDirect=false;
             final MessageV2 message=new MessageV2(signalUpdateProfile.msg);
             message.setCancelable(false);
-            message.show(getActivity().getSupportFragmentManager(),MessageV2.class.getSimpleName());
+            message.show(getActivity().getSupportFragmentManager(), MessageV2.class.getSimpleName());
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -335,6 +344,7 @@ public class FClosetProfileNew extends Fragment
     };
     @Subscribe
     public void SuccessUpdatePass(DSUsuarioNew.SignalChangeNewPass signalChangeNewPass){
+        //gd.dismiss();
         Log.e("mensajeSuccessPass", signalChangeNewPass.msg);
         if (signalChangeNewPass.success==1){
             Log.e("mensaje","termino update pass con new pass "+signalChangeNewPass.password+ " sigue update profile");
@@ -347,7 +357,9 @@ public class FClosetProfileNew extends Fragment
             dsUsuario.updateUsuario("true", nuevaPassword, nombres.getText().toString(),
                     apellidos.getText().toString(), cumpleanos.getText().toString(),
                     correo.getText().toString(), telefono.getText().toString());
-
+            gd = new GlupDialogNew();
+            gd.setCancelable(false);
+            gd.show(getActivity().getSupportFragmentManager(), GlupDialogNew.class.getSimpleName());
 
             Log.e("Se Guarda","todo el perfil");
         }else {
@@ -375,5 +387,12 @@ public class FClosetProfileNew extends Fragment
             //return true;
         }
         return false;
+    }
+    private void closeKeyboard(){
+        View view = getActivity().getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 }

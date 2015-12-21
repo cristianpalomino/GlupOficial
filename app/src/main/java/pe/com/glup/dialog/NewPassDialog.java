@@ -32,7 +32,7 @@ public class NewPassDialog extends DialogFragment implements View.OnClickListene
     private boolean activarBoton;
     private boolean upper=false,lower=false,number=false,range=false;
     private TextView txtPassSuccess;
-
+    private  GlupDialogNew gd;
     public NewPassDialog() {
     }
 
@@ -123,7 +123,9 @@ public class NewPassDialog extends DialogFragment implements View.OnClickListene
                     Log.e("verificarRep",String.valueOf(verificarRepeticion));
                     DSUsuarioNew dsUsuario = new DSUsuarioNew(getActivity());
                     dsUsuario.updatePassUsuario(newPass.getText().toString(), passw.getText().toString());
-
+                    /*gd = new GlupDialogNew();
+                    gd.setCancelable(false);
+                    gd.show(getActivity().getSupportFragmentManager(), GlupDialog.class.getSimpleName());*/
                     ///
                 }
                 validator.setVisibility(View.INVISIBLE);

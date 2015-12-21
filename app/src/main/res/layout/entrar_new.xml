@@ -48,7 +48,7 @@
             android:textAllCaps="false"
             android:shadowColor="@color/azul_glup"
             android:background="@drawable/button_selector"
-            android:text="Iniciar"
+            android:text="Ingresar"
             android:layout_height="30dp"
             android:layout_width="0dp"
             android:layout_weight="1"
