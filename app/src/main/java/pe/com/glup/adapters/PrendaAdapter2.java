@@ -125,9 +125,12 @@ public class PrendaAdapter2 extends BaseAdapter implements View.OnLongClickListe
 
 //        boolean checked = prenda.getIndProbador().equals("1");
 //        holder.check.setChecked(checked);
-        holder.imagen.setOnLongClickListener(new View.OnLongClickListener() {
+        //holder.imagen.setClickable(true);
+        //holder.corazon.setClickable(true);
+
+        holder.imagen.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View v) {
+            public void onClick(View v) {
                 Log.e("click:", position + " codPrenda:" + codPrenda);
                 ArrayList<Prenda> prendas = mPrendas;
                 Intent intent = new Intent(glup, DetalleNew.class);
@@ -135,7 +138,6 @@ public class PrendaAdapter2 extends BaseAdapter implements View.OnLongClickListe
                 intent.putExtra("current", position);
                 intent.putExtra("buscar",prendas.get(position).getBuscar());
                 glup.startActivityForResult(intent,1);
-                return false;
             }
         });
         //holder.imagen.setOnLongClickListener(this);

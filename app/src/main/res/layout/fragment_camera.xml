@@ -3,8 +3,94 @@
              android:layout_width="fill_parent"
              android:layout_height="match_parent"
              android:orientation="horizontal">
-
     <RelativeLayout
+        android:id="@+id/select_prenda"
+        android:alpha="0.9"
+        android:background="@color/negro"
+        android:orientation="vertical" android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:elevation="10dp">
+        <TextView
+            android:id="@+id/titulo_select_prenda"
+            android:layout_marginTop="60dp"
+            android:layout_centerHorizontal="true"
+            android:text="Elige el tipo de prenda"
+            android:textColor="@color/blanco"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:padding="32dp"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_marginBottom="20dp"
+                android:padding="15dp"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/frame_select_superior"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:src="@drawable/superior_icon"
+                    android:id="@+id/select_superior_off"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <FrameLayout
+                    android:layout_margin="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/texto_select_superior"
+                        android:layout_gravity="center"
+                        android:textSize="20sp"
+                        android:text="Superior"
+                        android:textColor="@color/blanco"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </FrameLayout>
+            </LinearLayout>
+            <View
+                android:id="@+id/rayita"
+                android:layout_margin="6dp"
+                android:layout_below="@+id/frame_select_superior"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/blanco"/>
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:padding="15dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/rayita"
+                android:id="@+id/frame_select_medio"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:src="@drawable/medio_icon"
+                    android:id="@+id/select_medio_off"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <FrameLayout
+                    android:layout_margin="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/texto_select_medio"
+                        android:layout_gravity="center"
+                        android:textSize="20sp"
+                        android:text=" Medio  "
+                        android:textColor="@color/blanco"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </FrameLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/content_camara"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <FrameLayout
@@ -142,7 +228,7 @@
                 android:layout_height="wrap_content">
                 <ImageView
                     android:id="@+id/superior"
-                    android:src="@drawable/icon_superior"
+                    android:src="@drawable/superior_icon_camara"
                     android:layout_width="62dp"
                     android:layout_height="62dp"/>
                 <TextView
@@ -155,7 +241,7 @@
                 <ImageView
                     android:id="@+id/medio"
                     android:visibility="gone"
-                    android:src="@drawable/icon_medio"
+                    android:src="@drawable/medio_icon_camara"
                     android:layout_width="58dp"
                     android:layout_height="58dp"/>
                 <TextView
@@ -189,9 +275,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <ImageView
+                        android:layout_marginLeft="6dp"
                         android:id="@+id/icon_preview"
                         android:clickable="false"
-                        android:src="@drawable/icon_preview"
+                        android:src="@drawable/preview_camara"
                         android:layout_width="56dp"
                         android:layout_height="56dp"/>
                     <TextView
@@ -227,6 +314,7 @@
                     android:visibility="gone" />
             </FrameLayout>
 
-            </FrameLayout>
+        </FrameLayout>
     </RelativeLayout>
+
 </FrameLayout>

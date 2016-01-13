@@ -145,8 +145,9 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
         grilla.setOnScrollListener(null);
         */
 
-        grilla.setOnItemLongClickListener(this);
-        //grilla.setOnItemClickListener(this);
+        //grilla.setOnItemLongClickListener(this);
+        //grilla.setClickable(false);
+        grilla.setOnItemClickListener(this);
         grilla.setOnScrollListener(this);
 
         ArrayList<Prenda> listaYaCargada= new ArrayList<Prenda>();
@@ -363,6 +364,10 @@ public class FCatalogo extends Fragment implements OnSuccessCatalogo,
 
     @Override
     public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
+        Log.e("click","en grilla");
+        Log.e("Prenda:", "posicion " + position + " codigo:" +
+                ((Prenda) parent.getItemAtPosition(position)).getCod_prenda() + " Tipo:" +
+                ((Prenda) parent.getItemAtPosition(position)).getTipo());
         /*Prenda prenda = (Prenda) parent.getItemAtPosition(position);
         dsCatalogo = new DSCatalogo(getActivity());
         dsCatalogo.updateProbador(glup.getPrendas().get(position).getCod_prenda());

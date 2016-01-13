@@ -162,6 +162,7 @@ public class FProbador extends Fragment implements View.OnClickListener,OnSucces
         pagerTop = (ViewPager) getView().findViewById(R.id.scroll_top);
         pagerBotton = (ViewPager) getView().findViewById(R.id.scroll_bottom);
 
+
         getView().findViewById(R.id.button_previous_top).setOnClickListener(this);
         getView().findViewById(R.id.button_next_top).setOnClickListener(this);
         getView().findViewById(R.id.button_previous_bottom).setOnClickListener(this);

@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -25,12 +26,15 @@ import java.io.File;
 import android.os.Handler;
 
 import pe.com.glup.R;
+import pe.com.glup.dialog.SelectPrendaDialog;
+import pe.com.glup.glup.Glup;
 import pe.com.glup.managers.bus.BusHolder;
 import pe.com.glup.network.DSCamera;
 import pe.com.glup.models.events.Flash;
 import pe.com.glup.models.events.TakePhoto;
 import pe.com.glup.glup.Principal;
 import pe.com.glup.utils.CameraUtils;
+import pe.com.glup.utils.Util_Fonts;
 import pe.com.glup.views.CameraSurface;
 import pe.com.glup.views.SquareLayout;
 
@@ -65,6 +69,7 @@ public class FCamera extends Fragment implements View.OnClickListener {
 
 	private int contador = 1;
 	private boolean gridActivate;
+	private RelativeLayout selectPrenda,contentCamera;
 	
 	public static FCamera newInstance() {
 		FCamera fragment = new FCamera();
@@ -81,7 +86,6 @@ public class FCamera extends Fragment implements View.OnClickListener {
 	@Override
 	public void onActivityCreated(Bundle savedInstance){
 		super.onActivityCreated(savedInstance);
-
 		BusHolder.getInstance().register(this);
 		context=getActivity();
 
@@ -111,7 +115,63 @@ public class FCamera extends Fragment implements View.OnClickListener {
 		medio = (ImageView) getView().findViewById(R.id.medio);
 		iconPreview = (ImageView) getView().findViewById(R.id.icon_preview);
 		atrasCamara = (ImageView) getView().findViewById(R.id.atras_camara);
+
+		/*
+		atrasCamara.setEnabled(false);
+		next.setEnabled(false);
+		flash.setEnabled(false);
+		superior.setEnabled(false);
+		medio.setEnabled(false);
+		take.setEnabled(false);
+*/
+
 		atrasCamara.setOnClickListener(this);
+
+		selectPrenda=(RelativeLayout)getView().findViewById(R.id.select_prenda);
+		TextView textTitulo,textSuperior,textMedio;
+		textTitulo=(TextView)getView().findViewById(R.id.titulo_select_prenda);
+		textSuperior=(TextView)getView().findViewById(R.id.texto_select_superior);
+		textMedio=(TextView)getView().findViewById(R.id.texto_select_medio);
+		textTitulo.setTypeface(Util_Fonts.setLatoRegular(getActivity()));
+		textSuperior.setTypeface(Util_Fonts.setLatoRegular(getActivity()));
+		textMedio.setTypeface(Util_Fonts.setLatoRegular(getActivity()));
+
+		contentCamera=(RelativeLayout)getView().findViewById(R.id.content_camara);
+		selectPrenda.bringToFront();
+		changeEnable(contentCamera, false);
+
+		getView().findViewById(R.id.frame_select_superior).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				selectPrenda.setVisibility(View.GONE);
+				contentCamera.bringToFront();
+				changeEnable(contentCamera, true);
+				iconPreview.setEnabled(false);
+				next.setEnabled(false);
+				refresh.setEnabled(false);
+				superior.setVisibility(View.VISIBLE);
+				tvSuperior.setVisibility(View.VISIBLE);
+				medio.setVisibility(View.GONE);
+				tvMedio.setVisibility(View.GONE);
+				filtro="superior";
+			}
+		});
+		getView().findViewById(R.id.frame_select_medio).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				selectPrenda.setVisibility(View.GONE);
+				contentCamera.bringToFront();
+				changeEnable(contentCamera, true);
+				iconPreview.setEnabled(false);
+				next.setEnabled(false);
+				refresh.setEnabled(false);
+				medio.setVisibility(View.VISIBLE);
+				tvMedio.setVisibility(View.VISIBLE);
+				superior.setVisibility(View.GONE);
+				tvSuperior.setVisibility(View.GONE);
+				filtro="medio";
+			}
+		});
 
 
 		Log.e("superior",getRelativeTop(superior)+"dp en pixeles "+(int)convertDpToPixel(getRelativeTop(superior),context));
@@ -146,11 +206,11 @@ public class FCamera extends Fragment implements View.OnClickListener {
 		}*/
 		superior.setOnClickListener(this);
 		medio.setOnClickListener(this);
-		iconPreview.setEnabled(false);
+		//iconPreview.setEnabled(false);
 		imagea.setOnClickListener(this);
 		imageb.setOnClickListener(this);
-		next.setEnabled(false);
-		take.setEnabled(true);
+		//next.setEnabled(false);
+		//take.setEnabled(true);
 
 
 
@@ -179,7 +239,7 @@ public class FCamera extends Fragment implements View.OnClickListener {
 
 
 		refresh = (ToggleButton) getView().findViewById(R.id.refresh);
-		refresh.setEnabled(false);
+		//refresh.setEnabled(false);
 		refresh.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -428,5 +488,15 @@ public class FCamera extends Fragment implements View.OnClickListener {
 		return dp;
 	}
 
-
+	private static void changeEnable(ViewGroup layout,boolean enable) {
+		layout.setEnabled(enable);
+		for (int i = 0; i < layout.getChildCount(); i++) {
+			View child = layout.getChildAt(i);
+			if (child instanceof ViewGroup) {
+				changeEnable((ViewGroup) child, enable);
+			} else {
+				child.setEnabled(enable);
+			}
+		}
+	}
 }

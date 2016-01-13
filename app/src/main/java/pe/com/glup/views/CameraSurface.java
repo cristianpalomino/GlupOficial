@@ -557,6 +557,7 @@ public class CameraSurface extends SurfaceView implements SurfaceHolder.Callback
                 successSavePhoto.success=1;
                 successSavePhoto.msg="Se genero y guardo foto";
                 successSavePhoto.result=aVoid;
+                Log.e("TomaFoto:",aVoid);
                 BusHolder.getInstance().post(successSavePhoto);
             }
         }.execute();

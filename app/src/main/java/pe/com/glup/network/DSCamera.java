@@ -84,16 +84,16 @@ public class DSCamera {
 
 		String URL=WSGlup.ORQUESTADOR_IMAGENES_CAMERA;
 		RequestParams params =new RequestParams();
-		if (filtro.equals("superior")){
-			try {
-				params.put("img_a",new File(dir,nomFrente));
-				params.put("img_b",new File(dir,nomEspalda));
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-			params.put("wear_code",codPrenda);
-			params.put("user_code", new Session_Manager(context).getCurrentUserCode());
-		}else {
+		//if (filtro.equals("superior")){
+		try {
+			params.put("img_a",new File(dir,nomFrente));
+			params.put("img_b",new File(dir,nomEspalda));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		params.put("wear_code",codPrenda);
+		params.put("user_code", new Session_Manager(context).getCurrentUserCode());
+		/*}else {
 			URL=WSGlup.ORQUESTADOR_IMAGENES_CAMERA_INFERIOR;
 			params.put("tag", "procesarImagen");
 			try {
@@ -105,6 +105,12 @@ public class DSCamera {
 			params.put("codigo_usuario","000000000010");
 			params.put("codigo_prenda",codPrenda);
 
+		}*/
+
+		if (filtro.equals("superior")){
+			params.put("type_templates","A");
+		}else{
+			params.put("type_templates","B");
 		}
 		Log.e("URL",URL);
 

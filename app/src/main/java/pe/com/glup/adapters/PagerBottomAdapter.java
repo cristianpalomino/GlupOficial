@@ -61,9 +61,9 @@ public class PagerBottomAdapter extends PagerAdapter {
         marca.setTypeface(Util_Fonts.setRegular(context));
         Picasso.with(context).load(prenda.getImagen()).fit().centerInside().placeholder(R.drawable.progress_animator).noFade().into(imagen);
 
-        imagen.setOnLongClickListener(new View.OnLongClickListener() {
+        imagen.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View v) {
+            public void onClick(View v) {
                 Log.e("pagerTop", prenda.getCod_prenda());
                 /*try {
                     onClickTopProbador= (OnClickTopProbador) context.getApplicationContext();
@@ -77,7 +77,6 @@ public class PagerBottomAdapter extends PagerAdapter {
                 successLongClick.succcess = true;
                 successLongClick.codigo_prenda=prenda.getCod_prenda();
                 BusHolder.getInstance().post(successLongClick);
-                return true;
 
             }
         });
