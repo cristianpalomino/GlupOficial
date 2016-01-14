@@ -108,8 +108,8 @@
 
                         <ToggleButton
                             android:id="@+id/corazon_prenda"
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
                             android:layout_gravity="center_vertical"
                             android:layout_marginBottom="3dp"
                             android:layout_marginLeft="3dp"
@@ -119,11 +119,13 @@
                             android:textOn="" />
 
                         <TextView
+                            android:textColor="@color/rojo_glup"
                             android:id="@+id/contador_corazon"
                             android:layout_width="wrap_content"
                             android:layout_height="35dp"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="3dp"
+                            android:layout_marginBottom="3dp"
                             android:gravity="center"
                             android:padding="5dp"
                             android:text="3"

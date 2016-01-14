@@ -15,7 +15,6 @@
             android:layout_height="1dp"
             android:layout_centerInParent="true"
             android:background="@null" />
-
         <ImageView
             android:paddingRight="30dp"
             android:paddingTop="10dp"
@@ -56,47 +55,58 @@
             android:paddingRight="32dp"
             android:paddingTop="10dp">
             <TextView
+                android:textAllCaps="true"
+                android:textColor="#666666"
                 android:textStyle="bold"
                 android:layout_centerHorizontal="true"
                 android:id="@+id/marca_reserva"
-                android:textSize="24sp"
+                android:textSize="16sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
-                android:layout_marginBottom="10dp"
+                android:textColor="#4d4d4d"
                 android:id="@+id/tipo_prenda_reserva"
-                android:textSize="20sp"
+                android:textSize="28sp"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@id/marca_reserva"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
-                android:textStyle="bold"
-                android:layout_marginLeft="16dp"
-                android:id="@+id/descripcion_title_reserva"
-                android:text="Descripción:"
-                android:textSize="18sp"
+                android:textColor="#9b9b9b"
+                android:visibility="gone"
+                android:id="@+id/title_exhicion"
+                android:text="Prenda en exhibición"
+                android:textSize="13sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/tipo_prenda_reserva"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_centerHorizontal="true" />
             <TextView
+                android:layout_marginTop="10dp"
+                android:textColor="#808080"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
                 android:layout_margin="16dp"
-                android:gravity="left"
                 android:id="@+id/descripcion_reserva"
-                android:textSize="14sp"
-                android:layout_below="@+id/descripcion_title_reserva"
+                android:textSize="17sp"
+                android:layout_below="@+id/title_exhicion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
+                android:layout_marginTop="16dp"
                 android:textStyle="bold"
+                android:textColor="#4d4d4d"
+                android:layout_centerHorizontal="true"
                 android:layout_marginLeft="16dp"
                 android:id="@+id/composicion_reserva"
-                android:text="Recomendación:"
-                android:textSize="18sp"
+                android:text="Recomendación"
+                android:textSize="20sp"
                 android:layout_below="@+id/descripcion_reserva"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <RelativeLayout
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="6dp"
                 android:layout_marginLeft="16dp"
                 android:gravity="left"
                 android:id="@+id/componentes"
@@ -104,7 +114,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:textSize="14sp"
+                    android:textColor="#808080"
+                    android:gravity="center"
+                    android:textSize="17sp"
                     android:layout_margin="6dp"
                     android:id="@+id/componente1"
                     android:layout_width="wrap_content"

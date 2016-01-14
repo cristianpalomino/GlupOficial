@@ -31,6 +31,15 @@ public class Prenda implements Serializable {
     private int numPrend;
     private int numPrendProb;
     private int numPrendCP;
+    private int ind_exhibicion;
+
+    public int getInd_exhibicion() {
+        return ind_exhibicion;
+    }
+
+    public void setInd_exhibicion(int ind_exhibicion) {
+        this.ind_exhibicion = ind_exhibicion;
+    }
 
     public int getNumPrendCP() {
         return numPrendCP;

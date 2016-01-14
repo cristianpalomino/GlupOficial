@@ -63,6 +63,7 @@ public class DSCatalogo {
 
                 Catalogo catalogo = gson.fromJson(response.toString(), Catalogo.class);
                 prendas = catalogo.getPrendas();
+                //Log.e("indExhibicion",prendas.get(0).getInd_exhibicion()+"");
                 //for (Prenda p:prendas){
                     //Log.e(null,p.toString());
                 //}

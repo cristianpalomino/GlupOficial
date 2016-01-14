@@ -75,6 +75,7 @@ public class PrendaAdapter2 extends BaseAdapter implements View.OnLongClickListe
         } else {
           //  holder = (Holder) convertView.getTag();
         }
+
         Log.e("Despues", "codigoPrenda:" + prenda.getCod_prenda() + " ,indProbador:" + prenda.getIndProbador() + " ," +
                 "numMeGusta:" + prenda.getNumGusta());
 
@@ -88,7 +89,11 @@ public class PrendaAdapter2 extends BaseAdapter implements View.OnLongClickListe
         holder.check = (CheckBox) convertView.findViewById(R.id.check);
         holder.corazon = (ToggleButton) convertView.findViewById(R.id.corazon_prenda);
 
-
+        if (prenda.getInd_exhibicion()==1){
+            holder.precio.setVisibility(View.GONE);
+        }else{
+            holder.precio.setVisibility(View.VISIBLE);
+        }
 
         holder.contado.setText(prenda.getNumGusta());
         //notifyDataSetChanged();
@@ -118,7 +123,7 @@ public class PrendaAdapter2 extends BaseAdapter implements View.OnLongClickListe
         holder.marca.setTypeface(Util_Fonts.setBold(context));
         holder.precio.setTypeface(Util_Fonts.setRegular(context));
         holder.modelo.setTypeface(Util_Fonts.setRegular(context));
-        holder.contado.setTypeface(Util_Fonts.setRegular(context));
+        holder.contado.setTypeface(Util_Fonts.setLatoRegular(context));
 
 
         Picasso.with(context).load(prenda.getImagen()).fit().placeholder(R.drawable.progress_animator).centerInside().noFade().into(holder.imagen);

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,6 +35,7 @@ import pe.com.glup.models.Tienda;
 import pe.com.glup.managers.bus.BusHolder;
 import pe.com.glup.network.DSProbador;
 import pe.com.glup.utils.MessageUtil;
+import pe.com.glup.utils.Util_Fonts;
 import pe.com.glup.views.Message;
 import pe.com.glup.views.MessageV2;
 
@@ -44,7 +46,8 @@ public class FullScreenDialog extends DialogFragment implements View.OnClickList
 
     private Context context;
     private String codPrenda,idTalla;
-    private TextView marca,tipo,descripcion,componente,precio;
+    private TextView marca,tipo,descripcion,componente,precio,exhibicion;
+    private RadioGroup groupTallas;
     private Spinner tiendaSpinner;
     private RadioGroup radioGroup;
     private Button addReserva;
@@ -90,12 +93,25 @@ public class FullScreenDialog extends DialogFragment implements View.OnClickList
         super.onActivityCreated(savedInstanceState);
         BusHolder.getInstance().register(this);
         context=getActivity();
+
         marca=(TextView)getView().findViewById(R.id.marca_reserva);
         tipo = (TextView)getView().findViewById(R.id.tipo_prenda_reserva);
+        exhibicion=(TextView)getView().findViewById(R.id.title_exhicion);
         descripcion=(TextView)getView().findViewById(R.id.descripcion_reserva);
         componente=(TextView)getView().findViewById(R.id.componente1);
         precio=(TextView)getView().findViewById(R.id.precio_reserva);
+
+        marca.setTypeface(Util_Fonts.setLatoBold(context));
+        tipo.setTypeface(Util_Fonts.setLatoLight(context));
+        exhibicion.setTypeface(Util_Fonts.setLatoRegular(context));
+        descripcion.setTypeface(Util_Fonts.setLatoLight(context));
+        ((TextView)getView().findViewById(R.id.composicion_reserva)).setTypeface(Util_Fonts.setLatoLight(context));
+        componente.setTypeface(Util_Fonts.setLatoLight(context));
+        precio.setTypeface(Util_Fonts.setLatoRegular(context));
+
         tiendaSpinner = (Spinner) getView().findViewById(R.id.elegir_tienda_reserva);
+        groupTallas=(RadioGroup)getView().findViewById(R.id.elegir_talla_reserva);
+
         cerrarReserva = (ImageView) getView().findViewById(R.id.cerrar_add_reserva);
         //radioGroup = (RadioGroup) getView().findViewById(R.id.elegir_talla_reserva);
         tallasMax.add((ToggleButton)getView().findViewById(R.id.talla1));
@@ -143,6 +159,19 @@ public class FullScreenDialog extends DialogFragment implements View.OnClickList
         if (responseDetallePrenda.getSuccess()==1){
             Log.e("entro", "detalle");
             prendaDetalle = responseDetallePrenda.getPrendas();
+            if (prendaDetalle.get(0).getInd_exhibicion()==1){
+                exhibicion.setVisibility(View.VISIBLE);
+                tiendaSpinner.setVisibility(View.GONE);
+                precio.setVisibility(View.GONE);
+                groupTallas.setVisibility(View.GONE);
+                addReserva.setVisibility(View.GONE);
+            }else{
+                exhibicion.setVisibility(View.GONE);
+                tiendaSpinner.setVisibility(View.VISIBLE);
+                precio.setVisibility(View.VISIBLE);
+                groupTallas.setVisibility(View.VISIBLE);
+                addReserva.setVisibility(View.VISIBLE);
+            }
             marca.setText(prendaDetalle.get(0).getMarca());
             tipo.setText(prendaDetalle.get(0).getTipo());
             descripcion.setText(prendaDetalle.get(0).getDescripcion());

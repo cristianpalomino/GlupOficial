@@ -4,13 +4,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -34,11 +39,15 @@ public class PagerDetalleAdapter extends PagerAdapter {
     private LayoutInflater layoutInflater;
     private ArrayList<Prenda> prendas;
     static final int SHORT_DELAY = 1000;
+    private Button btnInfo;
+    private RelativeLayout frameBtnInfo;
+
 
     public PagerDetalleAdapter(Context context, ArrayList<Prenda> prendas) {
         this.context = context;
         this.layoutInflater = (LayoutInflater)this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.prendas = prendas;
+        BusHolder.getInstance().register(this);
     }
 
     @Override
@@ -69,6 +78,49 @@ public class PagerDetalleAdapter extends PagerAdapter {
         holder.check = (CheckBox) itemView.findViewById(R.id.check);
         holder.corazon = (ToggleButton) itemView.findViewById(R.id.corazon_prenda);
 
+        holder.detalle = (Button) itemView.findViewById(R.id.btn_detalle);
+        Spannable buttonLabel = new SpannableString("   Detalles");
+        buttonLabel.setSpan(new ImageSpan(context, R.drawable.lentes_icon,
+                ImageSpan.ALIGN_BASELINE), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        holder.detalle.setText(buttonLabel);
+
+        frameBtnInfo = (RelativeLayout) itemView.findViewById(R.id.frame_btn_info);
+        btnInfo = (Button) itemView.findViewById(R.id.btn_info);
+        Spannable buttonLabel2 = new SpannableString("   Detalles");
+        ImageSpan imageSpan= new ImageSpan(context, R.drawable.lentes_icon,
+                ImageSpan.ALIGN_BASELINE);
+
+        buttonLabel2.setSpan(new ImageSpan(context, R.drawable.lentes_icon,
+                ImageSpan.ALIGN_BASELINE), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        btnInfo.setText(buttonLabel2);
+        btnInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("codever:", prenda.getCod_prenda());
+                Intent intent = new Intent(context,DetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("codigoPrenda", prenda.getCod_prenda());
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+            }
+        });
+
+        BtnDetailVisible btnDetail;
+        if (prenda.getInd_exhibicion()==1){
+            btnDetail=new BtnDetailVisible(false);
+            holder.precio.setVisibility(View.GONE);
+            holder.detalle.setVisibility(View.VISIBLE);
+            btnInfo.setVisibility(View.GONE);
+            frameBtnInfo.setVisibility(View.GONE);
+        }else{
+            btnDetail=new BtnDetailVisible(true);
+            holder.precio.setVisibility(View.VISIBLE);
+            holder.detalle.setVisibility(View.GONE);
+            btnInfo.setVisibility(View.VISIBLE);
+            frameBtnInfo.setVisibility(View.VISIBLE);
+        }
+        BusHolder.getInstance().post(btnDetail);
+
         holder.contado.setText(prenda.getNumGusta());
         boolean checked = prenda.getIndProbador().equals("1");
         holder.corazon.setChecked(checked);
@@ -79,6 +131,7 @@ public class PagerDetalleAdapter extends PagerAdapter {
 
 
         //Log.e("fragmento",this.context.getApplicationContext().);
+
         if(prenda.getPrecio() == null){
             holder.precio.setText("");
         }else{
@@ -88,7 +141,7 @@ public class PagerDetalleAdapter extends PagerAdapter {
         holder.marca.setTypeface(Util_Fonts.setBold(context));
         holder.precio.setTypeface(Util_Fonts.setRegular(context));
         holder.modelo.setTypeface(Util_Fonts.setRegular(context));
-        holder.contado.setTypeface(Util_Fonts.setRegular(context));
+        holder.contado.setTypeface(Util_Fonts.setLatoRegular(context));
 
         holder.imagen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,5 +222,9 @@ public class PagerDetalleAdapter extends PagerAdapter {
         public ImageView imagen;
         public CheckBox check;
         public ToggleButton corazon;
+        public Button detalle;
     }
+    public class BtnDetailVisible{
+        public boolean visible;
+        public BtnDetailVisible(boolean v){visible=v;}}
 }

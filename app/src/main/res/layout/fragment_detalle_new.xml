@@ -48,21 +48,6 @@
         </RelativeLayout>
 
     </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="90dp">
-        <Button
-            android:textAllCaps="false"
-            android:shadowColor="@color/azul_glup"
-            android:background="@drawable/button_selector"
-            android:textColor="@color/celeste_glup"
-            android:id="@+id/btn_info"
-            android:text="Detalles"
-            android:layout_width="220dp"
-            android:layout_height="30dp"
-            android:gravity="center"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
-    </RelativeLayout>
+
 
 </LinearLayout>

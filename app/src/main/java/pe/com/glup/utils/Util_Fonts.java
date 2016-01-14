@@ -18,4 +18,11 @@ public class Util_Fonts {
     public static Typeface setLatoRegular(Context paramContext){
         return Typeface.createFromAsset(paramContext.getAssets(),"fonts/LatoRegular.ttf");
     }
+    public static Typeface setLatoBold(Context paramContext){
+        return Typeface.createFromAsset(paramContext.getAssets(),"fonts/LatoBold.ttf");
+    }
+    public static Typeface setLatoLight(Context paramContext){
+        return Typeface.createFromAsset(paramContext.getAssets(),"fonts/LatoLight.ttf");
+    }
+
 }

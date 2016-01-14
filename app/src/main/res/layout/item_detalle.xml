@@ -88,8 +88,8 @@
 
                     <ToggleButton
                         android:id="@+id/corazon_prenda"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginBottom="3dp"
                         android:layout_marginLeft="3dp"
@@ -99,11 +99,13 @@
                         android:textOn="" />
 
                     <TextView
+                        android:textColor="@color/rojo_glup"
                         android:id="@+id/contador_corazon"
                         android:layout_width="wrap_content"
                         android:layout_height="35dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="3dp"
+                        android:layout_marginBottom="3dp"
                         android:gravity="center"
                         android:padding="5dp"
                         android:text="3"
@@ -111,6 +113,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/precio_prenda"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -119,13 +122,46 @@
                     android:layout_marginRight="5dp"
                     android:text="S/. 150"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
-
+                <Button
+                    android:visibility="gone"
+                    android:id="@+id/btn_detalle"
+                    android:padding="6dp"
+                    android:drawablePadding="6dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:textAllCaps="false"
+                    android:textColor="@color/celeste_glup"
+                    android:background="@drawable/button_selector"
+                    android:text="Detalles"
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="right|bottom"/>
             </FrameLayout>
 
         </LinearLayout>
 
 
     </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/frame_btn_info"
+        android:layout_width="match_parent"
+        android:layout_height="90dp">
+        <Button
+            android:layout_marginTop="30dp"
+            android:padding="6dp"
+            android:drawablePadding="6dp"
+            android:textAllCaps="false"
+            android:shadowColor="@color/azul_glup"
+            android:background="@drawable/button_selector"
+            android:textColor="@color/celeste_glup"
+            android:id="@+id/btn_info"
+            android:text="Detalles"
+            android:layout_width="180dp"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
 </LinearLayout>
 
 

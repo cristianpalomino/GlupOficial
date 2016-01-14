@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +17,7 @@ import android.widget.ToggleButton;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
+import java.util.zip.GZIPOutputStream;
 
 import pe.com.glup.R;
 import pe.com.glup.adapters.PagerDetalleAdapter;
@@ -40,7 +44,6 @@ public class DetalleNew  extends Glup implements
     private ImageView atras;
     private ToggleButton info;
     private RelativeLayout frameInfo;
-    private Button btnInfo;
     private int numPag;
     private static String TAG;
     private DSCatalogo dsCatalogo;
@@ -59,8 +62,8 @@ public class DetalleNew  extends Glup implements
         pagerDetalle = (ViewPager) findViewById(R.id.scroll_detalle);
         atras = (ImageView) findViewById(R.id.cerrar_detalle);
         info = (ToggleButton) findViewById(R.id.info_detalle);
-        btnInfo = (Button) findViewById(R.id.btn_info);
         frameInfo = (RelativeLayout) findViewById(R.id.frame_info_detalle);
+
 
         TAG=getIntent().getStringExtra("buscar");
         Log.e("TAGdetalle",TAG);
@@ -70,7 +73,6 @@ public class DetalleNew  extends Glup implements
 
         atras.setOnClickListener(this);
         info.setOnClickListener(this);
-        btnInfo.setOnClickListener(this);
         frameInfo.setOnClickListener(this);
 
         //pagerDetalle.setOnPageChangeListener(this);
@@ -98,8 +100,7 @@ public class DetalleNew  extends Glup implements
         if (v.getId() == R.id.cerrar_detalle){
             onBackPressed();
             //this.onBackPressed();
-        } else if (v.getId()==R.id.frame_info_detalle || v.getId() == R.id.info_detalle ||
-                v.getId() == R.id.btn_info ){
+        } else if (v.getId()==R.id.frame_info_detalle || v.getId() == R.id.info_detalle ){
             info.setChecked(false);
             Log.e("codever:", prendas.get(pagerDetalle.getCurrentItem()).getCod_prenda());
             Intent intent = new Intent(this,DetailActivity.class);
@@ -235,6 +236,7 @@ public class DetalleNew  extends Glup implements
         }
         this.finish();
     }
+
 
 
 }
