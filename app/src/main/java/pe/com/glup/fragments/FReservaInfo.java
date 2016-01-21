@@ -144,10 +144,10 @@ public class FReservaInfo extends Fragment implements View.OnClickListener{
                     contReservas++;
                 }
             }
-
+            //reservaAdapter = new ReservaListAdapter(context,reservas,this.getTag());
+            //listView.setAdapter(reservaAdapter);
             reservaAdapter.notifyDataSetChanged();
-
-
+            Log.e("cantReservas",contReservas+"");
 
             if (contReservas==0){
                 cantReserva.setVisibility(View.GONE);

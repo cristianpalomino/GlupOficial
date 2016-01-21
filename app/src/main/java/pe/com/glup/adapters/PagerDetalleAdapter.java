@@ -24,6 +24,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import pe.com.glup.R;
+import pe.com.glup.glup.Vista3d;
 import pe.com.glup.models.Prenda;
 import pe.com.glup.managers.bus.BusHolder;
 import pe.com.glup.network.DSProbador;
@@ -83,6 +84,17 @@ public class PagerDetalleAdapter extends PagerAdapter {
         buttonLabel.setSpan(new ImageSpan(context, R.drawable.lentes_icon,
                 ImageSpan.ALIGN_BASELINE), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.detalle.setText(buttonLabel);
+        holder.detalle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("codever:", prenda.getCod_prenda());
+                Intent intent = new Intent(context,DetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("codigoPrenda", prenda.getCod_prenda());
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+            }
+        });
 
         frameBtnInfo = (RelativeLayout) itemView.findViewById(R.id.frame_btn_info);
         btnInfo = (Button) itemView.findViewById(R.id.btn_info);
@@ -146,11 +158,14 @@ public class PagerDetalleAdapter extends PagerAdapter {
         holder.imagen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("code:",prenda.getCod_prenda());
+                /*Log.e("code:",prenda.getCod_prenda());
                 Intent intent = new Intent(context,DetailActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("codigoPrenda", prenda.getCod_prenda());
                 intent.putExtras(bundle);
+                context.startActivity(intent);*/
+                Intent intent= new Intent(context, Vista3d.class);
+                intent.putExtra("codigoPrenda",prendas.get(position).getCod_prenda());
                 context.startActivity(intent);
             }
         });
