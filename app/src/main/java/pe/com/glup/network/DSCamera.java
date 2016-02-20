@@ -59,7 +59,7 @@ public class DSCamera {
 				ResponseGenerateCodePrenda responseGenerateCodePrenda = gson.fromJson(response.toString(),
 						ResponseGenerateCodePrenda.class);
 				BusHolder.getInstance().post(responseGenerateCodePrenda);
-				Utils.showMessage(context, "Observe el progreso de la carga de su Prenda a Glup en la barra de notificaciones");
+				//Utils.showMessage(context, "Observe el progreso de la carga de su Prenda a Glup en la barra de notificaciones");
 			}
 
 			@Override

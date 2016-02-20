@@ -1,25 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_weight="1"
-    android:background="@android:color/transparent"
-    android:orientation="horizontal"
-    android:weightSum="5">
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha="0.7"
-        android:background="@android:color/transparent"
-        >
-
-    </FrameLayout>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/imageView2" />
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,36 +14,35 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:alpha="1"
         android:orientation="horizontal"
         android:weightSum="5">
         <FrameLayout
             android:id="@+id/frameHome"
-            android:background="@android:color/transparent"
+            android:background="@color/blanco"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1">
             <ImageView
                 android:layout_marginBottom="6dp"
-                android:background="@android:color/transparent"
+                android:background="@color/blanco"
                 android:layout_gravity="center"
                 android:id="@+id/tabhome"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="31dp"
+                android:layout_height="31dp"
                 android:src="@drawable/catalogo_off" />
             <TextView
                 android:id="@+id/txt_catalogo"
-                android:layout_marginBottom="4dp"
+                android:layout_marginBottom="7dp"
                 android:text="Catálogo"
                 android:textColor="@color/celeste_glup"
-                android:textSize="11sp"
+                android:textSize="10sp"
                 android:layout_gravity="bottom|center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </FrameLayout>
         <FrameLayout
             android:id="@+id/frameCloset"
-            android:background="@android:color/transparent"
+            android:background="@color/blanco"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1">
@@ -68,23 +50,23 @@
                 android:layout_marginBottom="6dp"
                 android:layout_gravity="center"
                 android:id="@+id/tabcloset"
-                android:layout_width="34dp"
-                android:layout_height="34dp"
-                android:background="@android:color/transparent"
+                android:layout_width="33dp"
+                android:layout_height="33dp"
+                android:background="@color/blanco"
                 android:src="@drawable/closet_off" />
             <TextView
                 android:id="@+id/txt_closet"
-                android:layout_marginBottom="4dp"
+                android:layout_marginBottom="7dp"
                 android:text="Clóset"
                 android:textColor="@color/gris_glup_nuevo"
-                android:textSize="11sp"
+                android:textSize="10sp"
                 android:layout_gravity="bottom|center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </FrameLayout>
         <FrameLayout
             android:id="@+id/frameCamara"
-            android:background="@android:color/transparent"
+            android:background="@color/blanco"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1">
@@ -92,23 +74,23 @@
                 android:layout_marginBottom="6dp"
                 android:layout_gravity="center"
                 android:id="@+id/tabcamera"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@android:color/transparent"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:background="@color/blanco"
                 android:src="@drawable/camara_off" />
             <TextView
                 android:id="@+id/txt_camara"
-                android:layout_marginBottom="4dp"
+                android:layout_marginBottom="7dp"
                 android:text="Cámara"
                 android:textColor="@color/gris_glup_nuevo"
-                android:textSize="11sp"
+                android:textSize="10sp"
                 android:layout_gravity="bottom|center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </FrameLayout>
         <FrameLayout
             android:id="@+id/frameProbador"
-            android:background="@android:color/transparent"
+            android:background="@color/blanco"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1">
@@ -116,23 +98,23 @@
                 android:layout_marginBottom="6dp"
                 android:layout_gravity="center"
                 android:id="@+id/tabprobador"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@android:color/transparent"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:background="@color/blanco"
                 android:src="@drawable/probador_off" />
             <TextView
                 android:id="@+id/txt_probador"
-                android:layout_marginBottom="4dp"
+                android:layout_marginBottom="7dp"
                 android:text="Probador"
                 android:textColor="@color/gris_glup_nuevo"
-                android:textSize="11sp"
+                android:textSize="10sp"
                 android:layout_gravity="bottom|center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </FrameLayout>
         <FrameLayout
             android:id="@+id/frameReserva"
-            android:background="@android:color/transparent"
+            android:background="@color/blanco"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1">
@@ -140,16 +122,16 @@
                 android:layout_marginBottom="6dp"
                 android:layout_gravity="center"
                 android:id="@+id/tabreserva"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@android:color/transparent"
-                android:src="@drawable/reserva_off" />
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:background="@color/blanco"
+                android:src="@drawable/reservafoo_off" />
             <TextView
                 android:id="@+id/txt_reserva"
-                android:layout_marginBottom="4dp"
+                android:layout_marginBottom="7dp"
                 android:text="Reserva"
                 android:textColor="@color/gris_glup_nuevo"
-                android:textSize="11sp"
+                android:textSize="10sp"
                 android:layout_gravity="bottom|center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -158,4 +140,4 @@
     </LinearLayout>
 
 
-</FrameLayout>
+</LinearLayout>

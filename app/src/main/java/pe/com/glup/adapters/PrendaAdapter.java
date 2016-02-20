@@ -111,8 +111,12 @@ public class PrendaAdapter extends BaseAdapter implements View.OnLongClickListen
         //Log.e("fragmento",this.context.getApplicationContext().);
 
 
-        holder.marca.setTypeface(Util_Fonts.setBold(context));
-        holder.modelo.setTypeface(Util_Fonts.setRegular(context));
+        holder.marca.setTypeface(Util_Fonts.setLatoBold(context));
+        holder.marca.setAllCaps(true);
+        holder.modelo.setTypeface(Util_Fonts.setLatoLight(context));        holder.precio.setTypeface(Util_Fonts.setLatoRegular(context));
+        holder.contado.setTypeface(Util_Fonts.setLatoRegular(context));
+
+
 
 
 

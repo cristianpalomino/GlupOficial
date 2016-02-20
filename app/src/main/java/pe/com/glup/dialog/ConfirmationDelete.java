@@ -14,14 +14,14 @@ import android.util.Log;
 import pe.com.glup.R;
 import pe.com.glup.network.DSReserva;
 
-public class ConfirmationDeleteReserva extends DialogFragment {
+public class ConfirmationDelete extends DialogFragment {
     private Context context;
-    private String codPrenda;
+    private String codPrendaOTicket;
     private String tagFragment;
 
-    public ConfirmationDeleteReserva(Context context,String codPrenda, String tagFragment){
+    public ConfirmationDelete(Context context, String codPrendaOTicket, String tagFragment){
         this.context=context;
-        this.codPrenda=codPrenda;
+        this.codPrendaOTicket=codPrendaOTicket;
         this.tagFragment=tagFragment;
     }
     @Override
@@ -30,14 +30,25 @@ public class ConfirmationDeleteReserva extends DialogFragment {
         AlertDialog.Builder builder =
                 new AlertDialog.Builder(getActivity(), R.style.DeleteReservaDialogTheme);
 
+        String titulo;
+        if (tagFragment.equals("FReservaTicket")){
+            titulo="¿Confirma eliminar el ticket seleccionado?";
+        }else{
+            titulo="¿Confirma eliminar la reserva seleccionada?";
+        }
 
-        builder.setMessage("¿Confirma eliminar la reserva seleccionada?")
-                .setTitle("Confirmacion")
+        builder.setMessage(titulo)
+                .setTitle("Confirmación")
                 .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Log.i("Dialogos", "Confirmacion Aceptada.");
                         DSReserva dsReserva= new DSReserva(context);
-                        dsReserva.eliminarDeReserva(codPrenda);
+                        if (tagFragment.equals("FReservaTicket")){
+                            dsReserva.eliminarTicket(codPrendaOTicket);
+                        }else{
+                            dsReserva.eliminarDeReserva(codPrendaOTicket);
+                        }
+
                         //dsReserva.listarReserva();
 
 

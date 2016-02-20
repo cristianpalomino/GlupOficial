@@ -48,6 +48,8 @@
     <string name="btn_recovery_pass">¿Olvidastes tu contraseña?</string>
     <string name="btn_recovery_pass_pressed"><u>¿Olvidastes tu contraseña?</u></string>
 
+    <string name="text_help_toma_foto">Encaja la prenda en el marco</string>
+
 
 
 </resources>

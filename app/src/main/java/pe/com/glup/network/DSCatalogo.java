@@ -69,6 +69,7 @@ public class DSCatalogo {
 
                 Catalogo catalogo = gson.fromJson(response.toString(), Catalogo.class);
                 prendas = catalogo.getPrendas();
+                //Log.e("url",prendas.get(0).getImagen());
                 //Log.e("indExhibicion",prendas.get(0).getInd_exhibicion()+"");
                 //for (Prenda p:prendas){
                     //Log.e(null,p.toString());
@@ -143,8 +144,8 @@ public class DSCatalogo {
                 try {
                     String miPathTexture=miDownload.execute().get();
                     inputRenderer.timeTextura=miPathTexture.substring(miPathTexture.lastIndexOf(":")+1,miPathTexture.length());
-
                     inputRenderer.pathTexture=miPathTexture.substring(0,miPathTexture.lastIndexOf(":"));
+
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
@@ -190,7 +191,7 @@ public class DSCatalogo {
         }
         @Override
         protected String doInBackground(Void... params) {
-            ImageManager imageManager= new ImageManager();
+            ImageManager imageManager= new ImageManager(context);
             String filename;
             if (isTextura){
                 filename=url.substring(url.lastIndexOf("/") + 1, url.length());

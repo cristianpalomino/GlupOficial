@@ -94,6 +94,10 @@ public class PrendaAdapter2 extends BaseAdapter implements View.OnLongClickListe
         }else{
             holder.precio.setVisibility(View.VISIBLE);
         }
+        holder.marca.setTypeface(Util_Fonts.setLatoBold(context));
+        holder.marca.setAllCaps(true);
+        holder.modelo.setTypeface(Util_Fonts.setLatoLight(context));
+
 
         holder.contado.setText(prenda.getNumGusta());
         //notifyDataSetChanged();
@@ -117,12 +121,19 @@ public class PrendaAdapter2 extends BaseAdapter implements View.OnLongClickListe
         if(prenda.getPrecio() == null){
             holder.precio.setText("");
         }else{
-            holder.precio.setText("S/." + prenda.getPrecio());
+            float costo=Float.parseFloat(prenda.getPrecio());
+            int parteEntera=(int)costo;
+            float parteDecimal=costo-parteEntera;
+            if (parteDecimal>0){
+                holder.precio.setText("S/ " + prenda.getPrecio());
+            }else{
+                holder.precio.setText("S/ " + parteEntera);
+
+            }
+
         }
 
-        holder.marca.setTypeface(Util_Fonts.setBold(context));
-        holder.precio.setTypeface(Util_Fonts.setRegular(context));
-        holder.modelo.setTypeface(Util_Fonts.setRegular(context));
+        holder.precio.setTypeface(Util_Fonts.setLatoRegular(context));
         holder.contado.setTypeface(Util_Fonts.setLatoRegular(context));
 
 

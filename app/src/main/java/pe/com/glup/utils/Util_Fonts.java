@@ -25,4 +25,5 @@ public class Util_Fonts {
         return Typeface.createFromAsset(paramContext.getAssets(),"fonts/LatoLight.ttf");
     }
 
+
 }

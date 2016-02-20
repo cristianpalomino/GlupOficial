@@ -65,6 +65,38 @@ public class DSReserva {
         });
     }
 
+    public void eliminarTicket(final String codTicket){
+        String URL=WSGlup.ORQUESTADOR_NUEVO;
+
+        RequestParams params = new RequestParams();
+        params.put("codigo_venta",codTicket);
+        params.put("codigo_usuario",new Session_Manager(context).getCurrentUserCode());
+        params.put("tag", "eliminarTicketReserva");
+
+        AsyncHttpClient httpClient = new AsyncHttpClient();
+        httpClient.post(context, URL, params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+
+                Gson gson = new Gson();
+
+                try {
+                    Log.e("dsReserva", response.getInt("success") + " Se elimino ticket " + codTicket);
+                    if (response.getInt("success") == 1) {
+                        ResponseReload responseReload = new ResponseReload();
+                        responseReload.fragment = ((Glup) context).getSupportFragmentManager().findFragmentByTag("FReservaTicket");
+                        Log.e("fragment", responseReload.fragment.getClass().getSimpleName());
+                        BusHolder.getInstance().post(responseReload);
+                    }
+                } catch (JSONException e) {
+                    Log.e("dsReserva", e.toString());
+                }
+            }
+        });
+
+    }
+
     public void sendEmail(){
         String URL=WSGlup.ORQUESTADOR_NUEVO;
 

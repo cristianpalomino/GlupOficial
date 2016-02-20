@@ -2,6 +2,8 @@ package pe.com.glup.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,9 +14,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsoluteLayout;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -23,6 +29,9 @@ import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.net.URI;
+import java.util.IllegalFormatCodePointException;
+
 import android.os.Handler;
 
 import pe.com.glup.R;
@@ -51,12 +60,12 @@ public class FCamera extends Fragment implements View.OnClickListener {
 	private TextView title;
 
 	private ToggleButton take;
-	private ImageView atrasCamara;
+	private ImageView atrasCamara,atrasCamara2;
 	private ToggleButton refresh;
 	private ImageButton next;
 
-	private ImageView imagea;
-	private ImageView imageb;
+	private ImageView imagea,cruzGuia;
+	private ImageView imageb,previewPhoto,imgHelpPhoto,imgHelpPhoto2;
 	//private ImageView flashAutomatic;
 	private Context context;
 	private String codPrenda;
@@ -64,13 +73,18 @@ public class FCamera extends Fragment implements View.OnClickListener {
 	private String filtro;
 
 	private ToggleButton flash,grilla;
-	private ImageView superior,medio,iconPreview;
-	private TextView tvSuperior,tvMedio,tvIconPreview;
+	private ImageView superior,medio,iconPreview,checkListo,checkCancelar,previewFrontal,previewPosterior;
+	private TextView tvSuperior,tvMedio,tvIconPreview,txtHelpPhoto,txtPie;
 
 	private int contador = 1;
-	private boolean gridActivate;
-	private RelativeLayout selectPrenda,contentCamera;
-	
+	private boolean gridActivate,selectTipoPrenda;
+	private RelativeLayout selectPrenda,contentCamera,frameMsj,frameMsjFinal,frameOptions,frameListo,frameCancelar,frameEnviarPrenda;
+	private Button enviarPrenda;
+	private TextView txtListo;
+	private RadioButton optionContinue,optionToCatalogo;
+	private int sizeHelpPhoto,posXGuia,posYGuia;
+
+
 	public static FCamera newInstance() {
 		FCamera fragment = new FCamera();
 		Bundle args = new Bundle();
@@ -87,15 +101,19 @@ public class FCamera extends Fragment implements View.OnClickListener {
 	public void onActivityCreated(Bundle savedInstance){
 		super.onActivityCreated(savedInstance);
 		BusHolder.getInstance().register(this);
+		selectTipoPrenda=false;
 		context=getActivity();
 
 		codPrenda="";
-		filtro="superior";
+		//filtro="superior";
 		gridActivate=false;
 		initUI();
 	}
 
 	private void initUI() {
+
+		getView().findViewById(R.id.frameHelpPhoto).bringToFront();
+		getView().findViewById(R.id.frame_select_superior).setEnabled(false);
 		/**
 		 * Imagenes
 		 */
@@ -103,8 +121,25 @@ public class FCamera extends Fragment implements View.OnClickListener {
 		tvMedio = (TextView) getView().findViewById(R.id.text_medio);
 		tvIconPreview = (TextView) getView().findViewById(R.id.text_icon_preview);
 
+		txtHelpPhoto=(TextView)getView().findViewById(R.id.txtHelpPhoto);
+		imgHelpPhoto=(ImageView)getView().findViewById(R.id.imgHelpPhoto);
+		imgHelpPhoto.setImageResource(R.drawable.superior_help_a);
+		imgHelpPhoto2=(ImageView)getView().findViewById(R.id.imgHelpPhoto2);
+        cruzGuia = (ImageView)getView().findViewById(R.id.imgGuia);
+
+
+
 		imagea = (ImageView) getView().findViewById(R.id.imagea);
 		imageb = (ImageView) getView().findViewById(R.id.imageb);
+		frameListo= (RelativeLayout)getView().findViewById(R.id.frameOk);
+		frameCancelar=(RelativeLayout)getView().findViewById(R.id.frameCancel);
+		previewPhoto=(ImageView)getView().findViewById(R.id.previewPhotoImage);
+		txtPie=(TextView)getView().findViewById(R.id.txtPie);
+		frameEnviarPrenda=(RelativeLayout)getView().findViewById(R.id.frameEnviarPrenda);
+		previewFrontal=(ImageView)getView().findViewById(R.id.previewFrontal);
+		previewPosterior=(ImageView)getView().findViewById(R.id.previewPosterior);
+		frameMsjFinal=(RelativeLayout)getView().findViewById(R.id.frameMsjFinal);
+
 		next = (ImageButton) getView().findViewById(R.id.next);
 		take = (ToggleButton) getView().findViewById(R.id.take);
 		//flashAutomatic = (ImageView) getView().findViewById(R.id.flash_automatico);
@@ -115,6 +150,7 @@ public class FCamera extends Fragment implements View.OnClickListener {
 		medio = (ImageView) getView().findViewById(R.id.medio);
 		iconPreview = (ImageView) getView().findViewById(R.id.icon_preview);
 		atrasCamara = (ImageView) getView().findViewById(R.id.atras_camara);
+		atrasCamara2 = (ImageView)getView().findViewById(R.id.atras_camara2);
 
 		/*
 		atrasCamara.setEnabled(false);
@@ -126,6 +162,7 @@ public class FCamera extends Fragment implements View.OnClickListener {
 */
 
 		atrasCamara.setOnClickListener(this);
+		atrasCamara2.setOnClickListener(this);
 
 		selectPrenda=(RelativeLayout)getView().findViewById(R.id.select_prenda);
 		TextView textTitulo,textSuperior,textMedio;
@@ -150,10 +187,36 @@ public class FCamera extends Fragment implements View.OnClickListener {
 				next.setEnabled(false);
 				refresh.setEnabled(false);
 				superior.setVisibility(View.VISIBLE);
-				tvSuperior.setVisibility(View.VISIBLE);
+				//tvSuperior.setVisibility(View.VISIBLE);
 				medio.setVisibility(View.GONE);
-				tvMedio.setVisibility(View.GONE);
-				filtro="superior";
+				//tvMedio.setVisibility(View.GONE);
+				filtro = "superior";
+				selectTipoPrenda=true;
+                //txtHelpPhoto.setText(R.string.text_help_toma_foto);
+
+
+                Bitmap iconHelp=BitmapFactory.decodeResource(getResources(),R.drawable.superior_frontal);
+				Bitmap resizeIconHelp=Bitmap.createScaledBitmap(iconHelp, sizeHelpPhoto, sizeHelpPhoto, true);
+				imgHelpPhoto2.setImageBitmap(resizeIconHelp);
+
+                final RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)cruzGuia.getLayoutParams();
+                params.setMargins(posXGuia, posYGuia, 0, 0);
+                cruzGuia.setLayoutParams(params);
+
+				Handler handler3 = new Handler(Looper.getMainLooper());
+				handler3.postDelayed(new Runnable() {
+					@Override
+					public void run() {
+                        imgHelpPhoto2.animate().alpha(0.0f).setDuration(2000);
+						//imgHelpPhoto2.setVisibility(View.GONE);
+
+                        cruzGuia.setVisibility(View.VISIBLE);
+						//((RelativeLayout)getView().findViewById(R.id.afterHeader)).addView(cruzGuia);
+						//surface.setCruzActivate(true);
+						Log.e("surfacet2", surface.willNotDraw() + " tamaño:"+params.width+" "+params.height+" pos:"+posXGuia+" "+posYGuia);
+					}
+				}, 3000);
+
 			}
 		});
 		getView().findViewById(R.id.frame_select_medio).setOnClickListener(new View.OnClickListener() {
@@ -166,17 +229,133 @@ public class FCamera extends Fragment implements View.OnClickListener {
 				next.setEnabled(false);
 				refresh.setEnabled(false);
 				medio.setVisibility(View.VISIBLE);
-				tvMedio.setVisibility(View.VISIBLE);
+				//tvMedio.setVisibility(View.VISIBLE);
 				superior.setVisibility(View.GONE);
-				tvSuperior.setVisibility(View.GONE);
-				filtro="medio";
+				//tvSuperior.setVisibility(View.GONE);
+				filtro = "medio";
+				selectTipoPrenda=true;
+                /*txtHelpPhoto.setText("Encaja la prenda en el marco");
+                final RelativeLayout.LayoutParams params2 = (RelativeLayout.LayoutParams)txtHelpPhoto.getLayoutParams();
+                params2.setMargins(posXGuia, 2*posYGuia, 0, 0);
+                txtHelpPhoto.setLayoutParams(params2);*/
+
+
+                Bitmap iconHelp=BitmapFactory.decodeResource(getResources(),R.drawable.medio_frontal);
+				Bitmap resizeIconHelp=Bitmap.createScaledBitmap(iconHelp, sizeHelpPhoto, sizeHelpPhoto, true);
+				imgHelpPhoto2.setImageBitmap(resizeIconHelp);
+
+                final RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)cruzGuia.getLayoutParams();
+                params.setMargins(posXGuia, posYGuia, 0, 0);
+                cruzGuia.setLayoutParams(params);
+
+				Handler handler4 = new Handler(Looper.getMainLooper());
+				handler4.postDelayed(new Runnable() {
+					@Override
+					public void run() {
+                        imgHelpPhoto2.animate().alpha(0.0f).setDuration(2000);
+						//imgHelpPhoto2.setVisibility(View.GONE);
+
+                        cruzGuia.setVisibility(View.VISIBLE);
+                        //surface.setCruzActivate(true);
+						Log.e("surfacet2", surface.willNotDraw() + "");
+					}
+				}, 3000);
 			}
 		});
 
+		frameMsj=(RelativeLayout)getView().findViewById(R.id.frameMsj);
+		//txtListo=(TextView)getView().findViewById(R.id.txtListo);
+		//frameOptions=(RelativeLayout)getView().findViewById(R.id.frameOptions);
 
-		Log.e("superior",getRelativeTop(superior)+"dp en pixeles "+(int)convertDpToPixel(getRelativeTop(superior),context));
+		optionContinue=(RadioButton)getView().findViewById(R.id.opcionContinuar);
+		optionToCatalogo=(RadioButton)getView().findViewById(R.id.opcionPasarCatalogo);
+
+		//frameMsj.setVisibility(View.GONE);
+		enviarPrenda=(Button)getView().findViewById(R.id.btnEnviarPrenda);
+		enviarPrenda.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				DSCamera dsCamera = new DSCamera(context);
+				dsCamera.generarCodePrenda();
+				//txtListo.setText("Estamos procesando tu prenda,deseas cargar una nueva?");
+
+				//frameOptions.setVisibility(View.VISIBLE);
+				//enviarPrenda.setVisibility(View.GONE);
+				frameEnviarPrenda.setVisibility(View.GONE);
+				frameMsjFinal.setVisibility(View.VISIBLE);
+				frameMsjFinal.bringToFront();
+				//refresh.performClick();
+
+				contador = 1;
+				//  tittle.setText("Glup " + contador);
+				imagea.setVisibility(View.GONE);
+				imageb.setVisibility(View.GONE);
+				next.setEnabled(false);
+				take.setEnabled(true);
+				take.setChecked(false);
+				iconPreview.setVisibility(View.VISIBLE);
+				tvIconPreview.setVisibility(View.VISIBLE);
+				title.setText("TOMA FRONTAL");
+				refresh.setChecked(false);
+				refresh.setEnabled(false);
+				Log.e("fotoA", iconPreview.getVisibility() + "");
+
+				final Handler handler = new Handler(Looper.getMainLooper());
+				handler.postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						frameMsjFinal.setVisibility(View.GONE);
+                        cruzGuia.setVisibility(View.VISIBLE);
+					}
+				}, 3000);
+			}
+		});
+		optionContinue.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				final Handler handler = new Handler(Looper.getMainLooper());
+				handler.postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						frameMsj.setVisibility(View.GONE);
+						optionContinue.setChecked(false);
+					}
+				}, 1500);
+
+			}
+		});
+		optionToCatalogo.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				final Handler handler = new Handler(Looper.getMainLooper());
+				handler.postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						frameMsj.setVisibility(View.GONE);
+						optionToCatalogo.setChecked(false);
+						((Principal) context).onBackPressed();
+					}
+				}, 1500);
+
+			}
+		});
+
+		Log.e("superior", getRelativeTop(superior) + "dp en pixeles " + (int) convertDpToPixel(getRelativeTop(superior), context));
 		surface = new CameraSurface(context,(int)convertDpToPixel(getRelativeTop(superior),context));
+
 		isFlash = new Flash();
+
+
+		Log.e("surfacet1", surface.willNotDraw() + " " + surface.getSizeHelpImages());
+		/*if (!surface.willNotDraw()){
+			Bitmap iconHelp=BitmapFactory.decodeResource(getResources(),R.drawable.superior_frontal);
+			Bitmap resizeIconHelp=Bitmap.createScaledBitmap(iconHelp, surface.getSizeHelpImages(), surface.getSizeHelpImages(), true);
+			imgHelpPhoto2.setImageBitmap(resizeIconHelp);
+		}*/
+
+
+
+
 
 		/*flashAutomatic.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -253,16 +432,19 @@ public class FCamera extends Fragment implements View.OnClickListener {
 				refresh.setEnabled(false);
 				Handler handler = new Handler(Looper.getMainLooper());
 				handler.postDelayed(new Runnable() {
-					@Override
-					public void run() {
-						refresh.setChecked(false);
-						//refresh.invalidate();
-					}
-				}, 1200);
+                    @Override
+                    public void run() {
+                        refresh.setChecked(false);
+                        //refresh.invalidate();
+                    }
+                }, 1200);
 
 				iconPreview.setVisibility(View.VISIBLE);
 				tvIconPreview.setVisibility(View.VISIBLE);
-				title.setText("Lado Frontal");
+				title.setText("TOMA FRONTAL");
+				imgHelpPhoto.setImageResource(R.drawable.superior_help_a);
+				//txtHelpPhoto.setText(R.string.text_help_toma_foto);
+
 			}
 		});
 
@@ -299,7 +481,64 @@ public class FCamera extends Fragment implements View.OnClickListener {
 			}
 		});
 
+		frameListo.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				frameMsj.setVisibility(View.GONE);
+                cruzGuia.setVisibility(View.GONE);
+				if(contador==1){
+					frameEnviarPrenda.setVisibility(View.VISIBLE);
+					frameEnviarPrenda.bringToFront();
+				}else{
+					Bitmap iconHelpB;
+					if (filtro.equals("superior")){
+						iconHelpB=BitmapFactory.decodeResource(getResources(),R.drawable.superior_posterior);
+					}else {
+						iconHelpB=BitmapFactory.decodeResource(getResources(),R.drawable.medio_posterior);
+					}
+					Bitmap resizeIconHelp=Bitmap.createScaledBitmap(iconHelpB, sizeHelpPhoto, sizeHelpPhoto, true);
+					imgHelpPhoto2.setImageBitmap(resizeIconHelp);
+                    imgHelpPhoto2.animate().alpha(1.0f);
+					//imgHelpPhoto2.setVisibility(View.VISIBLE);
+					Handler handler5 = new Handler(Looper.getMainLooper());
+					handler5.postDelayed(new Runnable() {
+						@Override
+						public void run() {
+                            imgHelpPhoto2.animate().alpha(0.0f).setDuration(2000);
+                            //imgHelpPhoto2.setVisibility(View.GONE);
+                            cruzGuia.setVisibility(View.VISIBLE);
+                            //surface.setCruzActivate(true);
+						}
+					}, 3000);
+				}
+			}
+		});
+		frameCancelar.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (contador==2){
+					imageb.setVisibility(View.GONE);
+					contador=1;
+					iconPreview.setVisibility(View.VISIBLE);
+					tvIconPreview.setVisibility(View.VISIBLE);
+					imgHelpPhoto.setImageResource(R.drawable.superior_help_a);
+					//txtHelpPhoto.setText(R.string.text_help_toma_foto);
+                    title.setText("TOMA FRONTAL");
+				} else if (contador==1){
+					imagea.setVisibility(View.GONE);
+					iconPreview.setVisibility(View.GONE);
+					tvIconPreview.setVisibility(View.GONE);
+					imgHelpPhoto.setImageResource(R.drawable.superior_help_b);
+					//txtHelpPhoto.setText(R.string.text_help_toma_foto);
+					take.setEnabled(true);
+					take.setChecked(false);
+					contador=2;
+                    title.setText("TOMA POSTERIOR");
+				}
 
+				frameMsj.setVisibility(View.GONE);
+			}
+		});
 	}
 
 	@Override
@@ -311,9 +550,9 @@ public class FCamera extends Fragment implements View.OnClickListener {
 		flash.setChecked(false);
 		filtro="superior";
 		medio.setVisibility(View.GONE);
-		tvMedio.setVisibility(View.GONE);
+		//tvMedio.setVisibility(View.GONE);
 		superior.setVisibility(View.VISIBLE);
-		tvSuperior.setVisibility(View.VISIBLE);
+		//tvSuperior.setVisibility(View.VISIBLE);
 	}
 
 	@Override
@@ -338,9 +577,9 @@ public class FCamera extends Fragment implements View.OnClickListener {
 		flash.setChecked(false);
 		filtro="superior";
 		medio.setVisibility(View.GONE);
-		tvMedio.setVisibility(View.GONE);
+		//tvMedio.setVisibility(View.GONE);
 		superior.setVisibility(View.VISIBLE);
-		tvSuperior.setVisibility(View.VISIBLE);
+		//tvSuperior.setVisibility(View.VISIBLE);
 	}
 
 
@@ -360,21 +599,24 @@ public class FCamera extends Fragment implements View.OnClickListener {
 				startActivity(intent2);
 				break;
 			case R.id.superior:
-				filtro="medio";
+				/*filtro="medio";
 				superior.setVisibility(View.GONE);
 				tvSuperior.setVisibility(View.GONE);
 				medio.setVisibility(View.VISIBLE);
-				tvMedio.setVisibility(View.VISIBLE);
+				tvMedio.setVisibility(View.VISIBLE);*/
 				break;
 			case R.id.medio:
-				filtro="superior";
+				/*filtro="superior";
 				medio.setVisibility(View.GONE);
 				tvMedio.setVisibility(View.GONE);
 				superior.setVisibility(View.VISIBLE);
-				tvSuperior.setVisibility(View.VISIBLE);
+				tvSuperior.setVisibility(View.VISIBLE);*/
 				break;
 			case R.id.atras_camara:
-
+				contador=1;
+				((Principal)context).onBackPressed();
+				break;
+			case R.id.atras_camara2:
 				contador=1;
 				((Principal)context).onBackPressed();
 				break;
@@ -389,11 +631,18 @@ public class FCamera extends Fragment implements View.OnClickListener {
 	public void onSuccess(CameraSurface.SuccessSavePhoto successSavePhoto) {
 		Log.e(null, successSavePhoto.msg);
 		//toCanny(result);
+		final Handler handler = new Handler(Looper.getMainLooper());
 		switch (contador) {
 			case 1:
+				//frameOptions.setVisibility(View.GONE);
+				txtPie.setText("FRONTAL");
+				frameMsj.setVisibility(View.VISIBLE);
+				//txtListo.setText("Listo");
+				frameMsj.bringToFront();
+
 				iconPreview.setVisibility(View.GONE);
 				tvIconPreview.setVisibility(View.GONE);
-				Log.e("ver",iconPreview.getVisibility()+"");
+				Log.e("ver", iconPreview.getVisibility() + "");
 				contador++;
 				refresh.setEnabled(true);
 				refresh.setChecked(false);
@@ -406,12 +655,29 @@ public class FCamera extends Fragment implements View.OnClickListener {
 				imageb.setVisibility(View.VISIBLE);
 				imageb.setTag(successSavePhoto.result);
 				take.setChecked(false);
-				title.setText("Lado Posterior");
+				title.setText("TOMA POSTERIOR");
+				/*handler.postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						frameMsj.setVisibility(View.GONE);
+					}
+				}, 2000);*/
+
+				BitmapFactory.Options options = new BitmapFactory.Options();
+				options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+				Bitmap bitmap = BitmapFactory.decodeFile(imageb.getTag().toString(), options);
+				previewPhoto.setImageBitmap(bitmap);
+				previewFrontal.setImageBitmap(bitmap);
+
+				imgHelpPhoto.setImageResource(R.drawable.superior_help_b);
+				//txtHelpPhoto.setText(R.string.text_help_toma_foto);
 				break;
 			case 2:
-				title.setText("Lado Posterior");
+				txtPie.setText("POSTERIOR");
+				title.setText("TOMA POSTERIOR");
 				Picasso.with(context).load("file:" + successSavePhoto.result).fit().into(imagea);
 				Log.e("fotoB", successSavePhoto.result);
+				contador--;
 				oldImageNameB=successSavePhoto.result;
 				imagea.setBackgroundColor(Color.RED);
 				imagea.setVisibility(View.VISIBLE);
@@ -419,6 +685,21 @@ public class FCamera extends Fragment implements View.OnClickListener {
 				next.setEnabled(true);
 				take.setEnabled(false);
 				take.setChecked(true);
+				//
+				frameMsj.setVisibility(View.VISIBLE);
+				//txtListo.setText("Listo");
+				//enviarPrenda.setVisibility(View.VISIBLE);
+				frameMsj.bringToFront();
+
+				BitmapFactory.Options options1 = new BitmapFactory.Options();
+				options1.inPreferredConfig = Bitmap.Config.ARGB_8888;
+				Bitmap bitmap1 = BitmapFactory.decodeFile(imagea.getTag().toString(), options1);
+				previewPhoto.setImageBitmap(bitmap1);
+				previewPosterior.setImageBitmap(bitmap1);
+
+
+				imgHelpPhoto.setImageResource(R.drawable.superior_help_a);
+				//txtHelpPhoto.setText(R.string.text_help_toma_foto);
 				break;
 		}
 	}
@@ -450,25 +731,15 @@ public class FCamera extends Fragment implements View.OnClickListener {
 				DSCamera dsCamera = new DSCamera(context);
 				dsCamera.uploadPrenda(filtro, myDir, newImageNameA, newImageNameB, codPrenda);
 
-				contador = 1;
-				//  tittle.setText("Glup " + contador);
-				imagea.setVisibility(View.GONE);
-				imageb.setVisibility(View.GONE);
-				next.setEnabled(false);
-				take.setEnabled(true);
-				take.setChecked(false);
-				iconPreview.setVisibility(View.VISIBLE);
-				tvIconPreview.setVisibility(View.VISIBLE);
-				Log.e("fotoA",iconPreview.getVisibility()+"");
+
 			}
 		}
 	}
 	@Subscribe
 	public void getResponseUploadPrenda(DSCamera.ResponseUploadPrenda responseUploadPrenda){
 		//Utils.showMessage(context,"Listo termino su carga");
-		 title.setText("Lado Frontal");
-		 refresh.setChecked(false);
-		 refresh.setEnabled(false);
+
+
 
 	}
 
@@ -498,5 +769,16 @@ public class FCamera extends Fragment implements View.OnClickListener {
 				child.setEnabled(enable);
 			}
 		}
+	}
+
+	@Subscribe
+	public void getSizePhotosHelp(CameraSurface.SizesHelp sizesHelp){
+		Log.e("surfacet3",sizesHelp.sizeHelpImg+"");
+		sizeHelpPhoto=sizesHelp.sizeHelpImg;
+		posXGuia=sizesHelp.cruzX;
+		posYGuia=sizesHelp.cruzY;
+		getView().findViewById(R.id.frame_select_superior).setEnabled(true);
+
+
 	}
 }

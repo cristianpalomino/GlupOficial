@@ -41,13 +41,14 @@ import pe.com.glup.models.DetalleUser;
 import pe.com.glup.models.PerfilUsuario;
 import pe.com.glup.network.DSUsuarioNew;
 import pe.com.glup.utils.DatePickerFragment;
+import pe.com.glup.utils.Util_Fonts;
 import pe.com.glup.views.MessageV2;
 
 /**
  * Created by Glup on 26/11/15.
  */
 public class FClosetProfileNew extends Fragment
-    implements View.OnClickListener,TextView.OnEditorActionListener{
+    implements View.OnClickListener,TextView.OnEditorActionListener,TextView.OnFocusChangeListener{
     private CircleImageView foto;
     private TextView username;
 
@@ -84,6 +85,7 @@ public class FClosetProfileNew extends Fragment
 
         foto = (CircleImageView) getView().findViewById(R.id.photo);
         username = (TextView)getView().findViewById(R.id.username);
+        username.setTypeface(Util_Fonts.setLatoBold(getActivity()));
         foto.setOnClickListener(this);
 
         back = (ImageView) getView().findViewById(R.id.back);
@@ -119,6 +121,12 @@ public class FClosetProfileNew extends Fragment
         flagLoadProfile=true;
         DSUsuarioNew dsUsuario = new DSUsuarioNew(getActivity());
         dsUsuario.loadUsuario();
+
+        nombres.setOnFocusChangeListener(this);
+        apellidos.setOnFocusChangeListener(this);
+        cumpleanos.setOnFocusChangeListener(this);
+        correo.setOnFocusChangeListener(this);
+        telefono.setOnFocusChangeListener(this);
     }
 
     @Override
@@ -393,6 +401,15 @@ public class FClosetProfileNew extends Fragment
         if (view != null) {
             InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        if (hasFocus){
+            ((TextView)v).setTextColor(getResources().getColor(R.color.celeste_glup));
+        }else {
+            ((TextView)v).setTextColor(getResources().getColor(R.color.gris_glup_nuevo));
         }
     }
 }

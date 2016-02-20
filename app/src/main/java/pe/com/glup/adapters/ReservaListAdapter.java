@@ -15,7 +15,7 @@ import java.util.HashMap;
 
 import pe.com.glup.R;
 import pe.com.glup.models.Prenda;
-import pe.com.glup.dialog.ConfirmationDeleteReserva;
+import pe.com.glup.dialog.ConfirmationDelete;
 import pe.com.glup.dialog.ConfirmationPassDialog;
 import pe.com.glup.glup.Glup;
 
@@ -139,14 +139,44 @@ public class ReservaListAdapter extends BaseAdapter {
         }
 
         holder.tipo.setText(((Prenda) reservaItems.get(position).get("prenda")).getTipo());
-        holder.precio.setText("S/."+((Prenda) reservaItems.get(position).get("prenda")).getPrecio());
+
+        if(((Prenda) reservaItems.get(position).get("prenda")).getPrecio() == null){
+            holder.precio.setText("");
+        }else{
+            float costo=Float.parseFloat(((Prenda) reservaItems.get(position).get("prenda")).getPrecio());
+            int parteEntera=(int)costo;
+            float parteDecimal=costo-parteEntera;
+            if (parteDecimal>0){
+                holder.precio.setText("S/ " + ((Prenda) reservaItems.get(position).get("prenda")).getPrecio());
+            }else{
+                holder.precio.setText("S/ " + parteEntera);
+
+            }
+
+        }
 
         if (position==getCount()-1){
 
             holder.layoutTotal.setVisibility(View.VISIBLE);
             Log.e("calculo","total");
             //holder.total.setText("S/."+calcularTotal()); //pasar valor de calculo total fijo como reservaItems
-            holder.total.setText("S/."+reservaItems.get(position).get("total").toString());
+
+            if(reservaItems.get(position).get("total") == null){
+                holder.total.setText("");
+            }else{
+                float costo2=Float.parseFloat(reservaItems.get(position).get("total").toString());
+                int parteEntera2=(int)costo2;
+                float parteDecimal2=costo2-parteEntera2;
+                if (parteDecimal2>0){
+                    holder.total.setText("S/ " + reservaItems.get(position).get("total").toString());
+                }else{
+                    holder.total.setText("S/ " + parteEntera2);
+
+                }
+
+            }
+
+            //holder.total.setText("S/."+reservaItems.get(position).get("total").toString());--change
         }else {
                 holder.layoutTotal.setVisibility(View.GONE);
 
@@ -176,9 +206,9 @@ public class ReservaListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 String codPrenda = ((Prenda) reservaItems.get(position).get("prenda")).getCod_prenda();
-                ConfirmationDeleteReserva confirmationPassDialog=
-                        new ConfirmationDeleteReserva(context,codPrenda,tag);
-                confirmationPassDialog.show(((Glup) context).getSupportFragmentManager(), ConfirmationPassDialog.class.getSimpleName());
+                ConfirmationDelete confirmationDeleteReserva=
+                        new ConfirmationDelete(context,codPrenda,tag);
+                confirmationDeleteReserva.show(((Glup) context).getSupportFragmentManager(), ConfirmationPassDialog.class.getSimpleName());
                 Log.e("eliminar", position + "");
                 //remove(reservaItems.get(position));
 

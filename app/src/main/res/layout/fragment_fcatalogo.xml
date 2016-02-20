@@ -8,13 +8,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/grilla_prendas"
-        android:verticalSpacing="5dp"
-        android:padding="5dp"
+        android:verticalSpacing="3dp"
+        android:paddingTop="1dp"
+        android:paddingBottom="18dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
         android:scrollbars="none"
-        android:horizontalSpacing="5dp"
+        android:horizontalSpacing="6dp"
         android:stretchMode="columnWidth"
+        android:adjustViewBounds="true"
         android:numColumns="2"
         android:listSelector="@android:color/transparent"
+        android:clipChildren="true"
         />
 
 

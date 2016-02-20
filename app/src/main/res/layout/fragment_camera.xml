@@ -4,18 +4,231 @@
              android:layout_height="match_parent"
              android:orientation="horizontal">
     <RelativeLayout
+        android:alpha="0.9"
+        android:background="@color/negro"
+        android:elevation="10dp"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:id="@+id/frameMsjFinal">
+        <TextView
+            android:layout_margin="50dp"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:textColor="@color/celeste_glup"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:text="Se estan procesando las imagenes para generar tu prenda en 3d"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:alpha="1"
+        android:background="@color/negro"
+        android:elevation="10dp"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:id="@+id/frameEnviarPrenda">
+        <ImageView
+            android:id="@+id/atras_verficarFotoB"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="left|center_vertical"
+            android:background="@android:color/transparent"
+            android:layout_margin="14dp"
+            android:paddingLeft="0dp"
+            android:paddingRight="12dp"
+            android:paddingBottom="6dp"
+            android:paddingTop="6dp"
+            android:src="@drawable/atras_icon" />
+        <LinearLayout
+            android:id="@+id/framePreviews"
+            android:layout_marginTop="50dp"
+            android:layout_below="@+id/atras_verficarFotoB"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_weight="0.5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textColor="@color/blanco"
+                    android:text="FRONTAL"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:id="@+id/previewFrontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="280dp" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_weight="0.5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textColor="@color/blanco"
+                    android:text="POSTERIOR"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:id="@+id/previewPosterior"
+                    android:layout_width="match_parent"
+                    android:layout_height="280dp" />
+            </RelativeLayout>
+        </LinearLayout>
+        <Button
+            android:layout_marginTop="50dp"
+            android:visibility="visible"
+            android:id="@+id/btnEnviarPrenda"
+            android:textAllCaps="false"
+            android:text="Enviar Prenda"
+            android:layout_centerInParent="true"
+            android:layout_below="@+id/framePreviews"
+            android:layout_width="220dp"
+            android:layout_height="30dp"
+            android:shadowColor="@color/azul_glup"
+            android:background="@drawable/button_selector"
+            android:textColor="@color/celeste_glup"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:alpha="1"
+        android:background="@color/negro"
+        android:elevation="10dp"
+        android:visibility="gone"
+        android:id="@+id/frameMsj"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:id="@+id/frameOkCancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2">
+            <RelativeLayout
+                android:id="@+id/frameCancel"
+                android:layout_gravity="left|center_vertical"
+                android:layout_weight="0.5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/checkCancelar"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@android:color/transparent"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginBottom="14dp"
+                    android:layout_marginRight="14dp"
+                    android:layout_marginLeft="20dp"
+                    android:paddingLeft="0dp"
+                    android:paddingRight="9dp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:src="@drawable/cancelar_photo" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/frameOk"
+                android:layout_gravity="right|center_vertical"
+                android:layout_weight="0.5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/checkOk"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@android:color/transparent"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="14dp"
+                    android:paddingLeft="0dp"
+                    android:paddingRight="6dp"
+                    android:paddingBottom="3dp"
+                    android:paddingTop="3dp"
+                    android:src="@drawable/listo_photo" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_below="@+id/frameOkCancel"
+            android:layout_centerInParent="true"
+            android:id="@+id/previewPhotoImage"
+            android:layout_width="match_parent"
+            android:layout_height="475dp" />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_below="@+id/previewPhotoImage"
+            android:text="FRONTAL"
+            android:id="@+id/txtPie"
+            android:textColor="@color/celeste_glup"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <RelativeLayout
+            android:layout_centerHorizontal="true"
+            android:id="@+id/frameOptions"
+            android:visibility="gone"
+            android:layout_below="@+id/frameOkCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <RadioButton
+                android:checked="false"
+                android:id="@+id/opcionContinuar"
+                android:text="Si: Volver a la cámara"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <RadioButton
+                android:checked="false"
+                android:id="@+id/opcionPasarCatalogo"
+                android:layout_below="@+id/opcionContinuar"
+                android:text="No: Salir de cámara"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:visibility="visible"
         android:id="@+id/select_prenda"
         android:alpha="0.9"
         android:background="@color/negro"
         android:orientation="vertical" android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:elevation="10dp">
+        <ImageView
+            android:id="@+id/atras_camara2"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="left|center_vertical"
+            android:background="@android:color/transparent"
+            android:layout_margin="14dp"
+            android:paddingLeft="0dp"
+            android:paddingRight="12dp"
+            android:paddingBottom="6dp"
+            android:paddingTop="6dp"
+            android:src="@drawable/atras_icon" />
         <TextView
+            android:textStyle="bold"
             android:id="@+id/titulo_select_prenda"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="14dp"
             android:layout_centerHorizontal="true"
             android:text="Elige el tipo de prenda"
-            android:textColor="@color/blanco"
+            android:textColor="@color/celeste_glup"
             android:textSize="20sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -93,6 +306,22 @@
         android:id="@+id/content_camara"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <RelativeLayout
+            android:visibility="visible"
+            android:id="@+id/frameHelpPhoto"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:visibility="gone"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/imgHelpPhoto"
+                android:src="@drawable/superior_help_a"
+                android:layout_width="48dp"
+                android:layout_height="48dp" />
+
+        </RelativeLayout>
+
         <FrameLayout
             android:layout_below="@+id/header"
             android:id="@+id/preview"
@@ -128,11 +357,11 @@
             <TextView
                 android:id="@+id/title_lado"
                 android:layout_gravity="center"
-                android:text="Lado Frontal"
+                android:text="TOMA FRONTAL"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@android:color/white"
+                android:textColor="@color/celeste_glup"
                 android:textStyle="bold"
-                android:textSize="20sp"
+                android:textSize="17sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
@@ -147,9 +376,26 @@
                 android:paddingRight="12dp"
                 android:paddingBottom="6dp"
                 android:paddingTop="6dp"
-                android:src="@drawable/atras_camara" />
+                android:src="@drawable/atras_icon" />
+
+            <ImageView
+                android:layout_margin="12dp"
+                android:id="@+id/superior"
+                android:src="@drawable/superior_icon_cam"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:layout_gravity="right|center_vertical" />
+            <ImageView
+                android:layout_gravity="right|center_vertical"
+                android:layout_margin="12dp"
+                android:id="@+id/medio"
+                android:visibility="gone"
+                android:src="@drawable/medio_icon_cam"
+                android:layout_width="34dp"
+                android:layout_height="34dp"/>
 
             <ImageButton
+                android:visibility="gone"
                 android:id="@+id/next"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -160,9 +406,22 @@
 
         </FrameLayout>
         <RelativeLayout
+            android:id="@+id/afterHeader"
             android:layout_below="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/imgGuia"
+                android:src="@drawable/guia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/imgHelpPhoto2"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
             <LinearLayout
                 android:layout_marginTop="16dp"
                 android:orientation="vertical"
@@ -177,15 +436,9 @@
                     android:background="@android:color/transparent"
                     android:layout_width="36dp"
                     android:layout_height="36dp"/>
+
                 <ToggleButton
-                    android:id="@+id/flash"
-                    android:visibility="visible"
-                    android:layout_margin="12dp"
-                    android:textColor="@android:color/transparent"
-                    android:background="@drawable/camara_flash"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"/>
-                <ToggleButton
+                    android:visibility="gone"
                     android:id="@+id/refresh"
                     android:layout_margin="12dp"
                     android:textColor="@android:color/transparent"
@@ -193,6 +446,7 @@
                     android:layout_width="36dp"
                     android:layout_height="36dp"/>
                 <ToggleButton
+                    android:visibility="gone"
                     android:id="@+id/grid"
                     android:layout_margin="12dp"
                     android:textColor="@android:color/transparent"
@@ -210,40 +464,59 @@
             android:background="#cc000000"
             android:orientation="horizontal">
 
+            <TextView
+                android:layout_gravity="center_horizontal"
+                android:textStyle="bold"
+                android:layout_marginTop="12dp"
+                android:layout_below="@+id/imgHelpPhoto"
+                android:gravity="center_horizontal"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="5dp"
+                android:textSize="15sp"
+                android:id="@+id/txtHelpPhoto"
+                android:text="@string/text_help_toma_foto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:shadowColor="#000000"
+                android:shadowRadius="1.5"
+                android:shadowDx="1"
+                android:shadowDy="1"/>
+
             <ToggleButton
+                android:layout_marginTop="10dp"
+                android:alpha="1"
                 android:textColor="@android:color/transparent"
                 android:id="@+id/take"
-                android:layout_width="110dp"
-                android:layout_height="110dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
                 android:layout_gravity="center"
                 android:background="@drawable/camarafooter"
                 android:padding="20dp"
                 android:src="@drawable/ic_take_photo" />
 
             <LinearLayout
+                android:layout_marginTop="10dp"
                 android:orientation="vertical"
                 android:layout_marginRight="20dp"
                 android:layout_gravity="right|center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
-                <ImageView
-                    android:id="@+id/superior"
-                    android:src="@drawable/superior_icon_camara"
-                    android:layout_width="62dp"
-                    android:layout_height="62dp"/>
+                <ToggleButton
+                    android:id="@+id/flash"
+                    android:visibility="visible"
+                    android:layout_margin="12dp"
+                    android:textColor="@android:color/transparent"
+                    android:background="@drawable/camara_flash"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp" />
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/text_superior"
                     android:layout_gravity="center_horizontal"
                     android:text="Superior"
                     android:textColor="@color/celeste_glup"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-                <ImageView
-                    android:id="@+id/medio"
-                    android:visibility="gone"
-                    android:src="@drawable/medio_icon_camara"
-                    android:layout_width="58dp"
-                    android:layout_height="58dp"/>
                 <TextView
                     android:visibility="gone"
                     android:id="@+id/text_medio"
@@ -264,6 +537,7 @@
                 android:src="@drawable/ic_action_flash" />
 
             <FrameLayout
+                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="120dp"
                 android:layout_gravity="left|center_vertical">
@@ -275,13 +549,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <ImageView
-                        android:layout_marginLeft="6dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginRight="4dp"
+                        android:layout_gravity="center_horizontal"
                         android:id="@+id/icon_preview"
                         android:clickable="false"
                         android:src="@drawable/preview_camara"
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"/>
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"/>
                     <TextView
+                        android:textSize="11sp"
                         android:id="@+id/text_icon_preview"
                         android:layout_gravity="center_horizontal"
                         android:text="Vista previa"

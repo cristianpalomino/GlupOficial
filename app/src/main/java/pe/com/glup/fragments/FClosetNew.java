@@ -100,6 +100,7 @@ public class FClosetNew extends Fragment implements View.OnClickListener,OnSucce
         frameUpdate.setVisibility(View.GONE);
         foto = (CircleImageView) getView().findViewById(R.id.photo);
         username = (TextView)getView().findViewById(R.id.username);
+        username.setTypeface(Util_Fonts.setLatoBold(getActivity()));
         foto.setOnClickListener(this);
         DSUsuarioNew dsUsuarioNew=new DSUsuarioNew(getActivity());
         dsUsuarioNew.loadUsuario();

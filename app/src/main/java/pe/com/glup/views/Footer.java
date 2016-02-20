@@ -144,7 +144,7 @@ public class Footer extends LinearLayout implements View.OnClickListener {
             closet.setImageResource(R.drawable.closet_off);
             camara.setImageResource(R.drawable.camara_off);
             probador.setImageResource(R.drawable.probador_off);
-            reserva.setImageResource(R.drawable.reserva_off);
+            reserva.setImageResource(R.drawable.reservafoo_off);
 
             titleHome.setTextColor(getResources().getColor(R.color.celeste_glup));
             titleCloset.setTextColor(getResources().getColor(R.color.gris_glup_nuevo));
@@ -165,7 +165,7 @@ public class Footer extends LinearLayout implements View.OnClickListener {
             closet.setImageResource(R.drawable.closet_on);
             camara.setImageResource(R.drawable.camara_off);
             probador.setImageResource(R.drawable.probador_off);
-            reserva.setImageResource(R.drawable.reserva_off);
+            reserva.setImageResource(R.drawable.reservafoo_off);
 
             titleHome.setTextColor(getResources().getColor(R.color.gris_glup_nuevo));
             titleCloset.setTextColor(getResources().getColor(R.color.celeste_glup));
@@ -184,7 +184,7 @@ public class Footer extends LinearLayout implements View.OnClickListener {
             closet.setImageResource(R.drawable.closet_off);
             camara.setImageResource(R.drawable.camara_off);
             probador.setImageResource(R.drawable.probador_on);
-            reserva.setImageResource(R.drawable.reserva_off);
+            reserva.setImageResource(R.drawable.reservafoo_off);
 
             titleHome.setTextColor(getResources().getColor(R.color.gris_glup_nuevo));
             titleCloset.setTextColor(getResources().getColor(R.color.gris_glup_nuevo));
@@ -205,7 +205,7 @@ public class Footer extends LinearLayout implements View.OnClickListener {
             closet.setImageResource(R.drawable.closet_off);
             camara.setImageResource(R.drawable.camara_off);
             probador.setImageResource(R.drawable.probador_off);
-            reserva.setImageResource(R.drawable.reserva_off);
+            reserva.setImageResource(R.drawable.reservafoo_off);
             //this.setVisibility(GONE);
 
             titleHome.setTextColor(getResources().getColor(R.color.gris_glup_nuevo));
@@ -227,7 +227,7 @@ public class Footer extends LinearLayout implements View.OnClickListener {
             closet.setImageResource(R.drawable.closet_off);
             camara.setImageResource(R.drawable.camara_off);
             probador.setImageResource(R.drawable.probador_off);
-            reserva.setImageResource(R.drawable.reserva_on);
+            reserva.setImageResource(R.drawable.reservafoo_on);
 
             titleHome.setTextColor(getResources().getColor(R.color.gris_glup_nuevo));
             titleCloset.setTextColor(getResources().getColor(R.color.gris_glup_nuevo));
@@ -275,7 +275,7 @@ public class Footer extends LinearLayout implements View.OnClickListener {
                 closet.setImageResource(R.drawable.closet_off);
                 camara.setImageResource(R.drawable.camara_off);
                 probador.setImageResource(R.drawable.probador_off);
-                reserva.setImageResource(R.drawable.reserva_off);
+                reserva.setImageResource(R.drawable.reservafoo_off);
 
                 titleHome.setTextColor(getResources().getColor(R.color.celeste_glup));
                 titleCloset.setTextColor(getResources().getColor(R.color.gris_glup_nuevo));
@@ -289,7 +289,7 @@ public class Footer extends LinearLayout implements View.OnClickListener {
                 closet.setImageResource(R.drawable.closet_on);
                 camara.setImageResource(R.drawable.camara_off);
                 probador.setImageResource(R.drawable.probador_off);
-                reserva.setImageResource(R.drawable.reserva_off);
+                reserva.setImageResource(R.drawable.reservafoo_off);
 
                 titleHome.setTextColor(getResources().getColor(R.color.gris_glup_nuevo));
                 titleCloset.setTextColor(getResources().getColor(R.color.celeste_glup));
@@ -303,7 +303,7 @@ public class Footer extends LinearLayout implements View.OnClickListener {
                 closet.setImageResource(R.drawable.closet_off);
                 camara.setImageResource(R.drawable.camara_off);
                 probador.setImageResource(R.drawable.probador_on);
-                reserva.setImageResource(R.drawable.reserva_off);
+                reserva.setImageResource(R.drawable.reservafoo_off);
 
                 titleHome.setTextColor(getResources().getColor(R.color.gris_glup_nuevo));
                 titleCloset.setTextColor(getResources().getColor(R.color.gris_glup_nuevo));
@@ -319,7 +319,7 @@ public class Footer extends LinearLayout implements View.OnClickListener {
                 closet.setImageResource(R.drawable.closet_off);
                 camara.setImageResource(R.drawable.camara_off);
                 probador.setImageResource(R.drawable.probador_off);
-                reserva.setImageResource(R.drawable.reserva_on);
+                reserva.setImageResource(R.drawable.reservafoo_on);
 
                 titleHome.setTextColor(getResources().getColor(R.color.gris_glup_nuevo));
                 titleCloset.setTextColor(getResources().getColor(R.color.gris_glup_nuevo));

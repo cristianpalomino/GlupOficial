@@ -134,12 +134,12 @@ public class FReserva extends Fragment implements View.OnClickListener{
 
     @Subscribe
     public void reloadFragment(DSReserva.ResponseReload responseReload){
-
+        Log.e("tagRecarga",responseReload.fragment.getTag());
         if (responseReload.fragment!=null){
             fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.detach(responseReload.fragment);
             fragmentTransaction.attach(responseReload.fragment);
-            fragmentTransaction.replace(R.id.fragment_reserva_ticket, responseReload.fragment, FReservaInfo.class.getSimpleName());
+            fragmentTransaction.replace(R.id.fragment_reserva_ticket, responseReload.fragment, responseReload.fragment.getTag());
             fragmentTransaction.commit();
         }
     }

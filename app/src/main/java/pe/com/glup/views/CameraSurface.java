@@ -6,13 +6,18 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.DashPathEffect;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -27,6 +32,7 @@ import com.squareup.otto.Subscribe;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Handler;
 
 
 import pe.com.glup.R;
@@ -51,9 +57,11 @@ public class CameraSurface extends SurfaceView implements SurfaceHolder.Callback
     private Matrix mPreviewToCameraMatrix = new Matrix();
 
     private boolean mHasFocusArea;
-    private boolean gridActivate;
+    private boolean gridActivate,superiorHelpA,superiorHelpB,medioHelpA,medioHelpB,cruzActivate;
 
-
+    public void setCruzActivate(boolean cruzActivate) {
+        this.cruzActivate = cruzActivate;
+    }
 
     private int mFocusScreenX;
     private int mFocusScreenY;
@@ -71,12 +79,17 @@ public class CameraSurface extends SurfaceView implements SurfaceHolder.Callback
     private String codPrenda;
     private int ancho,alto;
     private int margenSuperior;
+    private int sizeHelpImages;
 
+    public int getSizeHelpImages() {
+        return sizeHelpImages;
+    }
 
     public CameraSurface(Context context, int i) {
         super(context);
         this.context = context;
         this.margenSuperior=i;
+        this.cruzActivate=false;
         initHolder();
         BusHolder.getInstance().register(this);
         codPrenda="";
@@ -97,8 +110,11 @@ public class CameraSurface extends SurfaceView implements SurfaceHolder.Callback
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        camera = Camera.open(Camera.CameraInfo.CAMERA_FACING_BACK);
+
         try {
+            //camera.release();
+            camera = Camera.open(Camera.CameraInfo.CAMERA_FACING_BACK);
+
             camera.setPreviewDisplay(mHolder);
         } catch (IOException e) {
             e.printStackTrace();
@@ -232,12 +248,12 @@ public class CameraSurface extends SurfaceView implements SurfaceHolder.Callback
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    protected void onDraw(final Canvas canvas) {
         Paint p = new Paint();
         if (camera != null) {
             int size = 100;
             p.setColor(Color.BLUE);
-            p.setStrokeWidth(3);
+            p.setStrokeWidth(8);
             p.setStyle(Paint.Style.STROKE);
             /*if (mHasFocusArea) {
                 canvas.drawRect(mFocusScreenX - size,
@@ -257,20 +273,43 @@ public class CameraSurface extends SurfaceView implements SurfaceHolder.Callback
             int tamano =  Math.min((int)width, (int)height);
             float previewRadio = (float) mSurfaceSize.height / (float) mSurfaceSize.width;
             float cameraRadio = height /  width;
-            Log.e("null","size "+tamano+" previewRatio "+previewRadio+" cameraRatio "+cameraRadio);
+            Log.e("null", "size " + tamano + " previewRatio " + previewRadio + " cameraRatio " + cameraRadio);
 
             Matrix matrix = new Matrix();
             matrix.postRotate(90);
             int length = (int) (tamano * (previewRadio / cameraRadio));
-            Log.e("lenght",length+"");
+            Log.e("lenght", length + "");
             int ridArea = tamano - length;
-            Log.e("ridArea",ridArea+"");
-            p.setColor(getResources().getColor(R.color.celeste_glup));
+            Log.e("ridArea", ridArea + "");
+            p.setColor(getResources().getColor(R.color.blanco));
+            p.setPathEffect(new DashPathEffect(new float[]{20, 20}, 10));
             canvas.drawRect(5,
                     5,
-                    length-5,
-                    length-((int)(ridArea*0.25)),
+                    length - ((int) (ridArea * 0.25)),
+                    length - ((int) (ridArea * 0.25))+12,
                     p);
+            int sizeHelp=length - ((int) (ridArea * 0.25))-5;
+
+            //Bitmap iconHelp=BitmapFactory.decodeResource(getResources(),R.drawable.superior_frontal);
+            //Bitmap resizeIconHelp=Bitmap.createScaledBitmap(iconHelp, sizeHelp-10, sizeHelp-10, true);
+            sizeHelpImages=sizeHelp-10;
+            SizesHelp sizesHelp=new SizesHelp();
+            sizesHelp.sizeHelpImg=sizeHelp-10;
+            sizesHelp.cruzX=(length/2)-96;
+            sizesHelp.cruzY=((length - ((int) (ridArea * 0.25)) + 5)/2)-96;
+            BusHolder.getInstance().post(sizesHelp);
+
+            final Paint pa=new Paint();
+            //canvas.drawBitmap(resizeIconHelp,10,10,pa);
+            //
+
+            if (cruzActivate){
+                int pox=(length/2)-96;
+                int poy=((length - ((int) (ridArea * 0.25)) + 5)/2)-96;
+                Bitmap cruz=BitmapFactory.decodeResource(getResources(),R.drawable.guia);
+                canvas.drawBitmap(cruz, pox, poy, pa);
+            }
+
             if (gridActivate){
                 p.setColor(getResources().getColor(R.color.celeste_glup));
                 p.setStrokeWidth(4);
@@ -563,9 +602,18 @@ public class CameraSurface extends SurfaceView implements SurfaceHolder.Callback
         }.execute();
     }
 
-    public void setGridActivate(boolean gridActivate) {
-        this.gridActivate = gridActivate;
-    }
+    public void setGridActivate(boolean gridActivate) {this.gridActivate = gridActivate;}
+
+
+    public void setSuperiorHelpA(boolean superiorHelpA) {this.superiorHelpA = superiorHelpA;}
+
+    public void setSuperiorHelpB(boolean superiorHelpB) {this.superiorHelpB = superiorHelpB;}
+
+    public void setMedioHelpA(boolean medioHelpA) {this.medioHelpA = medioHelpA;}
+
+    public void setMedioHelpB(boolean medioHelpB) {this.medioHelpB = medioHelpB;}
+
+
 
     public class SuccessSavePhoto{
         public int success=0;
@@ -579,4 +627,5 @@ public class CameraSurface extends SurfaceView implements SurfaceHolder.Callback
 
     public class SuccessEnableFlash{}
 
+    public class SizesHelp{public int sizeHelpImg;public int cruzX;public int cruzY;}
 }

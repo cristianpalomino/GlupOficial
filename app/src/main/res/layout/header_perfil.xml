@@ -29,14 +29,14 @@
         app:border_color="@color/celeste_glup"
         app:border_width="2dp" />
     <TextView
+        android:textSize="16sp"
         android:textColor="@color/celeste_glup"
         android:layout_marginTop="80dp"
         android:gravity="center"
         android:id="@+id/username"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textStyle="bold" />
+        android:layout_height="wrap_content" />
+
     <FrameLayout
         android:id="@+id/frame_update"
         android:layout_gravity="top|right"

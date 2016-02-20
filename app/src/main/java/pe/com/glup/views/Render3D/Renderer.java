@@ -15,6 +15,7 @@ import org.rajawali3d.animation.RotateOnAxisAnimation;
 import org.rajawali3d.cameras.ArcballCamera;
 import org.rajawali3d.cameras.Camera;
 import org.rajawali3d.lights.PointLight;
+import org.rajawali3d.loader.Loader3DSMax;
 import org.rajawali3d.loader.LoaderOBJ;
 import org.rajawali3d.loader.ParsingException;
 import org.rajawali3d.materials.Material;

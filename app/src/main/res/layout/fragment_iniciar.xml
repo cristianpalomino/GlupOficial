@@ -30,7 +30,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <EditText
-            android:text="desa123"
+            android:text="des@1234"
             android:background="@null"
             android:id="@+id/edtpassword"
             style="@style/Glup_Edittext_Square"

@@ -6,11 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import pe.com.glup.R;
+import pe.com.glup.dialog.ConfirmationDelete;
+import pe.com.glup.glup.Glup;
 import pe.com.glup.models.TicketList;
 
 /**
@@ -48,7 +51,7 @@ public class TicketListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         Holder holder = null;
         TicketList ticketItem = tickets.get(position);
         if (convertView == null){
@@ -58,6 +61,7 @@ public class TicketListAdapter extends BaseAdapter {
             holder.code = (TextView) convertView.findViewById(R.id.code_ticket);
             holder.precio = (TextView) convertView.findViewById(R.id.total_ticket);
             holder.separador = (View) convertView.findViewById(R.id.separador_item_ticket);
+            holder.tacho = (ImageView)convertView.findViewById(R.id.ticket_eliminar);
 
             if (position==getCount()-1){
                 Log.e("elimino","ultimo separador ticket");
@@ -71,6 +75,19 @@ public class TicketListAdapter extends BaseAdapter {
         holder.code.setText(tickets.get(position).getCodVenta());
         holder.precio.setText("S/." + tickets.get(position).getSumPrecio());
 
+        holder.tacho.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String codTicket= tickets.get(position).getCodVenta();
+                ConfirmationDelete confirmationDeleteReserva=
+                        new ConfirmationDelete(context,codTicket,tag);
+                confirmationDeleteReserva.show(((Glup) context).getSupportFragmentManager(), ConfirmationDelete.class.getSimpleName());
+                Log.e("eliminar", position + "");
+
+                Log.e("infoTag",tag);
+
+            }
+        });
 
         return convertView;
     }
@@ -79,5 +96,6 @@ public class TicketListAdapter extends BaseAdapter {
         TextView code;
         TextView precio;
         View separador;
+        ImageView tacho;
     }
 }

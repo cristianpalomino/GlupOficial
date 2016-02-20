@@ -25,12 +25,15 @@
             android:weightSum="1">
 
             <LinearLayout
+                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.05"
                 android:orientation="horizontal">
 
                 <TextView
+                    android:textSize="14sp"
+                    android:textAllCaps="true"
                     android:id="@+id/item_marca_prenda"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -54,20 +57,22 @@
 
 
             <TextView
+                android:layout_marginTop="6dp"
                 android:id="@+id/modelo_prenda"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_gravity="center_horizontal|top"
-                android:layout_weight="0.05"
+                android:layout_weight="0.1"
                 android:gravity="center"
                 android:text="Modelo"
+                android:textSize="28sp"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <ImageView
                 android:id="@+id/item_imagen_prenda"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.8"
+                android:layout_weight="0.75"
                 android:adjustViewBounds="true"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
@@ -92,7 +97,7 @@
                         android:layout_height="30dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginBottom="3dp"
-                        android:layout_marginLeft="3dp"
+                        android:layout_marginLeft="1dp"
                         android:background="@drawable/corazon_glup"
                         android:gravity="center"
                         android:textOff=""
@@ -102,26 +107,27 @@
                         android:textColor="@color/rojo_glup"
                         android:id="@+id/contador_corazon"
                         android:layout_width="wrap_content"
-                        android:layout_height="35dp"
+                        android:layout_height="38dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="3dp"
                         android:layout_marginBottom="3dp"
                         android:gravity="center"
                         android:padding="5dp"
                         android:text="3"
-                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                        android:textSize="20sp" />
                 </LinearLayout>
 
                 <TextView
-                    android:visibility="gone"
+
+                    android:visibility="visible"
                     android:id="@+id/precio_prenda"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|bottom"
-                    android:layout_marginBottom="5dp"
+                    android:layout_marginBottom="8dp"
                     android:layout_marginRight="5dp"
                     android:text="S/. 150"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:textSize="21sp" />
                 <Button
                     android:visibility="gone"
                     android:id="@+id/btn_detalle"
@@ -143,6 +149,7 @@
 
     </LinearLayout>
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/frame_btn_info"
         android:layout_width="match_parent"
         android:layout_height="90dp">

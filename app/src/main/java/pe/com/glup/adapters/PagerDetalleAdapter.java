@@ -121,15 +121,15 @@ public class PagerDetalleAdapter extends PagerAdapter {
         if (prenda.getInd_exhibicion()==1){
             btnDetail=new BtnDetailVisible(false);
             holder.precio.setVisibility(View.GONE);
-            holder.detalle.setVisibility(View.VISIBLE);
+            holder.detalle.setVisibility(View.GONE);//change de visible a gone
             btnInfo.setVisibility(View.GONE);
             frameBtnInfo.setVisibility(View.GONE);
         }else{
             btnDetail=new BtnDetailVisible(true);
             holder.precio.setVisibility(View.VISIBLE);
             holder.detalle.setVisibility(View.GONE);
-            btnInfo.setVisibility(View.VISIBLE);
-            frameBtnInfo.setVisibility(View.VISIBLE);
+            btnInfo.setVisibility(View.GONE);//change de visible a gone
+            frameBtnInfo.setVisibility(View.GONE);//change de visible a gone
         }
         BusHolder.getInstance().post(btnDetail);
 
@@ -147,13 +147,23 @@ public class PagerDetalleAdapter extends PagerAdapter {
         if(prenda.getPrecio() == null){
             holder.precio.setText("");
         }else{
-            holder.precio.setText("S/." + prenda.getPrecio());
-        }
+            float costo=Float.parseFloat(prenda.getPrecio());
+            int parteEntera=(int)costo;
+            float parteDecimal=costo-parteEntera;
+            if (parteDecimal>0){
+                holder.precio.setText("S/ " + prenda.getPrecio());
+            }else{
+                holder.precio.setText("S/ " + parteEntera);
 
-        holder.marca.setTypeface(Util_Fonts.setBold(context));
-        holder.precio.setTypeface(Util_Fonts.setRegular(context));
-        holder.modelo.setTypeface(Util_Fonts.setRegular(context));
+            }
+        }
+        holder.marca.setTypeface(Util_Fonts.setLatoBold(context));
+        holder.marca.setAllCaps(true);
+        holder.modelo.setTypeface(Util_Fonts.setLatoLight(context));
+        holder.precio.setTypeface(Util_Fonts.setLatoRegular(context));
         holder.contado.setTypeface(Util_Fonts.setLatoRegular(context));
+
+
 
         holder.imagen.setOnClickListener(new View.OnClickListener() {
             @Override

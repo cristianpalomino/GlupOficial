@@ -6,19 +6,21 @@
     <RelativeLayout
         android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="120dp">
+        android:layout_height="75dp">
         <ToggleButton
             android:textColor="@android:color/transparent"
             android:background="@drawable/catalogo_hombre"
             android:layout_margin="10dp"
             android:id="@+id/catalogo_hombre"
-            android:layout_width="48dp"
-            android:layout_height="48dp" />
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
         <View
-            android:layout_margin="10dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:id="@+id/separador"
             android:layout_width="1dp"
-            android:layout_height="48dp"
+            android:layout_height="35dp"
             android:background="@color/gris_glup"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/catalogo_hombre"
@@ -29,8 +31,8 @@
             android:layout_margin="10dp"
             android:layout_toRightOf="@+id/separador"
             android:id="@+id/catalogo_mujer"
-            android:layout_width="48dp"
-            android:layout_height="48dp" />
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
     </RelativeLayout>
     <FrameLayout
         android:id="@+id/fragment_catalogo"

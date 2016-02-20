@@ -11,13 +11,15 @@
             android:background="@drawable/reserva_por_confirmar"
             android:layout_margin="10dp"
             android:id="@+id/reserva"
-            android:layout_width="48dp"
-            android:layout_height="48dp" />
+            android:layout_width="44dp"
+            android:layout_height="44dp" />
         <View
-            android:layout_margin="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:id="@+id/separador"
             android:layout_width="1dp"
-            android:layout_height="48dp"
+            android:layout_height="34dp"
             android:background="@color/celeste_glup"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/reserva"
@@ -28,8 +30,8 @@
             android:layout_margin="10dp"
             android:layout_toRightOf="@+id/separador"
             android:id="@+id/ticket"
-            android:layout_width="48dp"
-            android:layout_height="48dp" />
+            android:layout_width="44dp"
+            android:layout_height="44dp"/>
     </RelativeLayout>
     <FrameLayout
         android:id="@+id/fragment_reserva_ticket"

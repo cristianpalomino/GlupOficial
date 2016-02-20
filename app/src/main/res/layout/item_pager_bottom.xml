@@ -28,6 +28,7 @@
             android:src="@drawable/progress_animator" />
 
         <LinearLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.1"

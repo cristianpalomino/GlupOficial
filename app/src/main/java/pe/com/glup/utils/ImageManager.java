@@ -1,5 +1,7 @@
 package pe.com.glup.utils;
 
+import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
 
 import org.apache.http.util.ByteArrayBuffer;
@@ -17,19 +19,35 @@ import java.net.URLConnection;
  */
 public class ImageManager {
     private String PATH = "/mnt/sdcard/GlupFiles/textures/";
+    private Context context;
     public ImageManager(){
     }
 
+    public ImageManager(Context context) {
+        this.context=context;
+
+    }
     public String DownloadFromUrl(String imageURL,String filename,boolean isTextura){
         String miTiempo=":-1";
         try{
+
             if (isTextura){
-                PATH="/mnt/sdcard/GlupFiles/textures/";
+                PATH=Environment.getExternalStorageDirectory()+"/GlupFiles/textures/";
             }else{
-                PATH= "/mnt/sdcard/GlupFiles/objFiles/";
+                PATH=Environment.getExternalStorageDirectory()+"/GlupFiles/objFiles/";
             }
+            File extStore = Environment.getExternalStorageDirectory();
+            Log.e("externo", extStore.getAbsolutePath() + " " + extStore.getName() + " " + extStore.getPath() + " " + Environment.getRootDirectory()+
+            " "+context.getExternalFilesDir("files"));
+
+
             File directory=new File(PATH);
-            directory.mkdirs();
+            directory.setReadable(true,true);
+            directory.setWritable(true,true);
+
+            if (!directory.exists())
+                directory.mkdirs();
+
             URL url=new URL(imageURL);
             File file=new File(PATH+filename);
             long startTime = System.currentTimeMillis();
